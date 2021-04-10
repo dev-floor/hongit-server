@@ -1,7 +1,7 @@
 ---
 name: 기능 개발 이슈 template
 about: 기능 개발 이슈 생성 탬플릿
-title: "{type}({component}): {이슈 내용}"
+title: "[스크린 / 개발 단위] 이슈 내용"
 labels: "\U0001F680 enhancement"
 assignees: lxxjn0
 
