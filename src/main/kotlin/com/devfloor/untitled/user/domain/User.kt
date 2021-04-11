@@ -15,7 +15,12 @@ import javax.persistence.*
  * @property description 추가 설명
  */
 @Entity
-@Table(name = "user")
+@Table(
+    name = "user",
+    uniqueConstraints = [
+        UniqueConstraint(name = "uk_user_1", columnNames = ["classOf"]),
+    ],
+)
 class User(
     nickname: String,
     type: UserType,
@@ -56,7 +61,6 @@ class User(
     var blog: String? = blog
         private set
 
-    @Lob
     @Column(name = "description")
     var description: String? = description
         private set
