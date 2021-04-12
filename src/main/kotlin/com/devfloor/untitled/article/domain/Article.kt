@@ -26,15 +26,15 @@ open class Article(
 
     @Column(name = "title")
     var title: String? = title
-        private set
+        protected set
 
     @Column(name = "anonymous")
     var anonymous: Boolean = anonymous
-        private set
+        protected set
 
     @Column(name = "content")
     var content: String = content
-        private set
+        protected set
 
     @Column(name = "author")
     val author: User = author
@@ -44,8 +44,7 @@ open class Article(
 
     @Column(name = "createdDate")
     @CreatedDate
-    var createdDate: LocalDateTime = LocalDateTime.MIN
-        protected set
+    val createdDate: LocalDateTime = LocalDateTime.MIN
 
     @Column(name = "updatedDate")
     @CreatedDate
