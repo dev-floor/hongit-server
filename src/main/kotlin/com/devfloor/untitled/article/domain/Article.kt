@@ -5,10 +5,14 @@ import org.springframework.data.annotation.CreatedDate
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Table
+
+// TODO() : 주석
 
 @Entity
 @Table(name = "article")
@@ -17,11 +21,12 @@ open class Article(
     title: String,
     anonymous: Boolean,
     content: String,
+    classNumber: Option
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_id")
-    var id: Long? = null // 얘는 왜 가변? JPA 에서 해당 값을 초기화해주기 위해
+    var id: Long? = null
         protected set
 
     @Column(name = "title")
@@ -40,13 +45,15 @@ open class Article(
     val author: User = author
 
     @Column(name = "options")
-    val options: List<String> = listOf()
+    @Enumerated(value = EnumType.STRING)
+    var option: Option = classNumber
+        protected set
 
-    @Column(name = "createdDate")
+    @Column(name = "createdDate") // TODO() : LocalDateTime super class
     @CreatedDate
     val createdDate: LocalDateTime = LocalDateTime.MIN
 
-    @Column(name = "updatedDate")
+    @Column(name = "updatedDate") // TODO() : LocalDateTime super class
     @CreatedDate
     var updatedDate: LocalDateTime = LocalDateTime.MIN
         protected set
