@@ -1,11 +1,9 @@
-package com.devfloor.untitled.favorite.domain
+package com.devfloor.untitled.articleHashtag.domain
 
 import com.devfloor.untitled.article.domain.Article
-import com.devfloor.untitled.user.domain.User
+import com.devfloor.untitled.hashtag.domain.Hashtag
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
@@ -14,19 +12,15 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
 
-/**
- *  TODO() : 주석
- */
 @Entity
-@Table(name = "favorite")
-open class Favorite(
+@Table(name = "article_hashtag")
+open class ArticleHashtag(
     article: Article,
-    author: User,
-    type: FavoriteType
+    hashtag: Hashtag,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "favorite_id")
+    @Column(name = "article_hashtag_id")
     var id: Long? = null
         protected set
 
@@ -35,10 +29,6 @@ open class Favorite(
     val article: Article = article
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    val author: User = author
-
-    @Column(name = "type")
-    @Enumerated(value = EnumType.STRING)
-    val type: FavoriteType = type
+    @JoinColumn(name = "hashtag_id")
+    val hashtag: Hashtag = hashtag
 }
