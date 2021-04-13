@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class ArticleController {
 
-    @GetMapping("/articles/{id}")
-    fun article(@PathVariable id: String) {
+    @GetMapping("/articles/{article_id}")
+    fun getArticle(@PathVariable id: String) {
         TODO()
     }
 }
