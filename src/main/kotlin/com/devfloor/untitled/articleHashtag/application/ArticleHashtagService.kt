@@ -8,5 +8,6 @@ class ArticleHashtagService(
     private val repository: ArticleHashtagRepository
 ) {
 
-    fun findByArticle(article: Article): List<ArticleHashtag>? = repository.findAllByArticle(article)
+    fun findByArticle(article: Article): List<ArticleHashtag> =
+            repository.findAllByArticle(article) ?: emptyList()
 }
