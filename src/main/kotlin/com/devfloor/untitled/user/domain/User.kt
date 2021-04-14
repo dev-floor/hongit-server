@@ -1,5 +1,6 @@
 package com.devfloor.untitled.user.domain
 
+import com.devfloor.untitled.common.domain.BaseEntity
 import javax.persistence.*
 
 /**
@@ -29,7 +30,7 @@ class User(
     github: String?,
     blog: String?,
     description: String?,
-) {
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
