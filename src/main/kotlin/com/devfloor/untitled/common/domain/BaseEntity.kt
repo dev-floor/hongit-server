@@ -11,8 +11,10 @@ abstract class BaseEntity {
     @Column(name = "created_date")
     @CreatedDate
     var createdDate: LocalDateTime = LocalDateTime.MIN
+        protected set
 
     @Column(name = "modified_date")
     @LastModifiedDate
-    val modifiedDate: LocalDateTime = LocalDateTime.MIN
+    var modifiedDate: LocalDateTime = LocalDateTime.MIN
+        protected set
 }
