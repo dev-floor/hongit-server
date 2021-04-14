@@ -3,7 +3,9 @@ package com.devfloor.untitled.article.application
 import com.devfloor.untitled.articleHashtag.application.ArticleHashtagService
 import com.devfloor.untitled.favorite.application.FavoriteService
 import com.devfloor.untitled.favorite.domain.FavoriteType
+import org.springframework.stereotype.Component
 
+@Component
 class ArticleFacade(
         private val articleService: ArticleService,
         private val articleHashtagService: ArticleHashtagService,
