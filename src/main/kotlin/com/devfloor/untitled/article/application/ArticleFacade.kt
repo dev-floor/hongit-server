@@ -17,7 +17,7 @@ class ArticleFacade(
             val hashtags = articleHashtagService.findByArticle(this)
                     .map { it.hashtag.toString() }
 
-            val favorite = favoriteService.findByArticle(this)
+            val favorites = favoriteService.findByArticle(this)
 
             GetArticleResponse(
                     option = option.name,
@@ -25,9 +25,9 @@ class ArticleFacade(
                     createdDate = createdDate.toString(),
                     content = content,
                     hashtags = hashtags,
-                    favorites = favorite.count { it.type == FavoriteType.FAVORITE }.toLong(),
-                    wonders = favorite.count { it.type == FavoriteType.WONDER }.toLong(),
-                    clips = favorite.count { it.type == FavoriteType.CLIP }.toLong(),
+                    favorites = favorites.count { it.type == FavoriteType.FAVORITE }.toLong(),
+                    wonders = favorites.count { it.type == FavoriteType.WONDER }.toLong(),
+                    clips = favorites.count { it.type == FavoriteType.CLIP }.toLong(),
                     author = author // TODO()
             )
         }
