@@ -34,34 +34,34 @@ class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     var id: Long? = null
-        private set
+        protected set
 
     @Column(name = "name")
     var nickname: String = nickname
-        private set
+        protected set
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "type")
     var type: UserType = type
-        private set
+        protected set
 
     @Column(name = "image")
     var image: String = image
-        private set
+        protected set
 
     @Column(name = "class_of")
     var classOf: String? = classOf
-        private set
+        protected set
 
     @Column(name = "github")
     var github: String? = github
-        private set
+        protected set
 
     @Column(name = "blog")
     var blog: String? = blog
-        private set
+        protected set
 
     @Column(name = "description")
     var description: String? = description
-        private set
+        protected set
 }
