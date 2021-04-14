@@ -8,5 +8,6 @@ class FavoriteService(
         private val repository: FavoriteRepository
 ) {
 
-    fun findByArticle(article: Article): List<Favorite>? = repository.findByArticle(article)
+    fun findByArticle(article: Article): List<Favorite> =
+            repository.findByArticle(article) ?: emptyList()
 }
