@@ -17,10 +17,10 @@ import javax.persistence.Table
 @Entity
 @Table(name = "article")
 open class Article(
-    author: User,
     title: String?,
     anonymous: Boolean,
     content: String,
+    author: User,
     classNumber: Option
 ) {
     @Id
