@@ -4,6 +4,7 @@ import com.devfloor.untitled.articleHashtag.application.ArticleHashtagService
 import com.devfloor.untitled.favorite.application.FavoriteService
 import com.devfloor.untitled.favorite.domain.FavoriteType
 import org.springframework.stereotype.Component
+import org.springframework.transaction.annotation.Transactional
 
 @Component
 class ArticleFacade(
@@ -11,6 +12,7 @@ class ArticleFacade(
     private val articleHashtagService: ArticleHashtagService,
     private val favoriteService: FavoriteService
 ) {
+    @Transactional(readOnly = true)
     fun getArticle(articleId: Long): ArticleResponse {
         val article = articleService.findById(articleId)
         val hashtags = articleHashtagService.findByArticle(article)
