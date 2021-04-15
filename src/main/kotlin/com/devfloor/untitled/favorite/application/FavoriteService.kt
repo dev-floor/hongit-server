@@ -7,9 +7,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class FavoriteService(
-        private val repository: FavoriteRepository
+    private val repository: FavoriteRepository
 ) {
-
     fun findByArticle(article: Article): List<Favorite> =
-            repository.findByArticle(article) ?: emptyList()
+        repository.findByArticle(article) ?: emptyList()
 }
