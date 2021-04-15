@@ -11,13 +11,13 @@ class ArticleFacade(
     private val articleHashtagService: ArticleHashtagService,
     private val favoriteService: FavoriteService
 ) {
-    fun getArticle(articleId: Long): GetArticleResponse {
+    fun getArticle(articleId: Long): ArticleResponse {
         val article = articleService.findById(articleId)
         val hashtags = articleHashtagService.findByArticle(article)
             .map { it.hashtag.toString() }
         val favorites = favoriteService.findByArticle(article)
 
-        return GetArticleResponse(
+        return ArticleResponse(
             option = article.option.name,
             title = article.title,
             createdDate = article.createdDate.toString(),

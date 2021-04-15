@@ -1,7 +1,7 @@
 package com.devfloor.untitled.article.presentation
 
 import com.devfloor.untitled.article.application.ArticleFacade
-import com.devfloor.untitled.article.application.GetArticleResponse
+import com.devfloor.untitled.article.application.ArticleResponse
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
@@ -13,7 +13,7 @@ class ArticleController(
     private val articleFacade: ArticleFacade
 ) {
     @GetMapping("/articles/{article_id}")
-    fun getArticle(@PathVariable id: Long): ResponseEntity<GetArticleResponse> =
+    fun getArticle(@PathVariable id: Long): ResponseEntity<ArticleResponse> =
         try {
             ResponseEntity(articleFacade.getArticle(id), HttpStatus.OK)
         } catch (e: IllegalArgumentException) {
