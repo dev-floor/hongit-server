@@ -21,7 +21,7 @@ open class Article(
     anonymous: Boolean,
     content: String,
     author: User,
-    classNumber: Option
+    options: List<Option>
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +46,7 @@ open class Article(
 
     @Column(name = "options")
     @Enumerated(value = EnumType.STRING)
-    var option: Option = classNumber
+    var options: List<Option> = options
         protected set
 
     @Column(name = "createdDate") // TODO() : LocalDateTime super class
