@@ -17,11 +17,11 @@ import javax.persistence.Table
 @Entity
 @Table(name = "article")
 open class Article(
-    author: User,
-    title: String,
+    title: String?,
     anonymous: Boolean,
     content: String,
-    classNumber: Option
+    author: User,
+    options: List<Option>
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,7 +46,7 @@ open class Article(
 
     @Column(name = "options")
     @Enumerated(value = EnumType.STRING)
-    var option: Option = classNumber
+    var options: List<Option> = options
         protected set
 
     @Column(name = "createdDate") // TODO() : LocalDateTime super class
