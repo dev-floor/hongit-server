@@ -11,23 +11,22 @@ class ArticleFacade(
     private val articleHashtagService: ArticleHashtagService,
     private val favoriteService: FavoriteService
 ) {
-    fun getArticle(articleId: Long): GetArticleResponse =
-        articleService.findById(articleId).run {
-            val hashtags = articleHashtagService.findByArticle(this)
-                .map { it.hashtag.toString() }
+    fun getArticle(articleId: Long): GetArticleResponse {
+        val article = articleService.findById(articleId)
+        val hashtags = articleHashtagService.findByArticle(article)
+            .map { it.hashtag.toString() }
+        val favorites = favoriteService.findByArticle(article)
 
-            val favorites = favoriteService.findByArticle(this)
-
-            GetArticleResponse(
-                option = option.name,
-                title = title,
-                createdDate = createdDate.toString(),
-                content = content,
-                hashtags = hashtags,
-                favorites = favorites.count { it.type == FavoriteType.FAVORITE }.toLong(),
-                wonders = favorites.count { it.type == FavoriteType.WONDER }.toLong(),
-                clips = favorites.count { it.type == FavoriteType.CLIP }.toLong(),
-                author = author // TODO()
-            )
-        }
+        return GetArticleResponse(
+            option = article.option.name,
+            title = article.title,
+            createdDate = article.createdDate.toString(),
+            content = article.content,
+            hashtags = hashtags,
+            favorites = favorites.count { it.type == FavoriteType.FAVORITE }.toLong(),
+            wonders = favorites.count { it.type == FavoriteType.WONDER }.toLong(),
+            clips = favorites.count { it.type == FavoriteType.CLIP }.toLong(),
+            author = article.author // TODO()
+        )
+    }
 }
