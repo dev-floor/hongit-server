@@ -19,7 +19,7 @@ import javax.persistence.Table
  */
 @Entity
 @Table(name = "favorite")
-open class Favorite(
+class Favorite(
     article: Article,
     author: User,
     type: FavoriteType

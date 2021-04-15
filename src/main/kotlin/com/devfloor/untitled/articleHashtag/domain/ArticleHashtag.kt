@@ -14,7 +14,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "article_hashtag")
-open class ArticleHashtag(
+class ArticleHashtag(
     article: Article,
     hashtag: Hashtag,
 ) {

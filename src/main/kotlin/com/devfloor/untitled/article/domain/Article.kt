@@ -16,7 +16,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "article")
-open class Article(
+class Article(
     title: String?,
     anonymous: Boolean,
     content: String,
