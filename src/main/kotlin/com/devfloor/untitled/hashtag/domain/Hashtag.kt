@@ -9,7 +9,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(name = "hashtag")
-open class Hashtag(
+class Hashtag(
     name: String
 ) {
     @Id
