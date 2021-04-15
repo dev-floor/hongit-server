@@ -10,6 +10,8 @@ import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 // TODO() : 주석
@@ -41,7 +43,8 @@ class Article(
     var content: String = content
         protected set
 
-    @Column(name = "author")
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     val author: User = author
 
     @Column(name = "options")
