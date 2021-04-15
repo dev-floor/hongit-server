@@ -31,7 +31,4 @@ class ArticleFacade(
                     author = author // TODO()
             )
         }
-
-
-
 }
