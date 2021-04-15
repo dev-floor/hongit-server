@@ -1,6 +1,6 @@
 package com.devfloor.untitled.article.application
 
-data class GetArticleResponse(
+data class ArticleResponse(
     val option: String,
     val title: String? = null,
     val author: Any,
