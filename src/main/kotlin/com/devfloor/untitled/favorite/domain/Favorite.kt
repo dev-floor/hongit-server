@@ -30,15 +30,15 @@ open class Favorite(
     var id: Long? = null
         protected set
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "article_id")
     val article: Article = article
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     val author: User = author
 
-    @Column(name = "type")
+    @Column(name = "favorite_type")
     @Enumerated(value = EnumType.STRING)
     val type: FavoriteType = type
 }

@@ -24,11 +24,11 @@ open class ArticleHashtag(
     var id: Long? = null
         protected set
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "article_id")
     val article: Article = article
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "hashtag_id")
     val hashtag: Hashtag = hashtag
 }

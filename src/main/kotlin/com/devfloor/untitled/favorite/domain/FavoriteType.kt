@@ -2,6 +2,6 @@ package com.devfloor.untitled.favorite.domain
 
 enum class FavoriteType(val type: String) {
     FAVORITE("좋아요"),
-    WONDER("나도궁금해요"),
+    WONDER("나도 궁금해요"),
     CLIP("스크랩"),
 }
