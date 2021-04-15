@@ -18,7 +18,7 @@ class ArticleFacade(
         val favorites = favoriteService.findByArticle(article)
 
         return ArticleResponse(
-            option = article.option.name,
+            options = article.options.map { it.name },
             title = article.title,
             createdDate = article.createdDate.toString(),
             content = article.content,

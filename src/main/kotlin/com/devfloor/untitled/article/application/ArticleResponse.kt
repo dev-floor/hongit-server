@@ -1,7 +1,7 @@
 package com.devfloor.untitled.article.application
 
 data class ArticleResponse(
-    val option: String,
+    val options: List<String>,
     val title: String? = null,
     val author: Any,
     val createdDate: String,
