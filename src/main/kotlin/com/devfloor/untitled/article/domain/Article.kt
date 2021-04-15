@@ -18,7 +18,7 @@ import javax.persistence.Table
 @Table(name = "article")
 open class Article(
     author: User,
-    title: String,
+    title: String?,
     anonymous: Boolean,
     content: String,
     classNumber: Option

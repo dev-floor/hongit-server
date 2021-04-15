@@ -14,11 +14,10 @@ class ArticleController(
 ) {
 
     @GetMapping("/articles/{article_id}")
-    fun getArticle(@PathVariable id: Long): ResponseEntity<GetArticleResponse> {
-        return try {
+    fun getArticle(@PathVariable id: Long): ResponseEntity<GetArticleResponse> =
+        try {
             ResponseEntity(articleFacade.getArticle(id), HttpStatus.OK)
         } catch (e: IllegalArgumentException) {
             ResponseEntity(HttpStatus.NOT_FOUND)
         }
-    }
 }
