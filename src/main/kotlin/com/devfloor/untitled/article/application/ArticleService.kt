@@ -8,9 +8,8 @@ import java.lang.IllegalArgumentException
 
 @Service
 class ArticleService(
-        private val repository: ArticleRepository
+    private val repository: ArticleRepository
 ) {
-
     fun findById(id: Long): Article = repository.findByIdOrNull(id)
-            ?: throw IllegalArgumentException("Not found")
+        ?: throw IllegalArgumentException("Not found")
 }

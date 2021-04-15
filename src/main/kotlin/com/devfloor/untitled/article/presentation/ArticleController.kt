@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class ArticleController(
-        private val articleFacade: ArticleFacade
+    private val articleFacade: ArticleFacade
 ) {
-
     @GetMapping("/articles/{article_id}")
     fun getArticle(@PathVariable id: Long): ResponseEntity<GetArticleResponse> =
         try {
