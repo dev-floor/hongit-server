@@ -2,10 +2,10 @@ package com.devfloor.untitled.article.application
 
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.article.domain.ArticleRepository
+import com.devfloor.untitled.exception.domain.NotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.lang.IllegalArgumentException
 
 @Service
 class ArticleService(
@@ -13,5 +13,5 @@ class ArticleService(
 ) {
     @Transactional(readOnly = true)
     fun findById(id: Long): Article = repository.findByIdOrNull(id)
-        ?: throw IllegalArgumentException("Not found")
+        ?: throw NotFoundException("Not found")
 }
