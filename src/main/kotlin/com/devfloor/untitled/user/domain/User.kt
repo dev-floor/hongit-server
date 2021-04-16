@@ -42,7 +42,7 @@ class User(
         protected set
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "type")
+    @Column(name = "user_type")
     var type: UserType = type
         protected set
 
