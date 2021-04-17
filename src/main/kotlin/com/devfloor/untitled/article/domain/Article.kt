@@ -22,7 +22,6 @@ class Article(
     anonymous: Boolean,
     content: String,
     author: User,
-    options: List<Option>
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,9 +44,4 @@ class Article(
     @ManyToOne
     @JoinColumn(name = "user_id")
     val author: User = author
-
-    @Column(name = "options")
-    @Enumerated(value = EnumType.STRING)
-    var options: List<Option> = options
-        protected set
 }
