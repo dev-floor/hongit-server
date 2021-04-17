@@ -11,6 +11,6 @@ class FavoriteService(
     private val repository: FavoriteRepository
 ) {
     @Transactional(readOnly = true)
-    fun findByArticle(article: Article): List<Favorite> =
-        repository.findByArticle(article) ?: emptyList()
+    fun findAllByArticle(article: Article): List<Favorite> =
+        repository.findAllByArticle(article) ?: emptyList()
 }

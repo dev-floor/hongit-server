@@ -17,9 +17,9 @@ class ArticleFacade(
     @Transactional(readOnly = true)
     fun getArticle(articleId: Long): ArticleResponse {
         val article = articleService.findById(articleId)
-        val hashtags = articleHashtagService.findByArticle(article)
+        val hashtags = articleHashtagService.findAllByArticle(article)
             .map { it.hashtag.toString() }
-        val favorites = favoriteService.findByArticle(article)
+        val favorites = favoriteService.findAllByArticle(article)
         val options = optionService.findAllByArticle(article)
             .map {it.type.toString() }
 
