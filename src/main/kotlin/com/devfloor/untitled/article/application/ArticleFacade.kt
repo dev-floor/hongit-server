@@ -3,6 +3,7 @@ package com.devfloor.untitled.article.application
 import com.devfloor.untitled.articleHashtag.application.ArticleHashtagService
 import com.devfloor.untitled.favorite.application.FavoriteService
 import com.devfloor.untitled.favorite.domain.FavoriteType
+import com.devfloor.untitled.option.application.OptionService
 import org.springframework.stereotype.Component
 import org.springframework.transaction.annotation.Transactional
 
@@ -10,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional
 class ArticleFacade(
     private val articleService: ArticleService,
     private val articleHashtagService: ArticleHashtagService,
-    private val favoriteService: FavoriteService
+    private val favoriteService: FavoriteService,
+    private val optionService: OptionService
 ) {
     @Transactional(readOnly = true)
     fun getArticle(articleId: Long): ArticleResponse {
@@ -18,9 +20,11 @@ class ArticleFacade(
         val hashtags = articleHashtagService.findByArticle(article)
             .map { it.hashtag.toString() }
         val favorites = favoriteService.findByArticle(article)
+        val options = optionService.findAllByArticle(article)
+            .map {it.type.toString() }
 
         return ArticleResponse(
-            options = article.options.map { it.name },
+            options = options,
             title = article.title,
             createdDate = article.createdDate.toString(),
             content = article.content,
