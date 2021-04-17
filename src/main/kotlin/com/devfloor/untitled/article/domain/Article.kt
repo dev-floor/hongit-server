@@ -1,8 +1,7 @@
 package com.devfloor.untitled.article.domain
 
+import com.devfloor.untitled.common.domain.BaseEntity
 import com.devfloor.untitled.user.domain.User
-import org.springframework.data.annotation.CreatedDate
-import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -24,7 +23,7 @@ class Article(
     content: String,
     author: User,
     options: List<Option>
-) {
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_id")
@@ -50,14 +49,5 @@ class Article(
     @Column(name = "options")
     @Enumerated(value = EnumType.STRING)
     var options: List<Option> = options
-        protected set
-
-    @Column(name = "createdDate") // TODO() : LocalDateTime super class
-    @CreatedDate
-    val createdDate: LocalDateTime = LocalDateTime.MIN
-
-    @Column(name = "updatedDate") // TODO() : LocalDateTime super class
-    @CreatedDate
-    var updatedDate: LocalDateTime = LocalDateTime.MIN
         protected set
 }

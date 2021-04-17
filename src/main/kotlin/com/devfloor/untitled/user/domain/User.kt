@@ -1,5 +1,6 @@
 package com.devfloor.untitled.user.domain
 
+import com.devfloor.untitled.common.domain.BaseEntity
 import javax.persistence.*
 
 /**
@@ -18,7 +19,7 @@ import javax.persistence.*
 @Table(
     name = "user",
     uniqueConstraints = [
-        UniqueConstraint(name = "uk_user_1", columnNames = ["classOf"]),
+        UniqueConstraint(name = "uk_user_class_of", columnNames = ["class_of"]),
     ],
 )
 class User(
@@ -29,39 +30,39 @@ class User(
     github: String?,
     blog: String?,
     description: String?,
-) {
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     var id: Long? = null
-        private set
+        protected set
 
     @Column(name = "name")
     var nickname: String = nickname
-        private set
+        protected set
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "type")
+    @Column(name = "user_type")
     var type: UserType = type
-        private set
+        protected set
 
     @Column(name = "image")
     var image: String = image
-        private set
+        protected set
 
     @Column(name = "class_of")
     var classOf: String? = classOf
-        private set
+        protected set
 
     @Column(name = "github")
     var github: String? = github
-        private set
+        protected set
 
     @Column(name = "blog")
     var blog: String? = blog
-        private set
+        protected set
 
     @Column(name = "description")
     var description: String? = description
-        private set
+        protected set
 }
