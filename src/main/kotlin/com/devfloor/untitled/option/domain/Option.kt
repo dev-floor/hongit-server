@@ -1,5 +1,6 @@
-package com.devfloor.untitled.article.domain
+package com.devfloor.untitled.option.domain
 
+import com.devfloor.untitled.article.domain.Article
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType

@@ -1,4 +1,4 @@
-package com.devfloor.untitled.article.domain
+package com.devfloor.untitled.option.domain
 
 enum class OptionType(val text: String) {
     CLASS_ONE("1분반"),
