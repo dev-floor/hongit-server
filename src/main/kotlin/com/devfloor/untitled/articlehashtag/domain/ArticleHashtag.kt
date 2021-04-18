@@ -11,6 +11,13 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
 
+/**
+ * 게시물과 해시태그 정보를 관리하는 entity
+ *
+ * @property id 아이디
+ * @property article 게시글
+ * @property hashtag 해시태그
+ */
 @Entity
 @Table(name = "article_hashtag")
 class ArticleHashtag(

@@ -9,6 +9,12 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Table
 
+/**
+ * 게시물 정보를 관리하는 entity
+ *
+ * @property id 아이디
+ * @property type 옵션 종류
+ */
 @Entity
 @Table(name = "option")
 class Option(

@@ -15,7 +15,12 @@ import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 /**
- *  TODO() : 주석
+ * 좋아요, 나도 궁금해요, 스크랩 정보를 관리하는 entity
+ *
+ * @property id 아이디
+ * @property article 게시글
+ * @property author 작성자
+ * @property type 좋아요 종류
  */
 @Entity
 @Table(name = "favorite")

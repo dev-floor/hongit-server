@@ -13,8 +13,15 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
 
-// TODO() : 주석
-
+/**
+ * 게시물 정보를 관리하는 entity
+ *
+ * @property id 아이디
+ * @property title 게시글 제목
+ * @property anonymous 익명
+ * @property content 게시글 내용
+ * @property author 작성자
+ */
 @Entity
 @Table(name = "article")
 class Article(

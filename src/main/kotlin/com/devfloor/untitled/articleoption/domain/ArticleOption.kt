@@ -11,6 +11,13 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
 
+/**
+ * 게시물과 옵션 정보를 관리하는 entity
+ *
+ * @property id 아이디
+ * @property article 게시글
+ * @property option 옵션
+ */
 @Entity
 @Table(name = "article_option")
 class ArticleOption(
