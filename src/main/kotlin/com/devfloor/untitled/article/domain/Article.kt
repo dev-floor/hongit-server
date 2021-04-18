@@ -42,6 +42,6 @@ class Article(
         protected set
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "author_id")
     val author: User = author
 }

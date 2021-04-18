@@ -1,8 +1,8 @@
-package com.devfloor.untitled.articleHashtag.application
+package com.devfloor.untitled.articlehashtag.application
 
 import com.devfloor.untitled.article.domain.Article
-import com.devfloor.untitled.articleHashtag.domain.ArticleHashtag
-import com.devfloor.untitled.articleHashtag.domain.ArticleHashtagRepository
+import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
+import com.devfloor.untitled.articlehashtag.domain.ArticleHashtagRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

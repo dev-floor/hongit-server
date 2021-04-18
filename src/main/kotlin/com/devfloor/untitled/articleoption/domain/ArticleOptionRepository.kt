@@ -1,4 +1,4 @@
-package com.devfloor.untitled.articleOption.domain
+package com.devfloor.untitled.articleoption.domain
 
 import com.devfloor.untitled.article.domain.Article
 import org.springframework.data.jpa.repository.JpaRepository

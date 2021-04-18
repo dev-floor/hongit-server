@@ -1,7 +1,7 @@
-package com.devfloor.untitled.articleOption.domain
+package com.devfloor.untitled.articlehashtag.domain
 
 import com.devfloor.untitled.article.domain.Article
-import com.devfloor.untitled.option.domain.Option
+import com.devfloor.untitled.hashtag.domain.Hashtag
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -12,14 +12,14 @@ import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
-@Table(name = "article_option")
-class ArticleOption(
+@Table(name = "article_hashtag")
+class ArticleHashtag(
     article: Article,
-    option: Option
+    hashtag: Hashtag,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "article_option_id")
+    @Column(name = "article_hashtag_id")
     var id: Long? = null
         protected set
 
@@ -28,6 +28,6 @@ class ArticleOption(
     val article: Article = article
 
     @ManyToOne
-    @JoinColumn(name = "option_id")
-    val option: Option = option
+    @JoinColumn(name = "hashtag_id")
+    val hashtag: Hashtag = hashtag
 }

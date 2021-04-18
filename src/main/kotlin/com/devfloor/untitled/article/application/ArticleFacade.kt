@@ -1,7 +1,7 @@
 package com.devfloor.untitled.article.application
 
-import com.devfloor.untitled.articleHashtag.application.ArticleHashtagService
-import com.devfloor.untitled.articleOption.application.ArticleOptionService
+import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
+import com.devfloor.untitled.articleoption.application.ArticleOptionService
 import com.devfloor.untitled.favorite.application.FavoriteService
 import com.devfloor.untitled.favorite.domain.FavoriteType
 import org.springframework.stereotype.Component
@@ -21,18 +21,20 @@ class ArticleFacade(
             .map { it.hashtag.name }
         val favorites = favoriteService.findAllByArticle(article)
         val options = articleOptionService.findAllByArticle(article)
-            .map { it.option.type.toString() }
+            .map { it.option.type.name }
 
         return ArticleResponse(
             options = options,
             title = article.title,
+            author = article.author,
             createdDate = article.createdDate.toString(),
+            modifiedDate = article.modifiedDate.toString(),
             content = article.content,
             hashtags = hashtags,
             favorites = favorites.count { it.type == FavoriteType.FAVORITE }.toLong(),
             wonders = favorites.count { it.type == FavoriteType.WONDER }.toLong(),
             clips = favorites.count { it.type == FavoriteType.CLIP }.toLong(),
-            author = article.author // TODO()
+
         )
     }
 }

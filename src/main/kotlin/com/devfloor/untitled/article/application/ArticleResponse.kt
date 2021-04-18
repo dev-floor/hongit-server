@@ -5,6 +5,7 @@ data class ArticleResponse(
     val title: String? = null,
     val author: Any,
     val createdDate: String,
+    val modifiedDate: String,
     val content: String,
     val hashtags: List<String>,
     val favorites: Long,

@@ -1,4 +1,4 @@
-package com.devfloor.untitled.articleHashtag.domain
+package com.devfloor.untitled.articlehashtag.domain
 
 import com.devfloor.untitled.article.domain.Article
 import org.springframework.data.jpa.repository.JpaRepository
