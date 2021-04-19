@@ -23,10 +23,10 @@ import javax.persistence.Table
  */
 @Entity
 @Table(name = "favorite")
-class Favorite(
+class ArticleFavorite(
     article: Article,
     author: User,
-    type: FavoriteType
+    type: ArticleFavoriteType
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,5 +44,5 @@ class Favorite(
 
     @Column(name = "favorite_type")
     @Enumerated(value = EnumType.STRING)
-    val type: FavoriteType = type
+    val type: ArticleFavoriteType = type
 }

@@ -2,8 +2,8 @@ package com.devfloor.untitled.article.application
 
 import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
-import com.devfloor.untitled.favorite.application.FavoriteService
-import com.devfloor.untitled.favorite.domain.FavoriteType
+import com.devfloor.untitled.favorite.application.ArticleFavoriteService
+import com.devfloor.untitled.favorite.domain.ArticleFavoriteType
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 class ArticleFacade(
     private val articleService: ArticleService,
     private val articleHashtagService: ArticleHashtagService,
-    private val favoriteService: FavoriteService,
+    private val favoriteService: ArticleFavoriteService,
     private val articleOptionService: ArticleOptionService
 ) {
     @Transactional(readOnly = true)
@@ -32,9 +32,9 @@ class ArticleFacade(
             createdDate = article.createdDate.toString(),
             modifiedDate = article.modifiedDate.toString(),
             hashtags = hashtags,
-            favorites = favorites.count { it.type == FavoriteType.FAVORITE }.toLong(),
-            wonders = favorites.count { it.type == FavoriteType.WONDER }.toLong(),
-            clips = favorites.count { it.type == FavoriteType.CLIP }.toLong(),
+            favorites = favorites.count { it.type == ArticleFavoriteType.FAVORITE }.toLong(),
+            wonders = favorites.count { it.type == ArticleFavoriteType.WONDER }.toLong(),
+            clips = favorites.count { it.type == ArticleFavoriteType.CLIP }.toLong(),
         )
     }
 }
