@@ -15,12 +15,12 @@ class ArticleFacade(
     private val articleOptionService: ArticleOptionService
 ) {
     @Transactional(readOnly = true)
-    fun getArticle(articleId: Long): ArticleResponse {
-        val article = articleService.findById(articleId)
-        val hashtags = articleHashtagService.findAllByArticle(article)
+    fun show(articleId: Long): ArticleResponse {
+        val article = articleService.showById(articleId)
+        val hashtags = articleHashtagService.showAllByArticle(article)
             .map { it.hashtag.name }
-        val favorites = favoriteService.findAllByArticle(article)
-        val options = articleOptionService.findAllByArticle(article)
+        val favorites = favoriteService.showAllByArticle(article)
+        val options = articleOptionService.showAllByArticle(article)
             .map { it.option.type.name }
 
         return ArticleResponse(

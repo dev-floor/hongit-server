@@ -12,6 +12,6 @@ class ArticleService(
     private val repository: ArticleRepository
 ) {
     @Transactional(readOnly = true)
-    fun findById(id: Long): Article = repository.findByIdOrNull(id)
+    fun showById(id: Long): Article = repository.findByIdOrNull(id)
         ?: throw NotFoundException("Not found")
 }

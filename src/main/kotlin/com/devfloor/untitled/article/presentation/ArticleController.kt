@@ -14,5 +14,5 @@ class ArticleController(
 ) {
     @GetMapping("/articles/{article_id}")
     fun getArticle(@PathVariable id: Long): ResponseEntity<ArticleResponse> =
-        ResponseEntity(articleFacade.getArticle(id), HttpStatus.OK)
+        ResponseEntity(articleFacade.show(id), HttpStatus.OK)
 }
