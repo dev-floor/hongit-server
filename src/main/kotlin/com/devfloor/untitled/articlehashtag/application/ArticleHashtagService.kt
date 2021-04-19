@@ -12,5 +12,5 @@ class ArticleHashtagService(
 ) {
     @Transactional(readOnly = true)
     fun findAllByArticle(article: Article): List<ArticleHashtag> =
-        repository.findAllByArticle(article) ?: emptyList()
+        repository.findAllByArticle(article)
 }

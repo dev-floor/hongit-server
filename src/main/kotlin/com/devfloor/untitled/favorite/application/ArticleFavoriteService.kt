@@ -12,5 +12,5 @@ class ArticleFavoriteService(
 ) {
     @Transactional(readOnly = true)
     fun findAllByArticle(article: Article): List<ArticleFavorite> =
-        repository.findAllByArticle(article) ?: emptyList()
+        repository.findAllByArticle(article)
 }
