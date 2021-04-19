@@ -4,10 +4,10 @@ import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
 import com.devfloor.untitled.favorite.application.FavoriteService
 import com.devfloor.untitled.favorite.domain.FavoriteType
-import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
-@Component
+@Service
 class ArticleFacade(
     private val articleService: ArticleService,
     private val articleHashtagService: ArticleHashtagService,
@@ -26,15 +26,15 @@ class ArticleFacade(
         return ArticleResponse(
             options = options,
             title = article.title,
+            anonymous = article.anonymous,
+            content = article.content,
             author = article.author,
             createdDate = article.createdDate.toString(),
             modifiedDate = article.modifiedDate.toString(),
-            content = article.content,
             hashtags = hashtags,
             favorites = favorites.count { it.type == FavoriteType.FAVORITE }.toLong(),
             wonders = favorites.count { it.type == FavoriteType.WONDER }.toLong(),
             clips = favorites.count { it.type == FavoriteType.CLIP }.toLong(),
-
         )
     }
 }
