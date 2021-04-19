@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 
 @ControllerAdvice
-class CommonAdviceController {
+class CommonExceptionAdvice {
     @ExceptionHandler(value = [NotFoundException::class])
-    fun handleNoSuchElementException(): ResponseEntity<Any> =
+    fun handleNotFoundException(): ResponseEntity<Any> =
         ResponseEntity(HttpStatus.NOT_FOUND)
 }
