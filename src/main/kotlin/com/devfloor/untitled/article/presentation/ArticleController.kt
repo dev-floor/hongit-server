@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController
 class ArticleController(
     private val articleFacade: ArticleFacade
 ) {
-    @GetMapping("/articles/{article_id}")
-    fun getArticle(@PathVariable id: Long): ResponseEntity<ArticleResponse> =
-        ResponseEntity(articleFacade.show(id), HttpStatus.OK)
+    @GetMapping("/articles/{id}")
+    fun show(@PathVariable id: Long): ResponseEntity<ArticleResponse> =
+        ResponseEntity(articleFacade.showByArticleId(id), HttpStatus.OK)
 }

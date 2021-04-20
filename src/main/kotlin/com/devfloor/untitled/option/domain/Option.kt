@@ -10,13 +10,13 @@ import javax.persistence.Id
 import javax.persistence.Table
 
 /**
- * 게시물 정보를 관리하는 entity
+ * 옵션 정보를 관리하는 entity
  *
  * @property id 아이디
  * @property type 옵션 종류
  */
 @Entity
-@Table(name = "option")
+@Table(name = "options")
 class Option(
     type: OptionType
 ) {

@@ -3,23 +3,24 @@ package com.devfloor.untitled.article.application
 import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
 import com.devfloor.untitled.favorite.application.ArticleFavoriteService
-import com.devfloor.untitled.favorite.domain.ArticleFavoriteType
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 @Service
 class ArticleFacade(
     private val articleService: ArticleService,
     private val articleHashtagService: ArticleHashtagService,
-    private val favoriteService: ArticleFavoriteService,
+    private val articleFavoriteService: ArticleFavoriteService,
     private val articleOptionService: ArticleOptionService
 ) {
     @Transactional(readOnly = true)
-    fun show(articleId: Long): ArticleResponse {
+    fun showByArticleId(articleId: Long): ArticleResponse {
         val article = articleService.showById(articleId)
         val hashtags = articleHashtagService.showAllByArticle(article)
             .map { it.hashtag.name }
-        val favorites = favoriteService.showAllByArticle(article)
+        val favorites = articleFavoriteService.showAllByArticle(article)
         val options = articleOptionService.showAllByArticle(article)
             .map { it.option.type.name }
 
@@ -29,12 +30,20 @@ class ArticleFacade(
             anonymous = article.anonymous,
             content = article.content,
             author = article.author,
-            createdDate = article.createdDate.toString(),
-            modifiedDate = article.modifiedDate.toString(),
+            createdDate = article.createdDate.format(
+                DateTimeFormatter.ofLocalizedDateTime(
+                    FormatStyle.MEDIUM
+                )
+            ),
+            modifiedDate = article.modifiedDate.format(
+                DateTimeFormatter.ofLocalizedDateTime(
+                    FormatStyle.MEDIUM
+                )
+            ),
             hashtags = hashtags,
-            favorites = favorites.count { it.type == ArticleFavoriteType.FAVORITE }.toLong(),
-            wonders = favorites.count { it.type == ArticleFavoriteType.WONDER }.toLong(),
-            clips = favorites.count { it.type == ArticleFavoriteType.CLIP }.toLong(),
+            favorites = favorites.count { it.type.isFavorite() }.toLong(),
+            wonders = favorites.count { it.type.isWonder() }.toLong(),
+            clips = favorites.count { it.type.isClip() }.toLong(),
         )
     }
 }

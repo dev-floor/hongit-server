@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 /**
- * 좋아요, 나도 궁금해요, 스크랩 정보를 관리하는 entity
+ * 게시글에 대한 좋아요를 관리하는 entity
  *
  * @property id 아이디
  * @property article 게시글
@@ -22,7 +22,7 @@ import javax.persistence.Table
  * @property type 좋아요 종류
  */
 @Entity
-@Table(name = "favorite")
+@Table(name = "favorites")
 class ArticleFavorite(
     article: Article,
     author: User,

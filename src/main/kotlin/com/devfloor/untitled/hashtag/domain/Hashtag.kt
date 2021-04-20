@@ -14,7 +14,7 @@ import javax.persistence.Table
  * @property name 해시태그 이름
  */
 @Entity
-@Table(name = "hashtag")
+@Table(name = "hashtags")
 class Hashtag(
     name: String
 ) {

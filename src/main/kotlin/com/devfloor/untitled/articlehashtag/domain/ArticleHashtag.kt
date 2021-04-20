@@ -12,14 +12,14 @@ import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 /**
- * 게시물과 해시태그 정보를 관리하는 entity
+ * 게시물과 해시태그 정보를 관리하는 연관관계 매핑 entity
  *
  * @property id 아이디
  * @property article 게시글
  * @property hashtag 해시태그
  */
 @Entity
-@Table(name = "article_hashtag")
+@Table(name = "article_hashtags")
 class ArticleHashtag(
     article: Article,
     hashtag: Hashtag,

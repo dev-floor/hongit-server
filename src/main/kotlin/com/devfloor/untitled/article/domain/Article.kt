@@ -23,7 +23,7 @@ import javax.persistence.Table
  * @property author 작성자
  */
 @Entity
-@Table(name = "article")
+@Table(name = "articles")
 class Article(
     title: String?,
     anonymous: Boolean,
