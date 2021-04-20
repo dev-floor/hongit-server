@@ -4,8 +4,6 @@ import com.devfloor.untitled.common.domain.BaseEntity
 import com.devfloor.untitled.user.domain.User
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id

@@ -5,8 +5,6 @@ import com.devfloor.untitled.articleoption.application.ArticleOptionService
 import com.devfloor.untitled.favorite.application.ArticleFavoriteService
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 
 @Service
 class ArticleFacade(
@@ -30,16 +28,8 @@ class ArticleFacade(
             anonymous = article.anonymous,
             content = article.content,
             author = article.author,
-            createdDate = article.createdDate.format(
-                DateTimeFormatter.ofLocalizedDateTime(
-                    FormatStyle.MEDIUM
-                )
-            ),
-            modifiedDate = article.modifiedDate.format(
-                DateTimeFormatter.ofLocalizedDateTime(
-                    FormatStyle.MEDIUM
-                )
-            ),
+            createdDate = article.createdDate,
+            modifiedDate = article.modifiedDate,
             hashtags = hashtags,
             favorites = favorites.count { it.type.isFavorite() }.toLong(),
             wonders = favorites.count { it.type.isWonder() }.toLong(),
