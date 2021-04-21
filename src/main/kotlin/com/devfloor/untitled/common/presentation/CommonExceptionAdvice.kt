@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ResponseStatus
 
 @ControllerAdvice
 class CommonExceptionAdvice {
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ExceptionHandler(value = [EntityNotFoundException::class])
     fun handleEntityNotFoundException(errorMessage: String): String = errorMessage
 }
