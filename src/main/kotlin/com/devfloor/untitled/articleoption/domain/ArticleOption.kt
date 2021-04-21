@@ -20,15 +20,11 @@ import javax.persistence.Table
  */
 @Entity
 @Table(name = "article_options")
-class ArticleOption(
-    article: Article,
-    option: Option
-) {
+class ArticleOption(article: Article, option: Option) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_option_id")
-    var id: Long? = null
-        protected set
+    val id: Long = 0
 
     @ManyToOne
     @JoinColumn(name = "article_id")

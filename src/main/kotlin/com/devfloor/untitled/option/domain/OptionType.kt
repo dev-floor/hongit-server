@@ -5,9 +5,9 @@ package com.devfloor.untitled.option.domain
  *
  * @property text 좋아요 유형
  */
-enum class OptionType(val text: String) {
-    CLASS_ONE("1분반"),
-    CLASS_TWO("2분반"),
-    CLASS_THREE("3분반"),
-    CLASS_FOUR("4분반"),
+enum class OptionType(private val text: String) {
+    CLASS_ONE(text = "1분반"),
+    CLASS_TWO(text = "2분반"),
+    CLASS_THREE(text = "3분반"),
+    CLASS_FOUR(text = "4분반"),
 }

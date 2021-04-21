@@ -17,14 +17,11 @@ import javax.persistence.Table
  */
 @Entity
 @Table(name = "options")
-class Option(
-    type: OptionType
-) {
+class Option(type: OptionType) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "option_id")
-    var id: Long? = null
-        protected set
+    val id: Long = 0
 
     @Column(name = "option_type")
     @Enumerated(value = EnumType.STRING)

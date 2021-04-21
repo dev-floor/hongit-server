@@ -31,8 +31,7 @@ class ArticleFavorite(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "favorite_id")
-    var id: Long? = null
-        protected set
+    val id: Long = 0
 
     @ManyToOne
     @JoinColumn(name = "article_id")
