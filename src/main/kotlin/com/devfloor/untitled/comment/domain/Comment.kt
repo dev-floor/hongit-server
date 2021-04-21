@@ -15,7 +15,7 @@ import javax.persistence.*
  * @property content 댓글 내용
  */
 @Entity
-@Table(name = "comment")
+@Table(name = "comments")
 class Comment(
     article: Article,
     author: User,

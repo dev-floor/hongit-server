@@ -13,7 +13,7 @@ import javax.persistence.*
  * @property user 좋아요를 누른 사람
  */
 @Entity
-@Table(name = "comment_article")
+@Table(name = "comment_articles")
 class CommentFavorite(
     comment: Comment,
     user: User,
