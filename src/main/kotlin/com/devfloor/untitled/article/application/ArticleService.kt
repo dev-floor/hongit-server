@@ -2,7 +2,7 @@ package com.devfloor.untitled.article.application
 
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.article.domain.ArticleRepository
-import com.devfloor.untitled.common.exception.NotFoundException
+import com.devfloor.untitled.common.exception.EntityNotFoundException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -12,6 +12,6 @@ class ArticleService(
     private val repository: ArticleRepository
 ) {
     @Transactional(readOnly = true)
-    fun findById(id: Long): Article = repository.findByIdOrNull(id)
-        ?: throw NotFoundException("Not found")
+    fun showById(id: Long): Article = repository.findByIdOrNull(id)
+        ?: throw EntityNotFoundException("Not found")
 }

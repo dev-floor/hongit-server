@@ -7,8 +7,14 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Table
 
+/**
+ * 해시태그 정보를 관리하는 entity
+ *
+ * @property id 아이디
+ * @property name 해시태그 이름
+ */
 @Entity
-@Table(name = "hashtag")
+@Table(name = "hashtags")
 class Hashtag(
     name: String
 ) {

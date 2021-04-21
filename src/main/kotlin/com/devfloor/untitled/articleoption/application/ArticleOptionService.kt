@@ -8,9 +8,9 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ArticleOptionService(
-    private val repository: ArticleOptionRepository,
+    private val repository: ArticleOptionRepository
 ) {
     @Transactional(readOnly = true)
-    fun findAllByArticle(article: Article): List<ArticleOption> =
-        repository.findAllByArticle(article) ?: emptyList()
+    fun showAllByArticle(article: Article): List<ArticleOption> =
+        repository.findAllByArticle(article)
 }
