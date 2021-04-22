@@ -21,8 +21,7 @@ class Hashtag(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "hashtag_id")
-    var id: Long? = null
-        protected set
+    val id: Long = 0
 
     @Column(name = "name")
     var name: String = name

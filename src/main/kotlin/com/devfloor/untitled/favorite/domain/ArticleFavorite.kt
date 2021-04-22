@@ -25,14 +25,13 @@ import javax.persistence.Table
 @Table(name = "favorites")
 class ArticleFavorite(
     article: Article,
-    author: User,
+    user: User,
     type: ArticleFavoriteType
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "favorite_id")
-    var id: Long? = null
-        protected set
+    val id: Long = 0
 
     @ManyToOne
     @JoinColumn(name = "article_id")
@@ -40,7 +39,7 @@ class ArticleFavorite(
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    val user: User = author
+    val user: User = user
 
     @Column(name = "favorite_type")
     @Enumerated(value = EnumType.STRING)

@@ -27,8 +27,7 @@ class ArticleHashtag(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_hashtag_id")
-    var id: Long? = null
-        protected set
+    val id: Long = 0
 
     @ManyToOne
     @JoinColumn(name = "article_id")
