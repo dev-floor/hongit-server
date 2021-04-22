@@ -17,9 +17,9 @@ import javax.persistence.*
  */
 @Entity
 @Table(
-    name = "user",
+    name = "users",
     uniqueConstraints = [
-        UniqueConstraint(name = "uk_user_class_of", columnNames = ["classOf"]),
+        UniqueConstraint(name = "uk_user_class_of", columnNames = ["class_of"]),
     ],
 )
 class User(
