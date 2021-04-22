@@ -1,4 +1,4 @@
-package com.devfloor.untitled.favorite.domain
+package com.devfloor.untitled.articlefavorite.domain
 
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.user.domain.User

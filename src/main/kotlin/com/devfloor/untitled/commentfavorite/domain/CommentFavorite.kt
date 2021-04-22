@@ -3,7 +3,14 @@ package com.devfloor.untitled.commentfavorite.domain
 import com.devfloor.untitled.comment.domain.Comment
 import com.devfloor.untitled.common.domain.BaseEntity
 import com.devfloor.untitled.user.domain.User
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
+import javax.persistence.Table
 
 /**
  * 댓글에 누른 좋아요 연관관계 entity
@@ -21,16 +28,13 @@ class CommentFavorite(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_article_id")
-    var id: Long? = null
-        protected set
+    val id: Long = 0
 
     @ManyToOne
     @JoinColumn(name = "comment_id")
-    var comment: Comment = comment
-        protected set
+    val comment: Comment = comment
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    var user: User = user
-        protected set
+    val user: User = user
 }

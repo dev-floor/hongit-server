@@ -3,7 +3,15 @@ package com.devfloor.untitled.comment.domain
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.common.domain.BaseEntity
 import com.devfloor.untitled.user.domain.User
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.Lob
+import javax.persistence.ManyToOne
+import javax.persistence.Table
 
 /**
  * 댓글을 관리하는 entity
@@ -25,18 +33,15 @@ class Comment(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
-    var id: Long? = null
-        protected set
+    val id: Long = 0
 
     @ManyToOne
     @JoinColumn(name = "article_id")
-    var article: Article = article
-        protected set
+    val article: Article = article
 
     @ManyToOne
-    @JoinColumn(name = "author")
-    var author: User = author
-        protected set
+    @JoinColumn(name = "author_id")
+    val author: User = author
 
     @Column
     var anonymous: Boolean = anonymous

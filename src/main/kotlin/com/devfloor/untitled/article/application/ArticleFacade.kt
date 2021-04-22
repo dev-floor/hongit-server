@@ -1,8 +1,9 @@
 package com.devfloor.untitled.article.application
 
+import com.devfloor.untitled.articlefavorite.application.ArticleFavoriteService
 import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
-import com.devfloor.untitled.favorite.application.ArticleFavoriteService
+import com.devfloor.untitled.user.application.ProfileResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -27,7 +28,7 @@ class ArticleFacade(
             title = article.title,
             anonymous = article.anonymous,
             content = article.content,
-            author = article.author,
+            author = ProfileResponse(article.author),
             createdDate = article.createdDate,
             modifiedDate = article.modifiedDate,
             hashtags = hashtags,

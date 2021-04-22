@@ -1,5 +1,6 @@
 package com.devfloor.untitled.article.application
 
+import com.devfloor.untitled.user.application.ProfileResponse
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 
@@ -12,7 +13,7 @@ data class ArticleResponse(
 
     val content: String,
 
-    val author: Any,
+    val author: ProfileResponse,
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
     val createdDate: LocalDateTime,
@@ -26,5 +27,5 @@ data class ArticleResponse(
 
     val wonders: Long,
 
-    val clips: Long
+    val clips: Long,
 )

@@ -10,5 +10,5 @@ class CommentFavoriteService(
     private val repository: CommentFavoriteRepository,
 ) {
     @Transactional(readOnly = true)
-    fun countAllByComment(comment: Comment) = repository.countAllByComment(comment)
+    fun countAllByComment(comment: Comment): Long = repository.countAllByComment(comment)
 }

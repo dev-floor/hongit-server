@@ -1,7 +1,15 @@
 package com.devfloor.untitled.user.domain
 
 import com.devfloor.untitled.common.domain.BaseEntity
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.Table
+import javax.persistence.UniqueConstraint
 
 /**
  * 회원 정보를 관리하는 entity
@@ -34,8 +42,7 @@ class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    var id: Long? = null
-        protected set
+    val id: Long = 0
 
     @Column(name = "name")
     var nickname: String = nickname
