@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController
 class ArticleController(
     private val articleFacade: ArticleFacade
 ) {
-    @GetMapping("/articles/{articleId}")
+    @GetMapping(value = ["/articles/{id}"])
     @ResponseStatus(value = HttpStatus.OK)
-    fun showById(@PathVariable articleId: Long): ArticleResponse =
-        articleFacade.showByArticleId(articleId)
+    fun showById(@PathVariable id: Long): ArticleResponse =
+        articleFacade.showByArticleId(id)
 }
