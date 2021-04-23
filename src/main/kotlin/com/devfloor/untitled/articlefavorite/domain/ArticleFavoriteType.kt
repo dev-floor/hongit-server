@@ -1,11 +1,11 @@
-package com.devfloor.untitled.favorite.domain
+package com.devfloor.untitled.articlefavorite.domain
 
 /**
  * 게시글에 대한 좋아요의 유형을 관리하는 enum
  *
  * @property text 좋아요 유형
  */
-enum class ArticleFavoriteType(private val text: String) {
+enum class ArticleFavoriteType(val text: String) {
     FAVORITE("좋아요"),
     WONDER("나도 궁금해요"),
     CLIP("스크랩");

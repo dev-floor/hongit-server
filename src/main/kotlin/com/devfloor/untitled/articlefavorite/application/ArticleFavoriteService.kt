@@ -1,8 +1,8 @@
-package com.devfloor.untitled.favorite.application
+package com.devfloor.untitled.articlefavorite.application
 
 import com.devfloor.untitled.article.domain.Article
-import com.devfloor.untitled.favorite.domain.ArticleFavorite
-import com.devfloor.untitled.favorite.domain.ArticleFavoriteRepository
+import com.devfloor.untitled.articlefavorite.domain.ArticleFavorite
+import com.devfloor.untitled.articlefavorite.domain.ArticleFavoriteRepository
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
