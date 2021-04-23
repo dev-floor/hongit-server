@@ -3,11 +3,10 @@ package com.devfloor.untitled.user.application
 import com.devfloor.untitled.user.domain.User
 import com.devfloor.untitled.user.domain.UserType
 
-
 data class ProfileResponse(
     val nickname: String,
     val type: UserType,
-    val image: String,
+    val image: String?,
     val github: String?,
     val blog: String?,
     val description: String?,

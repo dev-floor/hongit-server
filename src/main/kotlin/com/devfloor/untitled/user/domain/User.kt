@@ -33,7 +33,7 @@ import javax.persistence.UniqueConstraint
 class User(
     nickname: String,
     type: UserType,
-    image: String,
+    image: String?,
     classOf: String?,
     github: String?,
     blog: String?,
@@ -54,7 +54,7 @@ class User(
         protected set
 
     @Column(name = "image")
-    var image: String = image
+    var image: String? = image
         protected set
 
     @Column(name = "class_of")
