@@ -1,12 +1,10 @@
 package com.devfloor.untitled.article.presentation
 
 import com.devfloor.untitled.article.application.ArticleFacade
+import com.devfloor.untitled.article.application.ArticleRequest
 import com.devfloor.untitled.article.application.ArticleResponse
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.ResponseStatus
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class ArticleController(
@@ -16,4 +14,9 @@ class ArticleController(
     @ResponseStatus(value = HttpStatus.OK)
     fun showById(@PathVariable id: Long): ArticleResponse =
         articleFacade.showByArticleId(id)
+
+    @PostMapping(value = ["/articles"])
+    @ResponseStatus(value = HttpStatus.OK)
+    fun create(@RequestBody articleRequest: ArticleRequest) =
+        articleFacade.create(articleRequest)
 }

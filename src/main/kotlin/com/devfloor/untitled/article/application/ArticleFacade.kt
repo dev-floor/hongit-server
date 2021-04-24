@@ -14,6 +14,11 @@ class ArticleFacade(
     private val articleFavoriteService: ArticleFavoriteService,
     private val articleOptionService: ArticleOptionService
 ) {
+    @Transactional
+    fun create(articleRequest: ArticleRequest) {
+        //
+    }
+
     @Transactional(readOnly = true)
     fun showByArticleId(articleId: Long): ArticleResponse {
         val article = articleService.showById(articleId)
