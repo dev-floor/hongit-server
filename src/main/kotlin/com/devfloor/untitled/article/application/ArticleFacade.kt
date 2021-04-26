@@ -38,26 +38,26 @@ class ArticleFacade(
         )
     }
 
-	@Transactional(readOnly = true)
-	fun showAll(): List<ShowAllResponse> {
-		return articleService.showAll().map { article ->
-			val favorites = articleFavoriteService.showAllByArticle(article)
-			val options = articleOptionService.showAllByArticle(article)
-				.map { it.option.type.name }
+    @Transactional(readOnly = true)
+    fun showAll(): List<ShowAllResponse> {
+        return articleService.showAll().map { article ->
+            val favorites = articleFavoriteService.showAllByArticle(article)
+            val options = articleOptionService.showAllByArticle(article)
+                .map { it.option.type.name }
 
-			ShowAllResponse(
-				id = article.id,
-				options = options,
-				title = article.title,
-				anonymous = article.anonymous,
-				authorName = article.author.nickname,
-				createdDate = article.createdDate,
-				modifiedDate = article.modifiedDate,
-				content = article.content,
-				favorites = favorites.count { it.type.isFavorite() }.toLong(),
-				wonders = favorites.count { it.type.isWonder() }.toLong(),
-				clips = favorites.count { it.type.isClip() }.toLong(),
-			)
-		}
-	}
+            ShowAllResponse(
+                id = article.id,
+                options = options,
+                title = article.title,
+                anonymous = article.anonymous,
+                authorName = article.author.nickname,
+                createdDate = article.createdDate,
+                modifiedDate = article.modifiedDate,
+                content = article.content,
+                favorites = favorites.count { it.type.isFavorite() }.toLong(),
+                wonders = favorites.count { it.type.isWonder() }.toLong(),
+                clips = favorites.count { it.type.isClip() }.toLong(),
+            )
+        }
+    }
 }
