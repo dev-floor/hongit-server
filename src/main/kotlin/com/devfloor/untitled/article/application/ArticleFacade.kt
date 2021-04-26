@@ -15,7 +15,7 @@ class ArticleFacade(
     private val articleOptionService: ArticleOptionService
 ) {
     @Transactional(readOnly = true)
-    fun showByArticleId(articleId: Long): ShowResponse {
+    fun showByArticleId(articleId: Long): ArticleResponse {
         val article = articleService.showById(articleId)
         val hashtags = articleHashtagService.showAllByArticle(article)
             .map { it.hashtag.name }
@@ -23,7 +23,7 @@ class ArticleFacade(
         val options = articleOptionService.showAllByArticle(article)
             .map { it.option.type.name }
 
-        return ShowResponse(
+        return ArticleResponse(
             options = options,
             title = article.title,
             anonymous = article.anonymous,
@@ -36,28 +36,5 @@ class ArticleFacade(
             wonders = favorites.count { it.type.isWonder() }.toLong(),
             clips = favorites.count { it.type.isClip() }.toLong(),
         )
-    }
-
-    @Transactional(readOnly = true)
-    fun showAll(): List<ShowAllResponse> {
-        return articleService.showAll().map { article ->
-            val favorites = articleFavoriteService.showAllByArticle(article)
-            val options = articleOptionService.showAllByArticle(article)
-                .map { it.option.type.name }
-
-            ShowAllResponse(
-                id = article.id,
-                options = options,
-                title = article.title,
-                anonymous = article.anonymous,
-                authorName = article.author.nickname,
-                createdDate = article.createdDate,
-                modifiedDate = article.modifiedDate,
-                content = article.content,
-                favorites = favorites.count { it.type.isFavorite() }.toLong(),
-                wonders = favorites.count { it.type.isWonder() }.toLong(),
-                clips = favorites.count { it.type.isClip() }.toLong(),
-            )
-        }
     }
 }

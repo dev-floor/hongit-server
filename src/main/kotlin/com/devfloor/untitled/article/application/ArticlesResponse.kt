@@ -1,19 +1,18 @@
 package com.devfloor.untitled.article.application
 
-import com.devfloor.untitled.user.application.ProfileResponse
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 
-data class ShowResponse(
+data class ArticlesResponse( // TODO: 네이밍 고민 : Article을 복수로 찾을 때 전부다 이 형태는 아닐 것
+    val id: Long,
+
     val options: List<String>,
 
     val title: String? = null,
 
     val anonymous: Boolean,
 
-    val content: String,
-
-    val author: ProfileResponse,
+    val authorName: String,
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
     val createdDate: LocalDateTime,
@@ -21,7 +20,7 @@ data class ShowResponse(
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
     val modifiedDate: LocalDateTime,
 
-    val hashtags: List<String>,
+    val content: String,
 
     val favorites: Long,
 

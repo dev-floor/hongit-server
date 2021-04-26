@@ -1,18 +1,19 @@
 package com.devfloor.untitled.article.application
 
+import com.devfloor.untitled.user.application.ProfileResponse
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 
-data class ShowAllResponse(
-    val id: Long,
-
+data class ArticleResponse(
     val options: List<String>,
 
     val title: String? = null,
 
     val anonymous: Boolean,
 
-    val authorName: String,
+    val content: String,
+
+    val author: ProfileResponse,
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
     val createdDate: LocalDateTime,
@@ -20,7 +21,7 @@ data class ShowAllResponse(
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
     val modifiedDate: LocalDateTime,
 
-    val content: String,
+    val hashtags: List<String>,
 
     val favorites: Long,
 
