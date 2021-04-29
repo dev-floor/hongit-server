@@ -3,7 +3,11 @@ package com.devfloor.untitled.article.application
 import com.devfloor.untitled.articlefavorite.application.ArticleFavoriteService
 import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
+import com.devfloor.untitled.hashtag.application.HashtagService
+import com.devfloor.untitled.hashtag.domain.Hashtag
+import com.devfloor.untitled.option.application.OptionService
 import com.devfloor.untitled.user.application.ProfileResponse
+import com.devfloor.untitled.user.domain.User
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -12,11 +16,51 @@ class ArticleFacade(
     private val articleService: ArticleService,
     private val articleHashtagService: ArticleHashtagService,
     private val articleFavoriteService: ArticleFavoriteService,
-    private val articleOptionService: ArticleOptionService
+    private val articleOptionService: ArticleOptionService,
+    private val optionService: OptionService,
+    private val hashtagService: HashtagService
 ) {
     @Transactional
-    fun create(articleRequest: ArticleRequest) {
-        //
+    fun create(articleRequest: ArticleRequest, user: User): ArticleResponse {
+
+        val article = articleService.create(articleRequest.toArticleWithUser(articleRequest, user))
+        val options = optionService.show(articleRequest.options)
+        val articleOptions =
+            if (!articleRequest.options.isNullOrEmpty()) {
+                options.let { articleOptionService.create(article, it) }
+            } else null
+        val hashtags = hashtagService.show(articleRequest.hashtags)
+        val articleHashtags =
+            if (!articleRequest.hashtags.isNullOrEmpty()){
+                if(hashtags.isNullOrEmpty()){
+                    hashtagService.create(articleRequest.hashtags).let{
+                        articleHashtagService.create(article, it)
+                    }
+                }
+                else{
+                    articleHashtagService.create(article, hashtags)
+                }
+
+            } else null
+
+        return ArticleResponse(
+            options = options.map{
+                it.type.name
+            },
+            title = article.title,
+            anonymous = article.anonymous,
+            content = article.content,
+            author = ProfileResponse(user),
+            createdDate = article.createdDate,
+            modifiedDate = article.modifiedDate,
+            hashtags = hashtags.map{
+                it.name
+            },
+            favorites = 0,
+            wonders = 0,
+            clips = 0,
+        )
+
     }
 
     @Transactional(readOnly = true)

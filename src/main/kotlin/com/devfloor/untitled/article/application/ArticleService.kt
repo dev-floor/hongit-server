@@ -14,4 +14,9 @@ class ArticleService(
     @Transactional(readOnly = true)
     fun showById(id: Long): Article = repository.findByIdOrNull(id)
         ?: throw EntityNotFoundException("사용자가 요청한 리소스가 없습니다")
+
+    @Transactional
+    fun create(article: Article): Article {
+        return repository.save(article)
+    }
 }

@@ -5,4 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface ArticleFavoriteRepository : JpaRepository<ArticleFavorite, Long> {
     fun findAllByArticle(article: Article): List<ArticleFavorite>
+
 }
