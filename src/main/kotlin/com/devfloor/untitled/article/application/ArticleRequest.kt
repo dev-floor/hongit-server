@@ -12,8 +12,11 @@ data class ArticleRequest(
     val hashtags: List<String>
 ) {
     fun toArticleWithUser(articleRequest: ArticleRequest, user: User): Article {
-        return Article(articleRequest.title, articleRequest.anonymous, articleRequest.content, user)
+        return Article(
+            title = articleRequest.title,
+            anonymous = articleRequest.anonymous,
+            content = articleRequest.content
+            author = user)
     }
 }
-
 
