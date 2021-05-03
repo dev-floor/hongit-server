@@ -3,7 +3,7 @@ package com.devfloor.untitled.article.application
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 
-data class ArticlesResponse( // TODO: 네이밍 고민 : Article을 복수로 찾을 때 전부다 이 형태는 아닐 것
+data class ArticlesResponse(
     val id: Long,
 
     val options: List<String>,

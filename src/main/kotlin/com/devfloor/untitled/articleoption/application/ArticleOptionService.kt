@@ -11,6 +11,7 @@ class ArticleOptionService(
     private val repository: ArticleOptionRepository
 ) {
     @Transactional(readOnly = true)
-    fun showAllByArticle(article: Article): List<ArticleOption> =
-        repository.findAllByArticle(article)
+    fun showAllByArticle(article: Article): List<ArticleOption> {
+        return repository.findAllByArticle(article)
+    }
 }

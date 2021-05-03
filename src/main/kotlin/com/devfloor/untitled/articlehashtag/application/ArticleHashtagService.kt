@@ -11,6 +11,7 @@ class ArticleHashtagService(
     private val repository: ArticleHashtagRepository
 ) {
     @Transactional(readOnly = true)
-    fun showAllByArticle(article: Article): List<ArticleHashtag> =
-        repository.findAllByArticle(article)
+    fun showAllByArticle(article: Article): List<ArticleHashtag> {
+        return repository.findAllByArticle(article)
+    }
 }
