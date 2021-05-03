@@ -19,10 +19,18 @@ class ArticleController(
 
     @PostMapping(value = ["/articles"])
     @ResponseStatus(value = HttpStatus.CREATED)
-    fun create(@RequestBody articleRequest: ArticleRequest): ArticleResponse {
-        val user = User("", UserType.STUDENT, "", "", "", "", "")
+    fun create(@RequestBody articleRequest: ArticleRequest): Long {
+        val user = User(
+            "userNicknameData",
+            UserType.STUDENT,
+            "userImageData",
+            "userClassOfData",
+            "userGithubData",
+            "userBlogData",
+            "userDescriptionData"
+        )
         return articleFacade.create(articleRequest, user)
-        
+
 
     }
 }

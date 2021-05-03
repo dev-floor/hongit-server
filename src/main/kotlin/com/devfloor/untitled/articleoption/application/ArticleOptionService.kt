@@ -16,16 +16,14 @@ class ArticleOptionService(
         repository.findAllByArticle(article)
 
     @Transactional
-    fun create(article: Article, optionList: List<Option>): List<ArticleOption> {
-        val articleOptionList = mutableListOf<ArticleOption>()
-        for(index in optionList.indices){
-            articleOptionList.add(repository.save(toArticleOption(article, optionList[index])))
+    fun createAllByOptions(article: Article, options: List<Option>) {
+        options.forEach {
+            repository.save(ArticleOption(article, it))
         }
-
-        return articleOptionList
     }
 
-    fun toArticleOption(article: Article, option: Option): ArticleOption {
-        return ArticleOption(article, option)
+    @Transactional
+    fun createByOption(article: Article, option: Option) {
+        repository.save(ArticleOption(article, option))
     }
 }

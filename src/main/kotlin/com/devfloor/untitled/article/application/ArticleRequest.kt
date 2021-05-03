@@ -15,8 +15,8 @@ data class ArticleRequest(
         return Article(
             title = articleRequest.title,
             anonymous = articleRequest.anonymous,
-            content = articleRequest.content
-            author = user)
+            content = articleRequest.content,
+            author = user
+        )
     }
 }
-
