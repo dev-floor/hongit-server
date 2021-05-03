@@ -13,5 +13,5 @@ class BoardController(
 ) {
     @GetMapping(value = ["/articles"]) // TODO() : 스크린 구성 이후 URI, pathVariable 수정 예정
     @ResponseStatus(value = HttpStatus.OK)
-    fun showAll(): BoardResponse = boardFacade.showByBoardId()
+    fun showAll(): BoardResponse = boardFacade.showById()
 }
