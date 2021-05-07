@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository
 
 interface HashtagRepository : JpaRepository<Hashtag, Long> {
     fun findByName(hashtag: String): Hashtag
-    fun findAllByNameIn(hashtagNameList: List<String>): List<Hashtag>
+    fun findAllByNameIn(hashtags: List<String>): List<Hashtag>
     fun existsByName(hashtag: String): Boolean
 }

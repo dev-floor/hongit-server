@@ -31,10 +31,6 @@ class HashtagService(
 
     @Transactional
     fun createAll(hashtags: List<String>): List<Hashtag> {
-        val hashtagList = mutableListOf<Hashtag>()
-        for (index in hashtags.indices) {
-            hashtagList.add(repository.save(Hashtag(hashtags[index])))
-        }
-        return hashtagList
+        return hashtags.map { repository.save(Hashtag(it)) }
     }
 }

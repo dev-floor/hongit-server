@@ -12,6 +12,6 @@ class OptionService(
 ) {
     @Transactional(readOnly = true)
     fun showAllByOptionType(options: List<String>): List<Option> {
-        return repository.findByTypeIn(options.map { OptionType.from(it) })
+        return repository.findAllByTypeIn(options.map { OptionType.from(it) })
     }
 }

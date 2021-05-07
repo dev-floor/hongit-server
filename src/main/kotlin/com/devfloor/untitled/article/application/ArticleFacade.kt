@@ -26,18 +26,11 @@ class ArticleFacade(
             optionService.showAllByOptionType(articleRequest.options)
                 .let { articleOptionService.createAllByOptions(article, it) }
         }
-        if (articleRequest.hashtags.isNotEmpty()) {
-            articleRequest.hashtags.forEach {
-                if (hashtagService.existsByName(it)) {
-                    hashtagService.create(it).let {
-                        articleHashtagService.createByHashtag(article, it)
-                    }
-                } else {
-                    hashtagService.showByName((it)).let {
-                        articleHashtagService.createByHashtag(article, it)
-                    }
-                }
-            }
+        articleRequest.hashtags.forEach {
+            val hashtag = if (!hashtagService.existsByName(it))
+                hashtagService.create(it)
+            else hashtagService.showByName(it)
+            articleHashtagService.createByHashtag(article, hashtag)
         }
         return article.id
     }
