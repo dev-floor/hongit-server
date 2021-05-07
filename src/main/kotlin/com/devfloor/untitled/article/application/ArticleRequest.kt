@@ -3,7 +3,6 @@ package com.devfloor.untitled.article.application
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.user.domain.User
 
-
 data class ArticleRequest(
     val options: List<String>,
     val title: String? = null,
@@ -11,7 +10,7 @@ data class ArticleRequest(
     val content: String,
     val hashtags: List<String>
 ) {
-    fun toArticleWithUser(articleRequest: ArticleRequest, user: User): Article {
+    fun toArticle(articleRequest: ArticleRequest, user: User): Article {
         return Article(
             title = articleRequest.title,
             anonymous = articleRequest.anonymous,

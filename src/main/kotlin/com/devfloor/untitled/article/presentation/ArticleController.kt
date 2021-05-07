@@ -30,7 +30,5 @@ class ArticleController(
             "userDescriptionData"
         )
         return articleFacade.create(articleRequest, user)
-
-
     }
 }

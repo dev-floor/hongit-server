@@ -21,19 +21,22 @@ class ArticleFacade(
 ) {
     @Transactional
     fun create(articleRequest: ArticleRequest, user: User): Long {
-        val article = articleService.create(articleRequest.toArticleWithUser(articleRequest, user))
-        if (!articleRequest.options.isNullOrEmpty()) {
+        val article = articleService.create(articleRequest.toArticle(articleRequest, user))
+        if (articleRequest.options.isNotEmpty()) {
             optionService.showAllByOptionType(articleRequest.options)
                 .let { articleOptionService.createAllByOptions(article, it) }
         }
-        if (!articleRequest.hashtags.isNotEmpty()) {
-            val hashtags = hashtagService.showAllByNames(articleRequest.hashtags)
-            if (hashtags.isNullOrEmpty()) {
-                hashtagService.createHashtags(articleRequest.hashtags).let {
-                    articleHashtagService.createAllByHashtags(article, it)
+        if (articleRequest.hashtags.isNotEmpty()) {
+            articleRequest.hashtags.forEach {
+                if (hashtagService.existsByName(it)) {
+                    hashtagService.create(it).let {
+                        articleHashtagService.createByHashtag(article, it)
+                    }
+                } else {
+                    hashtagService.showByName((it)).let {
+                        articleHashtagService.createByHashtag(article, it)
+                    }
                 }
-            } else {
-                articleHashtagService.createAllByHashtags(article, hashtags)
             }
         }
         return article.id
