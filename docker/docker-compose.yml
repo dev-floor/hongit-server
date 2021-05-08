@@ -16,6 +16,7 @@ services:
       TZ: Asia/Seoul
 
   server:
+    image: untitled-server
     build:
       context: ..
       dockerfile: docker/Dockerfile-server
