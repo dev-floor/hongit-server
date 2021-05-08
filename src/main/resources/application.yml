@@ -1,8 +1,10 @@
 spring:
   profiles:
-    include:
-      - common
-      - db
+    group:
+      default: common
+      local: common, db
+      dev: common, db
+      prod: common, db
 
 ---
 
@@ -22,7 +24,30 @@ spring:
 
 logging:
   level:
-    org.hibernate.type.descriptor.sql: trace
+    org.hibernate:
+      SQL: DEBUG
+      type.descriptor.sql: trace
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: default
+
+  h2:
+    console:
+      enabled: true
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+  datasource:
+    url: jdbc:h2:mem:untitled;mode=MYSQL;IFEXISTS=FALSE;
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
 
 ---
 
