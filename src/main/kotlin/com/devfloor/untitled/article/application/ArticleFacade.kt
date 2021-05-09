@@ -15,7 +15,7 @@ class ArticleFacade(
     private val articleOptionService: ArticleOptionService
 ) {
     @Transactional(readOnly = true)
-    fun showById(articleId: Long): ArticleResponse {
+    fun showByArticleId(articleId: Long): ArticleResponse {
         val article = articleService.showById(articleId)
         val hashtags = articleHashtagService.showAllByArticle(article)
             .map { it.hashtag.name }

@@ -14,5 +14,5 @@ class ArticleController(
 ) {
     @GetMapping(value = ["/articles/{id}"])
     @ResponseStatus(value = HttpStatus.OK)
-    fun showById(@PathVariable id: Long): ArticleResponse = articleFacade.showById(id)
+    fun showById(@PathVariable id: Long): ArticleResponse = articleFacade.showByArticleId(id)
 }

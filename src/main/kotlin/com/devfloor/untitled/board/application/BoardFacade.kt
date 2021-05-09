@@ -14,16 +14,23 @@ class BoardFacade(
     private val articleOptionService: ArticleOptionService
 ) {
     @Transactional(readOnly = true)
-    fun showById(): BoardResponse {
-        val articles = articleService.showAll().map { article ->
+    fun showByBoardId(): BoardResponse {
+        val articles = showArticles()
+
+        return BoardResponse(
+            articles = articles
+        )
+    }
+
+    private fun showArticles(): List<ArticlesResponse> {
+        return articleService.showAll().map { article ->
             val favorites = articleFavoriteService.showAllByArticle(article)
             val options = articleOptionService.showAllByArticle(article)
                 .map { it.option.type.name }
 
             val content = if (article.content.length > CONTENT_UPPER_BOUND)
                 article.content.substring(0, CONTENT_UPPER_BOUND + 1)
-            else
-                article.content
+            else article.content
 
             ArticlesResponse(
                 id = article.id,
@@ -39,10 +46,6 @@ class BoardFacade(
                 clips = favorites.count { it.type.isClip() }.toLong(),
             )
         }
-
-        return BoardResponse(
-            articles = articles
-        )
     }
 
     companion object {
