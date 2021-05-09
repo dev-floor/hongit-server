@@ -19,12 +19,11 @@ class HashtagService(
         return repository.findAllByNameIn(hashtags)
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     fun existsByName(hashtag: String): Boolean {
         return repository.existsByName(hashtag)
     }
 
-    @Transactional
     fun create(hashtag: String): Hashtag {
         return repository.save(Hashtag(hashtag))
     }

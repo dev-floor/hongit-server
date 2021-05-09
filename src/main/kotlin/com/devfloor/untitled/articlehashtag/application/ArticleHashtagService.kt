@@ -17,13 +17,12 @@ class ArticleHashtagService(
     }
 
     @Transactional
-    fun createAllByHashtags(article: Article, hashtagList: List<Hashtag>) {
-        hashtagList.forEach() {
+    fun createAllByHashtags(article: Article, hashtags: List<Hashtag>) {
+        hashtags.forEach() {
             repository.save(ArticleHashtag(article, it))
         }
     }
 
-    @Transactional
     fun createByHashtag(article: Article, hashtag: Hashtag) {
         repository.save(ArticleHashtag(article, hashtag))
     }

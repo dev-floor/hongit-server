@@ -22,7 +22,6 @@ class ArticleOptionService(
         }
     }
 
-    @Transactional
     fun createByOption(article: Article, option: Option) {
         repository.save(ArticleOption(article, option))
     }
