@@ -10,7 +10,7 @@ services:
     volumes:
       - ./mariadb/conf.d:/etc/mysql/conf.d
       - ./mariadb/data:/var/lib/mysql
-#      - ./mariadb/initdb.d:/docker-entrypoint-initdb.d
-    env_file: .env
+    #   - ./mariadb/initdb.d:/docker-entrypoint-initdb.d
+    env_file: ../untitled-secret/docker-env/.env
     environment:
       TZ: Asia/Seoul
