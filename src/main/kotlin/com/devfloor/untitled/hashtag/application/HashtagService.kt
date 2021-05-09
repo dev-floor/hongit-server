@@ -10,8 +10,8 @@ class HashtagService(
     private val repository: HashtagRepository
 ) {
     @Transactional(readOnly = true)
-    fun showByName(hashtag: String): Hashtag {
-        return repository.findByName(hashtag)
+    fun showByName(hashtagName: String): Hashtag {
+        return repository.findByName(hashtagName)
     }
 
     @Transactional(readOnly = true)
@@ -24,12 +24,12 @@ class HashtagService(
         return repository.existsByName(hashtag)
     }
 
-    fun create(hashtag: String): Hashtag {
-        return repository.save(Hashtag(hashtag))
+    fun create(hashtag: Hashtag): Hashtag {
+        return repository.save(hashtag)
     }
 
     @Transactional
-    fun createAll(hashtags: List<String>): List<Hashtag> {
-        return hashtags.map { repository.save(Hashtag(it)) }
+    fun createAll(hashtags: List<Hashtag>): List<Hashtag> {
+        return repository.saveAll(hashtags)
     }
 }

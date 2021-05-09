@@ -3,7 +3,6 @@ package com.devfloor.untitled.articlehashtag.application
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtagRepository
-import com.devfloor.untitled.hashtag.domain.Hashtag
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -17,13 +16,11 @@ class ArticleHashtagService(
     }
 
     @Transactional
-    fun createAllByHashtags(article: Article, hashtags: List<Hashtag>) {
-        hashtags.forEach() {
-            repository.save(ArticleHashtag(article, it))
-        }
+    fun createAllByHashtags(articleHashtags: List<ArticleHashtag>) {
+        repository.saveAll(articleHashtags)
     }
 
-    fun createByHashtag(article: Article, hashtag: Hashtag) {
-        repository.save(ArticleHashtag(article, hashtag))
+    fun createByHashtag(articleHashtag: ArticleHashtag) {
+        repository.save(articleHashtag)
     }
 }

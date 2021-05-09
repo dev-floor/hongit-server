@@ -18,4 +18,6 @@ data class ArticleRequest(
             author = user
         )
     }
+
+    fun isOptionsNotEmpty(): Boolean = options.isNotEmpty()
 }

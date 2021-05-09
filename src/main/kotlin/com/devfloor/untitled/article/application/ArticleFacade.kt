@@ -2,8 +2,11 @@ package com.devfloor.untitled.article.application
 
 import com.devfloor.untitled.articlefavorite.application.ArticleFavoriteService
 import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
+import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
+import com.devfloor.untitled.articleoption.domain.ArticleOption
 import com.devfloor.untitled.hashtag.application.HashtagService
+import com.devfloor.untitled.hashtag.domain.Hashtag
 import com.devfloor.untitled.option.application.OptionService
 import com.devfloor.untitled.user.application.ProfileResponse
 import com.devfloor.untitled.user.domain.User
@@ -20,17 +23,18 @@ class ArticleFacade(
     private val hashtagService: HashtagService
 ) {
     @Transactional
-    fun create(articleRequest: ArticleRequest, user: User): Long {
-        val article = articleService.create(articleRequest.toArticle(articleRequest, user))
-        if (articleRequest.options.isNotEmpty()) {
-            optionService.showAllByOptionType(articleRequest.options)
-                .let { articleOptionService.createAllByOptions(article, it) }
+    fun create(request: ArticleRequest, user: User): Long {
+        val article = articleService.create(request.toArticle(request, user))
+        if (request.isOptionsNotEmpty()) {
+            optionService.showAllByOptionType(request.options)
+                .map { ArticleOption(article, it) }
+                .let { articleOptionService.createAllByOptions(it) }
         }
-        articleRequest.hashtags.forEach {
+        request.hashtags.forEach {
             val hashtag = if (!hashtagService.existsByName(it))
-                hashtagService.create(it)
+                hashtagService.create(Hashtag(it))
             else hashtagService.showByName(it)
-            articleHashtagService.createByHashtag(article, hashtag)
+            articleHashtagService.createByHashtag(ArticleHashtag(article, hashtag))
         }
         return article.id
     }

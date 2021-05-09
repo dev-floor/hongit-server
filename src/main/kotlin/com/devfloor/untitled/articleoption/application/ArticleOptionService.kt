@@ -3,7 +3,6 @@ package com.devfloor.untitled.articleoption.application
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.articleoption.domain.ArticleOption
 import com.devfloor.untitled.articleoption.domain.ArticleOptionRepository
-import com.devfloor.untitled.option.domain.Option
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -16,13 +15,11 @@ class ArticleOptionService(
         repository.findAllByArticle(article)
 
     @Transactional
-    fun createAllByOptions(article: Article, options: List<Option>) {
-        options.forEach {
-            repository.save(ArticleOption(article, it))
-        }
+    fun createAllByOptions(articleOptions: List<ArticleOption>) {
+        repository.saveAll(articleOptions)
     }
 
-    fun createByOption(article: Article, option: Option) {
-        repository.save(ArticleOption(article, option))
+    fun createByOption(articleOption: ArticleOption) {
+        repository.save(articleOption)
     }
 }
