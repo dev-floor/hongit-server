@@ -10,16 +10,15 @@ import org.springframework.transaction.annotation.Transactional
 class ArticleOptionService(
     private val repository: ArticleOptionRepository
 ) {
-    @Transactional(readOnly = true)
     fun showAllByArticle(article: Article): List<ArticleOption> =
         repository.findAllByArticle(article)
 
     @Transactional
-    fun createAllByOptions(articleOptions: List<ArticleOption>) {
+    fun createAll(articleOptions: List<ArticleOption>) {
         repository.saveAll(articleOptions)
     }
 
-    fun createByOption(articleOption: ArticleOption) {
+    fun create(articleOption: ArticleOption) {
         repository.save(articleOption)
     }
 }

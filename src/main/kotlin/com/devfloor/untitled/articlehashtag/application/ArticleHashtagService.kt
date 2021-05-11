@@ -10,17 +10,16 @@ import org.springframework.transaction.annotation.Transactional
 class ArticleHashtagService(
     private val repository: ArticleHashtagRepository
 ) {
-    @Transactional(readOnly = true)
     fun showAllByArticle(article: Article): List<ArticleHashtag> {
         return repository.findAllByArticle(article)
     }
 
     @Transactional
-    fun createAllByHashtags(articleHashtags: List<ArticleHashtag>) {
+    fun createAll(articleHashtags: List<ArticleHashtag>) {
         repository.saveAll(articleHashtags)
     }
 
-    fun createByHashtag(articleHashtag: ArticleHashtag) {
+    fun create(articleHashtag: ArticleHashtag) {
         repository.save(articleHashtag)
     }
 }

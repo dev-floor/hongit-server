@@ -9,17 +9,14 @@ import org.springframework.transaction.annotation.Transactional
 class HashtagService(
     private val repository: HashtagRepository
 ) {
-    @Transactional(readOnly = true)
     fun showByName(hashtagName: String): Hashtag {
         return repository.findByName(hashtagName)
     }
 
-    @Transactional(readOnly = true)
     fun showAllByNames(hashtags: List<String>): List<Hashtag> {
         return repository.findAllByNameIn(hashtags)
     }
 
-    @Transactional(readOnly = true)
     fun existsByName(hashtag: String): Boolean {
         return repository.existsByName(hashtag)
     }
