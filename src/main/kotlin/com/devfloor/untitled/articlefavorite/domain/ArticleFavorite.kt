@@ -26,7 +26,7 @@ import javax.persistence.Table
 class ArticleFavorite(
     article: Article,
     user: User,
-    type: ArticleFavoriteType
+    type: ArticleFavoriteType,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,4 +44,6 @@ class ArticleFavorite(
     @Column(name = "favorite_type")
     @Enumerated(value = EnumType.STRING)
     val type: ArticleFavoriteType = type
+
+    fun matchType(type: ArticleFavoriteType): Boolean = this.type == type
 }
