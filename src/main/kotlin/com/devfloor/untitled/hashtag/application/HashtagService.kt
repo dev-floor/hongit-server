@@ -3,7 +3,6 @@ package com.devfloor.untitled.hashtag.application
 import com.devfloor.untitled.hashtag.domain.Hashtag
 import com.devfloor.untitled.hashtag.domain.HashtagRepository
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
 class HashtagService(
@@ -25,7 +24,6 @@ class HashtagService(
         return repository.save(hashtag)
     }
 
-    @Transactional
     fun createAll(hashtags: List<Hashtag>): List<Hashtag> {
         return repository.saveAll(hashtags)
     }

@@ -4,7 +4,6 @@ import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.articleoption.domain.ArticleOption
 import com.devfloor.untitled.articleoption.domain.ArticleOptionRepository
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ArticleOptionService(
@@ -13,7 +12,6 @@ class ArticleOptionService(
     fun showAllByArticle(article: Article): List<ArticleOption> =
         repository.findAllByArticle(article)
 
-    @Transactional
     fun createAll(articleOptions: List<ArticleOption>) {
         repository.saveAll(articleOptions)
     }

@@ -4,7 +4,6 @@ import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtagRepository
 import org.springframework.stereotype.Service
-import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ArticleHashtagService(
@@ -14,7 +13,6 @@ class ArticleHashtagService(
         return repository.findAllByArticle(article)
     }
 
-    @Transactional
     fun createAll(articleHashtags: List<ArticleHashtag>) {
         repository.saveAll(articleHashtags)
     }
