@@ -16,5 +16,7 @@ class ArticleHashtagFacade(
             hashtags.filter { !articleHashtagService.existsById(it.id) }
                 .map { it.hashtag }
         )
+
+        // TODO: 게시글 생성 merge 이후 articleHashtag 생성 로직 추가 예정
     }
 }
