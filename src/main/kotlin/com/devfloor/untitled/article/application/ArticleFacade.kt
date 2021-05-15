@@ -1,6 +1,7 @@
 package com.devfloor.untitled.article.application
 
 import com.devfloor.untitled.articlefavorite.application.ArticleFavoriteService
+import com.devfloor.untitled.articlehashtag.application.ArticleHashtagFacade
 import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
 import com.devfloor.untitled.user.application.ProfileResponse
@@ -12,7 +13,8 @@ class ArticleFacade(
     private val articleService: ArticleService,
     private val articleHashtagService: ArticleHashtagService,
     private val articleFavoriteService: ArticleFavoriteService,
-    private val articleOptionService: ArticleOptionService
+    private val articleOptionService: ArticleOptionService,
+    private val articleHashtagFacade: ArticleHashtagFacade,
 ) {
     @Transactional(readOnly = true)
     fun showByArticleId(articleId: Long): ArticleResponse {
@@ -50,7 +52,7 @@ class ArticleFacade(
         )
         // TODO: save logic merge 후 추가 예정
 
-        articleHashtagService.modifyByArticle(article, articleModifyRequest.hashtags)
+        articleHashtagFacade.modifyByArticle(article, articleModifyRequest.hashtags)
         articleOptionService.modifyByArticle(article, articleModifyRequest.options)
     }
 }

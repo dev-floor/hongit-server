@@ -13,4 +13,8 @@ class ArticleHashtagService(
     @Transactional(readOnly = true)
     fun showAllByArticle(article: Article): List<ArticleHashtag> =
         repository.findAllByArticle(article)
+
+    fun destroyAllByArticle(article: Article) = repository.deleteAllByArticle(article)
+
+    fun existsById(id: Long): Boolean = repository.existsById(id)
 }
