@@ -37,4 +37,20 @@ class ArticleFacade(
             clips = favorites.count { it.type.isClip() }.toLong(),
         )
     }
+
+    @Transactional
+    fun modifyByArticleId(
+        articleId: Long,
+        articleModifyRequest: ArticleModifyRequest
+    ) {
+        val article = articleService.showById(articleId)
+        article.modify(
+            articleModifyRequest.title,
+            articleModifyRequest.content,
+        )
+        // TODO: save logic merge 후 추가 예정
+
+        articleHashtagService.modifyByArticle(article, articleModifyRequest.hashtags)
+        articleOptionService.modifyByArticle(article, articleModifyRequest.options)
+    }
 }

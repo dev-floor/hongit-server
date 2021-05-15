@@ -35,17 +35,19 @@ class Article(
 
     @Column(name = "title")
     var title: String? = title
-        protected set
 
     @Column(name = "anonymous")
-    var anonymous: Boolean = anonymous
-        protected set
+    val anonymous: Boolean = anonymous
 
     @Column(name = "content")
     var content: String = content
-        protected set
 
     @ManyToOne
     @JoinColumn(name = "author_id")
     val author: User = author
+
+    fun modify(title: String?, content: String) {
+        this.title = title
+        this.content = content
+    }
 }
