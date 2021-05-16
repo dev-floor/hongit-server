@@ -14,4 +14,8 @@ class ArticleService(
         ?: throw EntityNotFoundException("사용자가 요청한 리소스가 없습니다")
 
     fun showAll(): List<Article> = repository.findAll()
+
+    fun create(article: Article): Article {
+        return repository.save(article)
+    }
 }

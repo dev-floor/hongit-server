@@ -11,4 +11,12 @@ class ArticleHashtagService(
 ) {
     fun showAllByArticle(article: Article): List<ArticleHashtag> =
         repository.findAllByArticle(article)
+
+    fun createAll(articleHashtags: List<ArticleHashtag>) {
+        repository.saveAll(articleHashtags)
+    }
+
+    fun create(articleHashtag: ArticleHashtag) {
+        repository.save(articleHashtag)
+    }
 }

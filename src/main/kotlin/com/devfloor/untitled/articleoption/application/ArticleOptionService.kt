@@ -11,4 +11,12 @@ class ArticleOptionService(
 ) {
     fun showAllByArticle(article: Article): List<ArticleOption> =
         repository.findAllByArticle(article)
+
+    fun createAll(articleOptions: List<ArticleOption>) {
+        repository.saveAll(articleOptions)
+    }
+
+    fun create(articleOption: ArticleOption) {
+        repository.save(articleOption)
+    }
 }
