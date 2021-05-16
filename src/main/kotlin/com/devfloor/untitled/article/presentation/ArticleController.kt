@@ -19,8 +19,7 @@ class ArticleController(
 ) {
     @GetMapping(value = ["/articles/{id}"])
     @ResponseStatus(value = HttpStatus.OK)
-    fun showById(@PathVariable id: Long): ArticleResponse =
-        articleFacade.showByArticleId(id)
+    fun showById(@PathVariable id: Long): ArticleResponse = articleFacade.showByArticleId(id)
 
     @PostMapping(value = ["/articles"])
     @ResponseStatus(value = HttpStatus.CREATED)

@@ -48,4 +48,10 @@ class Article(
     @ManyToOne
     @JoinColumn(name = "author_id")
     val author: User = author
+
+    fun sliceContentByLength(length: Long): String {
+        if (content.length > length)
+            return content.substring(0, (length + 1).toInt())
+        return content
+    }
 }

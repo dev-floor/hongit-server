@@ -9,9 +9,8 @@ import org.springframework.stereotype.Service
 class ArticleHashtagService(
     private val repository: ArticleHashtagRepository
 ) {
-    fun showAllByArticle(article: Article): List<ArticleHashtag> {
-        return repository.findAllByArticle(article)
-    }
+    fun showAllByArticle(article: Article): List<ArticleHashtag> =
+        repository.findAllByArticle(article)
 
     fun createAll(articleHashtags: List<ArticleHashtag>) {
         repository.saveAll(articleHashtags)
