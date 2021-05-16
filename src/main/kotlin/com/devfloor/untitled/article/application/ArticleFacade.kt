@@ -5,6 +5,7 @@ import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
 import com.devfloor.untitled.articleoption.domain.ArticleOption
+import com.devfloor.untitled.hashtag.application.HashtagService
 import com.devfloor.untitled.option.application.OptionService
 import com.devfloor.untitled.user.application.ProfileResponse
 import com.devfloor.untitled.user.domain.User
@@ -18,7 +19,7 @@ class ArticleFacade(
     private val articleFavoriteService: ArticleFavoriteService,
     private val articleOptionService: ArticleOptionService,
     private val optionService: OptionService,
-    private val hashtagFacade: HashtagFacade
+    private val hashtagService: HashtagService,
 ) {
     @Transactional
     fun create(request: ArticleRequest, user: User): Long {
@@ -28,8 +29,9 @@ class ArticleFacade(
                 .map { ArticleOption(article, it) }
                 .let { articleOptionService.createAll(it) }
         }
-        val hashtags = hashtagFacade.createAll(request.hashtags)
-        articleHashtagService.createAll(hashtags.map { ArticleHashtag(article, it) })
+        request.hashtags.map { hashtagService.createByName(it) }
+            .map { articleHashtagService.create(ArticleHashtag(article, it)) }
+
         return article.id
     }
 

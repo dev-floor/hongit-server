@@ -6,6 +6,5 @@ import org.springframework.transaction.annotation.Transactional
 
 @Transactional(readOnly = true)
 interface ArticleOptionRepository : JpaRepository<ArticleOption, Long> {
-
     fun findAllByArticle(article: Article): List<ArticleOption>
 }

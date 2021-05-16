@@ -6,6 +6,5 @@ import org.springframework.transaction.annotation.Transactional
 
 @Transactional(readOnly = true)
 interface CommentRepository : JpaRepository<Comment, Long> {
-
     fun findAllByArticle(article: Article): List<Comment>
 }
