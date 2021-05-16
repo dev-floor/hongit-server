@@ -38,8 +38,7 @@ class Article(
         protected set
 
     @Column(name = "anonymous")
-    var anonymous: Boolean = anonymous
-        protected set
+    val anonymous: Boolean = anonymous
 
     @Column(name = "content")
     var content: String = content

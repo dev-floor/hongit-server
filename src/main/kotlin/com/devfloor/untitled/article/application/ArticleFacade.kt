@@ -1,7 +1,6 @@
 package com.devfloor.untitled.article.application
 
 import com.devfloor.untitled.articlefavorite.application.ArticleFavoriteService
-import com.devfloor.untitled.articlehashtag.application.ArticleHashtagFacade
 import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
@@ -20,18 +19,21 @@ class ArticleFacade(
     private val articleOptionService: ArticleOptionService,
     private val optionService: OptionService,
     private val hashtagService: HashtagService,
-    private val articleHashtagFacade: ArticleHashtagFacade,
 ) {
     @Transactional
     fun create(request: ArticleRequest, user: User): Long {
         val article = articleService.create(request.toArticle(request, user))
         if (request.isOptionsNotEmpty()) {
-            optionService.showAllByOptionType(request.options)
-                .map { ArticleOption(article, it) }
-                .let { articleOptionService.createAll(it) }
+            articleOptionService.createAll(article, request.options)
+//            optionService.showAllByOptionType(request.options)
+//                .map { ArticleOption(article, it) }
+//                .let { articleOptionService.createAll(it) }
         }
-        request.hashtags.map { hashtagService.createByName(it) }
-            .map { articleHashtagService.create(ArticleHashtag(article, it)) }
+
+        articleHashtagService.createAll(article, request.hashtags)
+
+//        request.hashtags.map { hashtagService.createByName(it) }
+//            .map { articleHashtagService.create(ArticleHashtag(article, it)) }
 
         return article.id
     }
@@ -61,9 +63,9 @@ class ArticleFacade(
             articleModifyRequest.title,
             articleModifyRequest.content,
         )
-        // TODO: save logic merge 후 추가 예정
+        articleService.create(article)
 
-        articleHashtagFacade.modifyByArticle(article, articleModifyRequest.hashtags)
+        articleHashtagService.modifyByArticle(article, articleModifyRequest.hashtags)
         articleOptionService.modifyByArticle(article, articleModifyRequest.options)
     }
 }
