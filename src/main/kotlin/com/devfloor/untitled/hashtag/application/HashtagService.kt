@@ -33,5 +33,4 @@ class HashtagService(
     fun createByName(hashtagName: String): Hashtag {
         return repository.findByName(hashtagName) ?: repository.save(Hashtag(hashtagName))
     }
-    fun destroyAll(hashtags: List<Hashtag>) = repository.deleteAll(hashtags)
 }

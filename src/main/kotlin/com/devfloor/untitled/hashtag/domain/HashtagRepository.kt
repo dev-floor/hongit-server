@@ -9,7 +9,4 @@ interface HashtagRepository : JpaRepository<Hashtag, Long> {
     fun findByName(hashtag: String): Hashtag?
 
     fun findAllByNameIn(hashtags: List<String>): List<Hashtag>
-
-    @Modifying(clearAutomatically = true)
-    fun deleteAll(hashtags: List<Hashtag>)
 }
