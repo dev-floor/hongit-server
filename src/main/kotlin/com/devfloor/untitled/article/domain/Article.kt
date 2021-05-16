@@ -35,16 +35,25 @@ class Article(
 
     @Column(name = "title")
     var title: String? = title
+        protected set
 
     @Column(name = "anonymous")
-    val anonymous: Boolean = anonymous
+    var anonymous: Boolean = anonymous
+        protected set
 
     @Column(name = "content")
     var content: String = content
+        protected set
 
     @ManyToOne
     @JoinColumn(name = "author_id")
     val author: User = author
+
+    fun sliceContentByLength(length: Long): String {
+        if (content.length > length)
+            return content.substring(0, (length + 1).toInt())
+        return content
+    }
 
     fun modify(title: String?, content: String) {
         this.title = title
