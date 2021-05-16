@@ -2,9 +2,7 @@ package com.devfloor.untitled.article.application
 
 import com.devfloor.untitled.articlefavorite.application.ArticleFavoriteService
 import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
-import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
-import com.devfloor.untitled.articleoption.domain.ArticleOption
 import com.devfloor.untitled.hashtag.application.HashtagService
 import com.devfloor.untitled.option.application.OptionService
 import com.devfloor.untitled.user.domain.User
@@ -56,16 +54,11 @@ class ArticleFacade(
     @Transactional
     fun modifyByArticleId(
         articleId: Long,
-        articleModifyRequest: ArticleModifyRequest
+        request: ArticleModifyRequest
     ) {
         val article = articleService.showById(articleId)
-        article.modify(
-            articleModifyRequest.title,
-            articleModifyRequest.content,
-        )
-        articleService.create(article)
-
-        articleHashtagService.modifyByArticle(article, articleModifyRequest.hashtags)
-        articleOptionService.modifyByArticle(article, articleModifyRequest.options)
+        articleService.modify(article, request.title, request.content)
+        articleHashtagService.modifyByArticle(article, request.hashtags)
+        articleOptionService.modifyByArticle(article, request.options)
     }
 }

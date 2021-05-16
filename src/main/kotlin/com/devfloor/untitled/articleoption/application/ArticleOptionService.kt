@@ -1,7 +1,6 @@
 package com.devfloor.untitled.articleoption.application
 
 import com.devfloor.untitled.article.domain.Article
-import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
 import com.devfloor.untitled.articleoption.domain.ArticleOption
 import com.devfloor.untitled.articleoption.domain.ArticleOptionRepository
 import com.devfloor.untitled.option.application.OptionService
@@ -22,7 +21,7 @@ class ArticleOptionService(
     fun createAll(article: Article, options: List<String>) {
         optionService.showAllByOptionType(options)
             .map { ArticleOption(article, it) }
-            .let { repository.saveAll(it)}
+            .let { repository.saveAll(it) }
     }
 
 //    fun create(articleOption: ArticleOption) {

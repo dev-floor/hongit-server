@@ -42,6 +42,6 @@ class ArticleController(
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     fun modifyById(
         @PathVariable id: Long,
-        @RequestBody modifyRequest: ArticleModifyRequest,
-    ) = articleFacade.modifyByArticleId(id, modifyRequest)
+        @RequestBody request: ArticleModifyRequest,
+    ) = articleFacade.modifyByArticleId(id, request)
 }

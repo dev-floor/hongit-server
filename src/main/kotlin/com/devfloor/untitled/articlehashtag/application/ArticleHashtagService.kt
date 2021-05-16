@@ -4,7 +4,6 @@ import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtagRepository
 import com.devfloor.untitled.hashtag.application.HashtagService
-import com.devfloor.untitled.hashtag.domain.Hashtag
 import org.springframework.stereotype.Service
 
 @Service

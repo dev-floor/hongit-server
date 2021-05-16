@@ -18,4 +18,9 @@ class ArticleService(
     fun create(article: Article): Article {
         return repository.save(article)
     }
+
+    fun modify(article: Article, title: String?, content: String) {
+        article.modify(title, content)
+        create(article)
+    }
 }
