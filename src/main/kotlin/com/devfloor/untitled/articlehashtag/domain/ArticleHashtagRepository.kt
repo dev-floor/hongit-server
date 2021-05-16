@@ -12,6 +12,6 @@ interface ArticleHashtagRepository : JpaRepository<ArticleHashtag, Long> {
 
     @Transactional
     @Modifying(clearAutomatically = true, flushAutomatically = true)
-    @Query("DELETE FROM ArticleHashtag WHERE article = :article") // TODO : queryDSL 로?
+    @Query(value = "DELETE FROM ArticleHashtag WHERE article = :article") // TODO : queryDSL 로?
     fun deleteAllByArticle(article: Article)
 }
