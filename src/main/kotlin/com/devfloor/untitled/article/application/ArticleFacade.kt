@@ -2,7 +2,9 @@ package com.devfloor.untitled.article.application
 
 import com.devfloor.untitled.articlefavorite.application.ArticleFavoriteService
 import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
+import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
+import com.devfloor.untitled.articleoption.domain.ArticleOption
 import com.devfloor.untitled.hashtag.application.HashtagService
 import com.devfloor.untitled.option.application.OptionService
 import com.devfloor.untitled.user.domain.User
@@ -22,16 +24,12 @@ class ArticleFacade(
     fun create(request: ArticleRequest, user: User): Long {
         val article = articleService.create(request.toArticle(request, user))
         if (request.isOptionsNotEmpty()) {
-            articleOptionService.createAll(article, request.options)
-//            optionService.showAllByOptionType(request.options)
-//                .map { ArticleOption(article, it) }
-//                .let { articleOptionService.createAll(it) }
+            optionService.showAllByOptionType(request.options)
+                .map { ArticleOption(article, it) }
+                .let { articleOptionService.createAll(it) }
         }
-
-        articleHashtagService.createAll(article, request.hashtags)
-
-//        request.hashtags.map { hashtagService.createByName(it) }
-//            .map { articleHashtagService.create(ArticleHashtag(article, it)) }
+        request.hashtags.map { hashtagService.createByName(it) }
+            .map { articleHashtagService.create(ArticleHashtag(article, it)) }
 
         return article.id
     }

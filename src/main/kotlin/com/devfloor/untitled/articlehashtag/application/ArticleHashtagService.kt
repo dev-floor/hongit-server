@@ -18,22 +18,22 @@ class ArticleHashtagService(
 //        repository.saveAll(articleHashtags)
 //    }
 
-    fun createAll(article: Article, hashtags: List<String>) {
-        hashtags.map { hashtagService.createByName(it) }
-            .map { ArticleHashtag(article, it) }
-            .let { repository.saveAll(it) }
+    fun create(articleHashtag: ArticleHashtag) {
+        repository.save(articleHashtag)
     }
-
-//    fun create(articleHashtag: ArticleHashtag) {
-//        repository.save(articleHashtag)
-//    }
 
     fun destroyAllByArticle(article: Article) = repository.deleteAllByArticle(article)
 
-//    fun existsById(id: Long): Boolean = repository.existsById(id)
+//    fun createAll(article: Article, hashtags: List<String>) {
+//        hashtags.map { hashtagService.createByName(it) }
+//            .map { ArticleHashtag(article, it) }
+//            .let { repository.saveAll(it) }
+//    }
 
     fun modifyByArticle(article: Article, hashtags: List<String>) {
         destroyAllByArticle(article)
-        createAll(article, hashtags)
+        hashtags.map { hashtagService.createByName(it) } // TODO(): 위의 createAll 메서드 사용 예정
+            .map { ArticleHashtag(article, it) }
+            .let { repository.saveAll(it) }
     }
 }
