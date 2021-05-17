@@ -4,9 +4,7 @@ import com.devfloor.untitled.articlefavorite.application.ArticleFavoriteService
 import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
-import com.devfloor.untitled.articleoption.domain.ArticleOption
 import com.devfloor.untitled.hashtag.application.HashtagService
-import com.devfloor.untitled.option.application.OptionService
 import com.devfloor.untitled.user.domain.User
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -17,17 +15,14 @@ class ArticleFacade(
     private val articleHashtagService: ArticleHashtagService,
     private val articleFavoriteService: ArticleFavoriteService,
     private val articleOptionService: ArticleOptionService,
-    private val optionService: OptionService,
     private val hashtagService: HashtagService,
 ) {
     @Transactional
     fun create(request: ArticleRequest, user: User): Long {
         val article = articleService.create(request.toArticle(request, user))
-        if (request.isOptionsNotEmpty()) {
-            optionService.showAllByOptionType(request.options)
-                .map { ArticleOption(article, it) }
-                .let { articleOptionService.createAll(it) }
-        }
+        if (request.isOptionsNotEmpty())
+            articleOptionService.createAll(article, request.options)
+
         request.hashtags.map { hashtagService.createByName(it) }
             .map { articleHashtagService.create(ArticleHashtag(article, it)) }
 
@@ -56,7 +51,8 @@ class ArticleFacade(
     ) {
         val article = articleService.showById(articleId)
         articleService.modify(article, request.title, request.content)
-        articleHashtagService.modifyByArticle(article, request.hashtags)
+        request.hashtags.map { hashtagService.createByName(it) }
+            .let { articleHashtagService.modifyByArticle(article, it) }
         articleOptionService.modifyByArticle(article, request.options)
     }
 }
