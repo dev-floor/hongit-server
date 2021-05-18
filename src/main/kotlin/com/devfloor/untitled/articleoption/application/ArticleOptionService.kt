@@ -14,14 +14,6 @@ class ArticleOptionService(
     fun showAllByArticle(article: Article): List<ArticleOption> =
         repository.findAllByArticle(article)
 
-//    fun createAll(articleOptions: List<ArticleOption>) {
-//        repository.saveAll(articleOptions)
-//    }
-
-//    fun create(articleOption: ArticleOption) {
-//        repository.save(articleOption)
-//    }
-
     fun createAll(article: Article, options: List<String>) {
         optionService.showAllByOptionType(options)
             .map { ArticleOption(article, it) }
@@ -29,9 +21,7 @@ class ArticleOptionService(
     }
 
     fun modifyByArticle(article: Article, options: List<String>) {
-        destroyAllByArticle(article)
+        repository.deleteAllByArticle(article)
         createAll(article, options)
     }
-
-    private fun destroyAllByArticle(article: Article) = repository.deleteAllByArticle(article)
 }

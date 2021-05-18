@@ -21,6 +21,6 @@ class ArticleService(
 
     fun modify(article: Article, title: String?, content: String) {
         article.modify(title = title, content = content)
-        create(article)
+        repository.save(article)
     }
 }
