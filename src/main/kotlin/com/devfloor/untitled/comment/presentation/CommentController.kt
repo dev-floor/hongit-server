@@ -1,6 +1,5 @@
 package com.devfloor.untitled.comment.presentation
 
-import com.devfloor.untitled.comment.application.CommentFacade
 import com.devfloor.untitled.comment.application.CommentService
 import com.devfloor.untitled.comment.application.request.CommentRequest
 import com.devfloor.untitled.user.domain.User
@@ -14,13 +13,12 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class CommentController(
-    private val commentFacade: CommentFacade,
     private val commentService: CommentService,
 ) {
     @GetMapping(value = ["/articles/{articleId}/comments"])
     @ResponseStatus(value = HttpStatus.OK)
     fun showAllByArticleId(@PathVariable articleId: Long) =
-        commentFacade.showAllByArticleId(articleId)
+        commentService.showAllByArticleId(articleId)
 
     @PostMapping(value = ["/articles/{articleId}/comments"])
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -28,7 +26,5 @@ class CommentController(
         @PathVariable articleId: Long,
         @RequestBody request: CommentRequest,
         author: User,
-    ) {
-        commentService.create(articleId, author, request)
-    }
+    ) = commentService.create(articleId, author, request)
 }

@@ -1,4 +1,4 @@
-package com.devfloor.untitled.comment.application
+package com.devfloor.untitled.comment.application.response
 
 import com.devfloor.untitled.comment.domain.Comment
 import com.devfloor.untitled.user.application.ProfileResponse
