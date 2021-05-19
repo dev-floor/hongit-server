@@ -22,13 +22,13 @@ class CommentController(
     fun showAllByArticleId(@PathVariable articleId: Long) =
         commentFacade.showAllByArticleId(articleId)
 
-    @PostMapping(value = ["/articles/{articleId}/comments/{commentId}"])
+    @PostMapping(value = ["/articles/{articleId}/comments"])
     @ResponseStatus(value = HttpStatus.CREATED)
     fun create(
         @PathVariable articleId: Long,
-        @PathVariable commentId: Long,
         @RequestBody request: CommentRequest,
-        user: User,
+        author: User,
     ) {
+        commentService.create(articleId, author, request)
     }
 }
