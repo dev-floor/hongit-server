@@ -25,5 +25,6 @@ class CommentService(
         val article = articleService.showById(articleId)
         return Comment(article, author, request.anonymous, request.content)
             .let { repository.save(it) }
+            .also { CommentResponse(it) }
     }
 }

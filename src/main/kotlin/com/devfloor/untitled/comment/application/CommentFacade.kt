@@ -17,7 +17,6 @@ class CommentFacade(
             .let { commentService.showAllByArticle(it) }
             .map {
                 CommentResponse(
-                    user = it.author,
                     comment = it,
                     favorites = commentFavoriteService.countAllByComment(it),
                 )
