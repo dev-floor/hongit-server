@@ -8,11 +8,5 @@ package com.devfloor.untitled.articlefavorite.domain
 enum class ArticleFavoriteType(val text: String) {
     FAVORITE("좋아요"),
     WONDER("나도 궁금해요"),
-    CLIP("스크랩");
-
-    fun isFavorite(): Boolean = this == FAVORITE
-
-    fun isWonder(): Boolean = this == WONDER
-
-    fun isClip(): Boolean = this == CLIP
+    CLIP("스크랩"),
 }

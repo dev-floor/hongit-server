@@ -43,5 +43,5 @@ class ArticleController(
     fun modifyById(
         @PathVariable id: Long,
         @RequestBody request: ArticleModifyRequest,
-    ): Unit = articleFacade.modifyByArticleId(id, request)
+    ) = articleFacade.modifyByArticleId(id, request)
 }

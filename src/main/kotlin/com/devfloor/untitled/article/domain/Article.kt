@@ -49,10 +49,9 @@ class Article(
     val author: User = author
 
     fun sliceContentByLength(length: Long): String {
-        if (content.length > length) {
-            return content.substring(startIndex = 0, endIndex = (length + 1).toInt())
-        }
-        return content
+        return if (content.length > length)
+            content.substring(startIndex = 0, endIndex = (length + 1).toInt())
+        else content
     }
 
     fun modify(title: String?, content: String) {

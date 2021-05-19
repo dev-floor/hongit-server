@@ -22,11 +22,10 @@ class ArticleFacade(
     @Transactional
     fun create(request: ArticleRequest, user: User): Long {
         val article = articleService.create(request.toArticle(request, user))
-        if (request.isOptionsNotEmpty()) {
+        if (request.isOptionsNotEmpty) {
             optionService.showAllByOptionType(request.options)
-                    .let { articleOptionService.modifyByArticle(article, it) }
+                .let { articleOptionService.modifyByArticle(article, it) }
         }
-        
         request.hashtags.map { hashtagService.createByName(it) }
             .map { articleHashtagService.create(ArticleHashtag(article, it)) }
 
@@ -35,17 +34,18 @@ class ArticleFacade(
 
     @Transactional(readOnly = true)
     fun showByArticleId(articleId: Long): ArticleResponse {
-        val article = articleService.showById(articleId)
-        val options = articleOptionService.showAllByArticle(article)
-        val hashtags = articleHashtagService.showAllByArticle(article)
-        val favorites = articleFavoriteService.showAllByArticle(article)
+        articleService.showById(articleId).let {
+            val options = articleOptionService.showAllByArticle(it)
+            val hashtags = articleHashtagService.showAllByArticle(it)
+            val favorites = articleFavoriteService.showAllByArticle(it)
 
-        return ArticleResponse(
-            options = options,
-            article = article,
-            hashtags = hashtags,
-            favorites = favorites,
-        )
+            return ArticleResponse(
+                options = options,
+                article = it,
+                hashtags = hashtags,
+                favorites = favorites,
+            )
+        }
     }
 
     @Transactional
@@ -53,11 +53,12 @@ class ArticleFacade(
         articleId: Long,
         request: ArticleModifyRequest
     ) {
-        val article = articleService.showById(articleId)
-        articleService.modify(article, request.title, request.content)
-        request.hashtags.map { hashtagService.createByName(it) }
-            .let { articleHashtagService.modifyByArticle(article, it) }
-        optionService.showAllByOptionType(request.options)
-            .let { articleOptionService.modifyByArticle(article, it) }
+        articleService.showById(articleId).let { article ->
+            articleService.modify(article, request.title, request.content)
+            request.hashtags.map { hashtagService.createByName(it) }
+                .let { articleHashtagService.modifyByArticle(article, it) }
+            optionService.showAllByOptionType(request.options)
+                .let { articleOptionService.modifyByArticle(article, it) }
+        }
     }
 }
