@@ -20,7 +20,6 @@ class ArticleService(
     }
 
     fun modify(article: Article, title: String?, content: String) {
-        article.modify(title = title, content = content)
-        repository.save(article)
+        article.modify(title, content)
     }
 }

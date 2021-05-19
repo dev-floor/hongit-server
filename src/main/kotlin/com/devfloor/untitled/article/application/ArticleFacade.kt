@@ -5,6 +5,7 @@ import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
 import com.devfloor.untitled.hashtag.application.HashtagService
+import com.devfloor.untitled.option.application.OptionService
 import com.devfloor.untitled.user.domain.User
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -16,13 +17,16 @@ class ArticleFacade(
     private val articleFavoriteService: ArticleFavoriteService,
     private val articleOptionService: ArticleOptionService,
     private val hashtagService: HashtagService,
+    private val optionService: OptionService,
 ) {
     @Transactional
     fun create(request: ArticleRequest, user: User): Long {
         val article = articleService.create(request.toArticle(request, user))
-        if (request.isOptionsNotEmpty())
-            articleOptionService.createAll(article, request.options)
-
+        if (request.isOptionsNotEmpty()) {
+            optionService.showAllByOptionType(request.options)
+                    .let { articleOptionService.modifyByArticle(article, it) }
+        }
+        
         request.hashtags.map { hashtagService.createByName(it) }
             .map { articleHashtagService.create(ArticleHashtag(article, it)) }
 
@@ -53,6 +57,7 @@ class ArticleFacade(
         articleService.modify(article, request.title, request.content)
         request.hashtags.map { hashtagService.createByName(it) }
             .let { articleHashtagService.modifyByArticle(article, it) }
-        articleOptionService.modifyByArticle(article, request.options)
+        optionService.showAllByOptionType(request.options)
+            .let { articleOptionService.modifyByArticle(article, it) }
     }
 }
