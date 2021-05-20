@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 
 data class CommentResponse(
+    val id: Long,
+
     val user: ProfileResponse,
 
     val anonymous: Boolean,
@@ -22,13 +24,14 @@ data class CommentResponse(
 ) {
     constructor(
         comment: Comment,
-        favorites: Long
+        favorites: Long = 0,
     ) : this(
+        id = comment.id,
         user = ProfileResponse(comment.author),
         anonymous = comment.anonymous,
         content = comment.content,
         favorites = favorites,
         createdDate = comment.createdDate,
-        modifiedDate = comment.modifiedDate
+        modifiedDate = comment.modifiedDate,
     )
 }
