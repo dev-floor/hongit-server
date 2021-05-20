@@ -18,5 +18,5 @@ class ArticleService(
     fun create(article: Article): Article = repository.save(article)
 
     fun modify(id: Long, title: String?, content: String): Article =
-        showById(id).modify(title, content)
+        showById(id).apply { modify(title, content) }
 }

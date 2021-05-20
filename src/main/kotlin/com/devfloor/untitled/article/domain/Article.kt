@@ -53,9 +53,8 @@ class Article(
             content.substring(startIndex = 0, endIndex = (length + 1).toInt())
         else content
 
-    fun modify(title: String?, content: String): Article =
-        this.apply {
-            this.title = title
-            this.content = content
-        }
+    fun modify(title: String?, content: String) {
+        this.title = title
+        this.content = content
+    }
 }
