@@ -15,11 +15,8 @@ class ArticleService(
 
     fun showAll(): List<Article> = repository.findAll()
 
-    fun create(article: Article): Article {
-        return repository.save(article)
-    }
+    fun create(article: Article): Article = repository.save(article)
 
-    fun modify(article: Article, title: String?, content: String) {
-        article.modify(title, content)
-    }
+    fun modify(id: Long, title: String?, content: String): Article =
+        showById(id).modify(title, content)
 }

@@ -10,14 +10,13 @@ data class ArticleRequest(
     val content: String,
     val hashtags: List<String>
 ) {
-    val isOptionsNotEmpty: Boolean = options.isNotEmpty()
+    val isOptionsNotEmpty get() = options.isNotEmpty()
 
-    fun toArticle(articleRequest: ArticleRequest, user: User): Article {
-        return Article(
+    fun toArticle(articleRequest: ArticleRequest, user: User): Article =
+        Article(
             title = articleRequest.title,
             anonymous = articleRequest.anonymous,
             content = articleRequest.content,
             author = user
         )
-    }
 }
