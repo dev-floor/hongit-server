@@ -12,19 +12,19 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CommentService(
-    private val repository: CommentRepository,
+    private val commentRepository: CommentRepository,
     private val articleService: ArticleService,
     private val commentFavoriteService: CommentFavoriteService,
 ) {
     @Transactional(readOnly = true)
     fun showAllByArticleId(articleId: Long): List<CommentResponse> {
         val comments = articleService.showById(articleId)
-            .let { repository.findAllByArticle(it) }
+            .let(commentRepository::findAllByArticle)
 
         return comments.map {
             CommentResponse(
                 comment = it,
-                favorites = commentFavoriteService.countAllByComment(it)
+                favorites = commentFavoriteService.countAllByComment(it),
             )
         }
     }
@@ -34,11 +34,11 @@ class CommentService(
         articleId: Long,
         author: User,
         request: CommentRequest,
-    ): Comment {
+    ): CommentResponse {
         val article = articleService.showById(articleId)
 
         return Comment(article, author, request.anonymous, request.content)
-            .let { repository.save(it) }
-            .also { CommentResponse(it) }
+            .let(commentRepository::save)
+            .let(::CommentResponse)
     }
 }
