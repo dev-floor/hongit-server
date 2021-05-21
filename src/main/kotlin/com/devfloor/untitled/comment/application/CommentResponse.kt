@@ -24,13 +24,13 @@ data class CommentResponse(
     constructor(
         user: User,
         comment: Comment,
-        favorites: Long
+        favorites: Long,
     ) : this(
         user = ProfileResponse(user),
         anonymous = comment.anonymous,
         content = comment.content,
         favorites = favorites,
         createdDate = comment.createdDate,
-        modifiedDate = comment.modifiedDate
+        modifiedDate = comment.modifiedDate,
     )
 }

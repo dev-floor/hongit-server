@@ -21,8 +21,8 @@ class ArticleFacade(
 ) {
     @Transactional
     fun create(request: ArticleRequest, user: User): Long {
-        val article = articleService.create(request.toArticle(request, user))
-        if (request.isOptionsNotEmpty) {
+        val article = articleService.create(request.toArticle(user))
+        if (request.hasOptions) {
             optionService.showAllByOptionType(request.options)
                 .let { articleOptionService.createAll(article, it) }
         }
@@ -42,17 +42,17 @@ class ArticleFacade(
                 val articleFavorites = articleFavoriteService.showAllByArticle(it)
 
                 ArticleResponse(
-                    options = articleOptions,
+                    articleOptions = articleOptions,
                     article = it,
-                    hashtags = articleHashtags,
-                    favorites = articleFavorites,
+                    articleHashtags = articleHashtags,
+                    articleFavorites = articleFavorites,
                 )
             }
 
     @Transactional
     fun modifyByArticleId(
         articleId: Long,
-        request: ArticleModifyRequest
+        request: ArticleModifyRequest,
     ) {
         val article = articleService.modify(articleId, request.title, request.content)
 

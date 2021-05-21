@@ -5,18 +5,18 @@ import com.devfloor.untitled.user.domain.User
 
 data class ArticleRequest(
     val options: List<String>,
-    val title: String? = null,
+    val title: String?,
     val anonymous: Boolean,
     val content: String,
-    val hashtags: List<String>
+    val hashtags: List<String>,
 ) {
-    val isOptionsNotEmpty get() = options.isNotEmpty()
+    val hasOptions get() = options.isNotEmpty()
 
-    fun toArticle(articleRequest: ArticleRequest, user: User): Article =
+    fun toArticle(author: User): Article =
         Article(
-            title = articleRequest.title,
-            anonymous = articleRequest.anonymous,
-            content = articleRequest.content,
-            author = user
+            title = this.title,
+            anonymous = this.anonymous,
+            content = this.content,
+            author = author,
         )
 }
