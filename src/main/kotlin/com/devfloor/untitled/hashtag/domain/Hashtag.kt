@@ -16,7 +16,7 @@ import javax.persistence.Table
 @Entity
 @Table(name = "hashtags")
 class Hashtag(
-    name: String
+    name: String,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

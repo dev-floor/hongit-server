@@ -35,21 +35,21 @@ data class ArticleResponse(
     val clips: Long,
 ) {
     constructor(
-        options: List<ArticleOption>,
+        articleOptions: List<ArticleOption>,
         article: Article,
-        hashtags: List<ArticleHashtag>,
-        favorites: List<ArticleFavorite>,
+        articleHashtags: List<ArticleHashtag>,
+        articleFavorites: List<ArticleFavorite>,
     ) : this(
-        options = options.map { it.option.type.name },
+        options = articleOptions.map { it.option.type.name },
         title = article.title,
         anonymous = article.anonymous,
         content = article.content,
         author = ProfileResponse(article.author),
         createdDate = article.createdDate,
         modifiedDate = article.modifiedDate,
-        hashtags = hashtags.map { it.hashtag.name },
-        favorites = favorites.count { it.matchType(ArticleFavoriteType.FAVORITE) }.toLong(),
-        wonders = favorites.count { it.matchType(ArticleFavoriteType.WONDER) }.toLong(),
-        clips = favorites.count { it.matchType(ArticleFavoriteType.CLIP) }.toLong(),
+        hashtags = articleHashtags.map { it.hashtag.name },
+        favorites = articleFavorites.count { it.matchType(ArticleFavoriteType.FAVORITE) }.toLong(),
+        wonders = articleFavorites.count { it.matchType(ArticleFavoriteType.WONDER) }.toLong(),
+        clips = articleFavorites.count { it.matchType(ArticleFavoriteType.CLIP) }.toLong(),
     )
 }

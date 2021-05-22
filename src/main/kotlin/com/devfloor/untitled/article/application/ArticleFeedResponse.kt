@@ -33,12 +33,12 @@ data class ArticleFeedResponse(
     val clips: Long,
 ) {
     constructor(
-        options: List<ArticleOption>,
+        articleOptions: List<ArticleOption>,
         article: Article,
         articleFavorites: List<ArticleFavorite>,
     ) : this(
         id = article.id,
-        options = options.map { it.option.type.text },
+        options = articleOptions.map { it.option.type.text },
         title = article.title,
         anonymous = article.anonymous,
         authorName = article.author.nickname,

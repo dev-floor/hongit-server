@@ -38,8 +38,7 @@ class Article(
         protected set
 
     @Column(name = "anonymous")
-    var anonymous: Boolean = anonymous
-        protected set
+    val anonymous: Boolean = anonymous
 
     @Column(name = "content")
     var content: String = content
@@ -49,9 +48,13 @@ class Article(
     @JoinColumn(name = "author_id")
     val author: User = author
 
-    fun sliceContentByLength(length: Long): String {
+    fun sliceContentByLength(length: Long): String =
         if (content.length > length)
-            return content.substring(0, (length + 1).toInt())
-        return content
+            content.substring(startIndex = 0, endIndex = (length + 1).toInt())
+        else content
+
+    fun modify(title: String?, content: String) {
+        this.title = title
+        this.content = content
     }
 }
