@@ -2,6 +2,8 @@ package com.devfloor.untitled.articlefavorite.domain
 
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.user.domain.User
+import org.hibernate.annotations.OnDelete
+import org.hibernate.annotations.OnDeleteAction
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType

@@ -19,4 +19,6 @@ class ArticleService(
 
     fun modify(id: Long, title: String?, content: String): Article =
         showById(id).apply { modify(title, content) }
+
+    fun destroyById(id: Long) = repository.deleteById(id)
 }
