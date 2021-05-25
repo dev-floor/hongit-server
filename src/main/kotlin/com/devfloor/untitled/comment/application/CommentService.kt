@@ -13,14 +13,16 @@ class CommentService(
     private val repository: CommentRepository,
     private val articleService: ArticleService,
 ) {
-    @Transactional(readOnly = true)
-    fun showByCommentId(commentId: Long): Comment = repository.findByIdOrNull(commentId)
+    private fun showByCommentId(commentId: Long): Comment = repository.findByIdOrNull(commentId)
         ?: throw EntityNotFoundException("존재하지 않는 댓글입니다.")
 
     @Transactional
     fun modifyByArticleId(articleId: Long, commentId: Long, request: CommentModifyRequest) {
         val article = articleService.showById(articleId)
-        val comment = showByCommentId(commentId)
-        comment.modify(Comment(article, comment.author, comment.anonymous, request.content))
+        showByCommentId(commentId).apply {
+            modify(
+                Comment(article, this.author, this.anonymous, request.content)
+            )
+        }
     }
 }

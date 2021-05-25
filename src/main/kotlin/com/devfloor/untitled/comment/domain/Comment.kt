@@ -3,7 +3,15 @@ package com.devfloor.untitled.comment.domain
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.common.domain.BaseEntity
 import com.devfloor.untitled.user.domain.User
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.GenerationType
+import javax.persistence.Id
+import javax.persistence.JoinColumn
+import javax.persistence.Lob
+import javax.persistence.ManyToOne
+import javax.persistence.Table
 
 /**
  * 댓글을 관리하는 entity
@@ -44,7 +52,6 @@ class Comment(
     var content: String = content
         protected set
 
-    fun modify(comment: Comment) {
-        this.content = comment.content
-    }
+    fun modify(comment: Comment) = comment.content
+
 }
