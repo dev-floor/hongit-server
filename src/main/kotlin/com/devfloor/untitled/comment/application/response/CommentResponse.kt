@@ -1,13 +1,14 @@
-package com.devfloor.untitled.comment.application
+package com.devfloor.untitled.comment.application.response
 
 import com.devfloor.untitled.comment.domain.Comment
 import com.devfloor.untitled.user.application.ProfileResponse
-import com.devfloor.untitled.user.domain.User
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 
 data class CommentResponse(
-    val user: ProfileResponse,
+    val id: Long,
+
+    val author: ProfileResponse,
 
     val anonymous: Boolean,
 
@@ -22,11 +23,11 @@ data class CommentResponse(
     val modifiedDate: LocalDateTime,
 ) {
     constructor(
-        user: User,
         comment: Comment,
-        favorites: Long,
+        favorites: Long = 0,
     ) : this(
-        user = ProfileResponse(user),
+        id = comment.id,
+        author = ProfileResponse(comment.author),
         anonymous = comment.anonymous,
         content = comment.content,
         favorites = favorites,

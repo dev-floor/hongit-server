@@ -1,7 +1,4 @@
 spring:
-  profiles:
-    include: common
-
   datasource:
     url: jdbc:h2:mem:untitled;mode=MYSQL;IFEXISTS=FALSE;
     username: sa
@@ -13,5 +10,17 @@ spring:
       enabled: true
 
   jpa:
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+    generate-ddl: true
     hibernate:
       ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+logging:
+  level:
+    org.hibernate:
+      SQL: DEBUG
+      type.descriptor.sql: trace

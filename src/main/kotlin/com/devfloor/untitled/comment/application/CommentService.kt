@@ -1,15 +1,44 @@
 package com.devfloor.untitled.comment.application
 
-import com.devfloor.untitled.article.domain.Article
+import com.devfloor.untitled.article.application.ArticleService
+import com.devfloor.untitled.comment.application.request.CommentRequest
+import com.devfloor.untitled.comment.application.response.CommentResponse
 import com.devfloor.untitled.comment.domain.Comment
 import com.devfloor.untitled.comment.domain.CommentRepository
+import com.devfloor.untitled.commentfavorite.application.CommentFavoriteService
+import com.devfloor.untitled.user.domain.User
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CommentService(
     private val commentRepository: CommentRepository,
+    private val articleService: ArticleService,
+    private val commentFavoriteService: CommentFavoriteService,
 ) {
-    fun showAllByArticle(article: Article): List<Comment> {
-        return commentRepository.findAllByArticle(article)
+    @Transactional(readOnly = true)
+    fun showAllByArticleId(articleId: Long): List<CommentResponse> {
+        val comments = articleService.showById(articleId)
+            .let(commentRepository::findAllByArticle)
+
+        return comments.map {
+            CommentResponse(
+                comment = it,
+                favorites = commentFavoriteService.countAllByComment(it),
+            )
+        }
+    }
+
+    @Transactional
+    fun create(
+        articleId: Long,
+        author: User,
+        request: CommentRequest,
+    ): CommentResponse {
+        val article = articleService.showById(articleId)
+
+        return Comment(article, author, request.anonymous, request.content)
+            .let(commentRepository::save)
+            .let(::CommentResponse)
     }
 }

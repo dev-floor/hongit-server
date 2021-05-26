@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class ArticleFavoriteService(
-    private val repository: ArticleFavoriteRepository
+    private val repository: ArticleFavoriteRepository,
 ) {
     fun showAllByArticle(article: Article): List<ArticleFavorite> =
         repository.findAllByArticle(article)
