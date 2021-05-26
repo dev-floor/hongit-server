@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 data class CommentResponse(
     val id: Long,
 
-    val user: ProfileResponse,
+    val author: ProfileResponse,
 
     val anonymous: Boolean,
 
@@ -27,7 +27,7 @@ data class CommentResponse(
         favorites: Long = 0,
     ) : this(
         id = comment.id,
-        user = ProfileResponse(comment.author),
+        author = ProfileResponse(comment.author),
         anonymous = comment.anonymous,
         content = comment.content,
         favorites = favorites,
