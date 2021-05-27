@@ -5,12 +5,12 @@ package com.devfloor.untitled.option.domain
  *
  * @property text 옵션의 유형
  */
-enum class OptionType(text: String) {
+enum class OptionType(
+    val text: String,
+) {
     COURSE_GROUP("분반"),
     ARTICLE_KIND("게시글 종류")
     ;
-
-    val text: String = text
 
     companion object {
         fun from(text: String): OptionType {
