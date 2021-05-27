@@ -1,5 +1,8 @@
 package com.devfloor.untitled.article.application
 
+import com.devfloor.untitled.article.application.request.ArticleModifyRequest
+import com.devfloor.untitled.article.application.request.ArticleRequest
+import com.devfloor.untitled.article.application.response.ArticleResponse
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.article.domain.ArticleRepository
 import com.devfloor.untitled.articlefavorite.application.ArticleFavoriteService
@@ -23,7 +26,7 @@ class ArticleService(
     private val hashtagService: HashtagService,
     private val optionService: OptionService,
 ) {
-    private fun showByArticleIdOrNull(articleId: Long) = repository.findByIdOrNull(articleId)
+    fun showByArticleIdOrNull(articleId: Long) = repository.findByIdOrNull(articleId)
         ?: throw EntityNotFoundException("사용자가 요청한 리소스가 없습니다")
 
     @Transactional(readOnly = true)

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service
 class HashtagService(
     private val repository: HashtagRepository,
 ) {
-    fun createByName(hashtagName: String): Hashtag {
-        return repository.findByName(hashtagName) ?: repository.save(Hashtag(hashtagName))
-    }
+    fun createByName(hashtagName: String): Hashtag =
+        repository.findByName(hashtagName) ?: repository.save(Hashtag(hashtagName))
 }

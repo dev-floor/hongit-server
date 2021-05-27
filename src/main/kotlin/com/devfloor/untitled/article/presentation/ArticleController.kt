@@ -1,8 +1,8 @@
 package com.devfloor.untitled.article.presentation
 
-import com.devfloor.untitled.article.application.ArticleModifyRequest
-import com.devfloor.untitled.article.application.ArticleRequest
-import com.devfloor.untitled.article.application.ArticleResponse
+import com.devfloor.untitled.article.application.request.ArticleModifyRequest
+import com.devfloor.untitled.article.application.request.ArticleRequest
+import com.devfloor.untitled.article.application.response.ArticleResponse
 import com.devfloor.untitled.article.application.ArticleService
 import com.devfloor.untitled.user.domain.User
 import com.devfloor.untitled.user.domain.UserType

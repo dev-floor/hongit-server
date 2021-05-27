@@ -15,7 +15,6 @@ class ArticleHashtagService(
 
     fun create(articleHashtag: ArticleHashtag) = repository.save(articleHashtag)
 
-
     fun createAll(article: Article, hashtags: List<Hashtag>) {
         hashtags.map { ArticleHashtag(article, it) }
             .let { repository.saveAll(it) }

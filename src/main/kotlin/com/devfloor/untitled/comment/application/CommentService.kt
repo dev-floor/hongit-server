@@ -20,7 +20,7 @@ class CommentService(
 ) {
     @Transactional(readOnly = true)
     fun showAllByArticleId(articleId: Long): List<CommentResponse> {
-        val comments = articleService.showById(articleId)
+        val comments = articleService.showByArticleIdOrNull(articleId)
             .let(commentRepository::findAllByArticle)
 
         return comments.map {
@@ -37,7 +37,7 @@ class CommentService(
         author: User,
         request: CommentRequest,
     ): CommentResponse {
-        val article = articleService.showById(articleId)
+        val article = articleService.showByArticleIdOrNull(articleId)
 
         return Comment(article, author, request.anonymous, request.content)
             .let(commentRepository::save)
