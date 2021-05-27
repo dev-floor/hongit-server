@@ -1,6 +1,5 @@
 package com.devfloor.untitled.article.presentation
 
-import com.devfloor.untitled.article.application.ArticleFacade
 import com.devfloor.untitled.article.application.ArticleModifyRequest
 import com.devfloor.untitled.article.application.ArticleRequest
 import com.devfloor.untitled.article.application.ArticleResponse
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class ArticleController(
-    private val articleFacade: ArticleFacade,
     private val articleService: ArticleService,
 ) {
     @GetMapping(value = ["/articles/{id}"])
@@ -38,7 +36,7 @@ class ArticleController(
             "userBlogData",
             "userDescriptionData"
         )
-        return articleFacade.create(articleRequest, user)
+        return articleService.create(articleRequest, user)
     }
 
     @PutMapping(value = ["/articles/{id}"])
@@ -47,7 +45,7 @@ class ArticleController(
         @PathVariable id: Long,
         @RequestBody request: ArticleModifyRequest,
     ) {
-        return articleFacade.modifyByArticleId(id, request)
+        return articleService.modifyByArticleId(id, request)
     }
 
     @DeleteMapping(value = ["/articles/{id}"])
