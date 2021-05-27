@@ -33,22 +33,6 @@ class ArticleFacade(
         return article.id
     }
 
-    @Transactional(readOnly = true)
-    fun showByArticleId(articleId: Long): ArticleResponse =
-        articleService.showById(articleId)
-            .let {
-                val articleOptions = articleOptionService.showAllByArticle(it)
-                val articleHashtags = articleHashtagService.showAllByArticle(it)
-                val articleFavorites = articleFavoriteService.showAllByArticle(it)
-
-                ArticleResponse(
-                    articleOptions = articleOptions,
-                    article = it,
-                    articleHashtags = articleHashtags,
-                    articleFavorites = articleFavorites,
-                )
-            }
-
     @Transactional
     fun modifyByArticleId(
         articleId: Long,
