@@ -22,7 +22,7 @@ class ArticleController(
 ) {
     @GetMapping(value = ["/articles/{articleId}"])
     @ResponseStatus(value = HttpStatus.OK)
-    fun showById(@PathVariable articleId: Long): ArticleResponse =
+    fun showByArticleId(@PathVariable articleId: Long): ArticleResponse =
         articleService.showByArticleId(articleId)
 
     @PostMapping(value = ["/articles"])
@@ -42,7 +42,7 @@ class ArticleController(
 
     @PutMapping(value = ["/articles/{articleId}"])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun modifyById(
+    fun modifyByArticleId(
         @PathVariable articleId: Long,
         @RequestBody request: ArticleModifyRequest,
     ) {
@@ -51,5 +51,6 @@ class ArticleController(
 
     @DeleteMapping(value = ["/articles/{articleId}"])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun destroyById(@PathVariable articleId: Long) = articleService.destroyById(articleId)
+    fun destroyByArticleId(@PathVariable articleId: Long) =
+        articleService.destroyByArticleId(articleId)
 }

@@ -79,5 +79,5 @@ class ArticleService(
             .let { articleOptionService.modifyByArticle(article, it) }
     }
 
-    fun destroyById(articleId: Long) = repository.deleteById(articleId)
+    fun destroyByArticleId(articleId: Long) = repository.deleteById(articleId)
 }
