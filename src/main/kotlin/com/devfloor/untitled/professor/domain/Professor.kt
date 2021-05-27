@@ -6,6 +6,7 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.Table
 
 /**
  * 강의를 진행하는 교수의 정보를 관리하는 entity
@@ -15,6 +16,7 @@ import javax.persistence.Id
  * @property email 이메일
  */
 @Entity
+@Table(name = "professors")
 class Professor(
     name: String,
     email: String?,

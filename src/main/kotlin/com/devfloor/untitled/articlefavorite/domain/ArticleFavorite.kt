@@ -23,7 +23,7 @@ import javax.persistence.Table
  * @property type 좋아요 종류
  */
 @Entity
-@Table(name = "favorites")
+@Table(name = "article_favorites")
 class ArticleFavorite(
     article: Article,
     user: User,

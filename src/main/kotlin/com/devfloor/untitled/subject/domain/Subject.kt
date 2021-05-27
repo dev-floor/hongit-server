@@ -6,6 +6,7 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.Table
 
 /**
  * 과목의 정보를 관리하는 entity
@@ -14,6 +15,7 @@ import javax.persistence.Id
  * @property name 과목명
  */
 @Entity
+@Table(name = "subjects")
 class Subject(
     name: String,
 ) : BaseEntity() {
