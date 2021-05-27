@@ -23,6 +23,9 @@ class ArticleService(
     private val hashtagService: HashtagService,
     private val optionService: OptionService,
 ) {
+    private fun showByArticleIdOrNull(articleId: Long) = repository.findByIdOrNull(articleId)
+        ?: throw EntityNotFoundException("사용자가 요청한 리소스가 없습니다")
+
     @Transactional(readOnly = true)
     fun showByArticleId(articleId: Long): ArticleResponse =
         showByArticleIdOrNull(articleId)
@@ -38,9 +41,6 @@ class ArticleService(
                     articleFavorites = articleFavorites,
                 )
             }
-
-    fun showByArticleIdOrNull(articleId: Long) = repository.findByIdOrNull(articleId)
-        ?: throw EntityNotFoundException("사용자가 요청한 리소스가 없습니다")
 
     fun showAll(): List<Article> = repository.findAll()
 

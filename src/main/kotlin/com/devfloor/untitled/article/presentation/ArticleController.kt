@@ -20,13 +20,14 @@ import org.springframework.web.bind.annotation.RestController
 class ArticleController(
     private val articleService: ArticleService,
 ) {
-    @GetMapping(value = ["/articles/{id}"])
+    @GetMapping(value = ["/articles/{articleId}"])
     @ResponseStatus(value = HttpStatus.OK)
-    fun showById(@PathVariable id: Long): ArticleResponse = articleService.showByArticleId(id)
+    fun showById(@PathVariable articleId: Long): ArticleResponse =
+        articleService.showByArticleId(articleId)
 
     @PostMapping(value = ["/articles"])
     @ResponseStatus(value = HttpStatus.CREATED)
-    fun create(@RequestBody articleRequest: ArticleRequest): Long {
+    fun create(@RequestBody request: ArticleRequest): Long {
         val user = User(
             "userNicknameData",
             UserType.STUDENT,
@@ -36,19 +37,19 @@ class ArticleController(
             "userBlogData",
             "userDescriptionData"
         )
-        return articleService.create(articleRequest, user)
+        return articleService.create(request, user)
     }
 
-    @PutMapping(value = ["/articles/{id}"])
+    @PutMapping(value = ["/articles/{articleId}"])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     fun modifyById(
-        @PathVariable id: Long,
+        @PathVariable articleId: Long,
         @RequestBody request: ArticleModifyRequest,
     ) {
-        return articleService.modifyByArticleId(id, request)
+        return articleService.modifyByArticleId(articleId, request)
     }
 
-    @DeleteMapping(value = ["/articles/{id}"])
+    @DeleteMapping(value = ["/articles/{articleId}"])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun destroyById(@PathVariable id: Long) = articleService.destroyById(id)
+    fun destroyById(@PathVariable articleId: Long) = articleService.destroyById(articleId)
 }

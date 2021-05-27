@@ -13,9 +13,8 @@ class ArticleHashtagService(
     fun showAllByArticle(article: Article): List<ArticleHashtag> =
         repository.findAllByArticle(article)
 
-    fun create(articleHashtag: ArticleHashtag) {
-        repository.save(articleHashtag)
-    }
+    fun create(articleHashtag: ArticleHashtag) = repository.save(articleHashtag)
+
 
     fun createAll(article: Article, hashtags: List<Hashtag>) {
         hashtags.map { ArticleHashtag(article, it) }
