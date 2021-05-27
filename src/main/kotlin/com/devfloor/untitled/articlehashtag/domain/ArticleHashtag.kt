@@ -1,6 +1,7 @@
 package com.devfloor.untitled.articlehashtag.domain
 
 import com.devfloor.untitled.article.domain.Article
+import com.devfloor.untitled.common.domain.BaseEntity
 import com.devfloor.untitled.hashtag.domain.Hashtag
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -23,7 +24,7 @@ import javax.persistence.Table
 class ArticleHashtag(
     article: Article,
     hashtag: Hashtag,
-) {
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_hashtag_id")

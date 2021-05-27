@@ -1,6 +1,7 @@
 package com.devfloor.untitled.articleoption.domain
 
 import com.devfloor.untitled.article.domain.Article
+import com.devfloor.untitled.common.domain.BaseEntity
 import com.devfloor.untitled.option.domain.Option
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -20,7 +21,10 @@ import javax.persistence.Table
  */
 @Entity
 @Table(name = "article_options")
-class ArticleOption(article: Article, option: Option) {
+class ArticleOption(
+    article: Article,
+    option: Option,
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_option_id")

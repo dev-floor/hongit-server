@@ -1,5 +1,6 @@
 package com.devfloor.untitled.option.domain
 
+import com.devfloor.untitled.common.domain.BaseEntity
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -17,7 +18,9 @@ import javax.persistence.Table
  */
 @Entity
 @Table(name = "options")
-class Option(type: OptionType) {
+class Option(
+    type: OptionType,
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "option_id")

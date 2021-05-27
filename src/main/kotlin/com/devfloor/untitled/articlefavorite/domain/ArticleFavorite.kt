@@ -1,6 +1,7 @@
 package com.devfloor.untitled.articlefavorite.domain
 
 import com.devfloor.untitled.article.domain.Article
+import com.devfloor.untitled.common.domain.BaseEntity
 import com.devfloor.untitled.user.domain.User
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -27,7 +28,7 @@ class ArticleFavorite(
     article: Article,
     user: User,
     type: ArticleFavoriteType,
-) {
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "favorite_id")
