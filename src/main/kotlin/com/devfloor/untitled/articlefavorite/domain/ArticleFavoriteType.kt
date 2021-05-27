@@ -5,8 +5,11 @@ package com.devfloor.untitled.articlefavorite.domain
  *
  * @property text 좋아요 유형
  */
-enum class ArticleFavoriteType(val text: String) {
+enum class ArticleFavoriteType(text: String) {
     FAVORITE("좋아요"),
     WONDER("나도 궁금해요"),
     CLIP("스크랩"),
+    ;
+
+    val text: String = text
 }

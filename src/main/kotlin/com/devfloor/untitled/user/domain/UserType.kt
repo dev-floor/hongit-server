@@ -5,7 +5,10 @@ package com.devfloor.untitled.user.domain
  *
  * @property text 좋아요 유형
  */
-enum class UserType(val text: String) {
+enum class UserType(text: String) {
     STUDENT("재학생"),
     GRADUATE("졸업생"),
+    ;
+
+    val text: String = text
 }
