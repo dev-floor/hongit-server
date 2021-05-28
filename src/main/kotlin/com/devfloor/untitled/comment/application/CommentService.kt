@@ -17,12 +17,7 @@ class CommentService(
         ?: throw EntityNotFoundException("존재하지 않는 댓글입니다.")
 
     @Transactional
-    fun modifyByArticleId(articleId: Long, commentId: Long, request: CommentModifyRequest) {
-        val article = articleService.showById(articleId)
-        showByCommentId(commentId).apply {
-            modify(
-                Comment(article, this.author, this.anonymous, request.content)
-            )
-        }
+    fun modifyById(commentId: Long, request: CommentModifyRequest) {
+        showByCommentId(commentId).modifyContent(request.content)
     }
 }

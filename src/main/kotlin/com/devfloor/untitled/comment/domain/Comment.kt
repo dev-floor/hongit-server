@@ -52,6 +52,7 @@ class Comment(
     var content: String = content
         protected set
 
-    fun modify(comment: Comment) = comment.content
-
+    fun modifyContent(content: String) {
+        this.content = content
+    }
 }
