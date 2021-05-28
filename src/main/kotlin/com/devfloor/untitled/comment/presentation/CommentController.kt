@@ -21,6 +21,6 @@ class CommentController(
         @PathVariable commentId: Long,
         @RequestBody request: CommentModifyRequest,
     ) {
-        commentService.modifyById(commentId, request)
+        commentService.modifyByCommentId(commentId, request)
     }
 }
