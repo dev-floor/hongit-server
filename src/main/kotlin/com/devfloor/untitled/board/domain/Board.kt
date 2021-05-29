@@ -15,6 +15,15 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
 
+/**
+ * 게시판 정보를 관리하는 entity
+ *
+ * @property id 아이디
+ * @property professor 교수
+ * @property subject 과목
+ * @property openingSemester 개설학기
+ * @property type 게시판 종류
+ */
 @Entity
 @Table(name = "boards")
 class Board(

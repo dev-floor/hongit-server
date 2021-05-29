@@ -1,5 +1,12 @@
 package com.devfloor.untitled.course.domain
 
+/**
+ * 수업 시간(교시)를 관리하는 enum
+ *
+ * @property number 교시
+ * @property startTime 시작시간
+ * @property endTime 종료시간
+ */
 enum class CourseTime(
     val number: Long,
     val startTime: String,

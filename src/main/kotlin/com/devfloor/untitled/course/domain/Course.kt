@@ -18,6 +18,18 @@ import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
 
+/**
+ * 수업 정보를 관리하는 entity
+ *
+ * @property id 아이디
+ * @property code 학수번호
+ * @property openingSemester 개설학기
+ * @property professor 교수
+ * @property subject 수업
+ * @property grade 학년
+ * @property option 옵션(optionType = 분반)
+ * @property timetable 시간표
+ */
 @Entity
 @Table(name = "courses")
 class Course(
@@ -60,4 +72,8 @@ class Course(
     @Embedded
     @Column(name = "timetable")
     val timetable: Timetable = timetable
+
+    init {
+        // TODO: 2021/05/29 option 유효성 검증 로직 추가
+    }
 }
