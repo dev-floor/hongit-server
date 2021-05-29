@@ -6,7 +6,9 @@ import com.devfloor.untitled.comment.application.response.CommentResponse
 import com.devfloor.untitled.comment.domain.Comment
 import com.devfloor.untitled.comment.domain.CommentRepository
 import com.devfloor.untitled.commentfavorite.application.CommentFavoriteService
+import com.devfloor.untitled.common.exception.EntityNotFoundException
 import com.devfloor.untitled.user.domain.User
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -40,5 +42,14 @@ class CommentService(
         return Comment(article, author, request.anonymous, request.content)
             .let(commentRepository::save)
             .let(::CommentResponse)
+    }
+
+    private fun showByCommentId(commentId: Long): Comment =
+        commentRepository.findByIdOrNull(commentId)
+            ?: throw EntityNotFoundException("존재하지 않는 댓글입니다.")
+
+    @Transactional
+    fun modifyByCommentId(commentId: Long, request: CommentModifyRequest) {
+        showByCommentId(commentId).modifyContent(request.content)
     }
 }
