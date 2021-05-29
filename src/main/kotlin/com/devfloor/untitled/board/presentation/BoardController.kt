@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class BoardController(
-    private val boardFacade: BoardFacade
+    private val boardFacade: BoardFacade,
 ) {
     @GetMapping(value = ["/articles"]) // TODO() : 스크린 구성 이후 URI, pathVariable 수정 예정
     @ResponseStatus(value = HttpStatus.OK)

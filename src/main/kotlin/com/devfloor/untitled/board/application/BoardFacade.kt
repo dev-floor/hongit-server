@@ -25,13 +25,13 @@ class BoardFacade(
     }
 
     private fun createArticleFeedResponse(article: Article): ArticleFeedResponse {
-        val favorites = articleFavoriteService.showAllByArticle(article)
-        val options = articleOptionService.showAllByArticle(article)
+        val articleFavorites = articleFavoriteService.showAllByArticle(article)
+        val articleOptions = articleOptionService.showAllByArticle(article)
 
         return ArticleFeedResponse(
-            options = options,
+            articleOptions = articleOptions,
             article = article,
-            articleFavorites = favorites
+            articleFavorites = articleFavorites,
         )
     }
 }

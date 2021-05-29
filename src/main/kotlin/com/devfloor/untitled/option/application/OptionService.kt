@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class OptionService(
-    private val repository: OptionRepository
+    private val repository: OptionRepository,
 ) {
     fun showAllByOptionType(optionTexts: List<String>): List<Option> {
         val optionTypes = optionTexts.map { OptionType.from(it) }
