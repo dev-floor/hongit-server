@@ -5,7 +5,7 @@ import com.devfloor.untitled.comment.application.request.CommentRequest
 import com.devfloor.untitled.comment.application.response.CommentResponse
 import com.devfloor.untitled.comment.domain.Comment
 import com.devfloor.untitled.comment.domain.CommentRepository
-import com.devfloor.untitled.commentfavorite.application.CommentFavoriteService
+import com.devfloor.untitled.commentfavorite.domain.CommentFavoriteRepository
 import com.devfloor.untitled.common.exception.EntityNotFoundException
 import com.devfloor.untitled.user.domain.User
 import org.springframework.data.repository.findByIdOrNull
@@ -14,9 +14,9 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CommentService(
-    private val commentRepository: CommentRepository,
     private val articleRepository: ArticleRepository,
-    private val commentFavoriteService: CommentFavoriteService,
+    private val commentRepository: CommentRepository,
+    private val commentFavoriteRepository: CommentFavoriteRepository,
 ) {
     @Transactional(readOnly = true)
     fun showAllByArticleId(articleId: Long): List<CommentResponse> {
@@ -27,7 +27,7 @@ class CommentService(
         return comments.map {
             CommentResponse(
                 comment = it,
-                favorites = commentFavoriteService.countAllByComment(it),
+                favorites = commentFavoriteRepository.countAllByComment(it),
             )
         }
     }
@@ -53,5 +53,10 @@ class CommentService(
     @Transactional
     fun modifyByCommentId(commentId: Long, request: CommentModifyRequest) {
         showByCommentId(commentId).modifyContent(request.content)
+    }
+
+    fun destroyByCommentId(commentId: Long) {
+        commentRepository.deleteById(commentId)
+        commentFavoriteRepository.deleteByComment(showByCommentId(commentId))
     }
 }

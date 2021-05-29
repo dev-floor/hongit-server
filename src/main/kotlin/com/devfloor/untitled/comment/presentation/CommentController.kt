@@ -6,6 +6,7 @@ import com.devfloor.untitled.comment.application.request.CommentRequest
 import com.devfloor.untitled.comment.application.response.CommentResponse
 import com.devfloor.untitled.user.domain.User
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -43,4 +44,10 @@ class CommentController(
     ) {
         commentService.modifyByCommentId(commentId, request)
     }
+
+    @DeleteMapping(value = ["/comments/{commentId}"])
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    fun destroyByCommentId(
+        @PathVariable commentId: Long,
+    ) = commentService.destroyByCommentId(commentId)
 }
