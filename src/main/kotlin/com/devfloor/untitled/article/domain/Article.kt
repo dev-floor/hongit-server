@@ -1,5 +1,6 @@
 package com.devfloor.untitled.article.domain
 
+import com.devfloor.untitled.board.domain.Board
 import com.devfloor.untitled.common.domain.BaseEntity
 import com.devfloor.untitled.user.domain.User
 import javax.persistence.Column
@@ -27,6 +28,7 @@ class Article(
     anonymous: Boolean,
     content: String,
     author: User,
+    board: Board,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +49,10 @@ class Article(
     @ManyToOne
     @JoinColumn(name = "author_id")
     val author: User = author
+
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    val board: Board = board
 
     fun sliceContentByLength(length: Long): String =
         if (content.length > length)

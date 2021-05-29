@@ -74,6 +74,6 @@ class Course(
     val timetable: Timetable = timetable
 
     init {
-        // TODO: 2021/05/29 option 유효성 검증 로직 추가
+        TODO("option 유효성 검증 로직 추가")
     }
 }

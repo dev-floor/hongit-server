@@ -18,6 +18,8 @@ data class ArticleFeedResponse(
 
     val authorName: String,
 
+//    val board: BoardResponse,
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
     val createdDate: LocalDateTime,
 
