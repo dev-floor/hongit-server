@@ -3,8 +3,7 @@ version: "3.9"
 services:
   database:
     image: mariadb:10.4
-    container_name: hce_database
-    restart: always
+    container_name: hongit_database
     ports:
       - 3306:3306
     volumes:
@@ -16,12 +15,11 @@ services:
       TZ: Asia/Seoul
 
   server:
-    image: untitled-server
+    image: hongit-server
     build:
       context: ..
       dockerfile: docker/Dockerfile-server
-    container_name: hce_server
-    restart: always
+    container_name: hongit_server
     ports:
       - 8080:8080
     depends_on:
