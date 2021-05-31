@@ -13,14 +13,11 @@ import javax.persistence.Enumerated
  * @property semester 개설학기
  */
 @Embeddable
-class OpeningSemester(
-    year: Year,
-    semester: Semester,
-) {
+data class OpeningSemester(
     @Column(name = "year")
-    val year: Year = year
+    val year: Year,
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "semester")
-    val semester: Semester = semester
-}
+    val semester: Semester,
+)

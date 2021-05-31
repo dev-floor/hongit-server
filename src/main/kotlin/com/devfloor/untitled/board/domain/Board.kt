@@ -27,7 +27,6 @@ import javax.persistence.Table
 @Entity
 @Table(name = "boards")
 class Board(
-    title: String,
     professor: Professor,
     subject: Subject,
     openingSemester: OpeningSemester,
@@ -39,7 +38,7 @@ class Board(
     val id: Long = 0
 
     @Column(name = "title")
-    val title: String = title
+    val title: String = "${subject.name} / ${professor.name}"
 
     @ManyToOne
     @JoinColumn(name = "professor_id")
