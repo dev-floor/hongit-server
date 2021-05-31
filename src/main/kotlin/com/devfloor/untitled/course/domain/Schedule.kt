@@ -2,6 +2,8 @@ package com.devfloor.untitled.course.domain
 
 import javax.persistence.Column
 import javax.persistence.Embeddable
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 import javax.persistence.Table
 
 /**
@@ -16,9 +18,11 @@ class Schedule private constructor(
     courseDay: CourseDay,
     courseTime: CourseTime,
 ) {
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "course_day")
     val courseDay: CourseDay = courseDay
 
+    @Enumerated(value = EnumType.STRING)
     @Column(name = "course_time")
     val courseTime: CourseTime = courseTime
 

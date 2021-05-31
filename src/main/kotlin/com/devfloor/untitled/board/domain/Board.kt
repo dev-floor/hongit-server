@@ -27,6 +27,7 @@ import javax.persistence.Table
 @Entity
 @Table(name = "boards")
 class Board(
+    title: String,
     professor: Professor,
     subject: Subject,
     openingSemester: OpeningSemester,
@@ -36,6 +37,9 @@ class Board(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
     val id: Long = 0
+
+    @Column(name = "title")
+    val title: String = title
 
     @ManyToOne
     @JoinColumn(name = "professor_id")
