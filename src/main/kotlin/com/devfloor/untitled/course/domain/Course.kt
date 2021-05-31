@@ -4,6 +4,7 @@ import com.devfloor.untitled.common.domain.BaseEntity
 import com.devfloor.untitled.common.domain.Grade
 import com.devfloor.untitled.common.domain.OpeningSemester
 import com.devfloor.untitled.option.domain.Option
+import com.devfloor.untitled.option.domain.OptionType
 import com.devfloor.untitled.professor.domain.Professor
 import com.devfloor.untitled.subject.domain.Subject
 import javax.persistence.Column
@@ -71,9 +72,10 @@ class Course(
 
     @Embedded
     @Column(name = "timetable")
-    val timetable: Timetable = timetable
+    var timetable: Timetable = timetable
+        protected set
 
     init {
-        TODO("option 유효성 검증 로직 추가")
+        assert(option.type == OptionType.COURSE_GROUP) { "course의 option은 분반 옵션만 가능합니다." }
     }
 }
