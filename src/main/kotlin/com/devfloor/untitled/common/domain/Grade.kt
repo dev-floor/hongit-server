@@ -8,12 +8,16 @@ package com.devfloor.untitled.common.domain
  */
 enum class Grade(
     val number: Long,
-) {
+) : BaseEnum {
     FRESHMAN(1),
     SOPHOMORE(2),
     JUNIOR(3),
     SENIOR(4),
     ;
 
-    val text: String = "${number}학년"
+    override val id: String
+        get() = this.name
+
+    override val text: String
+        get() = "${number}학년"
 }

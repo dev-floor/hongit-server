@@ -1,5 +1,7 @@
 package com.devfloor.untitled.course.domain
 
+import com.devfloor.untitled.common.domain.BaseEnum
+
 /**
  * 수업 시간(교시)를 관리하는 enum
  *
@@ -11,7 +13,7 @@ enum class CourseTime(
     val number: Long,
     val startTime: String,
     val endTime: String,
-) {
+) : BaseEnum {
     FIRST(1, "09:00", "10:00"),
     SECOND(2, "10:00", "11:00"),
     THIRD(3, "11:00", "12:00"),
@@ -28,6 +30,12 @@ enum class CourseTime(
     FOURTEENTH(14, "22:00", "23:00"),
     FIFTEENTH(15, "23:00", "24:00"),
     ;
+
+    override val id: String
+        get() = this.name
+
+    override val text: String
+        get() = "${number}교시"
 
     companion object {
         fun from(number: Long) = values().first { it.number == number }
