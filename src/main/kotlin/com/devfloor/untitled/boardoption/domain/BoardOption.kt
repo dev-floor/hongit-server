@@ -1,6 +1,7 @@
 package com.devfloor.untitled.boardoption.domain
 
 import com.devfloor.untitled.board.domain.Board
+import com.devfloor.untitled.common.domain.BaseEntity
 import com.devfloor.untitled.option.domain.Option
 import com.devfloor.untitled.option.domain.OptionType
 import javax.persistence.Column
@@ -24,7 +25,7 @@ import javax.persistence.Table
 class BoardOption(
     board: Board,
     option: Option,
-) {
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_option_id")

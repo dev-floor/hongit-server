@@ -1,6 +1,7 @@
 package com.devfloor.untitled.boardcourse.domain
 
 import com.devfloor.untitled.board.domain.Board
+import com.devfloor.untitled.common.domain.BaseEntity
 import com.devfloor.untitled.course.domain.Course
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -23,7 +24,7 @@ import javax.persistence.Table
 class BoardCourse(
     board: Board,
     course: Course,
-) {
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_course_id")

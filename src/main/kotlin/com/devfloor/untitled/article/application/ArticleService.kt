@@ -23,7 +23,7 @@ class ArticleService(
 
     fun showAllByBoardId(boardId: Long): List<ArticleFeedResponse> {
         val board = boardRepository.findByIdOrNull(boardId)
-            ?: throw EntityNotFoundException("Board 객체가 존재하지 않습니다 - boardId: $boardId")
+            ?: throw EntityNotFoundException("id에 해당하는 board가 존재하지 않습니다 - boardId: $boardId")
 
         return articleRepository.findAllByBoard(board)
             .map {

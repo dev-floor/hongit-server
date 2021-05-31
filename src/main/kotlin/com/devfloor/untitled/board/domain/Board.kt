@@ -1,5 +1,6 @@
 package com.devfloor.untitled.board.domain
 
+import com.devfloor.untitled.common.domain.BaseEntity
 import com.devfloor.untitled.common.domain.OpeningSemester
 import com.devfloor.untitled.professor.domain.Professor
 import com.devfloor.untitled.subject.domain.Subject
@@ -31,7 +32,7 @@ class Board(
     subject: Subject,
     openingSemester: OpeningSemester,
     type: BoardType,
-) {
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
