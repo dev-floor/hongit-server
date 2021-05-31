@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 /**
- * 게시물과 해시태그 정보를 관리하는 연관관계 매핑 entity
+ * 게시물과 해시태그의 연관관계 매핑 entity
  *
  * @property id 아이디
  * @property article 게시글

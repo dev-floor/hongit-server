@@ -19,7 +19,7 @@ import javax.persistence.Table
  * @property course 수업
  */
 @Entity
-@Table(name = "board_course")
+@Table(name = "board_courses")
 class BoardCourse(
     board: Board,
     course: Course,

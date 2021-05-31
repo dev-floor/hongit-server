@@ -13,7 +13,7 @@ import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 /**
- * 댓글에 누른 좋아요 연관관계 entity
+ * 댓글에 누른 좋아요를 관리하는 entity
  *
  * @property id 아이디
  * @property comment 좋아요를 누른 댓글

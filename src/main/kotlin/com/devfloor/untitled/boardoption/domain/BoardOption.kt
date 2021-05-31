@@ -4,19 +4,23 @@ import com.devfloor.untitled.board.domain.Board
 import com.devfloor.untitled.option.domain.Option
 import com.devfloor.untitled.option.domain.OptionType
 import javax.persistence.Column
+import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import javax.persistence.Table
 
 /**
- * 게시판과 옵션 정보를 관리하는 연관관계 매핑 entity
+ * 게시판과 옵션의 연관관계 매핑 entity
  *
  * @property id 아이디
  * @property board 게시판
  * @property option 옵션
  */
+@Entity
+@Table(name = "board_options")
 class BoardOption(
     board: Board,
     option: Option,
