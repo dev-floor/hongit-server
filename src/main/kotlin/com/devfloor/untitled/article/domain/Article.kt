@@ -54,10 +54,11 @@ class Article(
     @JoinColumn(name = "board_id")
     val board: Board = board
 
-    fun sliceContentByLength(length: Long): String =
-        if (content.length > length)
-            content.substring(startIndex = 0, endIndex = (length + 1).toInt())
-        else content
+    fun sliceContentByLength(length: Long): String = if (content.length > length) {
+        content.substring(startIndex = 0, endIndex = (length + 1).toInt())
+    } else {
+        content
+    }
 
     fun modify(title: String?, content: String) {
         this.title = title
