@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class UntitledApplication
+class HongitApplication
 
 fun main() {
-    runApplication<UntitledApplication>()
+    runApplication<HongitApplication>()
 }
