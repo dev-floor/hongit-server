@@ -2,6 +2,7 @@ package com.devfloor.untitled.boardoption.domain
 
 import com.devfloor.untitled.board.domain.Board
 import com.devfloor.untitled.option.domain.Option
+import com.devfloor.untitled.option.domain.OptionType
 import javax.persistence.Column
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
@@ -32,4 +33,8 @@ class BoardOption(
     @ManyToOne
     @JoinColumn(name = "option_id")
     val option: Option = option
+
+    init {
+        assert(option.type != OptionType.COURSE_GROUP) { "boardOption의 option은 optionType이 COURSE_GROUP이 아닌 옵션만 가능합니다." }
+    }
 }
