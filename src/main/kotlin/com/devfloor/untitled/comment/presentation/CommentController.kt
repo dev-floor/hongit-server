@@ -47,7 +47,6 @@ class CommentController(
 
     @DeleteMapping(value = ["/comments/{commentId}"])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun destroyByCommentId(
-        @PathVariable commentId: Long,
-    ) = commentService.destroyByCommentId(commentId)
+    fun destroyByCommentId(@PathVariable commentId: Long) =
+        commentService.destroyByCommentId(commentId)
 }
