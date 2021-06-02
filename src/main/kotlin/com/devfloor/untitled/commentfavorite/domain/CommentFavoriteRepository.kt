@@ -13,5 +13,5 @@ interface CommentFavoriteRepository : JpaRepository<CommentFavorite, Long> {
     @Transactional
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query(value = "DELETE FROM CommentFavorite WHERE comment = :comment")
-    fun deleteByComment(comment: Comment)
+    fun deleteAllByComment(comment: Comment)
 }

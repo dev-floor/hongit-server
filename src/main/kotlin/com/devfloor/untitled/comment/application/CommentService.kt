@@ -56,8 +56,8 @@ class CommentService(
     }
 
     fun destroyByCommentId(commentId: Long) {
-        showByCommentId(commentId).run {
-            commentFavoriteRepository.deleteByComment(this)
+        showByCommentId(commentId).let {
+            commentFavoriteRepository.deleteAllByComment(it)
         }
         commentRepository.deleteById(commentId)
     }
