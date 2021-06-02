@@ -12,6 +12,6 @@ interface ArticleFavoriteRepository : JpaRepository<ArticleFavorite, Long> {
 
     @Transactional
     @Modifying(clearAutomatically = true, flushAutomatically = true)
-    @Query(value = "DELETE FROM ArticleFavorite WHERE article = :article") // TODO: queryDSL
+    @Query(value = "DELETE FROM ArticleFavorite WHERE article = :article")
     fun deleteAllByArticle(article: Article)
 }

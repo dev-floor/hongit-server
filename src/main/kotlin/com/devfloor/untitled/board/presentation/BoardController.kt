@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 class BoardController(
     private val boardFacade: BoardFacade,
 ) {
-    @GetMapping(value = ["/articles"]) // TODO() : 스크린 구성 이후 URI, pathVariable 수정 예정
+    @GetMapping(value = ["/articles"])
     @ResponseStatus(value = HttpStatus.OK)
     fun showAll(): BoardResponse = boardFacade.showByBoardId()
 }

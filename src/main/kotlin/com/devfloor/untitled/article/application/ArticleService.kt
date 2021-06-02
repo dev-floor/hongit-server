@@ -28,20 +28,19 @@ class ArticleService(
 ) {
     @Transactional(readOnly = true)
     fun showByArticleId(articleId: Long): ArticleResponse {
-        return articleRepository.findByIdOrNull(articleId)
-            ?.let {
-                val articleOptions = articleOptionService.showAllByArticle(it)
-                val articleHashtags = articleHashtagService.showAllByArticle(it)
-                val articleFavorites = articleFavoriteRepository.findAllByArticle(it)
-
-                ArticleResponse(
-                    articleOptions = articleOptions,
-                    article = it,
-                    articleHashtags = articleHashtags,
-                    articleFavorites = articleFavorites,
-                )
-            }
+        val article = articleRepository.findByIdOrNull(articleId)
             ?: throw EntityNotFoundException("존재하지 않는 게시글 입니다.")
+
+        val articleOptions = articleOptionService.showAllByArticle(article)
+        val articleHashtags = articleHashtagService.showAllByArticle(article)
+        val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
+
+        return ArticleResponse(
+            articleOptions = articleOptions,
+            article = article,
+            articleHashtags = articleHashtags,
+            articleFavorites = articleFavorites,
+        )
     }
 
     fun showAll(): List<Article> = articleRepository.findAll()
@@ -81,13 +80,12 @@ class ArticleService(
 
     @Transactional
     fun destroyByArticleId(articleId: Long) {
-        articleRepository.findByIdOrNull(articleId)
-            ?.let {
-                articleHashtagService.destroyAllByArticle(it)
-                articleOptionService.destroyAllByArticle(it)
-                articleFavoriteRepository.deleteAllByArticle(it)
-                articleRepository.delete(it)
-            }
+        val article = articleRepository.findByIdOrNull(articleId)
             ?: throw EntityNotFoundException("존재하지 않는 게시글 입니다.")
+
+        articleHashtagService.destroyAllByArticle(article)
+        articleOptionService.destroyAllByArticle(article)
+        articleFavoriteRepository.deleteAllByArticle(article)
+        articleRepository.delete(article)
     }
 }

@@ -12,6 +12,6 @@ interface ArticleOptionRepository : JpaRepository<ArticleOption, Long> {
 
     @Transactional
     @Modifying(clearAutomatically = true, flushAutomatically = true)
-    @Query(value = "DELETE FROM ArticleOption WHERE article = :article") // TODO: queryDSL
+    @Query(value = "DELETE FROM ArticleOption WHERE article = :article")
     fun deleteAllByArticle(article: Article)
 }
