@@ -41,7 +41,7 @@ class ArticleService(
                     articleFavorites = articleFavorites,
                 )
             }
-        ?: throw EntityNotFoundException("존재하지 않는 게시글 입니다.")
+            ?: throw EntityNotFoundException("존재하지 않는 게시글 입니다.")
     }
 
     fun showAll(): List<Article> = articleRepository.findAll()
@@ -79,5 +79,15 @@ class ArticleService(
             .let { articleOptionService.modifyByArticle(article, it) }
     }
 
-    fun destroyByArticleId(articleId: Long) = articleRepository.deleteById(articleId)
+    @Transactional
+    fun destroyByArticleId(articleId: Long) {
+        articleRepository.findByIdOrNull(articleId)
+            ?.let {
+                articleHashtagService.destroyAllByArticle(it)
+                articleOptionService.destroyAllByArticle(it)
+                articleFavoriteRepository.deleteAllByArticle(it)
+                articleRepository.delete(it)
+            }
+            ?: throw EntityNotFoundException("존재하지 않는 게시글 입니다.")
+    }
 }

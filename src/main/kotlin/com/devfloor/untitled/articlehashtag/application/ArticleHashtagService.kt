@@ -24,4 +24,6 @@ class ArticleHashtagService(
         repository.deleteAllByArticle(article)
         createAll(article, hashtags)
     }
+
+    fun destroyAllByArticle(article: Article) = repository.deleteAllByArticle(article)
 }

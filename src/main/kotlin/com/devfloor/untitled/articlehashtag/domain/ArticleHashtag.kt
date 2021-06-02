@@ -2,8 +2,6 @@ package com.devfloor.untitled.articlehashtag.domain
 
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.hashtag.domain.Hashtag
-import org.hibernate.annotations.OnDelete
-import org.hibernate.annotations.OnDeleteAction
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
@@ -33,7 +31,6 @@ class ArticleHashtag(
 
     @ManyToOne
     @JoinColumn(name = "article_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     val article: Article = article
 
     @ManyToOne

@@ -1,6 +1,5 @@
 package com.devfloor.untitled.comment.application
 
-import com.devfloor.untitled.article.application.ArticleService
 import com.devfloor.untitled.article.domain.ArticleRepository
 import com.devfloor.untitled.comment.application.request.CommentRequest
 import com.devfloor.untitled.comment.application.response.CommentResponse
