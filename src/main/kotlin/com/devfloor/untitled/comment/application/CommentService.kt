@@ -1,11 +1,12 @@
 package com.devfloor.untitled.comment.application
 
 import com.devfloor.untitled.article.domain.ArticleRepository
+import com.devfloor.untitled.comment.application.request.CommentModifyRequest
 import com.devfloor.untitled.comment.application.request.CommentRequest
 import com.devfloor.untitled.comment.application.response.CommentResponse
 import com.devfloor.untitled.comment.domain.Comment
 import com.devfloor.untitled.comment.domain.CommentRepository
-import com.devfloor.untitled.commentfavorite.application.CommentFavoriteService
+import com.devfloor.untitled.commentfavorite.domain.CommentFavoriteRepository
 import com.devfloor.untitled.common.exception.EntityNotFoundException
 import com.devfloor.untitled.user.domain.User
 import org.springframework.data.repository.findByIdOrNull
@@ -14,9 +15,9 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class CommentService(
-    private val commentRepository: CommentRepository,
     private val articleRepository: ArticleRepository,
-    private val commentFavoriteService: CommentFavoriteService,
+    private val commentRepository: CommentRepository,
+    private val commentFavoriteRepository: CommentFavoriteRepository,
 ) {
     @Transactional(readOnly = true)
     fun showAllByArticleId(articleId: Long): List<CommentResponse> {
@@ -27,18 +28,14 @@ class CommentService(
         return comments.map {
             CommentResponse(
                 comment = it,
-                favorites = commentFavoriteService.countAllByComment(it),
+                favorites = commentFavoriteRepository.countAllByComment(it),
             )
         }
     }
 
     @Transactional
-    fun create(
-        articleId: Long,
-        author: User,
-        request: CommentRequest,
-    ): CommentResponse {
-        val article = articleRepository.findByIdOrNull(articleId)
+    fun create(author: User, request: CommentRequest): CommentResponse {
+        val article = articleRepository.findByIdOrNull(request.articleId)
             ?: throw EntityNotFoundException("존재하지 않는 게시글 입니다.")
 
         return Comment(article, author, request.anonymous, request.content)
@@ -46,12 +43,10 @@ class CommentService(
             .let(::CommentResponse)
     }
 
-    private fun showByCommentId(commentId: Long): Comment =
-        commentRepository.findByIdOrNull(commentId)
-            ?: throw EntityNotFoundException("존재하지 않는 댓글입니다.")
-
     @Transactional
     fun modifyByCommentId(commentId: Long, request: CommentModifyRequest) {
-        showByCommentId(commentId).modifyContent(request.content)
+        commentRepository.findByIdOrNull(commentId)
+            ?.modifyContent(request.content)
+            ?: throw EntityNotFoundException("존재하지 않는 댓글입니다.")
     }
 }

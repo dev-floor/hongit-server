@@ -10,18 +10,17 @@ import org.springframework.stereotype.Service
 class ArticleOptionService(
     private val repository: ArticleOptionRepository,
 ) {
-    fun showAllByArticle(article: Article): List<ArticleOption> =
+    fun findAllByArticle(article: Article): List<ArticleOption> =
         repository.findAllByArticle(article)
 
-    fun createAll(article: Article, options: List<Option>) {
+    fun saveAll(article: Article, options: List<Option>): List<ArticleOption> =
         options.map { ArticleOption(article, it) }
             .let { repository.saveAll(it) }
-    }
 
     fun modifyByArticle(article: Article, options: List<Option>) {
         repository.deleteAllByArticle(article)
-        createAll(article, options)
+        saveAll(article, options)
     }
 
-    fun destroyAllByArticle(article: Article) = repository.deleteAllByArticle(article)
+    fun deleteAllByArticle(article: Article) = repository.deleteAllByArticle(article)
 }

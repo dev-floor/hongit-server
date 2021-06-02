@@ -15,14 +15,10 @@ class ArticleHashtagService(
 
     fun create(articleHashtag: ArticleHashtag) = repository.save(articleHashtag)
 
-    fun createAll(article: Article, hashtags: List<Hashtag>) {
-        hashtags.map { ArticleHashtag(article, it) }
-            .let { repository.saveAll(it) }
-    }
-
     fun modifyByArticle(article: Article, hashtags: List<Hashtag>) {
         repository.deleteAllByArticle(article)
-        createAll(article, hashtags)
+        hashtags.map { ArticleHashtag(article, it) }
+            .let { repository.saveAll(it) }
     }
 
     fun destroyAllByArticle(article: Article) = repository.deleteAllByArticle(article)
