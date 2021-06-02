@@ -1,6 +1,6 @@
 package com.devfloor.untitled.comment.application
 
-import com.devfloor.untitled.article.application.ArticleService
+import com.devfloor.untitled.article.domain.ArticleRepository
 import com.devfloor.untitled.comment.application.request.CommentRequest
 import com.devfloor.untitled.comment.application.response.CommentResponse
 import com.devfloor.untitled.comment.domain.Comment
@@ -15,13 +15,14 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class CommentService(
     private val commentRepository: CommentRepository,
-    private val articleService: ArticleService,
+    private val articleRepository: ArticleRepository,
     private val commentFavoriteService: CommentFavoriteService,
 ) {
     @Transactional(readOnly = true)
     fun showAllByArticleId(articleId: Long): List<CommentResponse> {
-        val comments = articleService.showById(articleId)
-            .let(commentRepository::findAllByArticle)
+        val comments = articleRepository.findByIdOrNull(articleId)
+            ?.let(commentRepository::findAllByArticle)
+            ?: throw EntityNotFoundException("존재하지 않는 게시글 입니다.")
 
         return comments.map {
             CommentResponse(
@@ -37,7 +38,8 @@ class CommentService(
         author: User,
         request: CommentRequest,
     ): CommentResponse {
-        val article = articleService.showById(articleId)
+        val article = articleRepository.findByIdOrNull(articleId)
+            ?: throw EntityNotFoundException("존재하지 않는 게시글 입니다.")
 
         return Comment(article, author, request.anonymous, request.content)
             .let(commentRepository::save)

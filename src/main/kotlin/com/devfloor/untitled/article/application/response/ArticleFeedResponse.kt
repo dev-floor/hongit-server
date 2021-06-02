@@ -1,4 +1,4 @@
-package com.devfloor.untitled.article.application
+package com.devfloor.untitled.article.application.response
 
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.articlefavorite.domain.ArticleFavorite

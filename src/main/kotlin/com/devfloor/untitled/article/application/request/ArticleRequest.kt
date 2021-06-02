@@ -1,4 +1,4 @@
-package com.devfloor.untitled.article.application
+package com.devfloor.untitled.article.application.request
 
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.board.domain.Board

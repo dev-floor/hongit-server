@@ -1,5 +1,9 @@
 package com.devfloor.untitled.article.presentation
 
+import com.devfloor.untitled.article.application.request.ArticleModifyRequest
+import com.devfloor.untitled.article.application.request.ArticleRequest
+import com.devfloor.untitled.article.application.response.ArticleResponse
+import com.devfloor.untitled.article.application.ArticleService
 import com.devfloor.untitled.article.application.ArticleFacade
 import com.devfloor.untitled.article.application.ArticleFeedResponse
 import com.devfloor.untitled.article.application.ArticleModifyRequest
@@ -9,6 +13,7 @@ import com.devfloor.untitled.article.application.ArticleService
 import com.devfloor.untitled.user.domain.User
 import com.devfloor.untitled.user.domain.UserType
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -20,12 +25,12 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class ArticleController(
-    private val articleFacade: ArticleFacade,
     private val articleService: ArticleService,
 ) {
-    @GetMapping(value = ["/articles/{id}"])
+    @GetMapping(value = ["/articles/{articleId}"])
     @ResponseStatus(value = HttpStatus.OK)
-    fun showById(@PathVariable id: Long): ArticleResponse = articleFacade.showByArticleId(id)
+    fun showByArticleId(@PathVariable articleId: Long): ArticleResponse =
+        articleService.showByArticleId(articleId)
 
     @GetMapping(value = ["/articles"])
     @ResponseStatus(value = HttpStatus.OK)
@@ -34,7 +39,7 @@ class ArticleController(
 
     @PostMapping(value = ["/articles"])
     @ResponseStatus(value = HttpStatus.CREATED)
-    fun create(@RequestBody articleRequest: ArticleRequest): Long {
+    fun create(@RequestBody request: ArticleRequest): Long {
         val user = User(
             "userNicknameData",
             UserType.STUDENT,
@@ -44,15 +49,20 @@ class ArticleController(
             "userBlogData",
             "userDescriptionData"
         )
-        return articleFacade.create(articleRequest, user)
+        return articleService.create(request, user)
     }
 
-    @PutMapping(value = ["/articles/{id}"])
+    @PutMapping(value = ["/articles/{articleId}"])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun modifyById(
-        @PathVariable id: Long,
+    fun modifyByArticleId(
+        @PathVariable articleId: Long,
         @RequestBody request: ArticleModifyRequest,
     ) {
-        return articleFacade.modifyByArticleId(id, request)
+        return articleService.modifyByArticleId(articleId, request)
     }
+
+    @DeleteMapping(value = ["/articles/{articleId}"])
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    fun destroyByArticleId(@PathVariable articleId: Long) =
+        articleService.destroyByArticleId(articleId)
 }

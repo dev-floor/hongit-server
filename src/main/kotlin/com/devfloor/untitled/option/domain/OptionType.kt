@@ -18,8 +18,6 @@ enum class OptionType(
         get() = this.name
 
     companion object {
-        fun from(text: String): OptionType {
-            return values().first { it.text == text }
-        }
+        fun from(text: String): OptionType = values().first { it.text == text }
     }
 }
