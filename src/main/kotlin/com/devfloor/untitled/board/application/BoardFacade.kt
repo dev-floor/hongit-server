@@ -1,10 +1,11 @@
 package com.devfloor.untitled.board.application
 
-import com.devfloor.untitled.article.application.ArticleFeedResponse
+import com.devfloor.untitled.article.application.response.ArticleFeedResponse
 import com.devfloor.untitled.article.application.ArticleService
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.articlefavorite.application.ArticleFavoriteService
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
+import com.devfloor.untitled.board.application.response.BoardResponse
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

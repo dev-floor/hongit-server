@@ -22,4 +22,6 @@ class ArticleOptionService(
         repository.deleteAllByArticle(article)
         createAll(article, options)
     }
+
+    fun destroyAllByArticle(article: Article) = repository.deleteAllByArticle(article)
 }
