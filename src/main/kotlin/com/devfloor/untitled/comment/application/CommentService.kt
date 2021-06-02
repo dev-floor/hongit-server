@@ -49,4 +49,11 @@ class CommentService(
             ?.modifyContent(request.content)
             ?: throw EntityNotFoundException("존재하지 않는 댓글입니다.")
     }
+
+    fun destroyByCommentId(commentId: Long) {
+        showByCommentId(commentId).let {
+            commentFavoriteRepository.deleteAllByComment(it)
+        }
+        commentRepository.deleteById(commentId)
+    }
 }
