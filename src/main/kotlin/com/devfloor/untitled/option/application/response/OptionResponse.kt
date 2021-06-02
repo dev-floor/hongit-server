@@ -4,10 +4,15 @@ import com.devfloor.untitled.common.application.response.BaseEnumResponse
 import com.devfloor.untitled.option.domain.Option
 
 data class OptionResponse(
+    val id: Long,
     val text: String,
     val type: BaseEnumResponse,
 ) {
     companion object {
-        fun from(option: Option) = OptionResponse(option.text, BaseEnumResponse.from(option.type))
+        fun from(option: Option) = OptionResponse(
+            id = option.id,
+            text = option.text,
+            type = BaseEnumResponse.from(option.type)
+        )
     }
 }

@@ -16,8 +16,4 @@ enum class OptionType(
 
     override val id: String
         get() = this.name
-
-    companion object {
-        fun from(text: String): OptionType = values().first { it.text == text }
-    }
 }
