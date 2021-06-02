@@ -35,8 +35,8 @@ data class ArticleFeedResponse(
     val clips: Long,
 ) {
     constructor(
-        articleOptions: List<ArticleOption>,
         article: Article,
+        articleOptions: List<ArticleOption>,
         articleFavorites: List<ArticleFavorite>,
     ) : this(
         id = article.id,

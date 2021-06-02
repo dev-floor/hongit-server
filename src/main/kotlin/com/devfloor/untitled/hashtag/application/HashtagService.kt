@@ -8,9 +8,12 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class HashtagService(
-    private val repository: HashtagRepository,
+    private val hashtagRepository: HashtagRepository,
 ) {
     @Transactional
-    fun createByName(hashtagName: String): Hashtag = repository.findByNameOrNull(hashtagName)
-        ?: repository.save(Hashtag(hashtagName))
+    fun createByName(name: String): Hashtag = hashtagRepository.findByNameOrNull(name)
+        ?: hashtagRepository.save(Hashtag(name))
+
+    @Transactional
+    fun createAllByNames(names: List<String>): List<Hashtag> = names.map(this::createByName)
 }

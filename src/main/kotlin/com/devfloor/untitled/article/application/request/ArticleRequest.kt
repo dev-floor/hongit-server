@@ -9,11 +9,9 @@ data class ArticleRequest(
     val title: String?,
     val anonymous: Boolean,
     val content: String,
-    val hashtags: List<String>,
+    val hashtagNames: List<String>,
     val boardId: Long,
 ) {
-    val hasOptions get() = optionIds.isNotEmpty()
-
     fun toArticle(author: User, board: Board): Article =
         Article(
             title = this.title,

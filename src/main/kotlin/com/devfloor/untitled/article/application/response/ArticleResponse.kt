@@ -35,8 +35,8 @@ data class ArticleResponse(
     val clips: Long,
 ) {
     constructor(
-        articleOptions: List<ArticleOption>,
         article: Article,
+        articleOptions: List<ArticleOption>,
         articleHashtags: List<ArticleHashtag>,
         articleFavorites: List<ArticleFavorite>,
     ) : this(

@@ -4,11 +4,13 @@ import com.devfloor.untitled.article.application.request.ArticleModifyRequest
 import com.devfloor.untitled.article.application.request.ArticleRequest
 import com.devfloor.untitled.article.application.response.ArticleFeedResponse
 import com.devfloor.untitled.article.application.response.ArticleResponse
+import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.article.domain.ArticleRepository
 import com.devfloor.untitled.articlefavorite.domain.ArticleFavoriteRepository
 import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
+import com.devfloor.untitled.board.domain.Board
 import com.devfloor.untitled.board.domain.BoardRepository
 import com.devfloor.untitled.common.exception.EntityNotFoundException
 import com.devfloor.untitled.hashtag.application.HashtagService
@@ -21,9 +23,9 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class ArticleService(
     private val articleRepository: ArticleRepository,
+    private val articleFavoriteRepository: ArticleFavoriteRepository,
     private val boardRepository: BoardRepository,
     private val optionRepository: OptionRepository,
-    private val articleFavoriteRepository: ArticleFavoriteRepository,
     private val articleHashtagService: ArticleHashtagService,
     private val articleOptionService: ArticleOptionService,
     private val hashtagService: HashtagService,
@@ -31,32 +33,33 @@ class ArticleService(
     @Transactional(readOnly = true)
     fun showByArticleId(articleId: Long): ArticleResponse {
         val article = articleRepository.findByIdOrNull(articleId)
-            ?: throw EntityNotFoundException("존재하지 않는 게시글 입니다.")
+            ?: EntityNotFoundException.notExistsId(Article::class, articleId)
 
         val articleOptions = articleOptionService.findAllByArticle(article)
-        val articleHashtags = articleHashtagService.showAllByArticle(article)
+        val articleHashtags = articleHashtagService.findAllByArticle(article)
         val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
 
         return ArticleResponse(
-            articleOptions = articleOptions,
             article = article,
+            articleOptions = articleOptions,
             articleHashtags = articleHashtags,
             articleFavorites = articleFavorites,
         )
     }
 
-    fun showAllByBoardId(boardId: Long): List<ArticleFeedResponse> {
+    @Transactional(readOnly = true)
+    fun showAllFeedsByBoardId(boardId: Long): List<ArticleFeedResponse> {
         val board = boardRepository.findByIdOrNull(boardId)
-            ?: throw EntityNotFoundException("id에 해당하는 board가 존재하지 않습니다 - boardId: $boardId")
+            ?: EntityNotFoundException.notExistsId(Board::class, boardId)
 
         return articleRepository.findAllByBoard(board)
-            .map {
-                val articleOptions = articleOptionService.findAllByArticle(it)
-                val articleFavorites = articleFavoriteRepository.findAllByArticle(it)
+            .map { article ->
+                val articleOptions = articleOptionService.findAllByArticle(article)
+                val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
 
                 ArticleFeedResponse(
+                    article = article,
                     articleOptions = articleOptions,
-                    article = it,
                     articleFavorites = articleFavorites,
                 )
             }
@@ -64,47 +67,40 @@ class ArticleService(
 
     @Transactional
     fun create(request: ArticleRequest, user: User): Long {
-        val board = boardRepository.findByIdOrNull(request.boardId)
-            ?: throw EntityNotFoundException("id에 해당하는 board가 존재하지 않습니다 - boardId: ${request.boardId}")
-        val article = articleRepository.save(request.toArticle(user, board))
+        val article = boardRepository.findByIdOrNull(request.boardId)
+            ?.let { articleRepository.save(request.toArticle(user, it)) }
+            ?: EntityNotFoundException.notExistsId(Board::class, request.boardId)
 
-        if (request.hasOptions) {
-            optionRepository.findAllByIdIn(request.optionIds)
-                .let { articleOptionService.saveAll(article, it) }
-        }
+        optionRepository.findAllById(request.optionIds)
+            .let { articleOptionService.saveAll(article, it) }
 
-        request.hashtags
-            .map { hashtagService.createByName(it) }
-            .map { articleHashtagService.create(ArticleHashtag(article, it)) }
+        hashtagService.createAllByNames(request.hashtagNames)
+            .map { ArticleHashtag(article, it) }
+            .let { articleHashtagService.saveAll(it) }
 
         return article.id
     }
 
     @Transactional
-    fun modifyByArticleId(
-        articleId: Long,
-        request: ArticleModifyRequest,
-    ) {
+    fun modifyByArticleId(articleId: Long, request: ArticleModifyRequest) {
         val article = articleRepository.findByIdOrNull(articleId)
             ?.apply { modify(request.title, request.content) }
-            ?: throw EntityNotFoundException("존재하지 않는 게시글 입니다.")
+            ?: EntityNotFoundException.notExistsId(Article::class, articleId)
 
-        request.hashtags
-            .map { hashtagService.createByName(it) }
+        hashtagService.createAllByNames(request.hashtagNames)
             .let { articleHashtagService.modifyByArticle(article, it) }
 
-        optionRepository.findAllByIdIn(request.optionIds)
+        optionRepository.findAllById(request.optionIds)
             .let { articleOptionService.modifyByArticle(article, it) }
     }
 
     @Transactional
-    fun destroyByArticleId(articleId: Long) {
-        val article = articleRepository.findByIdOrNull(articleId)
-            ?: throw EntityNotFoundException("존재하지 않는 게시글 입니다.")
-
-        articleHashtagService.destroyAllByArticle(article)
-        articleOptionService.deleteAllByArticle(article)
-        articleFavoriteRepository.deleteAllByArticle(article)
-        articleRepository.delete(article)
-    }
+    fun destroyByArticleId(articleId: Long) = articleRepository.findByIdOrNull(articleId)
+        ?.let { article ->
+            articleOptionService.deleteAllByArticle(article)
+            articleHashtagService.deleteAllByArticle(article)
+            articleFavoriteRepository.deleteAllByArticle(article)
+            articleRepository.delete(article)
+        }
+        ?: EntityNotFoundException.notExistsId(Article::class, articleId)
 }

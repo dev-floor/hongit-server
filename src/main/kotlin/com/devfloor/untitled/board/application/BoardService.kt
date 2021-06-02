@@ -1,6 +1,7 @@
 package com.devfloor.untitled.board.application
 
 import com.devfloor.untitled.board.application.response.BoardResponse
+import com.devfloor.untitled.board.domain.Board
 import com.devfloor.untitled.board.domain.BoardRepository
 import com.devfloor.untitled.boardcourse.domain.BoardCourseRepository
 import com.devfloor.untitled.boardoption.domain.BoardOptionRepository
@@ -23,7 +24,7 @@ class BoardService(
         log.info("[BoardService.showByBoardId] 게시판 상세정보 조회 - boardId: $boardId")
 
         val board = boardRepository.findByIdOrNull(boardId)
-            ?: throw EntityNotFoundException("id에 해당하는 board가 존재하지 않습니다 - boardId: $boardId")
+            ?: EntityNotFoundException.notExistsId(Board::class, boardId)
         val courses = boardCourseRepository.findAllByBoard(board)
             .map { it.course }
         val options = boardOptionRepository.findAllByBoard(board)

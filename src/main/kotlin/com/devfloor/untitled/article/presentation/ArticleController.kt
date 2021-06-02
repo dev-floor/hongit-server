@@ -1,9 +1,9 @@
 package com.devfloor.untitled.article.presentation
 
-import com.devfloor.untitled.article.application.ArticleFeedResponse
 import com.devfloor.untitled.article.application.ArticleService
 import com.devfloor.untitled.article.application.request.ArticleModifyRequest
 import com.devfloor.untitled.article.application.request.ArticleRequest
+import com.devfloor.untitled.article.application.response.ArticleFeedResponse
 import com.devfloor.untitled.article.application.response.ArticleResponse
 import com.devfloor.untitled.user.domain.User
 import com.devfloor.untitled.user.domain.UserType
@@ -30,7 +30,7 @@ class ArticleController(
     @GetMapping(value = ["/articles"])
     @ResponseStatus(value = HttpStatus.OK)
     fun showAllByBoardId(@RequestParam boardId: Long): List<ArticleFeedResponse> =
-        articleService.showAllByBoardId(boardId)
+        articleService.showAllFeedsByBoardId(boardId)
 
     @PostMapping(value = ["/articles"])
     @ResponseStatus(value = HttpStatus.CREATED)
@@ -52,9 +52,7 @@ class ArticleController(
     fun modifyByArticleId(
         @PathVariable articleId: Long,
         @RequestBody request: ArticleModifyRequest,
-    ) {
-        return articleService.modifyByArticleId(articleId, request)
-    }
+    ) = articleService.modifyByArticleId(articleId, request)
 
     @DeleteMapping(value = ["/articles/{articleId}"])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)

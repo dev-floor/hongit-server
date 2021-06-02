@@ -5,21 +5,27 @@ import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtagRepository
 import com.devfloor.untitled.hashtag.domain.Hashtag
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ArticleHashtagService(
-    private val repository: ArticleHashtagRepository,
+    private val articleHashtagRepository: ArticleHashtagRepository,
 ) {
-    fun showAllByArticle(article: Article): List<ArticleHashtag> =
-        repository.findAllByArticle(article)
+    fun findAllByArticle(article: Article): List<ArticleHashtag> =
+        articleHashtagRepository.findAllByArticle(article)
 
-    fun create(articleHashtag: ArticleHashtag) = repository.save(articleHashtag)
+    fun save(articleHashtag: ArticleHashtag): ArticleHashtag =
+        articleHashtagRepository.save(articleHashtag)
 
+    fun saveAll(articleHashtags: List<ArticleHashtag>): List<ArticleHashtag> =
+        articleHashtagRepository.saveAll(articleHashtags)
+
+    @Transactional
     fun modifyByArticle(article: Article, hashtags: List<Hashtag>) {
-        repository.deleteAllByArticle(article)
+        articleHashtagRepository.deleteAllByArticle(article)
         hashtags.map { ArticleHashtag(article, it) }
-            .let { repository.saveAll(it) }
+            .let { articleHashtagRepository.saveAll(it) }
     }
 
-    fun destroyAllByArticle(article: Article) = repository.deleteAllByArticle(article)
+    fun deleteAllByArticle(article: Article) = articleHashtagRepository.deleteAllByArticle(article)
 }
