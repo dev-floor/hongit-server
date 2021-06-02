@@ -1,5 +1,6 @@
 package com.devfloor.untitled.comment.application
 
+import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.article.domain.ArticleRepository
 import com.devfloor.untitled.comment.application.request.CommentModifyRequest
 import com.devfloor.untitled.comment.application.request.CommentRequest
@@ -23,8 +24,7 @@ class CommentService(
     fun showAllByArticleId(articleId: Long): List<CommentResponse> {
         val comments = articleRepository.findByIdOrNull(articleId)
             ?.let(commentRepository::findAllByArticle)
-            ?: throw EntityNotFoundException("존재하지 않는 게시글 입니다.")
-
+            ?: EntityNotFoundException.notExistsId(Article::class, articleId)
         return comments.map {
             CommentResponse(
                 comment = it,
@@ -36,7 +36,7 @@ class CommentService(
     @Transactional
     fun create(author: User, request: CommentRequest): CommentResponse {
         val article = articleRepository.findByIdOrNull(request.articleId)
-            ?: throw EntityNotFoundException("존재하지 않는 게시글 입니다.")
+            ?: EntityNotFoundException.notExistsId(Article::class, request.articleId)
 
         return Comment(article, author, request.anonymous, request.content)
             .let(commentRepository::save)
@@ -47,13 +47,11 @@ class CommentService(
     fun modifyByCommentId(commentId: Long, request: CommentModifyRequest) {
         commentRepository.findByIdOrNull(commentId)
             ?.modifyContent(request.content)
-            ?: throw EntityNotFoundException("존재하지 않는 댓글입니다.")
+            ?: EntityNotFoundException.notExistsId(Comment::class, commentId)
     }
 
-    fun destroyByCommentId(commentId: Long) {
-        showByCommentId(commentId).let {
-            commentFavoriteRepository.deleteAllByComment(it)
-        }
-        commentRepository.deleteById(commentId)
-    }
+    fun destroyByCommentId(commentId: Long) = commentRepository.findByIdOrNull(commentId)
+        ?.also(commentFavoriteRepository::deleteAllByComment)
+        ?.let(commentRepository::delete)
+        ?: EntityNotFoundException.notExistsId(Comment::class, commentId)
 }

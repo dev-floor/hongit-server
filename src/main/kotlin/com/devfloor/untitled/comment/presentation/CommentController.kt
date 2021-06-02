@@ -41,7 +41,7 @@ class CommentController(
         commentService.modifyByCommentId(commentId, request)
     }
 
-    @DeleteMapping(value = ["/comments/{commentId}"])
+    @DeleteMapping(value = ["/{commentId}"])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     fun destroyByCommentId(@PathVariable commentId: Long) =
         commentService.destroyByCommentId(commentId)
