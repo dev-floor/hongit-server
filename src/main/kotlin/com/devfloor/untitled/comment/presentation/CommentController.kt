@@ -5,7 +5,7 @@ import com.devfloor.untitled.comment.application.request.CommentModifyRequest
 import com.devfloor.untitled.comment.application.request.CommentRequest
 import com.devfloor.untitled.comment.application.response.CommentResponse
 import com.devfloor.untitled.comment.presentation.CommentController.Companion.COMMENT_API_URI
-import com.devfloor.untitled.common.presentation.BaseController
+import com.devfloor.untitled.common.config.BASE_API_URI
 import com.devfloor.untitled.user.domain.User
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -17,11 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.RestController
 
+@RestController
 @RequestMapping(value = [COMMENT_API_URI])
 class CommentController(
     private val commentService: CommentService,
-) : BaseController() {
+) {
     @GetMapping
     @ResponseStatus(value = HttpStatus.OK)
     fun showAllByArticleId(@RequestParam articleId: Long): List<CommentResponse> =
