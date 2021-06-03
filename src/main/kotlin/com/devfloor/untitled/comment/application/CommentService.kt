@@ -43,6 +43,7 @@ class CommentService(
             .let(::CommentResponse)
     }
 
+    @Transactional
     fun modifyByCommentId(commentId: Long, request: CommentModifyRequest) {
         commentRepository.findByIdOrNull(commentId)
             ?.modifyContent(request.content)
@@ -50,8 +51,11 @@ class CommentService(
     }
 
     @Transactional
-    fun destroyByCommentId(commentId: Long) = commentRepository.findByIdOrNull(commentId)
-        ?.also(commentFavoriteRepository::deleteAllByComment)
-        ?.let(commentRepository::delete)
-        ?: EntityNotFoundException.notExistsId(Comment::class, commentId)
+    fun destroyByCommentId(commentId: Long) {
+        val comment = (commentRepository.findByIdOrNull(commentId)
+            ?: EntityNotFoundException.notExistsId(Comment::class, commentId))
+
+        commentFavoriteRepository.deleteAllByComment(comment)
+        commentRepository.delete(comment)
+    }
 }

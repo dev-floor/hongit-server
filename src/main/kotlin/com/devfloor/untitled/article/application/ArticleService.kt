@@ -8,7 +8,6 @@ import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.article.domain.ArticleRepository
 import com.devfloor.untitled.articlefavorite.domain.ArticleFavoriteRepository
 import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
-import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
 import com.devfloor.untitled.board.domain.Board
 import com.devfloor.untitled.board.domain.BoardRepository
@@ -75,8 +74,7 @@ class ArticleService(
             .let { articleOptionService.saveAll(article, it) }
 
         hashtagService.createAllByNames(request.hashtagNames)
-            .map { ArticleHashtag(article, it) }
-            .let { articleHashtagService.saveAll(it) }
+            .let { articleHashtagService.saveAll(article, it) }
 
         return article.id
     }

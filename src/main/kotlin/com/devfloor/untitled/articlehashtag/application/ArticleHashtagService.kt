@@ -14,11 +14,9 @@ class ArticleHashtagService(
     fun findAllByArticle(article: Article): List<ArticleHashtag> =
         articleHashtagRepository.findAllByArticle(article)
 
-    fun save(articleHashtag: ArticleHashtag): ArticleHashtag =
-        articleHashtagRepository.save(articleHashtag)
-
-    fun saveAll(articleHashtags: List<ArticleHashtag>): List<ArticleHashtag> =
-        articleHashtagRepository.saveAll(articleHashtags)
+    fun saveAll(article: Article, hashtags: List<Hashtag>): List<ArticleHashtag> =
+        hashtags.map { ArticleHashtag(article, it) }
+            .also { articleHashtagRepository.saveAll(it) }
 
     @Transactional
     fun modifyByArticle(article: Article, hashtags: List<Hashtag>) {

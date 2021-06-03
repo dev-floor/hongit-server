@@ -27,11 +27,11 @@ data class CommentResponse(
         favorites: Long = 0,
     ) : this(
         id = comment.id,
-        author = ProfileResponse(comment.author),
+        author = ProfileResponse.from(comment.author),
         anonymous = comment.anonymous,
         content = comment.content,
         favorites = favorites,
-        createdDate = comment.createdDate,
-        modifiedDate = comment.modifiedDate,
+        createdDate = comment.createdAt,
+        modifiedDate = comment.modifiedAt,
     )
 }
