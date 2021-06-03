@@ -8,7 +8,6 @@ import com.devfloor.untitled.article.application.response.ArticleResponse
 import com.devfloor.untitled.article.presentation.ArticleController.Companion.ARTICLE_API_URI
 import com.devfloor.untitled.common.config.BASE_API_URI
 import com.devfloor.untitled.user.domain.User
-import com.devfloor.untitled.user.domain.UserType
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.util.UriComponentsBuilder
+import java.net.URI
 
 @RestController
 @RequestMapping(value = [ARTICLE_API_URI])
@@ -39,21 +38,9 @@ class ArticleController(
         articleService.showAllFeedsByBoardId(boardId)
 
     @PostMapping
-    fun create(@RequestBody request: ArticleCreateRequest): ResponseEntity<Unit> {
-        val user = User(
-            nickname = "userNicknameData",
-            type = UserType.STUDENT,
-            image = "userImageData",
-            classOf = "userClassOfData",
-            github = "userGithubData",
-            blog = "userBlogData",
-            description = "userDescriptionData"
-        )
-        val articleId = articleService.create(request, user)
-        val uriComponents = UriComponentsBuilder.fromPath("$ARTICLE_API_URI/{articleId}")
-            .buildAndExpand(articleId)
-
-        return ResponseEntity.created(uriComponents.toUri()).build()
+    fun create(@RequestBody request: ArticleCreateRequest, author: User): ResponseEntity<Unit> {
+        val articleId = articleService.create(request, author)
+        return ResponseEntity.created(URI.create("$ARTICLE_API_URI/$articleId")).build()
     }
 
     @PutMapping(value = ["/{articleId}"])

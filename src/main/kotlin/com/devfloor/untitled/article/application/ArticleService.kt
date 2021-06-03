@@ -65,9 +65,9 @@ class ArticleService(
     }
 
     @Transactional
-    fun create(request: ArticleCreateRequest, user: User): Long {
+    fun create(request: ArticleCreateRequest, author: User): Long {
         val article = boardRepository.findByIdOrNull(request.boardId)
-            ?.let { articleRepository.save(request.toArticle(user, it)) }
+            ?.let { articleRepository.save(request.toArticle(author, it)) }
             ?: EntityNotFoundException.notExistsId(Board::class, request.boardId)
 
         optionRepository.findAllById(request.optionIds)

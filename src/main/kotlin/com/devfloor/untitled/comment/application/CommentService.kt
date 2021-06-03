@@ -2,8 +2,8 @@ package com.devfloor.untitled.comment.application
 
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.article.domain.ArticleRepository
+import com.devfloor.untitled.comment.application.request.CommentCreateRequest
 import com.devfloor.untitled.comment.application.request.CommentModifyRequest
-import com.devfloor.untitled.comment.application.request.CommentRequest
 import com.devfloor.untitled.comment.application.response.CommentResponse
 import com.devfloor.untitled.comment.domain.Comment
 import com.devfloor.untitled.comment.domain.CommentRepository
@@ -25,35 +25,37 @@ class CommentService(
         val comments = articleRepository.findByIdOrNull(articleId)
             ?.let(commentRepository::findAllByArticle)
             ?: EntityNotFoundException.notExistsId(Article::class, articleId)
+
         return comments.map {
             CommentResponse(
                 comment = it,
-                favorites = commentFavoriteRepository.countAllByComment(it),
+                favoriteCount = commentFavoriteRepository.countAllByComment(it),
             )
         }
     }
 
     @Transactional
-    fun create(author: User, request: CommentRequest): CommentResponse {
+    fun create(author: User, request: CommentCreateRequest): CommentResponse {
         val article = articleRepository.findByIdOrNull(request.articleId)
             ?: EntityNotFoundException.notExistsId(Article::class, request.articleId)
 
-        return Comment(article, author, request.anonymous, request.content)
-            .let(commentRepository::save)
+        return commentRepository.save(request.toComment(article, author))
             .let(::CommentResponse)
     }
 
     @Transactional
-    fun modifyByCommentId(commentId: Long, request: CommentModifyRequest) {
+    fun modifyByCommentId(commentId: Long, request: CommentModifyRequest): CommentResponse =
         commentRepository.findByIdOrNull(commentId)
-            ?.modifyContent(request.content)
+            ?.let { comment ->
+                comment.modifyContent(request.content)
+                CommentResponse(comment)
+            }
             ?: EntityNotFoundException.notExistsId(Comment::class, commentId)
-    }
 
     @Transactional
     fun destroyByCommentId(commentId: Long) {
-        val comment = (commentRepository.findByIdOrNull(commentId)
-            ?: EntityNotFoundException.notExistsId(Comment::class, commentId))
+        val comment = commentRepository.findByIdOrNull(commentId)
+            ?: EntityNotFoundException.notExistsId(Comment::class, commentId)
 
         commentFavoriteRepository.deleteAllByComment(comment)
         commentRepository.delete(comment)
