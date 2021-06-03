@@ -16,19 +16,17 @@ data class BoardResponse(
     val grade: BaseEnumResponse?,
     val options: List<OptionResponse>,
 ) {
-    companion object {
-        fun of(
-            board: Board,
-            grade: Grade?,
-            options: List<Option>,
-        ) = BoardResponse(
-            id = board.id,
-            title = board.title,
-            professor = ProfessorResponse.from(board.professor),
-            subject = board.subject.name,
-            type = BaseEnumResponse.from(board.type),
-            grade = grade?.let { BaseEnumResponse.from(it) },
-            options = options.map { OptionResponse.from(it) }
-        )
-    }
+    constructor(
+        board: Board,
+        grade: Grade?,
+        options: List<Option>,
+    ) : this(
+        id = board.id,
+        title = board.title,
+        professor = ProfessorResponse.from(board.professor),
+        subject = board.subject.name,
+        type = BaseEnumResponse.from(board.type),
+        grade = grade?.let { BaseEnumResponse.from(it) },
+        options = options.map { OptionResponse.from(it) }
+    )
 }

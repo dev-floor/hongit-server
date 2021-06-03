@@ -30,7 +30,7 @@ class BoardService(
         val options = boardOptionRepository.findAllByBoard(board)
             .map { it.option }
 
-        return BoardResponse.of(
+        return BoardResponse(
             board = board,
             grade = courses.firstOrNull()?.grade,
             options = options + courses.map { it.option },
