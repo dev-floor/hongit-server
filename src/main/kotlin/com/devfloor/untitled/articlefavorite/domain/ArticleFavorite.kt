@@ -10,6 +10,7 @@ import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.Index
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
@@ -23,7 +24,12 @@ import javax.persistence.Table
  * @property type 좋아요 종류
  */
 @Entity
-@Table(name = "article_favorites")
+@Table(
+    name = "article_favorites",
+    indexes = [
+        Index(name = "idx_article_id", columnList = "article_id")
+    ]
+)
 class ArticleFavorite(
     article: Article,
     user: User,

@@ -27,7 +27,7 @@ import javax.persistence.Table
 @Table(
     name = "articles",
     indexes = [
-        Index(name = "idx_article_board_id", columnList = "board_id")
+        Index(name = "idx_board_id", columnList = "board_id")
     ]
 )
 class Article(
