@@ -27,7 +27,7 @@ data class CommentResponse(
         favoriteCount: Long = 0,
     ) : this(
         id = comment.id,
-        author = ProfileResponse.from(comment.author),
+        author = ProfileResponse(comment.author),
         anonymous = comment.anonymous,
         content = comment.content,
         favoriteCount = favoriteCount,

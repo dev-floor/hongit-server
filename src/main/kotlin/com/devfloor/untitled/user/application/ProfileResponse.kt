@@ -11,14 +11,12 @@ data class ProfileResponse(
     val blog: String?,
     val description: String?,
 ) {
-    companion object {
-        fun from(user: User) = ProfileResponse(
-            nickname = user.nickname,
-            type = BaseEnumResponse(user.type),
-            image = user.image,
-            github = user.github,
-            blog = user.blog,
-            description = user.description,
-        )
-    }
+    constructor(user: User) : this(
+        nickname = user.nickname,
+        type = BaseEnumResponse(user.type),
+        image = user.image,
+        github = user.github,
+        blog = user.blog,
+        description = user.description,
+    )
 }

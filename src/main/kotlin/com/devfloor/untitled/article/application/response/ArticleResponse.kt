@@ -58,7 +58,7 @@ data class ArticleResponse(
         title = article.title,
         anonymous = article.anonymous,
         content = article.content,
-        author = ProfileResponse.from(article.author),
+        author = ProfileResponse(article.author),
         hashtags = articleHashtags.map { it.hashtag.name },
         favoriteCount = articleFavorites.count { it.matchType(ArticleFavoriteType.FAVORITE) }
             .toLong(),

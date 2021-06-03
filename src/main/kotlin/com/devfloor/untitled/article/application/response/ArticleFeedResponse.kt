@@ -53,7 +53,7 @@ data class ArticleFeedResponse(
         options = articleOptions.map { OptionResponse(it.option) },
         title = article.title,
         anonymous = article.anonymous,
-        author = ProfileResponse.from(article.author),
+        author = ProfileResponse(article.author),
         content = article.sliceContentByLength(CONTENT_MAX_LENGTH),
         favoriteCount = articleFavorites.count { it.matchType(ArticleFavoriteType.FAVORITE) }
             .toLong(),
