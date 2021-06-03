@@ -8,6 +8,7 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.Index
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
@@ -20,7 +21,12 @@ import javax.persistence.Table
  * @property course 수업
  */
 @Entity
-@Table(name = "board_courses")
+@Table(
+    name = "board_courses",
+    indexes = [
+        Index(name = "idx_board_id", columnList = "board_id")
+    ]
+)
 class BoardCourse(
     board: Board,
     course: Course,
