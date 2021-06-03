@@ -5,34 +5,47 @@ import com.devfloor.untitled.articlefavorite.domain.ArticleFavorite
 import com.devfloor.untitled.articlefavorite.domain.ArticleFavoriteType
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
 import com.devfloor.untitled.articleoption.domain.ArticleOption
+import com.devfloor.untitled.common.config.LOCAL_DATE_TIME_FORMAT
+import com.devfloor.untitled.common.config.SEOUL_TIME_ZONE
+import com.devfloor.untitled.option.application.response.OptionResponse
 import com.devfloor.untitled.user.application.ProfileResponse
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 
 data class ArticleResponse(
-    val options: List<String>,
+    val id: Long,
+
+    val options: List<OptionResponse>,
 
     val title: String? = null,
 
     val anonymous: Boolean,
 
-    val content: String,
-
     val author: ProfileResponse,
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
-    val createdDate: LocalDateTime,
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
-    val modifiedDate: LocalDateTime,
+    val content: String,
 
     val hashtags: List<String>,
 
-    val favorites: Long,
+    val favoriteCount: Long,
 
-    val wonders: Long,
+    val wonderCount: Long,
 
-    val clips: Long,
+    val clipCount: Long,
+
+    @JsonFormat(
+        pattern = LOCAL_DATE_TIME_FORMAT,
+        shape = JsonFormat.Shape.STRING,
+        locale = SEOUL_TIME_ZONE
+    )
+    val createdAt: LocalDateTime,
+
+    @JsonFormat(
+        pattern = LOCAL_DATE_TIME_FORMAT,
+        shape = JsonFormat.Shape.STRING,
+        locale = SEOUL_TIME_ZONE
+    )
+    val modifiedAt: LocalDateTime,
 ) {
     constructor(
         article: Article,
@@ -40,16 +53,18 @@ data class ArticleResponse(
         articleHashtags: List<ArticleHashtag>,
         articleFavorites: List<ArticleFavorite>,
     ) : this(
-        options = articleOptions.map { it.option.type.name },
+        id = article.id,
+        options = articleOptions.map { OptionResponse.from(it.option) },
         title = article.title,
         anonymous = article.anonymous,
         content = article.content,
-        author = ProfileResponse(article.author),
-        createdDate = article.createdDate,
-        modifiedDate = article.modifiedDate,
+        author = ProfileResponse.from(article.author),
         hashtags = articleHashtags.map { it.hashtag.name },
-        favorites = articleFavorites.count { it.matchType(ArticleFavoriteType.FAVORITE) }.toLong(),
-        wonders = articleFavorites.count { it.matchType(ArticleFavoriteType.WONDER) }.toLong(),
-        clips = articleFavorites.count { it.matchType(ArticleFavoriteType.CLIP) }.toLong(),
+        favoriteCount = articleFavorites.count { it.matchType(ArticleFavoriteType.FAVORITE) }
+            .toLong(),
+        wonderCount = articleFavorites.count { it.matchType(ArticleFavoriteType.WONDER) }.toLong(),
+        clipCount = articleFavorites.count { it.matchType(ArticleFavoriteType.CLIP) }.toLong(),
+        createdAt = article.createdAt,
+        modifiedAt = article.modifiedAt,
     )
 }

@@ -1,8 +1,8 @@
 package com.devfloor.untitled.article.presentation
 
 import com.devfloor.untitled.article.application.ArticleService
+import com.devfloor.untitled.article.application.request.ArticleCreateRequest
 import com.devfloor.untitled.article.application.request.ArticleModifyRequest
-import com.devfloor.untitled.article.application.request.ArticleRequest
 import com.devfloor.untitled.article.application.response.ArticleFeedResponse
 import com.devfloor.untitled.article.application.response.ArticleResponse
 import com.devfloor.untitled.user.domain.User
@@ -34,15 +34,15 @@ class ArticleController(
 
     @PostMapping(value = ["/articles"])
     @ResponseStatus(value = HttpStatus.CREATED)
-    fun create(@RequestBody request: ArticleRequest): Long {
+    fun create(@RequestBody request: ArticleCreateRequest): Long {
         val user = User(
-            "userNicknameData",
-            UserType.STUDENT,
-            "userImageData",
-            "userClassOfData",
-            "userGithubData",
-            "userBlogData",
-            "userDescriptionData"
+            nickname = "userNicknameData",
+            type = UserType.STUDENT,
+            image = "userImageData",
+            classOf = "userClassOfData",
+            github = "userGithubData",
+            blog = "userBlogData",
+            description = "userDescriptionData"
         )
         return articleService.create(request, user)
     }

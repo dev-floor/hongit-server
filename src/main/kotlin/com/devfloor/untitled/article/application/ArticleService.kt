@@ -1,7 +1,7 @@
 package com.devfloor.untitled.article.application
 
+import com.devfloor.untitled.article.application.request.ArticleCreateRequest
 import com.devfloor.untitled.article.application.request.ArticleModifyRequest
-import com.devfloor.untitled.article.application.request.ArticleRequest
 import com.devfloor.untitled.article.application.response.ArticleFeedResponse
 import com.devfloor.untitled.article.application.response.ArticleResponse
 import com.devfloor.untitled.article.domain.Article
@@ -66,7 +66,7 @@ class ArticleService(
     }
 
     @Transactional
-    fun create(request: ArticleRequest, user: User): Long {
+    fun create(request: ArticleCreateRequest, user: User): Long {
         val article = boardRepository.findByIdOrNull(request.boardId)
             ?.let { articleRepository.save(request.toArticle(user, it)) }
             ?: EntityNotFoundException.notExistsId(Board::class, request.boardId)
@@ -96,11 +96,11 @@ class ArticleService(
 
     @Transactional
     fun destroyByArticleId(articleId: Long) = articleRepository.findByIdOrNull(articleId)
-        ?.let { article ->
-            articleOptionService.deleteAllByArticle(article)
-            articleHashtagService.deleteAllByArticle(article)
-            articleFavoriteRepository.deleteAllByArticle(article)
-            articleRepository.delete(article)
+        ?.let {
+            articleOptionService.deleteAllByArticle(it)
+            articleHashtagService.deleteAllByArticle(it)
+            articleFavoriteRepository.deleteAllByArticle(it)
+            articleRepository.delete(it)
         }
         ?: EntityNotFoundException.notExistsId(Article::class, articleId)
 }

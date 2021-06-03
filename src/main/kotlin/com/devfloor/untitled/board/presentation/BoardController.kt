@@ -22,12 +22,12 @@ class BoardController(
     @GetMapping(value = ["/{boardId}"])
     @ResponseStatus(value = HttpStatus.OK)
     fun showByBoardId(@PathVariable boardId: Long): BoardResponse {
-        log.info("[BoardController.showByBoardId] 게시판 상세정보 조회 - url: $BOARD_API_URI/${boardId}")
+        log.info("[BoardController.showByBoardId] 게시판 상세정보 조회 - url: $BOARD_API_URI/$boardId")
         return boardService.showByBoardId(boardId)
             .also { log.info("[BoardController.showByBoardId] 게시판 상세정보 조회 완료 - response: $it") }
     }
 
     companion object {
-        const val BOARD_API_URI = "${BASE_API_URI}/boards"
+        const val BOARD_API_URI = "$BASE_API_URI/boards"
     }
 }

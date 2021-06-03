@@ -40,6 +40,8 @@ class BoardOption(
     val option: Option = option
 
     init {
-        assert(option.type != OptionType.COURSE_GROUP) { "boardOption의 option은 optionType이 COURSE_GROUP이 아닌 옵션만 가능합니다." }
+        assert(option.type != OptionType.COURSE_GROUP) {
+            "boardOption의 option은 optionType이 COURSE_GROUP이 아닌 옵션만 가능합니다."
+        }
     }
 }

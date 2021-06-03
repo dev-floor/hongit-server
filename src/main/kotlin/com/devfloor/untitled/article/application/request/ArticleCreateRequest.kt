@@ -4,7 +4,7 @@ import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.board.domain.Board
 import com.devfloor.untitled.user.domain.User
 
-data class ArticleRequest(
+data class ArticleCreateRequest(
     val optionIds: List<Long>,
     val title: String?,
     val anonymous: Boolean,
@@ -18,6 +18,6 @@ data class ArticleRequest(
             anonymous = this.anonymous,
             content = this.content,
             author = author,
-            board = board
+            board = board,
         )
 }
