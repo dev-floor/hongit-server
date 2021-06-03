@@ -14,7 +14,7 @@ data class ProfileResponse(
     companion object {
         fun from(user: User) = ProfileResponse(
             nickname = user.nickname,
-            type = BaseEnumResponse.from(user.type),
+            type = BaseEnumResponse(user.type),
             image = user.image,
             github = user.github,
             blog = user.blog,

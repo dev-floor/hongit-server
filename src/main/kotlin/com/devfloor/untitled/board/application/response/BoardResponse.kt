@@ -25,8 +25,8 @@ data class BoardResponse(
         title = board.title,
         professor = ProfessorResponse.from(board.professor),
         subject = board.subject.name,
-        type = BaseEnumResponse.from(board.type),
-        grade = grade?.let { BaseEnumResponse.from(it) },
+        type = BaseEnumResponse(board.type),
+        grade = grade?.let { BaseEnumResponse(it) },
         options = options.map { OptionResponse.from(it) }
     )
 }

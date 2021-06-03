@@ -12,7 +12,7 @@ data class OptionResponse(
         fun from(option: Option) = OptionResponse(
             id = option.id,
             text = option.text,
-            type = BaseEnumResponse.from(option.type)
+            type = BaseEnumResponse(option.type)
         )
     }
 }

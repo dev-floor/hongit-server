@@ -6,7 +6,5 @@ data class BaseEnumResponse(
     val id: String,
     val text: String,
 ) {
-    companion object {
-        fun from(enum: BaseEnum) = BaseEnumResponse(enum.id, enum.text)
-    }
+    constructor(enum: BaseEnum) : this(enum.id, enum.text)
 }
