@@ -21,8 +21,7 @@ class ArticleHashtagService(
     @Transactional
     fun modifyByArticle(article: Article, hashtags: List<Hashtag>) {
         articleHashtagRepository.deleteAllByArticle(article)
-        hashtags.map { ArticleHashtag(article, it) }
-            .let { articleHashtagRepository.saveAll(it) }
+        saveAll(article, hashtags)
     }
 
     fun deleteAllByArticle(article: Article) = articleHashtagRepository.deleteAllByArticle(article)
