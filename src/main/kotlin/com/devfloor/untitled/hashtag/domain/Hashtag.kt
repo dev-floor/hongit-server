@@ -6,6 +6,7 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.Index
 import javax.persistence.Table
 
 /**
@@ -15,7 +16,12 @@ import javax.persistence.Table
  * @property name 해시태그 이름
  */
 @Entity
-@Table(name = "hashtags")
+@Table(
+    name = "hashtags",
+    indexes = [
+        Index(name = "idx_name", columnList = "name")
+    ]
+)
 class Hashtag(
     name: String,
 ) : BaseEntity() {
