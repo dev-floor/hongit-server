@@ -6,7 +6,5 @@ data class ProfessorResponse(
     val name: String,
     val email: String?,
 ) {
-    companion object {
-        fun from(professor: Professor) = ProfessorResponse(professor.name, professor.email)
-    }
+    constructor(professor: Professor) : this(professor.name, professor.email)
 }

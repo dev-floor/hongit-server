@@ -23,7 +23,7 @@ data class BoardResponse(
     ) : this(
         id = board.id,
         title = board.title,
-        professor = ProfessorResponse.from(board.professor),
+        professor = ProfessorResponse(board.professor),
         subject = board.subject.name,
         type = BaseEnumResponse(board.type),
         grade = grade?.let { BaseEnumResponse(it) },
