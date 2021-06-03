@@ -8,11 +8,9 @@ data class OptionResponse(
     val text: String,
     val type: BaseEnumResponse,
 ) {
-    companion object {
-        fun from(option: Option) = OptionResponse(
-            id = option.id,
-            text = option.text,
-            type = BaseEnumResponse(option.type)
-        )
-    }
+    constructor(option: Option) : this(
+        id = option.id,
+        text = option.text,
+        type = BaseEnumResponse(option.type)
+    )
 }

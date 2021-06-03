@@ -54,7 +54,7 @@ data class ArticleResponse(
         articleFavorites: List<ArticleFavorite>,
     ) : this(
         id = article.id,
-        options = articleOptions.map { OptionResponse.from(it.option) },
+        options = articleOptions.map { OptionResponse(it.option) },
         title = article.title,
         anonymous = article.anonymous,
         content = article.content,
