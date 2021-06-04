@@ -29,13 +29,12 @@ class ArticleController(
 ) {
     @GetMapping(value = ["/{articleId}"])
     @ResponseStatus(value = HttpStatus.OK)
-    fun showByArticleId(@PathVariable articleId: Long): ArticleResponse =
-        articleService.showByArticleId(articleId)
+    fun showByArticleId(@PathVariable articleId: Long): ArticleResponse = articleService.showByArticleId(articleId)
 
     @GetMapping
     @ResponseStatus(value = HttpStatus.OK)
     fun showAllByBoardId(@RequestParam boardId: Long): List<ArticleFeedResponse> =
-        articleService.showAllFeedsByBoardId(boardId)
+        articleService.showAllByBoardId(boardId)
 
     @PostMapping
     fun create(@RequestBody request: ArticleCreateRequest, author: User): ResponseEntity<Unit> {
@@ -52,8 +51,7 @@ class ArticleController(
 
     @DeleteMapping(value = ["/{articleId}"])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun destroyByArticleId(@PathVariable articleId: Long) =
-        articleService.destroyByArticleId(articleId)
+    fun destroyByArticleId(@PathVariable articleId: Long) = articleService.destroyByArticleId(articleId)
 
     companion object {
         const val ARTICLE_API_URI = "$BASE_API_URI/articles"

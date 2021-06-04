@@ -11,8 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 class ArticleHashtagService(
     private val articleHashtagRepository: ArticleHashtagRepository,
 ) {
-    fun findAllByArticle(article: Article): List<ArticleHashtag> =
-        articleHashtagRepository.findAllByArticle(article)
+    fun findAllByArticle(article: Article): List<ArticleHashtag> = articleHashtagRepository.findAllByArticle(article)
 
     fun saveAll(article: Article, hashtags: List<Hashtag>): List<ArticleHashtag> =
         hashtags.map { ArticleHashtag(article, it) }

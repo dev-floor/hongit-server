@@ -47,7 +47,7 @@ class ArticleService(
     }
 
     @Transactional(readOnly = true)
-    fun showAllFeedsByBoardId(boardId: Long): List<ArticleFeedResponse> {
+    fun showAllByBoardId(boardId: Long): List<ArticleFeedResponse> {
         val board = boardRepository.findByIdOrNull(boardId)
             ?: EntityNotFoundException.notExistsId(Board::class, boardId)
 

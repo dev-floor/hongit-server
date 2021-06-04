@@ -60,8 +60,7 @@ data class ArticleResponse(
         content = article.content,
         author = ProfileResponse(article.author),
         hashtags = articleHashtags.map { it.hashtag.name },
-        favoriteCount = articleFavorites.count { it.matchType(ArticleFavoriteType.FAVORITE) }
-            .toLong(),
+        favoriteCount = articleFavorites.count { it.matchType(ArticleFavoriteType.FAVORITE) }.toLong(),
         wonderCount = articleFavorites.count { it.matchType(ArticleFavoriteType.WONDER) }.toLong(),
         clipCount = articleFavorites.count { it.matchType(ArticleFavoriteType.CLIP) }.toLong(),
         createdAt = article.createdAt,

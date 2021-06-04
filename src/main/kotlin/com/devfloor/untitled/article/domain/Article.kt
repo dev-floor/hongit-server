@@ -66,9 +66,10 @@ class Article(
         this.content = content
     }
 
-    fun sliceContentByLength(length: Long): String = if (content.length > length) {
-        content.substring(startIndex = 0, endIndex = (length + 1).toInt())
-    } else {
-        content
-    }
+    fun sliceContentByLength(length: Long): String =
+        if (content.length > length) {
+            content.substring(startIndex = 0, endIndex = (length + 1).toInt())
+        } else {
+            content
+        }
 }

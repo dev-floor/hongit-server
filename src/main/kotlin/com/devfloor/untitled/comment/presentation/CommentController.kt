@@ -47,8 +47,7 @@ class CommentController(
 
     @DeleteMapping(value = ["/{commentId}"])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun destroyByCommentId(@PathVariable commentId: Long) =
-        commentService.destroyByCommentId(commentId)
+    fun destroyByCommentId(@PathVariable commentId: Long) = commentService.destroyByCommentId(commentId)
 
     companion object {
         const val COMMENT_API_URI = "$BASE_API_URI/comments"

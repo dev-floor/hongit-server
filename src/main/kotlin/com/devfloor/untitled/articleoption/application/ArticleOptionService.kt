@@ -11,8 +11,7 @@ import org.springframework.transaction.annotation.Transactional
 class ArticleOptionService(
     private val articleOptionRepository: ArticleOptionRepository,
 ) {
-    fun findAllByArticle(article: Article): List<ArticleOption> =
-        articleOptionRepository.findAllByArticle(article)
+    fun findAllByArticle(article: Article): List<ArticleOption> = articleOptionRepository.findAllByArticle(article)
 
     fun saveAll(article: Article, options: List<Option>): List<ArticleOption> =
         options.map { ArticleOption(article, it) }
