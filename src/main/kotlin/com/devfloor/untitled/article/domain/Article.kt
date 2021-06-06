@@ -10,6 +10,7 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Index
 import javax.persistence.JoinColumn
+import javax.persistence.Lob
 import javax.persistence.ManyToOne
 import javax.persistence.Table
 
@@ -49,6 +50,7 @@ class Article(
     @Column(name = "anonymous")
     val anonymous: Boolean = anonymous
 
+    @Lob
     @Column(name = "content")
     var content: String = content
         protected set
