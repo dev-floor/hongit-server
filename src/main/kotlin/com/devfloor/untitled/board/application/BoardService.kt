@@ -1,6 +1,6 @@
 package com.devfloor.untitled.board.application
 
-import com.devfloor.untitled.board.application.response.BoardFeedResponse
+import com.devfloor.untitled.board.application.response.BoardInfoResponse
 import com.devfloor.untitled.board.application.response.BoardResponse
 import com.devfloor.untitled.board.domain.Board
 import com.devfloor.untitled.board.domain.BoardRepository
@@ -38,16 +38,17 @@ class BoardService(
         ).also { log.info("[BoardService.showByBoardId] 게시판 상세정보 조회 완료 - response: $it") }
     }
 
-    fun showAll(): List<BoardFeedResponse> {
+    fun showAll(): List<BoardInfoResponse> {
         log.info("[BoardService.showAll] 게시판 목록 조회")
-        return boardRepository.findAll().map { board ->
-            val courses = boardCourseRepository.findAllByBoard(board)
-                .map { it.course }
+        return boardRepository.findAll()
+            .map { board ->
+                val courses = boardCourseRepository.findAllByBoard(board)
+                    .map { it.course }
 
-            BoardFeedResponse(
-                board = board,
-                grade = courses.firstOrNull()?.grade
-            )
-        }.also { log.info("[BoardService.showAll] 게시판 목록 조회 완료 - response: $it") }
+                BoardInfoResponse(
+                    board = board,
+                    grade = courses.firstOrNull()?.grade
+                )
+            }.also { log.info("[BoardService.showAll] 게시판 목록 조회 완료 - response: $it") }
     }
 }

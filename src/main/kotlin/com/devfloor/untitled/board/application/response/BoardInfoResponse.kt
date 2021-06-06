@@ -4,7 +4,7 @@ import com.devfloor.untitled.board.domain.Board
 import com.devfloor.untitled.common.application.response.BaseEnumResponse
 import com.devfloor.untitled.common.domain.Grade
 
-data class BoardFeedResponse(
+data class BoardInfoResponse(
     val id: Long,
     val title: String,
     val type: BaseEnumResponse,
