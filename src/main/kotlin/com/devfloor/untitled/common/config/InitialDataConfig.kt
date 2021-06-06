@@ -41,7 +41,7 @@ import org.springframework.stereotype.Component
 import java.time.Year
 
 @Slf4j
-@Profile(value = ["dev"])
+@Profile(value = ["local", "dev"])
 @Component
 class InitialDataConfig(
     private val userRepository: UserRepository,
@@ -62,25 +62,53 @@ class InitialDataConfig(
         userRepository.saveAll(listOf(TEST_USER_1, TEST_USER_2))
         professorRepository.saveAll(listOf(TEST_PROFESSOR_1, TEST_PROFESSOR_2))
         subjectRepository.save(TEST_SUBJECT_1)
-        optionRepository.saveAll(listOf(TEST_OPTION_1, TEST_OPTION_2, TEST_OPTION_3, TEST_OPTION_4, TEST_OPTION_5,
-            TEST_OPTION_6, TEST_OPTION_7))
-        hashtagRepository.saveAll(listOf(TEST_HASHTAG_1, TEST_HASHTAG_2, TEST_HASHTAG_3, TEST_HASHTAG_4, TEST_HASHTAG_5,
-            TEST_HASHTAG_6))
+        optionRepository.saveAll(
+            listOf(
+                TEST_OPTION_1, TEST_OPTION_2, TEST_OPTION_3, TEST_OPTION_4, TEST_OPTION_5,
+                TEST_OPTION_6, TEST_OPTION_7
+            )
+        )
+        hashtagRepository.saveAll(
+            listOf(
+                TEST_HASHTAG_1, TEST_HASHTAG_2, TEST_HASHTAG_3, TEST_HASHTAG_4, TEST_HASHTAG_5,
+                TEST_HASHTAG_6
+            )
+        )
         courseRepository.saveAll(listOf(TEST_COURSE_1, TEST_COURSE_2, TEST_COURSE_3, TEST_COURSE_4, TEST_COURSE_5))
         boardRepository.saveAll(listOf(TEST_BOARD_1, TEST_BOARD_2))
-        boardCourseRepository.saveAll(listOf(TEST_BOARD_COURSE_1, TEST_BOARD_COURSE_2, TEST_BOARD_COURSE_3,
-            TEST_BOARD_COURSE_4, TEST_BOARD_COURSE_5))
-        boardOptionRepository.saveAll(listOf(TEST_BOARD_OPTION_1, TEST_BOARD_OPTION_2, TEST_BOARD_OPTION_3,
-            TEST_BOARD_OPTION_4))
+        boardCourseRepository.saveAll(
+            listOf(
+                TEST_BOARD_COURSE_1, TEST_BOARD_COURSE_2, TEST_BOARD_COURSE_3,
+                TEST_BOARD_COURSE_4, TEST_BOARD_COURSE_5
+            )
+        )
+        boardOptionRepository.saveAll(
+            listOf(
+                TEST_BOARD_OPTION_1, TEST_BOARD_OPTION_2, TEST_BOARD_OPTION_3,
+                TEST_BOARD_OPTION_4
+            )
+        )
         articleRepository.saveAll(listOf(TEST_ARTICLE_1, TEST_ARTICLE_2, TEST_ARTICLE_3, TEST_ARTICLE_4))
-        articleHashtagRepository.saveAll(listOf(TEST_ARTICLE_HASHTAG_1, TEST_ARTICLE_HASHTAG_2, TEST_ARTICLE_HASHTAG_3,
-            TEST_ARTICLE_HASHTAG_4, TEST_ARTICLE_HASHTAG_5, TEST_ARTICLE_HASHTAG_6, TEST_ARTICLE_HASHTAG_7,
-            TEST_ARTICLE_HASHTAG_8, TEST_ARTICLE_HASHTAG_9))
-        articleOptionRepository.saveAll(listOf(TEST_ARTICLE_OPTION_1, TEST_ARTICLE_OPTION_2, TEST_ARTICLE_OPTION_3,
-            TEST_ARTICLE_OPTION_4, TEST_ARTICLE_OPTION_5, TEST_ARTICLE_OPTION_6, TEST_ARTICLE_OPTION_7,
-            TEST_ARTICLE_OPTION_8, TEST_ARTICLE_OPTION_9, TEST_ARTICLE_OPTION_10))
-        commentRepository.saveAll(listOf(TEST_COMMENT_1, TEST_COMMENT_2, TEST_COMMENT_3, TEST_COMMENT_4,
-            TEST_COMMENT_5))
+        articleHashtagRepository.saveAll(
+            listOf(
+                TEST_ARTICLE_HASHTAG_1, TEST_ARTICLE_HASHTAG_2, TEST_ARTICLE_HASHTAG_3,
+                TEST_ARTICLE_HASHTAG_4, TEST_ARTICLE_HASHTAG_5, TEST_ARTICLE_HASHTAG_6, TEST_ARTICLE_HASHTAG_7,
+                TEST_ARTICLE_HASHTAG_8, TEST_ARTICLE_HASHTAG_9
+            )
+        )
+        articleOptionRepository.saveAll(
+            listOf(
+                TEST_ARTICLE_OPTION_1, TEST_ARTICLE_OPTION_2, TEST_ARTICLE_OPTION_3,
+                TEST_ARTICLE_OPTION_4, TEST_ARTICLE_OPTION_5, TEST_ARTICLE_OPTION_6, TEST_ARTICLE_OPTION_7,
+                TEST_ARTICLE_OPTION_8, TEST_ARTICLE_OPTION_9, TEST_ARTICLE_OPTION_10
+            )
+        )
+        commentRepository.saveAll(
+            listOf(
+                TEST_COMMENT_1, TEST_COMMENT_2, TEST_COMMENT_3, TEST_COMMENT_4,
+                TEST_COMMENT_5
+            )
+        )
     }
 
     companion object {
@@ -216,7 +244,7 @@ class InitialDataConfig(
                       Quis enim lobortis scelerisque fermentum dui. Laoreet id donec ultrices tincidunt arcu non 
                       sodales. Quam vulputate dignissim suspendisse in est ante in. Sodales ut etiam sit amet nisl. 
                       Est ante in nibh mauris cursus mattis. Senectus et netus et malesuada fames ac turpis egestas.
-                      """.trimIndent(),
+            """.trimIndent(),
             author = TEST_USER_1,
             board = TEST_BOARD_1
         )
@@ -235,7 +263,7 @@ class InitialDataConfig(
                       egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat 
                       consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor 
                       commodo ullamcorper a lacus vestibulum sed. Ultrices mi tempus imperdiet nulla malesuada.
-                      """.trimIndent(),
+            """.trimIndent(),
             author = TEST_USER_2,
             board = TEST_BOARD_2
         )
@@ -254,7 +282,7 @@ class InitialDataConfig(
                       egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat 
                       consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor 
                       commodo ullamcorper a lacus vestibulum sed. Ultrices mi tempus imperdiet nulla malesuada.
-                      """.trimIndent(),
+            """.trimIndent(),
             author = TEST_USER_1,
             board = TEST_BOARD_2
         )
@@ -273,7 +301,7 @@ class InitialDataConfig(
                       egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat 
                       consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor 
                       commodo ullamcorper a lacus vestibulum sed. Ultrices mi tempus imperdiet nulla malesuada.
-                      """.trimIndent(),
+            """.trimIndent(),
             author = TEST_USER_1,
             board = TEST_BOARD_1
         )

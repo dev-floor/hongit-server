@@ -5,6 +5,7 @@ import com.devfloor.untitled.comment.application.request.CommentCreateRequest
 import com.devfloor.untitled.comment.application.request.CommentModifyRequest
 import com.devfloor.untitled.comment.application.response.CommentResponse
 import com.devfloor.untitled.comment.presentation.CommentController.Companion.COMMENT_API_URI
+import com.devfloor.untitled.common.config.auth.LoginUser
 import com.devfloor.untitled.common.utils.BASE_API_URI
 import com.devfloor.untitled.user.domain.User
 import org.springframework.http.HttpStatus
@@ -34,7 +35,7 @@ class CommentController(
     @PostMapping
     fun create(
         @RequestBody request: CommentCreateRequest,
-        author: User,
+        @LoginUser author: User,
     ): ResponseEntity<CommentResponse> = commentService.create(author, request)
         .run { ResponseEntity.created(URI.create("$COMMENT_API_URI/$id")).body(this) }
 
@@ -43,11 +44,15 @@ class CommentController(
     fun modifyByCommentId(
         @PathVariable commentId: Long,
         @RequestBody request: CommentModifyRequest,
+        @LoginUser loginUser: User,
     ): CommentResponse = commentService.modifyByCommentId(commentId, request)
 
     @DeleteMapping(value = ["/{commentId}"])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun destroyByCommentId(@PathVariable commentId: Long) = commentService.destroyByCommentId(commentId)
+    fun destroyByCommentId(
+        @PathVariable commentId: Long,
+        @LoginUser loginUser: User,
+    ) = commentService.destroyByCommentId(commentId)
 
     companion object {
         const val COMMENT_API_URI = "$BASE_API_URI/comments"
