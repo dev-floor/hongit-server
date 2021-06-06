@@ -1,11 +1,11 @@
 package com.devfloor.untitled.user.application
 
+import com.devfloor.untitled.common.application.response.BaseEnumResponse
 import com.devfloor.untitled.user.domain.User
-import com.devfloor.untitled.user.domain.UserType
 
 data class ProfileResponse(
     val nickname: String,
-    val type: UserType,
+    val type: BaseEnumResponse,
     val image: String?,
     val github: String?,
     val blog: String?,
@@ -13,7 +13,7 @@ data class ProfileResponse(
 ) {
     constructor(user: User) : this(
         nickname = user.nickname,
-        type = user.type,
+        type = BaseEnumResponse(user.type),
         image = user.image,
         github = user.github,
         blog = user.blog,

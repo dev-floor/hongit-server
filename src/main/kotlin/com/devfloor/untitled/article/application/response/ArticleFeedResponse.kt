@@ -4,50 +4,62 @@ import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.articlefavorite.domain.ArticleFavorite
 import com.devfloor.untitled.articlefavorite.domain.ArticleFavoriteType
 import com.devfloor.untitled.articleoption.domain.ArticleOption
+import com.devfloor.untitled.common.config.LOCAL_DATE_TIME_FORMAT
+import com.devfloor.untitled.common.config.SEOUL_TIME_ZONE
+import com.devfloor.untitled.option.application.response.OptionResponse
+import com.devfloor.untitled.user.application.ProfileResponse
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 
 data class ArticleFeedResponse(
     val id: Long,
 
-    val options: List<String>,
+    val options: List<OptionResponse>,
 
     val title: String? = null,
 
     val anonymous: Boolean,
 
-    val authorName: String,
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
-    val createdDate: LocalDateTime,
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
-    val modifiedDate: LocalDateTime,
+    val author: ProfileResponse,
 
     val content: String,
 
-    val favorites: Long,
+    val favoriteCount: Long,
 
-    val wonders: Long,
+    val wonderCount: Long,
 
-    val clips: Long,
+    val clipCount: Long,
+
+    @JsonFormat(
+        pattern = LOCAL_DATE_TIME_FORMAT,
+        shape = JsonFormat.Shape.STRING,
+        locale = SEOUL_TIME_ZONE
+    )
+    val createdAt: LocalDateTime,
+
+    @JsonFormat(
+        pattern = LOCAL_DATE_TIME_FORMAT,
+        shape = JsonFormat.Shape.STRING,
+        locale = SEOUL_TIME_ZONE
+    )
+    val modifiedAt: LocalDateTime,
 ) {
     constructor(
-        articleOptions: List<ArticleOption>,
         article: Article,
+        articleOptions: List<ArticleOption>,
         articleFavorites: List<ArticleFavorite>,
     ) : this(
         id = article.id,
-        options = articleOptions.map { it.option.type.text },
+        options = articleOptions.map { OptionResponse(it.option) },
         title = article.title,
         anonymous = article.anonymous,
-        authorName = article.author.nickname,
-        createdDate = article.createdDate,
-        modifiedDate = article.modifiedDate,
+        author = ProfileResponse(article.author),
         content = article.sliceContentByLength(CONTENT_MAX_LENGTH),
-        favorites = articleFavorites.count { it.matchType(ArticleFavoriteType.FAVORITE) }.toLong(),
-        wonders = articleFavorites.count { it.matchType(ArticleFavoriteType.WONDER) }.toLong(),
-        clips = articleFavorites.count { it.matchType(ArticleFavoriteType.CLIP) }.toLong(),
+        favoriteCount = articleFavorites.count { it.matchType(ArticleFavoriteType.FAVORITE) }.toLong(),
+        wonderCount = articleFavorites.count { it.matchType(ArticleFavoriteType.WONDER) }.toLong(),
+        clipCount = articleFavorites.count { it.matchType(ArticleFavoriteType.CLIP) }.toLong(),
+        createdAt = article.createdAt,
+        modifiedAt = article.modifiedAt,
     )
 
     companion object {

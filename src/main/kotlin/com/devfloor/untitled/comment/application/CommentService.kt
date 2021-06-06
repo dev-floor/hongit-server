@@ -1,7 +1,9 @@
 package com.devfloor.untitled.comment.application
 
+import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.article.domain.ArticleRepository
-import com.devfloor.untitled.comment.application.request.CommentRequest
+import com.devfloor.untitled.comment.application.request.CommentCreateRequest
+import com.devfloor.untitled.comment.application.request.CommentModifyRequest
 import com.devfloor.untitled.comment.application.response.CommentResponse
 import com.devfloor.untitled.comment.domain.Comment
 import com.devfloor.untitled.comment.domain.CommentRepository
@@ -22,43 +24,40 @@ class CommentService(
     fun showAllByArticleId(articleId: Long): List<CommentResponse> {
         val comments = articleRepository.findByIdOrNull(articleId)
             ?.let(commentRepository::findAllByArticle)
-            ?: throw EntityNotFoundException("존재하지 않는 게시글 입니다.")
+            ?: EntityNotFoundException.notExistsId(Article::class, articleId)
 
         return comments.map {
             CommentResponse(
                 comment = it,
-                favorites = commentFavoriteRepository.countAllByComment(it),
+                favoriteCount = commentFavoriteRepository.countAllByComment(it),
             )
         }
     }
 
     @Transactional
-    fun create(
-        articleId: Long,
-        author: User,
-        request: CommentRequest,
-    ): CommentResponse {
-        val article = articleRepository.findByIdOrNull(articleId)
-            ?: throw EntityNotFoundException("존재하지 않는 게시글 입니다.")
+    fun create(author: User, request: CommentCreateRequest): CommentResponse {
+        val article = articleRepository.findByIdOrNull(request.articleId)
+            ?: EntityNotFoundException.notExistsId(Article::class, request.articleId)
 
-        return Comment(article, author, request.anonymous, request.content)
-            .let(commentRepository::save)
+        return commentRepository.save(request.toComment(article, author))
             .let(::CommentResponse)
     }
 
-    private fun showByCommentId(commentId: Long): Comment =
+    @Transactional
+    fun modifyByCommentId(commentId: Long, request: CommentModifyRequest): CommentResponse =
         commentRepository.findByIdOrNull(commentId)
-            ?: throw EntityNotFoundException("존재하지 않는 댓글입니다.")
+            ?.let { comment ->
+                comment.modifyContent(request.content)
+                CommentResponse(comment)
+            }
+            ?: EntityNotFoundException.notExistsId(Comment::class, commentId)
 
     @Transactional
-    fun modifyByCommentId(commentId: Long, request: CommentModifyRequest) {
-        showByCommentId(commentId).modifyContent(request.content)
-    }
-
     fun destroyByCommentId(commentId: Long) {
-        showByCommentId(commentId).let {
-            commentFavoriteRepository.deleteAllByComment(it)
-        }
-        commentRepository.deleteById(commentId)
+        val comment = commentRepository.findByIdOrNull(commentId)
+            ?: EntityNotFoundException.notExistsId(Comment::class, commentId)
+
+        commentFavoriteRepository.deleteAllByComment(comment)
+        commentRepository.delete(comment)
     }
 }

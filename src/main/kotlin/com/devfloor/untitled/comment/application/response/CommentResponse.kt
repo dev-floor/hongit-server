@@ -14,7 +14,7 @@ data class CommentResponse(
 
     val content: String,
 
-    val favorites: Long,
+    val favoriteCount: Long,
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
     val createdDate: LocalDateTime,
@@ -24,14 +24,14 @@ data class CommentResponse(
 ) {
     constructor(
         comment: Comment,
-        favorites: Long = 0,
+        favoriteCount: Long = 0,
     ) : this(
         id = comment.id,
         author = ProfileResponse(comment.author),
         anonymous = comment.anonymous,
         content = comment.content,
-        favorites = favorites,
-        createdDate = comment.createdDate,
-        modifiedDate = comment.modifiedDate,
+        favoriteCount = favoriteCount,
+        createdDate = comment.createdAt,
+        modifiedDate = comment.modifiedAt,
     )
 }

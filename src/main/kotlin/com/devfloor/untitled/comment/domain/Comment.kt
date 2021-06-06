@@ -8,6 +8,7 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.Index
 import javax.persistence.JoinColumn
 import javax.persistence.Lob
 import javax.persistence.ManyToOne
@@ -23,7 +24,12 @@ import javax.persistence.Table
  * @property content 댓글 내용
  */
 @Entity
-@Table(name = "comments")
+@Table(
+    name = "comments",
+    indexes = [
+        Index(name = "idx_article_id", columnList = "article_id")
+    ]
+)
 class Comment(
     article: Article,
     author: User,
@@ -43,7 +49,7 @@ class Comment(
     @JoinColumn(name = "author_id")
     val author: User = author
 
-    @Column
+    @Column(name = "anonymous")
     var anonymous: Boolean = anonymous
         protected set
 

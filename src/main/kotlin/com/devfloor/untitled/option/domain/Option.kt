@@ -1,5 +1,6 @@
 package com.devfloor.untitled.option.domain
 
+import com.devfloor.untitled.common.domain.BaseEntity
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -13,15 +14,22 @@ import javax.persistence.Table
  * 옵션 정보를 관리하는 entity
  *
  * @property id 아이디
+ * @property text 옵션 설명
  * @property type 옵션 종류
  */
 @Entity
 @Table(name = "options")
-class Option(type: OptionType) {
+class Option(
+    text: String,
+    type: OptionType,
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "option_id")
     val id: Long = 0
+
+    @Column(name = "text")
+    val text: String = text
 
     @Column(name = "option_type")
     @Enumerated(value = EnumType.STRING)

@@ -6,6 +6,9 @@ import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.transaction.annotation.Transactional
 
+/**
+ * 게시글과 해시태그의 연관관계를 관리하는 repository
+ */
 @Transactional(readOnly = true)
 interface ArticleHashtagRepository : JpaRepository<ArticleHashtag, Long> {
     fun findAllByArticle(article: Article): List<ArticleHashtag>

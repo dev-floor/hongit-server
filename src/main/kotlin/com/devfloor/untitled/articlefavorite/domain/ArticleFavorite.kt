@@ -1,6 +1,7 @@
 package com.devfloor.untitled.articlefavorite.domain
 
 import com.devfloor.untitled.article.domain.Article
+import com.devfloor.untitled.common.domain.BaseEntity
 import com.devfloor.untitled.user.domain.User
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -9,6 +10,7 @@ import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.Index
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
@@ -22,12 +24,17 @@ import javax.persistence.Table
  * @property type 좋아요 종류
  */
 @Entity
-@Table(name = "favorites")
+@Table(
+    name = "article_favorites",
+    indexes = [
+        Index(name = "idx_article_id", columnList = "article_id")
+    ]
+)
 class ArticleFavorite(
     article: Article,
     user: User,
     type: ArticleFavoriteType,
-) {
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "favorite_id")

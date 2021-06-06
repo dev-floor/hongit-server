@@ -5,23 +5,16 @@ import com.devfloor.untitled.articleoption.domain.ArticleOption
 import com.devfloor.untitled.articleoption.domain.ArticleOptionRepository
 import com.devfloor.untitled.option.domain.Option
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class ArticleOptionService(
-    private val repository: ArticleOptionRepository,
+    private val articleOptionRepository: ArticleOptionRepository,
 ) {
-    fun showAllByArticle(article: Article): List<ArticleOption> =
-        repository.findAllByArticle(article)
-
-    fun createAll(article: Article, options: List<Option>) {
-        options.map { ArticleOption(article, it) }
-            .let { repository.saveAll(it) }
-    }
-
+    @Transactional
     fun modifyByArticle(article: Article, options: List<Option>) {
-        repository.deleteAllByArticle(article)
-        createAll(article, options)
+        articleOptionRepository.deleteAllByArticle(article)
+        options.map { ArticleOption(article, it) }
+            .let { articleOptionRepository.saveAll(it) }
     }
-
-    fun destroyAllByArticle(article: Article) = repository.deleteAllByArticle(article)
 }
