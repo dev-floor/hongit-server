@@ -5,8 +5,8 @@ import com.devfloor.untitled.articlefavorite.domain.ArticleFavorite
 import com.devfloor.untitled.articlefavorite.domain.ArticleFavoriteType
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
 import com.devfloor.untitled.articleoption.domain.ArticleOption
-import com.devfloor.untitled.common.config.LOCAL_DATE_TIME_FORMAT
-import com.devfloor.untitled.common.config.SEOUL_TIME_ZONE
+import com.devfloor.untitled.common.utils.LOCAL_DATE_TIME_FORMAT
+import com.devfloor.untitled.common.utils.SEOUL_TIME_ZONE
 import com.devfloor.untitled.option.application.response.OptionResponse
 import com.devfloor.untitled.user.application.ProfileResponse
 import com.fasterxml.jackson.annotation.JsonFormat

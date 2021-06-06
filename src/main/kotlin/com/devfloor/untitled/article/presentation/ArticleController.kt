@@ -6,7 +6,7 @@ import com.devfloor.untitled.article.application.request.ArticleModifyRequest
 import com.devfloor.untitled.article.application.response.ArticleFeedResponse
 import com.devfloor.untitled.article.application.response.ArticleResponse
 import com.devfloor.untitled.article.presentation.ArticleController.Companion.ARTICLE_API_URI
-import com.devfloor.untitled.common.config.BASE_API_URI
+import com.devfloor.untitled.common.utils.BASE_API_URI
 import com.devfloor.untitled.user.domain.User
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

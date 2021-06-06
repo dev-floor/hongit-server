@@ -1,4 +1,4 @@
-package com.devfloor.untitled.common.config
+package com.devfloor.untitled.common.utils
 
 const val BASE_API_URI = "/api"
 
