@@ -11,17 +11,10 @@ import org.springframework.transaction.annotation.Transactional
 class ArticleOptionService(
     private val articleOptionRepository: ArticleOptionRepository,
 ) {
-    fun findAllByArticle(article: Article): List<ArticleOption> = articleOptionRepository.findAllByArticle(article)
-
-    fun saveAll(article: Article, options: List<Option>): List<ArticleOption> =
-        options.map { ArticleOption(article, it) }
-            .let { articleOptionRepository.saveAll(it) }
-
     @Transactional
     fun modifyByArticle(article: Article, options: List<Option>) {
         articleOptionRepository.deleteAllByArticle(article)
-        saveAll(article, options)
+        options.map { ArticleOption(article, it) }
+            .let { articleOptionRepository.saveAll(it) }
     }
-
-    fun deleteAllByArticle(article: Article) = articleOptionRepository.deleteAllByArticle(article)
 }

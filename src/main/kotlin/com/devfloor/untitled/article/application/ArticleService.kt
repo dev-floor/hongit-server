@@ -8,7 +8,11 @@ import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.article.domain.ArticleRepository
 import com.devfloor.untitled.articlefavorite.domain.ArticleFavoriteRepository
 import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
+import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
+import com.devfloor.untitled.articlehashtag.domain.ArticleHashtagRepository
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
+import com.devfloor.untitled.articleoption.domain.ArticleOption
+import com.devfloor.untitled.articleoption.domain.ArticleOptionRepository
 import com.devfloor.untitled.board.domain.Board
 import com.devfloor.untitled.board.domain.BoardRepository
 import com.devfloor.untitled.common.exception.EntityNotFoundException
@@ -23,8 +27,11 @@ import org.springframework.transaction.annotation.Transactional
 class ArticleService(
     private val articleRepository: ArticleRepository,
     private val articleFavoriteRepository: ArticleFavoriteRepository,
+    private val articleHashtagRepository: ArticleHashtagRepository,
+    private val articleOptionRepository: ArticleOptionRepository,
     private val boardRepository: BoardRepository,
     private val optionRepository: OptionRepository,
+
     private val articleHashtagService: ArticleHashtagService,
     private val articleOptionService: ArticleOptionService,
     private val hashtagService: HashtagService,
@@ -34,8 +41,8 @@ class ArticleService(
         val article = articleRepository.findByIdOrNull(articleId)
             ?: EntityNotFoundException.notExistsId(Article::class, articleId)
 
-        val articleOptions = articleOptionService.findAllByArticle(article)
-        val articleHashtags = articleHashtagService.findAllByArticle(article)
+        val articleOptions = articleOptionRepository.findAllByArticle(article)
+        val articleHashtags = articleHashtagRepository.findAllByArticle(article)
         val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
 
         return ArticleResponse(
@@ -53,7 +60,7 @@ class ArticleService(
 
         return articleRepository.findAllByBoard(board)
             .map { article ->
-                val articleOptions = articleOptionService.findAllByArticle(article)
+                val articleOptions = articleOptionRepository.findAllByArticle(article)
                 val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
 
                 ArticleFeedResponse(
@@ -71,10 +78,12 @@ class ArticleService(
             ?: EntityNotFoundException.notExistsId(Board::class, request.boardId)
 
         optionRepository.findAllById(request.optionIds)
-            .let { articleOptionService.saveAll(article, it) }
+            .map { ArticleOption(article, it) }
+            .let { articleOptionRepository.saveAll(it) }
 
         hashtagService.createAllByNames(request.hashtagNames)
-            .let { articleHashtagService.saveAll(article, it) }
+            .map { ArticleHashtag(article, it) }
+            .let { articleHashtagRepository.saveAll(it) }
 
         return article.id
     }
@@ -95,8 +104,8 @@ class ArticleService(
     @Transactional
     fun destroyByArticleId(articleId: Long) = articleRepository.findByIdOrNull(articleId)
         ?.let {
-            articleOptionService.deleteAllByArticle(it)
-            articleHashtagService.deleteAllByArticle(it)
+            articleOptionRepository.deleteAllByArticle(it)
+            articleHashtagRepository.deleteAllByArticle(it)
             articleFavoriteRepository.deleteAllByArticle(it)
             articleRepository.delete(it)
         }
