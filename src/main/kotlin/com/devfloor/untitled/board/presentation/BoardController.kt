@@ -1,6 +1,7 @@
 package com.devfloor.untitled.board.presentation
 
 import com.devfloor.untitled.board.application.BoardService
+import com.devfloor.untitled.board.application.response.BoardFeedResponse
 import com.devfloor.untitled.board.application.response.BoardResponse
 import com.devfloor.untitled.board.presentation.BoardController.Companion.BOARD_API_URI
 import com.devfloor.untitled.common.config.Slf4j
@@ -25,6 +26,14 @@ class BoardController(
         log.info("[BoardController.showByBoardId] 게시판 상세정보 조회 - url: $BOARD_API_URI/$boardId")
         return boardService.showByBoardId(boardId)
             .also { log.info("[BoardController.showByBoardId] 게시판 상세정보 조회 완료 - response: $it") }
+    }
+
+    @GetMapping
+    @ResponseStatus(value = HttpStatus.OK)
+    fun showAll(): List<BoardFeedResponse> {
+        log.info("[BoardController.showAll] 게시판 목록 조회 - url: $BOARD_API_URI")
+        return boardService.showAll()
+            .also { log.info("[BoardController.showAll] 게시판 목록 조회 완료 - response: $it") }
     }
 
     companion object {
