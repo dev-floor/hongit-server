@@ -1,5 +1,6 @@
 package com.devfloor.untitled.course.domain
 
+import com.devfloor.untitled.board.domain.Board
 import com.devfloor.untitled.common.domain.BaseEntity
 import com.devfloor.untitled.common.domain.Grade
 import com.devfloor.untitled.common.domain.OpeningSemester
@@ -15,6 +16,7 @@ import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.Index
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 import javax.persistence.Table
@@ -30,9 +32,15 @@ import javax.persistence.Table
  * @property grade 학년
  * @property option 옵션(optionType = 분반)
  * @property timetable 시간표
+ * @property board 게시판
  */
 @Entity
-@Table(name = "courses")
+@Table(
+    name = "courses",
+    indexes = [
+        Index(name = "idx_board_id", columnList = "board_id")
+    ]
+)
 class Course(
     code: String,
     openingSemester: OpeningSemester,
@@ -41,6 +49,7 @@ class Course(
     grade: Grade,
     option: Option,
     timetable: Timetable,
+    board: Board? = null,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,9 +84,24 @@ class Course(
     var timetable: Timetable = timetable
         protected set
 
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    var board: Board? = board
+        protected set
+
     init {
         assert(option.type == OptionType.COURSE_GROUP) {
             "course의 option은 optionType이 COURSE_GROUP인 옵션만 가능합니다."
         }
     }
+
+    fun updateBoard(board: Board) {
+        this.board = board
+    }
+
+    fun isSame(course: Course): Boolean =
+        this.openingSemester == course.openingSemester &&
+            this.professor == course.professor &&
+            this.subject == course.subject &&
+            this.grade == course.grade
 }

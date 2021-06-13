@@ -2,7 +2,7 @@ package com.devfloor.untitled.hashtag.domain
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.transaction.annotation.Transactional
-import java.util.Optional
+import java.util.*
 
 /**
  * 해시태그를 관리하는 repository

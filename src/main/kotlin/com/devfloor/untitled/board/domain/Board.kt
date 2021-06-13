@@ -1,19 +1,15 @@
 package com.devfloor.untitled.board.domain
 
 import com.devfloor.untitled.common.domain.BaseEntity
-import com.devfloor.untitled.common.domain.OpeningSemester
 import com.devfloor.untitled.professor.domain.Professor
 import com.devfloor.untitled.subject.domain.Subject
 import javax.persistence.Column
-import javax.persistence.Embedded
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 /**
@@ -30,7 +26,6 @@ import javax.persistence.Table
 class Board(
     professor: Professor,
     subject: Subject,
-    openingSemester: OpeningSemester,
     type: BoardType,
 ) : BaseEntity() {
     @Id
@@ -40,18 +35,6 @@ class Board(
 
     @Column(name = "title")
     val title: String = "${subject.name} / ${professor.name}"
-
-    @ManyToOne
-    @JoinColumn(name = "professor_id")
-    val professor: Professor = professor
-
-    @ManyToOne
-    @JoinColumn(name = "subject_id")
-    val subject: Subject = subject
-
-    @Embedded
-    @Column(name = "opening_semester")
-    val openingSemester: OpeningSemester = openingSemester
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "board_type")

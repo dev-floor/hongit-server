@@ -2,7 +2,7 @@ package com.devfloor.untitled.board.application.response
 
 import com.devfloor.untitled.board.domain.Board
 import com.devfloor.untitled.common.application.response.BaseEnumResponse
-import com.devfloor.untitled.common.domain.Grade
+import com.devfloor.untitled.course.domain.Course
 import com.devfloor.untitled.option.application.response.OptionResponse
 import com.devfloor.untitled.option.domain.Option
 import com.devfloor.untitled.professor.application.response.ProfessorResponse
@@ -10,23 +10,23 @@ import com.devfloor.untitled.professor.application.response.ProfessorResponse
 data class BoardResponse(
     val id: Long,
     val title: String,
-    val professor: ProfessorResponse,
-    val subject: String,
-    val type: BaseEnumResponse,
+    val professor: ProfessorResponse?,
+    val subject: String?,
     val grade: BaseEnumResponse?,
+    val type: BaseEnumResponse,
     val options: List<OptionResponse>,
 ) {
     constructor(
         board: Board,
-        grade: Grade?,
         options: List<Option>,
+        course: Course? = null,
     ) : this(
         id = board.id,
         title = board.title,
-        professor = ProfessorResponse(board.professor),
-        subject = board.subject.name,
+        professor = course?.let { ProfessorResponse(it.professor) },
+        subject = course?.subject?.name,
+        grade = course?.let { BaseEnumResponse(it.grade) },
         type = BaseEnumResponse(board.type),
-        grade = grade?.let { BaseEnumResponse(it) },
         options = options.map { OptionResponse(it) }
     )
 }
