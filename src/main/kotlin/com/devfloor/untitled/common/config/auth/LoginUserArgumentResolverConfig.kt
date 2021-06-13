@@ -10,7 +10,7 @@ class LoginUserArgumentResolverConfig(
     private val userRepository: UserRepository,
 ) {
     @Bean
-    @Profile(value = ["local", "dev"])
+    @Profile(value = ["!prod"])
     fun defaultLoginUserArgumentResolver() = DefaultLoginUserArgumentResolver(userRepository)
 
     @Bean

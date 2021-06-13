@@ -9,8 +9,6 @@ import com.devfloor.untitled.articleoption.domain.ArticleOptionRepository
 import com.devfloor.untitled.board.domain.Board
 import com.devfloor.untitled.board.domain.BoardRepository
 import com.devfloor.untitled.board.domain.BoardType
-import com.devfloor.untitled.boardcourse.domain.BoardCourse
-import com.devfloor.untitled.boardcourse.domain.BoardCourseRepository
 import com.devfloor.untitled.boardoption.domain.BoardOption
 import com.devfloor.untitled.boardoption.domain.BoardOptionRepository
 import com.devfloor.untitled.comment.domain.Comment
@@ -51,7 +49,6 @@ class InitialDataConfig(
     private val hashtagRepository: HashtagRepository,
     private val courseRepository: CourseRepository,
     private val boardRepository: BoardRepository,
-    private val boardCourseRepository: BoardCourseRepository,
     private val boardOptionRepository: BoardOptionRepository,
     private val articleRepository: ArticleRepository,
     private val articleHashtagRepository: ArticleHashtagRepository,
@@ -74,20 +71,23 @@ class InitialDataConfig(
                 TEST_HASHTAG_6
             )
         )
-        courseRepository.saveAll(listOf(TEST_COURSE_1, TEST_COURSE_2, TEST_COURSE_3, TEST_COURSE_4, TEST_COURSE_5))
-        boardRepository.saveAll(listOf(TEST_BOARD_1, TEST_BOARD_2))
-        boardCourseRepository.saveAll(
-            listOf(
-                TEST_BOARD_COURSE_1, TEST_BOARD_COURSE_2, TEST_BOARD_COURSE_3,
-                TEST_BOARD_COURSE_4, TEST_BOARD_COURSE_5
-            )
-        )
+        val boards = boardRepository.saveAll(listOf(TEST_BOARD_1, TEST_BOARD_2))
         boardOptionRepository.saveAll(
             listOf(
                 TEST_BOARD_OPTION_1, TEST_BOARD_OPTION_2, TEST_BOARD_OPTION_3,
                 TEST_BOARD_OPTION_4
             )
         )
+        courseRepository.saveAll(
+            listOf(
+                TEST_COURSE_1.apply { updateBoard(boards[0]) },
+                TEST_COURSE_2.apply { updateBoard(boards[0]) },
+                TEST_COURSE_3.apply { updateBoard(boards[0]) },
+                TEST_COURSE_4.apply { updateBoard(boards[1]) },
+                TEST_COURSE_5.apply { updateBoard(boards[1]) }
+            )
+        )
+
         articleRepository.saveAll(listOf(TEST_ARTICLE_1, TEST_ARTICLE_2, TEST_ARTICLE_3, TEST_ARTICLE_4))
         articleHashtagRepository.saveAll(
             listOf(
@@ -202,21 +202,13 @@ class InitialDataConfig(
         private val TEST_BOARD_1 = Board(
             professor = TEST_PROFESSOR_1,
             subject = TEST_SUBJECT_1,
-            openingSemester = TEST_OPENING_SEMESTER,
             BoardType.COURSE_BOARD
         )
         private val TEST_BOARD_2 = Board(
             professor = TEST_PROFESSOR_2,
             subject = TEST_SUBJECT_1,
-            openingSemester = TEST_OPENING_SEMESTER,
             type = BoardType.COURSE_BOARD
         )
-
-        private val TEST_BOARD_COURSE_1 = BoardCourse(TEST_BOARD_1, TEST_COURSE_1)
-        private val TEST_BOARD_COURSE_2 = BoardCourse(TEST_BOARD_1, TEST_COURSE_2)
-        private val TEST_BOARD_COURSE_3 = BoardCourse(TEST_BOARD_1, TEST_COURSE_3)
-        private val TEST_BOARD_COURSE_4 = BoardCourse(TEST_BOARD_2, TEST_COURSE_4)
-        private val TEST_BOARD_COURSE_5 = BoardCourse(TEST_BOARD_2, TEST_COURSE_5)
 
         private val TEST_BOARD_OPTION_1 = BoardOption(TEST_BOARD_1, TEST_OPTION_6)
         private val TEST_BOARD_OPTION_2 = BoardOption(TEST_BOARD_1, TEST_OPTION_7)
@@ -227,22 +219,22 @@ class InitialDataConfig(
             title = "테스트 게시글 1 입니다.",
             anonymous = false,
             content = """
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
-                      labore et dolore magna aliqua. Arcu odio ut sem nulla pharetra diam sit. Enim sit amet venenatis 
-                      urna cursus eget nunc scelerisque viverra. Sit amet mauris commodo quis imperdiet massa tincidunt. 
-                      Ultricies integer quis auctor elit sed vulputate mi. In metus vulputate eu scelerisque felis. 
-                      Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Nisl condimentum id venenatis 
-                      a condimentum vitae sapien pellentesque habitant. Mauris sit amet massa vitae tortor. Sit amet 
-                      consectetur adipiscing elit. Purus sit amet volutpat consequat. Sapien faucibus et molestie ac 
-                      feugiat sed lectus vestibulum. Fermentum posuere urna nec tincidunt praesent semper. Quisque 
-                      egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat 
-                      consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor 
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua. Arcu odio ut sem nulla pharetra diam sit. Enim sit amet venenatis
+                      urna cursus eget nunc scelerisque viverra. Sit amet mauris commodo quis imperdiet massa tincidunt.
+                      Ultricies integer quis auctor elit sed vulputate mi. In metus vulputate eu scelerisque felis.
+                      Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Nisl condimentum id venenatis
+                      a condimentum vitae sapien pellentesque habitant. Mauris sit amet massa vitae tortor. Sit amet
+                      consectetur adipiscing elit. Purus sit amet volutpat consequat. Sapien faucibus et molestie ac
+                      feugiat sed lectus vestibulum. Fermentum posuere urna nec tincidunt praesent semper. Quisque
+                      egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat
+                      consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor
                       commodo ullamcorper a lacus vestibulum sed. Ultrices mi tempus imperdiet nulla malesuada.
-                      
-                      Etiam sit amet nisl purus in mollis nunc. Turpis tincidunt id aliquet risus feugiat in ante 
-                      metus. Dui sapien eget mi proin sed libero enim. Nulla pellentesque dignissim enim sit amet. 
-                      Quis enim lobortis scelerisque fermentum dui. Laoreet id donec ultrices tincidunt arcu non 
-                      sodales. Quam vulputate dignissim suspendisse in est ante in. Sodales ut etiam sit amet nisl. 
+
+                      Etiam sit amet nisl purus in mollis nunc. Turpis tincidunt id aliquet risus feugiat in ante
+                      metus. Dui sapien eget mi proin sed libero enim. Nulla pellentesque dignissim enim sit amet.
+                      Quis enim lobortis scelerisque fermentum dui. Laoreet id donec ultrices tincidunt arcu non
+                      sodales. Quam vulputate dignissim suspendisse in est ante in. Sodales ut etiam sit amet nisl.
                       Est ante in nibh mauris cursus mattis. Senectus et netus et malesuada fames ac turpis egestas.
             """.trimIndent(),
             author = TEST_USER_1,
@@ -252,16 +244,16 @@ class InitialDataConfig(
             title = "테스트 게시글 2 입니다.",
             anonymous = false,
             content = """
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
-                      labore et dolore magna aliqua. Arcu odio ut sem nulla pharetra diam sit. Enim sit amet venenatis 
-                      urna cursus eget nunc scelerisque viverra. Sit amet mauris commodo quis imperdiet massa tincidunt. 
-                      Ultricies integer quis auctor elit sed vulputate mi. In metus vulputate eu scelerisque felis. 
-                      Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Nisl condimentum id venenatis 
-                      a condimentum vitae sapien pellentesque habitant. Mauris sit amet massa vitae tortor. Sit amet 
-                      consectetur adipiscing elit. Purus sit amet volutpat consequat. Sapien faucibus et molestie ac 
-                      feugiat sed lectus vestibulum. Fermentum posuere urna nec tincidunt praesent semper. Quisque 
-                      egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat 
-                      consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor 
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua. Arcu odio ut sem nulla pharetra diam sit. Enim sit amet venenatis
+                      urna cursus eget nunc scelerisque viverra. Sit amet mauris commodo quis imperdiet massa tincidunt.
+                      Ultricies integer quis auctor elit sed vulputate mi. In metus vulputate eu scelerisque felis.
+                      Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Nisl condimentum id venenatis
+                      a condimentum vitae sapien pellentesque habitant. Mauris sit amet massa vitae tortor. Sit amet
+                      consectetur adipiscing elit. Purus sit amet volutpat consequat. Sapien faucibus et molestie ac
+                      feugiat sed lectus vestibulum. Fermentum posuere urna nec tincidunt praesent semper. Quisque
+                      egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat
+                      consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor
                       commodo ullamcorper a lacus vestibulum sed. Ultrices mi tempus imperdiet nulla malesuada.
             """.trimIndent(),
             author = TEST_USER_2,
@@ -271,16 +263,16 @@ class InitialDataConfig(
             title = "테스트 게시글 3 입니다.",
             anonymous = true,
             content = """
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
-                      labore et dolore magna aliqua. Arcu odio ut sem nulla pharetra diam sit. Enim sit amet venenatis 
-                      urna cursus eget nunc scelerisque viverra. Sit amet mauris commodo quis imperdiet massa tincidunt. 
-                      Ultricies integer quis auctor elit sed vulputate mi. In metus vulputate eu scelerisque felis. 
-                      Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Nisl condimentum id venenatis 
-                      a condimentum vitae sapien pellentesque habitant. Mauris sit amet massa vitae tortor. Sit amet 
-                      consectetur adipiscing elit. Purus sit amet volutpat consequat. Sapien faucibus et molestie ac 
-                      feugiat sed lectus vestibulum. Fermentum posuere urna nec tincidunt praesent semper. Quisque 
-                      egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat 
-                      consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor 
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua. Arcu odio ut sem nulla pharetra diam sit. Enim sit amet venenatis
+                      urna cursus eget nunc scelerisque viverra. Sit amet mauris commodo quis imperdiet massa tincidunt.
+                      Ultricies integer quis auctor elit sed vulputate mi. In metus vulputate eu scelerisque felis.
+                      Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Nisl condimentum id venenatis
+                      a condimentum vitae sapien pellentesque habitant. Mauris sit amet massa vitae tortor. Sit amet
+                      consectetur adipiscing elit. Purus sit amet volutpat consequat. Sapien faucibus et molestie ac
+                      feugiat sed lectus vestibulum. Fermentum posuere urna nec tincidunt praesent semper. Quisque
+                      egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat
+                      consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor
                       commodo ullamcorper a lacus vestibulum sed. Ultrices mi tempus imperdiet nulla malesuada.
             """.trimIndent(),
             author = TEST_USER_1,
@@ -290,16 +282,16 @@ class InitialDataConfig(
             title = "테스트 게시글 4 입니다.",
             anonymous = false,
             content = """
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 
-                      labore et dolore magna aliqua. Arcu odio ut sem nulla pharetra diam sit. Enim sit amet venenatis 
-                      urna cursus eget nunc scelerisque viverra. Sit amet mauris commodo quis imperdiet massa tincidunt. 
-                      Ultricies integer quis auctor elit sed vulputate mi. In metus vulputate eu scelerisque felis. 
-                      Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Nisl condimentum id venenatis 
-                      a condimentum vitae sapien pellentesque habitant. Mauris sit amet massa vitae tortor. Sit amet 
-                      consectetur adipiscing elit. Purus sit amet volutpat consequat. Sapien faucibus et molestie ac 
-                      feugiat sed lectus vestibulum. Fermentum posuere urna nec tincidunt praesent semper. Quisque 
-                      egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat 
-                      consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor 
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua. Arcu odio ut sem nulla pharetra diam sit. Enim sit amet venenatis
+                      urna cursus eget nunc scelerisque viverra. Sit amet mauris commodo quis imperdiet massa tincidunt.
+                      Ultricies integer quis auctor elit sed vulputate mi. In metus vulputate eu scelerisque felis.
+                      Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Nisl condimentum id venenatis
+                      a condimentum vitae sapien pellentesque habitant. Mauris sit amet massa vitae tortor. Sit amet
+                      consectetur adipiscing elit. Purus sit amet volutpat consequat. Sapien faucibus et molestie ac
+                      feugiat sed lectus vestibulum. Fermentum posuere urna nec tincidunt praesent semper. Quisque
+                      egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat
+                      consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor
                       commodo ullamcorper a lacus vestibulum sed. Ultrices mi tempus imperdiet nulla malesuada.
             """.trimIndent(),
             author = TEST_USER_1,

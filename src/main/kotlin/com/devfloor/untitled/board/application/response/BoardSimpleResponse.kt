@@ -4,7 +4,7 @@ import com.devfloor.untitled.board.domain.Board
 import com.devfloor.untitled.common.application.response.BaseEnumResponse
 import com.devfloor.untitled.common.domain.Grade
 
-data class BoardInfoResponse(
+data class BoardSimpleResponse(
     val id: Long,
     val title: String,
     val type: BaseEnumResponse,
@@ -12,7 +12,7 @@ data class BoardInfoResponse(
 ) {
     constructor(
         board: Board,
-        grade: Grade?,
+        grade: Grade? = null,
     ) : this(
         id = board.id,
         title = board.title,
