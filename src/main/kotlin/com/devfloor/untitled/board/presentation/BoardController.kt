@@ -3,9 +3,9 @@ package com.devfloor.untitled.board.presentation
 import com.devfloor.untitled.board.application.BoardService
 import com.devfloor.untitled.board.application.response.BoardResponse
 import com.devfloor.untitled.board.presentation.BoardController.Companion.BOARD_API_URI
-import com.devfloor.untitled.common.config.BASE_API_URI
 import com.devfloor.untitled.common.config.Slf4j
 import com.devfloor.untitled.common.config.Slf4j.Companion.log
+import com.devfloor.untitled.common.utils.BASE_API_URI
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable

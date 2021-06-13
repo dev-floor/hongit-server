@@ -19,7 +19,7 @@ import javax.persistence.Table
 @Table(name = "professors")
 class Professor(
     name: String,
-    email: String?,
+    email: String? = null,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -6,7 +6,8 @@ import com.devfloor.untitled.article.application.request.ArticleModifyRequest
 import com.devfloor.untitled.article.application.response.ArticleFeedResponse
 import com.devfloor.untitled.article.application.response.ArticleResponse
 import com.devfloor.untitled.article.presentation.ArticleController.Companion.ARTICLE_API_URI
-import com.devfloor.untitled.common.config.BASE_API_URI
+import com.devfloor.untitled.common.config.auth.LoginUser
+import com.devfloor.untitled.common.utils.BASE_API_URI
 import com.devfloor.untitled.user.domain.User
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -37,7 +38,7 @@ class ArticleController(
         articleService.showAllByBoardId(boardId)
 
     @PostMapping
-    fun create(@RequestBody request: ArticleCreateRequest, author: User): ResponseEntity<Unit> {
+    fun create(@RequestBody request: ArticleCreateRequest, @LoginUser author: User): ResponseEntity<Unit> {
         val articleId = articleService.create(request, author)
         return ResponseEntity.created(URI.create("$ARTICLE_API_URI/$articleId")).build()
     }
@@ -47,11 +48,15 @@ class ArticleController(
     fun modifyByArticleId(
         @PathVariable articleId: Long,
         @RequestBody request: ArticleModifyRequest,
+        @LoginUser loginUser: User,
     ) = articleService.modifyByArticleId(articleId, request)
 
     @DeleteMapping(value = ["/{articleId}"])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun destroyByArticleId(@PathVariable articleId: Long) = articleService.destroyByArticleId(articleId)
+    fun destroyByArticleId(
+        @PathVariable articleId: Long,
+        @LoginUser loginUser: User,
+    ) = articleService.destroyByArticleId(articleId)
 
     companion object {
         const val ARTICLE_API_URI = "$BASE_API_URI/articles"
