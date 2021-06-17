@@ -25,4 +25,6 @@ class ArticleFavoriteService(
             type = ArticleFavoriteType.from(type)
         ).let { articleFavoriteRepository.save(it) }
     }
+
+    fun destroy(favoriteId: Long) = articleFavoriteRepository.deleteById(favoriteId)
 }
