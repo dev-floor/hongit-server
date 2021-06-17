@@ -6,7 +6,13 @@ import com.devfloor.untitled.articlefavorite.presentation.ArticleFavoriteControl
 import com.devfloor.untitled.common.config.auth.LoginUser
 import com.devfloor.untitled.user.domain.User
 import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.DeleteMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping(value = ["${ArticleController.ARTICLE_API_URI}/{articleId}$FAVORITE_API_URI"])
