@@ -10,6 +10,8 @@ import com.devfloor.untitled.articlefavorite.domain.ArticleFavoriteRepository
 import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtagRepository
+import com.devfloor.untitled.articlehitscount.application.ArticleHitsCountService
+import com.devfloor.untitled.articlehitscount.domain.ArticleHitsCountRepository
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
 import com.devfloor.untitled.articleoption.domain.ArticleOption
 import com.devfloor.untitled.articleoption.domain.ArticleOptionRepository
@@ -31,10 +33,12 @@ class ArticleService(
     private val articleOptionRepository: ArticleOptionRepository,
     private val boardRepository: BoardRepository,
     private val optionRepository: OptionRepository,
+    private val articleHitsCountRepository: ArticleHitsCountRepository,
 
     private val articleHashtagService: ArticleHashtagService,
     private val articleOptionService: ArticleOptionService,
     private val hashtagService: HashtagService,
+    private val articleHitsCountService: ArticleHitsCountService,
 ) {
     @Transactional(readOnly = true)
     fun showByArticleId(articleId: Long): ArticleResponse {
@@ -44,6 +48,8 @@ class ArticleService(
         val articleOptions = articleOptionRepository.findAllByArticle(article)
         val articleHashtags = articleHashtagRepository.findAllByArticle(article)
         val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
+
+        articleHitsCountService.increase(article)
 
         return ArticleResponse(
             article = article,
@@ -108,6 +114,7 @@ class ArticleService(
             articleHashtagRepository.deleteAllByArticle(it)
             articleFavoriteRepository.deleteAllByArticle(it)
             articleRepository.delete(it)
+            articleHitsCountRepository.deleteByArticle(it)
         }
         ?: EntityNotFoundException.notExistsId(Article::class, articleId)
 }
