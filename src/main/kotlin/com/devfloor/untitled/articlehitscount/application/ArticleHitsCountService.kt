@@ -19,13 +19,4 @@ class ArticleHitsCountService(
         articleHitsCount.increase()
         articleHitsCountRepository.save(articleHitsCount)
     }
-
-    @Transactional
-    fun decrease(article: Article) {
-        var articleHitsCount = articleHitsCountRepository.findByArticleOrNull(article)
-        if (articleHitsCount != null) {
-            articleHitsCount.decrease()
-            articleHitsCountRepository.save(articleHitsCount)
-        }
-    }
 }

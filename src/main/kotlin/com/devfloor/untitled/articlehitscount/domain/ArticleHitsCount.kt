@@ -26,6 +26,4 @@ class ArticleHitsCount(
         protected set
 
     fun increase() = this.hitsCount++
-
-    fun decrease() = this.hitsCount--
 }
