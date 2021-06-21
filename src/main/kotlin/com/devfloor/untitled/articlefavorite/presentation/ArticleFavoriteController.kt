@@ -1,38 +1,40 @@
 package com.devfloor.untitled.articlefavorite.presentation
 
-import com.devfloor.untitled.article.presentation.ArticleController
+import com.devfloor.untitled.articlefavorite.application.request.ArticleFavoriteCreateRequest
 import com.devfloor.untitled.articlefavorite.application.ArticleFavoriteService
-import com.devfloor.untitled.articlefavorite.presentation.ArticleFavoriteController.Companion.FAVORITE_API_URI
+import com.devfloor.untitled.articlefavorite.presentation.ArticleFavoriteController.Companion.ARTICLE_FAVORITE_API_URI
 import com.devfloor.untitled.common.config.auth.LoginUser
+import com.devfloor.untitled.common.utils.BASE_API_URI
 import com.devfloor.untitled.user.domain.User
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.DeleteMapping
-import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping(value = ["${ArticleController.ARTICLE_API_URI}/{articleId}$FAVORITE_API_URI"])
+@RequestMapping(value = [ARTICLE_FAVORITE_API_URI])
 class ArticleFavoriteController(
     private val articleFavoriteService: ArticleFavoriteService,
 ) {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
     fun create(
-        @PathVariable articleId: Long,
-        @RequestBody type: String,
+        @RequestBody request: ArticleFavoriteCreateRequest,
         @LoginUser user: User,
-    ) = articleFavoriteService.create(articleId, type, user)
+    ) = articleFavoriteService.create(request, user)
 
-    @DeleteMapping(value = ["{favoriteId}"])
+    @DeleteMapping
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun destroy(@PathVariable(value = "favoriteId") favoriteId: Long) =
-        articleFavoriteService.destroy(favoriteId)
+    fun destroy(
+        @RequestParam articleId: Long,
+        @LoginUser user: User,
+    ) = articleFavoriteService.destroy(articleId, user)
 
     companion object {
-        const val FAVORITE_API_URI = "/favorites"
+        const val ARTICLE_FAVORITE_API_URI = "$BASE_API_URI/articleFavorites"
     }
 }

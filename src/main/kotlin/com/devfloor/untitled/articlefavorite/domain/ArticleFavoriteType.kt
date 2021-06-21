@@ -19,6 +19,6 @@ enum class ArticleFavoriteType(
         get() = this.name
 
     companion object {
-        fun from(type: String) = values().first { it.text == type }
+        fun from(text: String) = values().first { it.text == text }
     }
 }
