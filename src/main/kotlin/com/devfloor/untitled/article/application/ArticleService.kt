@@ -6,9 +6,6 @@ import com.devfloor.untitled.article.application.response.ArticleFeedResponse
 import com.devfloor.untitled.article.application.response.ArticleResponse
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.article.domain.ArticleRepository
-import com.devfloor.untitled.articleclickcount.domain.ArticleClickCount
-import com.devfloor.untitled.articleclickcount.domain.ArticleClickCountRepository
-import com.devfloor.untitled.articleclickcount.domain.findByArticleOrNull
 import com.devfloor.untitled.articlefavorite.domain.ArticleFavoriteRepository
 import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
@@ -16,6 +13,9 @@ import com.devfloor.untitled.articlehashtag.domain.ArticleHashtagRepository
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
 import com.devfloor.untitled.articleoption.domain.ArticleOption
 import com.devfloor.untitled.articleoption.domain.ArticleOptionRepository
+import com.devfloor.untitled.articleviewcount.domain.ArticleViewCount
+import com.devfloor.untitled.articleviewcount.domain.ArticleViewCountRepository
+import com.devfloor.untitled.articleviewcount.domain.findByArticleOrNull
 import com.devfloor.untitled.board.domain.Board
 import com.devfloor.untitled.board.domain.BoardRepository
 import com.devfloor.untitled.common.exception.EntityNotFoundException
@@ -34,7 +34,7 @@ class ArticleService(
     private val articleOptionRepository: ArticleOptionRepository,
     private val boardRepository: BoardRepository,
     private val optionRepository: OptionRepository,
-    private val articleClickCountRepository: ArticleClickCountRepository,
+    private val articleViewCountRepository: ArticleViewCountRepository,
 
     private val articleHashtagService: ArticleHashtagService,
     private val articleOptionService: ArticleOptionService,
@@ -49,7 +49,7 @@ class ArticleService(
         val articleHashtags = articleHashtagRepository.findAllByArticle(article)
         val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
 
-        increaseHitCount(article)
+        increaseViewCount(article)
 
         return ArticleResponse(
             article = article,
@@ -114,14 +114,13 @@ class ArticleService(
             articleHashtagRepository.deleteAllByArticle(it)
             articleFavoriteRepository.deleteAllByArticle(it)
             articleRepository.delete(it)
-            articleClickCountRepository.deleteByArticle(it)
+            articleViewCountRepository.deleteByArticle(it)
         }
         ?: EntityNotFoundException.notExistsId(Article::class, articleId)
 
-    @Transactional
-    fun increaseHitCount(article: Article) {
-        articleClickCountRepository.findByArticleOrNull(article)
+    private fun increaseViewCount(article: Article) {
+        articleViewCountRepository.findByArticleOrNull(article)
             ?.run { ::increase }
-            ?: articleClickCountRepository.save(ArticleClickCount(article))
+            ?: articleViewCountRepository.save(ArticleViewCount(article))
     }
 }
