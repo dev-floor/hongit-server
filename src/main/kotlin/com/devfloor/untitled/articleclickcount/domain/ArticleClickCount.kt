@@ -1,4 +1,4 @@
-package com.devfloor.untitled.articlehitscount.domain
+package com.devfloor.untitled.articleclickcount.domain
 
 import com.devfloor.untitled.article.domain.Article
 import javax.persistence.Column
@@ -10,7 +10,7 @@ import javax.persistence.JoinColumn
 import javax.persistence.OneToOne
 
 @Entity
-class ArticleHitsCount(
+class ArticleClickCount(
     article: Article,
 ) {
     @Id
@@ -22,7 +22,7 @@ class ArticleHitsCount(
     @JoinColumn(name = "article_id")
     val article: Article = article
 
-    var hitsCount: Long = 0
+    var hitsCount: Long = 1
         protected set
 
     fun increase() = this.hitsCount++
