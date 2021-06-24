@@ -8,8 +8,10 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.OneToOne
+import javax.persistence.Table
 
 @Entity
+@Table(name = "article_view_count")
 class ArticleViewCount(
     article: Article,
 ) {
@@ -22,9 +24,9 @@ class ArticleViewCount(
     @JoinColumn(name = "article_id")
     val article: Article = article
 
-    @Column(name = "viewCount")
-    var viewCount: Long = 1
+    @Column(name = "count")
+    var count: Long = 1
         protected set
 
-    fun increase() = this.viewCount++
+    fun increase() = this.count++
 }
