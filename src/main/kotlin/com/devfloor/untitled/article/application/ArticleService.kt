@@ -13,6 +13,9 @@ import com.devfloor.untitled.articlehashtag.domain.ArticleHashtagRepository
 import com.devfloor.untitled.articleoption.application.ArticleOptionService
 import com.devfloor.untitled.articleoption.domain.ArticleOption
 import com.devfloor.untitled.articleoption.domain.ArticleOptionRepository
+import com.devfloor.untitled.articleviewcount.domain.ArticleViewCount
+import com.devfloor.untitled.articleviewcount.domain.ArticleViewCountRepository
+import com.devfloor.untitled.articleviewcount.domain.findByArticleOrNull
 import com.devfloor.untitled.board.domain.Board
 import com.devfloor.untitled.board.domain.BoardRepository
 import com.devfloor.untitled.common.exception.EntityNotFoundException
@@ -31,6 +34,7 @@ class ArticleService(
     private val articleOptionRepository: ArticleOptionRepository,
     private val boardRepository: BoardRepository,
     private val optionRepository: OptionRepository,
+    private val articleViewCountRepository: ArticleViewCountRepository,
 
     private val articleHashtagService: ArticleHashtagService,
     private val articleOptionService: ArticleOptionService,
@@ -44,6 +48,8 @@ class ArticleService(
         val articleOptions = articleOptionRepository.findAllByArticle(article)
         val articleHashtags = articleHashtagRepository.findAllByArticle(article)
         val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
+
+        increaseViewCount(article)
 
         return ArticleResponse(
             article = article,
@@ -108,6 +114,13 @@ class ArticleService(
             articleHashtagRepository.deleteAllByArticle(it)
             articleFavoriteRepository.deleteAllByArticle(it)
             articleRepository.delete(it)
+            articleViewCountRepository.deleteByArticle(it)
         }
         ?: EntityNotFoundException.notExistsId(Article::class, articleId)
+
+    private fun increaseViewCount(article: Article) {
+        articleViewCountRepository.findByArticleOrNull(article)
+            ?.run { ::increase }
+            ?: articleViewCountRepository.save(ArticleViewCount(article))
+    }
 }
