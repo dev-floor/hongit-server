@@ -12,6 +12,7 @@ import java.util.*
 interface ArticleViewCountRepository : JpaRepository<ArticleViewCount, Long> {
     fun findByArticle(article: Article): Optional<ArticleViewCount>
 
+    @Transactional
     fun deleteByArticle(article: Article)
 }
 
