@@ -35,6 +35,6 @@ class ArticleFavoriteController(
     ) = articleFavoriteService.destroy(articleId, user)
 
     companion object {
-        const val ARTICLE_FAVORITE_API_URI = "$BASE_API_URI/articleFavorites"
+        const val ARTICLE_FAVORITE_API_URI = "$BASE_API_URI/article-favorites"
     }
 }

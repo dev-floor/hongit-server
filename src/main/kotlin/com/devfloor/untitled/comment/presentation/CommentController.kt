@@ -39,18 +39,18 @@ class CommentController(
     ): ResponseEntity<CommentResponse> = commentService.create(author, request)
         .run { ResponseEntity.created(URI.create("$COMMENT_API_URI/$id")).body(this) }
 
-    @PutMapping(value = ["/{commentId}"])
+    @PutMapping(value = ["/{comment-id}"])
     @ResponseStatus(value = HttpStatus.OK)
     fun modifyByCommentId(
-        @PathVariable commentId: Long,
+        @PathVariable(name = "comment-id") commentId: Long,
         @RequestBody request: CommentModifyRequest,
         @LoginUser loginUser: User,
     ): CommentResponse = commentService.modifyByCommentId(commentId, request)
 
-    @DeleteMapping(value = ["/{commentId}"])
+    @DeleteMapping(value = ["/{comment-id}"])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     fun destroyByCommentId(
-        @PathVariable commentId: Long,
+        @PathVariable(name = "comment-id") commentId: Long,
         @LoginUser loginUser: User,
     ) = commentService.destroyByCommentId(commentId)
 

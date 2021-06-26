@@ -23,7 +23,7 @@ class ArticleFavoriteService(
         ArticleFavorite(
             article = article,
             user = user,
-            type = ArticleFavoriteType.from(request.type)
+            type = request.type
         ).let { articleFavoriteRepository.save(it) }
     }
 

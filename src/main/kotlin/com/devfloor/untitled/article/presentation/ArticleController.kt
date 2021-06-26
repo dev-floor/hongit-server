@@ -28,9 +28,10 @@ import java.net.URI
 class ArticleController(
     private val articleService: ArticleService,
 ) {
-    @GetMapping(value = ["/{articleId}"])
+    @GetMapping(value = ["/{article-id}"])
     @ResponseStatus(value = HttpStatus.OK)
-    fun showByArticleId(@PathVariable articleId: Long): ArticleResponse = articleService.showByArticleId(articleId)
+    fun showByArticleId(@PathVariable(name = "article-id") articleId: Long): ArticleResponse =
+        articleService.showByArticleId(articleId)
 
     @GetMapping
     @ResponseStatus(value = HttpStatus.OK)
@@ -43,18 +44,18 @@ class ArticleController(
         return ResponseEntity.created(URI.create("$ARTICLE_API_URI/$articleId")).build()
     }
 
-    @PutMapping(value = ["/{articleId}"])
+    @PutMapping(value = ["/{article-id}"])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     fun modifyByArticleId(
-        @PathVariable articleId: Long,
+        @PathVariable(name = "article-id") articleId: Long,
         @RequestBody request: ArticleModifyRequest,
         @LoginUser loginUser: User,
     ) = articleService.modifyByArticleId(articleId, request)
 
-    @DeleteMapping(value = ["/{articleId}"])
+    @DeleteMapping(value = ["/{article-id}"])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     fun destroyByArticleId(
-        @PathVariable articleId: Long,
+        @PathVariable(name = "article-id") articleId: Long,
         @LoginUser loginUser: User,
     ) = articleService.destroyByArticleId(articleId)
 
