@@ -20,9 +20,9 @@ import org.springframework.web.bind.annotation.RestController
 class BoardController(
     private val boardService: BoardService,
 ) {
-    @GetMapping(value = ["/{board-id}"])
+    @GetMapping(value = ["/{boardId}"])
     @ResponseStatus(value = HttpStatus.OK)
-    fun showByBoardId(@PathVariable(name = "board-id") boardId: Long): BoardResponse {
+    fun showByBoardId(@PathVariable boardId: Long): BoardResponse {
         log.info("[BoardController.showByBoardId] 게시판 상세정보 조회 - url: $BOARD_API_URI/$boardId")
         return boardService.showByBoardId(boardId)
             .also { log.info("[BoardController.showByBoardId] 게시판 상세정보 조회 완료 - response: $it") }
