@@ -1,6 +1,7 @@
 package com.devfloor.untitled.commentfavorite.domain
 
 import com.devfloor.untitled.comment.domain.Comment
+import com.devfloor.untitled.user.domain.User
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
@@ -17,4 +18,7 @@ interface CommentFavoriteRepository : JpaRepository<CommentFavorite, Long> {
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query(value = "DELETE FROM CommentFavorite WHERE comment = :comment")
     fun deleteAllByComment(comment: Comment)
+
+    @Transactional
+    fun deleteByCommentAndUser(comment: Comment, user: User)
 }
