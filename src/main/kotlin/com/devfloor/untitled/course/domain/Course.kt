@@ -101,7 +101,7 @@ class Course(
 
     fun isSame(course: Course): Boolean =
         this.openingSemester == course.openingSemester &&
-            this.professor == course.professor &&
-            this.subject == course.subject &&
-            this.grade == course.grade
+                this.professor == course.professor &&
+                this.subject == course.subject &&
+                this.grade == course.grade
 }

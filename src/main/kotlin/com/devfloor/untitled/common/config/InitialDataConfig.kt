@@ -200,13 +200,11 @@ class InitialDataConfig(
         )
 
         private val TEST_BOARD_1 = Board(
-            professor = TEST_PROFESSOR_1,
-            subject = TEST_SUBJECT_1,
-            BoardType.COURSE_BOARD
+            title = "${TEST_SUBJECT_1.name} - ${TEST_PROFESSOR_1.name}",
+            type = BoardType.COURSE_BOARD
         )
         private val TEST_BOARD_2 = Board(
-            professor = TEST_PROFESSOR_2,
-            subject = TEST_SUBJECT_1,
+            title = "${TEST_SUBJECT_1.name} - ${TEST_PROFESSOR_2.name}",
             type = BoardType.COURSE_BOARD
         )
 
