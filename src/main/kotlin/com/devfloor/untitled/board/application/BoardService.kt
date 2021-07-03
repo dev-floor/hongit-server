@@ -4,6 +4,7 @@ import com.devfloor.untitled.board.application.response.BoardResponse
 import com.devfloor.untitled.board.application.response.BoardSimpleResponse
 import com.devfloor.untitled.board.domain.Board
 import com.devfloor.untitled.board.domain.BoardRepository
+import com.devfloor.untitled.board.domain.BoardType
 import com.devfloor.untitled.boardoption.domain.BoardOptionRepository
 import com.devfloor.untitled.common.config.Slf4j
 import com.devfloor.untitled.common.config.Slf4j.Companion.log
@@ -39,6 +40,7 @@ class BoardService(
         ).also { log.info("[BoardService.showByBoardId] 게시판 상세정보 조회 완료 - response: $it") }
     }
 
+    @Transactional(readOnly = true)
     fun showAll(): List<BoardSimpleResponse> {
         log.info("[BoardService.showAll] 게시판 목록 조회")
         return boardRepository.findAll()
@@ -50,5 +52,17 @@ class BoardService(
                     grade = courses.firstOrNull()?.grade
                 )
             }.also { log.info("[BoardService.showAll] 게시판 목록 조회 완료 - response: $it") }
+    }
+
+    @Transactional(readOnly = true)
+    fun showAllBoardByBoardType(type: BoardType): List<BoardResponse> {
+        log.info("[BoardService.showAllBoardByBoardType] 수업 게시판 선택 화면 조회 - type: $type")
+        return boardRepository.findAllByType(type)
+            .map {
+                val course = courseService.showAllByBoard(it)
+                    .firstOrNull()
+                BoardResponse(it, course)
+            }
+            .also { log.info("[BoardService.showAllBoardByBoardType] 수업 게시판 선택 화면 조회 - response: $it") }
     }
 }

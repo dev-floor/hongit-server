@@ -16,7 +16,7 @@ class CourseService(
         val first = courses.firstOrNull() ?: return
 
         courses.stream()
-            .allMatch { it.isSame(first) }
+            .allMatch { it.matchRequiredInfo(first) }
             .let { if (!it) throw IllegalArgumentException("수업 정보가 동일하지 않습니다.") }
     }
 }
