@@ -6,12 +6,14 @@ import com.devfloor.untitled.common.config.auth.LoginUser
 import com.devfloor.untitled.common.utils.BASE_API_URI
 import com.devfloor.untitled.user.domain.User
 import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
+import java.net.URI
 
 @RestController
 @RequestMapping(value = [COMMENT_FAVORITE_API_URI])
@@ -20,9 +22,10 @@ class CommentFavoriteController(
 ) {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    fun create(@RequestParam commentId: Long, @LoginUser user: User) =
-        commentFavoriteService.create(commentId, user)
-
+    fun create(@RequestParam commentId: Long, @LoginUser user: User): ResponseEntity<Unit> {
+        val commentFavoriteId = commentFavoriteService.create(commentId, user)
+        return ResponseEntity.created(URI.create("$COMMENT_FAVORITE_API_URI/$commentFavoriteId")).build()
+    }
     @DeleteMapping
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     fun destroy(@RequestParam commentId: Long, @LoginUser user: User) =

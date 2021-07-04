@@ -14,8 +14,8 @@ class CommentFavoriteService(
     private val commentRepository: CommentRepository,
     private val commentFavoriteRepository: CommentFavoriteRepository,
 ) {
-    fun create(commentId: Long, user: User) = commentRepository.findByIdOrNull(commentId)
-        ?.let { commentFavoriteRepository.save(CommentFavorite(it, user)) }
+    fun create(commentId: Long, user: User): Long = commentRepository.findByIdOrNull(commentId)
+        ?.let { commentFavoriteRepository.save(CommentFavorite(it, user)) }?.run { id }
         ?: EntityNotFoundException.notExistsId(Comment::class, commentId)
 
     fun destroy(commentId: Long, user: User) = commentRepository.findByIdOrNull(commentId)
