@@ -17,8 +17,4 @@ enum class ArticleFavoriteType(
 
     override val id: String
         get() = this.name
-
-    companion object {
-        fun from(text: String) = values().first { it.text == text }
-    }
 }

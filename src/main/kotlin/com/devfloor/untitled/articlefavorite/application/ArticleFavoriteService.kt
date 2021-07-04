@@ -5,7 +5,6 @@ import com.devfloor.untitled.article.domain.ArticleRepository
 import com.devfloor.untitled.articlefavorite.application.request.ArticleFavoriteCreateRequest
 import com.devfloor.untitled.articlefavorite.domain.ArticleFavorite
 import com.devfloor.untitled.articlefavorite.domain.ArticleFavoriteRepository
-import com.devfloor.untitled.articlefavorite.domain.ArticleFavoriteType
 import com.devfloor.untitled.common.exception.EntityNotFoundException
 import com.devfloor.untitled.user.domain.User
 import org.springframework.data.repository.findByIdOrNull
@@ -16,15 +15,15 @@ class ArticleFavoriteService(
     private val articleFavoriteRepository: ArticleFavoriteRepository,
     private val articleRepository: ArticleRepository,
 ) {
-    fun create(request: ArticleFavoriteCreateRequest, user: User) {
+    fun create(request: ArticleFavoriteCreateRequest, user: User): Long {
         val article = articleRepository.findByIdOrNull(request.articleId)
             ?: EntityNotFoundException.notExistsId(Article::class, request.articleId)
 
-        ArticleFavorite(
+        return ArticleFavorite(
             article = article,
             user = user,
             type = request.type
-        ).let { articleFavoriteRepository.save(it) }
+        ).let { articleFavoriteRepository.save(it) }.run { id }
     }
 
     fun destroy(articleId: Long, user: User) {
