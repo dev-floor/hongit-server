@@ -3,6 +3,7 @@ package com.devfloor.untitled.article.application
 import com.devfloor.untitled.article.application.request.ArticleCreateRequest
 import com.devfloor.untitled.article.application.request.ArticleModifyRequest
 import com.devfloor.untitled.article.application.response.ArticleFeedResponse
+import com.devfloor.untitled.article.application.response.ArticleHomeResponse
 import com.devfloor.untitled.article.application.response.ArticleResponse
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.article.domain.ArticleRepository
@@ -72,6 +73,19 @@ class ArticleService(
                 ArticleFeedResponse(
                     article = article,
                     articleOptions = articleOptions,
+                    articleFavorites = articleFavorites,
+                )
+            }
+    }
+
+    @Transactional
+    fun showTop5ByBoard(board: Board): List<ArticleHomeResponse> {
+        return articleRepository.findTop5ByBoardOrderByCreatedAtDesc(board)
+            .map { article ->
+                val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
+
+                ArticleHomeResponse(
+                    article = article,
                     articleFavorites = articleFavorites,
                 )
             }
