@@ -99,7 +99,7 @@ class Course(
         this.board = board
     }
 
-    fun matchRequiredInfo(course: Course): Boolean =
+    fun matchesRequiredInfo(course: Course): Boolean =
         this.openingSemester == course.openingSemester &&
             this.professor == course.professor &&
             this.subject == course.subject &&

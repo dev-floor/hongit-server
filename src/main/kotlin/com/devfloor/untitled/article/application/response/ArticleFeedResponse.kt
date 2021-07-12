@@ -55,9 +55,9 @@ data class ArticleFeedResponse(
         anonymous = article.anonymous,
         author = ProfileResponse(article.author),
         content = article.sliceContentByLength(CONTENT_MAX_LENGTH),
-        favoriteCount = articleFavorites.count { it.matchType(ArticleFavoriteType.FAVORITE) }.toLong(),
-        wonderCount = articleFavorites.count { it.matchType(ArticleFavoriteType.WONDER) }.toLong(),
-        clipCount = articleFavorites.count { it.matchType(ArticleFavoriteType.CLIP) }.toLong(),
+        favoriteCount = articleFavorites.count { it.matchesType(ArticleFavoriteType.FAVORITE) }.toLong(),
+        wonderCount = articleFavorites.count { it.matchesType(ArticleFavoriteType.WONDER) }.toLong(),
+        clipCount = articleFavorites.count { it.matchesType(ArticleFavoriteType.CLIP) }.toLong(),
         createdAt = article.createdAt,
         modifiedAt = article.modifiedAt,
     )

@@ -52,5 +52,5 @@ class ArticleFavorite(
     @Enumerated(value = EnumType.STRING)
     val type: ArticleFavoriteType = type
 
-    fun matchType(type: ArticleFavoriteType): Boolean = this.type == type
+    fun matchesType(type: ArticleFavoriteType): Boolean = this.type == type
 }
