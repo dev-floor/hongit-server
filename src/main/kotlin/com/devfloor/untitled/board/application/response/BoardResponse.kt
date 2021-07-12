@@ -29,4 +29,17 @@ data class BoardResponse(
         type = BaseEnumResponse(board.type),
         options = options.map { OptionResponse(it) }
     )
+
+    constructor(
+        board: Board,
+        course: Course?,
+    ) : this(
+        id = board.id,
+        title = board.title,
+        professor = course?.let { ProfessorResponse(it.professor) },
+        subject = course?.subject?.name,
+        grade = course?.let { BaseEnumResponse(it.grade) },
+        type = BaseEnumResponse(board.type),
+        options = emptyList()
+    )
 }

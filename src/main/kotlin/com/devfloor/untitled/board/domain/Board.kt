@@ -1,8 +1,6 @@
 package com.devfloor.untitled.board.domain
 
 import com.devfloor.untitled.common.domain.BaseEntity
-import com.devfloor.untitled.professor.domain.Professor
-import com.devfloor.untitled.subject.domain.Subject
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -16,16 +14,13 @@ import javax.persistence.Table
  * 게시판 정보를 관리하는 entity
  *
  * @property id 아이디
- * @property professor 교수
- * @property subject 과목
- * @property openingSemester 개설학기
+ * @property title 제목
  * @property type 게시판 종류
  */
 @Entity
 @Table(name = "boards")
 class Board(
-    professor: Professor,
-    subject: Subject,
+    title: String,
     type: BoardType,
 ) : BaseEntity() {
     @Id
@@ -34,7 +29,7 @@ class Board(
     val id: Long = 0
 
     @Column(name = "title")
-    val title: String = "${subject.name} / ${professor.name}"
+    val title: String = title
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "board_type")
