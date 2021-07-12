@@ -7,6 +7,7 @@ import com.devfloor.untitled.article.application.response.ArticleHomeResponse
 import com.devfloor.untitled.article.application.response.ArticleResponse
 import com.devfloor.untitled.article.domain.Article
 import com.devfloor.untitled.article.domain.ArticleRepository
+import com.devfloor.untitled.article.domain.ArticleRepositoryCustom
 import com.devfloor.untitled.articlefavorite.domain.ArticleFavoriteRepository
 import com.devfloor.untitled.articlehashtag.application.ArticleHashtagService
 import com.devfloor.untitled.articlehashtag.domain.ArticleHashtag
@@ -36,6 +37,7 @@ class ArticleService(
     private val boardRepository: BoardRepository,
     private val optionRepository: OptionRepository,
     private val articleViewCountRepository: ArticleViewCountRepository,
+    private val articleRepositoryCustom: ArticleRepositoryCustom,
 
     private val articleHashtagService: ArticleHashtagService,
     private val articleOptionService: ArticleOptionService,
@@ -73,6 +75,32 @@ class ArticleService(
                 ArticleFeedResponse(
                     article = article,
                     articleOptions = articleOptions,
+                    articleFavorites = articleFavorites,
+                )
+            }
+    }
+
+    @Transactional
+    fun showTop5ByFavorite(): List<ArticleHomeResponse> {
+        return articleRepositoryCustom.findByFavoriteTop5()
+            .map { article ->
+                val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
+
+                ArticleHomeResponse(
+                    article = article,
+                    articleFavorites = articleFavorites,
+                )
+            }
+    }
+
+    @Transactional
+    fun showTop5ByViewCount(): List<ArticleHomeResponse> {
+        return articleRepositoryCustom.findByViewCountTop5()
+            .map { article ->
+                val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
+
+                ArticleHomeResponse(
+                    article = article,
                     articleFavorites = articleFavorites,
                 )
             }

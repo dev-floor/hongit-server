@@ -19,8 +19,8 @@ class HomeBoardService(
                 val articles =
                     when {
                         // TODO : 조회수순, 좋아요순 5개 게시글 추출 구현 필요
-                        homeBoard.matchType(HomeBoardType.TOTAL_VIEW) -> articleService.showTop5ByBoard(homeBoard.board)
-                        homeBoard.matchType(HomeBoardType.TOTAL_VIEW) -> articleService.showTop5ByBoard(homeBoard.board)
+                        homeBoard.matchType(HomeBoardType.TOTAL_FAVORITE) -> articleService.showTop5ByFavorite()
+                        homeBoard.matchType(HomeBoardType.TOTAL_VIEW) -> articleService.showTop5ByViewCount()
                         else -> articleService.showTop5ByBoard(homeBoard.board)
                     }
 
