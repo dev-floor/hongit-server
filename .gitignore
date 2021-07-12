@@ -41,4 +41,3 @@ out/
 
 ### Docker ###
 docker/mariadb/data/*
-docker/.env
