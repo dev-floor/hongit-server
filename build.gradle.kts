@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("org.springframework.boot") version "2.4.5" apply false
@@ -23,6 +24,10 @@ val querydslProjects = listOf(
 )
 
 allprojects {
+    apply {
+        plugin("idea")
+    }
+
     repositories {
         mavenCentral()
     }
@@ -40,20 +45,35 @@ configure(springProjects) {
     }
 
     dependencies {
-        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
         implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-
-        runtimeOnly("com.h2database:h2")
-        runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+        implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
         testImplementation("org.springframework.boot:spring-boot-starter-test") {
             exclude("junit-platform-commons")
         }
         testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
-        testImplementation("io.rest-assured:kotlin-extensions:4.3.3")
+    }
+
+    tasks.withType<KotlinCompile> {
+        sourceCompatibility = "11"
+
+        kotlinOptions {
+            freeCompilerArgs.plus("-Xjsr305=strict")
+            freeCompilerArgs.plus("-Xjvm-default=enable")
+            freeCompilerArgs.plus("-progressive")
+            freeCompilerArgs.plus("-XXLanguage:+InlineClasses")
+
+            jvmTarget = "11"
+        }
+
+        dependsOn("processResources")
+    }
+
+    tasks.withType<Test> {
+        useJUnitPlatform()
     }
 }
