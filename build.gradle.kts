@@ -13,12 +13,6 @@ plugins {
     kotlin("plugin.jpa") version kotlinVersion apply false
 }
 
-allOpen {
-    annotation("javax.persistence.Entity")
-    annotation("javax.persistence.Embeddable")
-    annotation("javax.persistence.MappedSuperclass")
-}
-
 val springProjects = listOf(
     project(":hongit-core"),
     project(":hongit-api")
