@@ -1,7 +1,7 @@
-package com.devfloor.hongit.core.user.domain
+package com.devfloor.hongit.core.option.domain
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.transaction.annotation.Transactional
 
 @Transactional(readOnly = true)
-interface UserRepository : JpaRepository<User, Long>
+interface OptionRepository : JpaRepository<Option, Long>
