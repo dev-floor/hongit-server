@@ -8,10 +8,12 @@ tasks.getByName<BootJar>("bootJar") {
 }
 
 plugins {
+    id("org.springframework.boot")
     id("org.jlleitschuh.gradle.ktlint")
 
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
+    kotlin("kapt")
     kotlin("plugin.allopen")
 }
 
@@ -23,6 +25,8 @@ allOpen {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+    kapt("com.querydsl:querydsl-apt:${Dependencies.Versions.querydsl}:jpa")
 
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
