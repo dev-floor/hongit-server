@@ -8,9 +8,9 @@ plugins {
     val kotlinVersion = "1.5.20"
 
     kotlin("jvm") version kotlinVersion
-    kotlin("plugin.allopen") version kotlinVersion
     kotlin("plugin.spring") version kotlinVersion apply false
     kotlin("plugin.jpa") version kotlinVersion apply false
+    kotlin("plugin.allopen") version kotlinVersion
 }
 
 val springProjects = listOf(

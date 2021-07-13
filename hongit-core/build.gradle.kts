@@ -8,10 +8,11 @@ tasks.getByName<BootJar>("bootJar") {
 }
 
 plugins {
-    kotlin("jvm")
-    kotlin("plugin.allopen")
+    id("org.jlleitschuh.gradle.ktlint")
+
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
+    kotlin("plugin.allopen")
 }
 
 allOpen {
