@@ -32,8 +32,8 @@ allprojects {
         mavenCentral()
     }
 
-    group = "com.devfloor"
-    version = "0.0.1-SNAPSHOT"
+    group = "${property("projectGroup")}"
+    version = "${property("projectVersion")}"
 }
 
 configure(springProjects) {
