@@ -2,16 +2,14 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot") version "2.4.5" apply false
-    id("io.spring.dependency-management") version "1.0.11.RELEASE" apply false
-    id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
+    id("org.springframework.boot") version Dependencies.Versions.springBoot apply false
+    id("io.spring.dependency-management") version Dependencies.Versions.springDependencyManagement apply false
+    id("org.jlleitschuh.gradle.ktlint") version Dependencies.Versions.ktlint
 
-    val kotlinVersion = "1.5.20"
-
-    kotlin("jvm") version kotlinVersion
-    kotlin("plugin.spring") version kotlinVersion apply false
-    kotlin("plugin.jpa") version kotlinVersion apply false
-    kotlin("plugin.allopen") version kotlinVersion
+    kotlin("jvm") version Dependencies.Versions.kotlin
+    kotlin("plugin.spring") version Dependencies.Versions.kotlin apply false
+    kotlin("plugin.jpa") version Dependencies.Versions.kotlin apply false
+    kotlin("plugin.allopen") version Dependencies.Versions.kotlin
 }
 
 val springProjects = listOf(
@@ -55,7 +53,6 @@ configure(springProjects) {
         testImplementation("org.springframework.boot:spring-boot-starter-test") {
             exclude("junit-platform-commons")
         }
-        testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
     }
 
     tasks.withType<KotlinCompile> {
