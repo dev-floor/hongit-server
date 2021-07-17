@@ -1,7 +1,7 @@
-package com.devfloor.untitled.Home.presentation
+package com.devfloor.untitled.home.presentation
 
-import com.devfloor.untitled.Home.application.HomeBoardService
-import com.devfloor.untitled.Home.application.response.HomeResponse
+import com.devfloor.untitled.home.application.HomeBoardService
+import com.devfloor.untitled.home.application.response.HomeResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ResponseStatus

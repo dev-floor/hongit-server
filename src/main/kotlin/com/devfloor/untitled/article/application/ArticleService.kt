@@ -80,9 +80,8 @@ class ArticleService(
             }
     }
 
-    @Transactional
-    fun showTop5ByFavorite(): List<ArticleHomeResponse> {
-        return articleRepositoryCustom.findByFavoriteTop5()
+    fun showTopFiveByFavorite(): List<ArticleHomeResponse> {
+        return articleRepositoryCustom.findByFavoriteTopFive()
             .map { article ->
                 val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
 
@@ -93,9 +92,8 @@ class ArticleService(
             }
     }
 
-    @Transactional
-    fun showTop5ByViewCount(): List<ArticleHomeResponse> {
-        return articleRepositoryCustom.findByViewCountTop5()
+    fun showTopFiveByViewCount(): List<ArticleHomeResponse> {
+        return articleRepositoryCustom.findByViewCountTopFive()
             .map { article ->
                 val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
 
@@ -106,8 +104,7 @@ class ArticleService(
             }
     }
 
-    @Transactional
-    fun showTop5ByBoard(board: Board): List<ArticleHomeResponse> {
+    fun showTopFiveByBoard(board: Board): List<ArticleHomeResponse> {
         return articleRepository.findTop5ByBoardOrderByCreatedAtDesc(board)
             .map { article ->
                 val articleFavorites = articleFavoriteRepository.findAllByArticle(article)

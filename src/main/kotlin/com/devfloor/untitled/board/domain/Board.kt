@@ -39,4 +39,6 @@ class Board(
     @Enumerated(value = EnumType.STRING)
     @Column(name = "board_type")
     val type: BoardType = type
+
+    fun matchsType(type: BoardType): Boolean = this.type == type
 }

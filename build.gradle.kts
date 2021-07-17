@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -16,7 +17,7 @@ plugins {
 
 }
 
-sourceSets["main"].withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
+sourceSets["main"].withConvention(KotlinSourceSet::class) {
     kotlin.srcDir("$buildDir/generated/source/kapt/main")
 }
 
