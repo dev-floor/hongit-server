@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 
 @Configuration
 @EnableJpaAuditing
-@EntityScan(basePackages = ["com.devfloor.hongit"])
-@EnableJpaRepositories(basePackages = ["com.devfloor.hongit"])
+@EntityScan(basePackages = ["com.devfloor.hongit.core"])
+@EnableJpaRepositories(basePackages = ["com.devfloor.hongit.core"])
 class CoreConfig
