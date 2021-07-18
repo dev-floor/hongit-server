@@ -20,5 +20,7 @@ plugins {
 dependencies {
     implementation(project(":hongit-core"))
 
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
     testImplementation(project(":hongit-core"))
 }
