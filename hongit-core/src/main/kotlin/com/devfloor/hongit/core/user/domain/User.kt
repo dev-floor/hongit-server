@@ -8,6 +8,7 @@ import javax.persistence.Enumerated
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.Index
 import javax.persistence.Table
 import javax.persistence.UniqueConstraint
 
@@ -15,6 +16,8 @@ import javax.persistence.UniqueConstraint
  * 회원 정보를 관리하는 entity
  *
  * @property id 아이디
+ * @property username 계정 아이디
+ * @property password 비밀번호
  * @property nickname 닉네임
  * @property type 유형
  * @property image 프로필 사진
@@ -26,11 +29,16 @@ import javax.persistence.UniqueConstraint
 @Entity
 @Table(
     name = "users",
+    indexes = [
+        Index(name = "idx_nickname", columnList = "nickname")
+    ],
     uniqueConstraints = [
         UniqueConstraint(name = "uk_user_class_of", columnNames = ["class_of"]),
     ],
 )
 class User(
+    username: String,
+    password: String,
     nickname: String,
     type: UserType,
     image: String?,
@@ -43,6 +51,13 @@ class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     val id: Long = 0
+
+    @Column
+    val username: String = username
+
+    @Column
+    var password: String = password
+        protected set
 
     @Column(name = "name")
     var nickname: String = nickname
