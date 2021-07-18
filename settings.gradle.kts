@@ -8,3 +8,8 @@ pluginManagement {
 }
 
 rootProject.name = "hongit"
+
+include(
+    "hongit-api",
+    "hongit-core"
+)

@@ -1,59 +1,86 @@
+import org.jetbrains.kotlin.gradle.plugin.KotlinPlatformJvmPlugin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    val kotlinVersion = "1.5.0"
+    id("org.springframework.boot") version Dependencies.Versions.springBoot apply false
+    id("io.spring.dependency-management") version Dependencies.Versions.springDependencyManagement apply false
+    id("org.jlleitschuh.gradle.ktlint") version Dependencies.Versions.ktlint
 
-    id("org.springframework.boot") version "2.4.5"
-    id("io.spring.dependency-management") version "1.0.11.RELEASE"
-    id("org.jlleitschuh.gradle.ktlint") version "10.0.0"
-
-    kotlin("jvm") version kotlinVersion
-    kotlin("plugin.spring") version kotlinVersion
-    kotlin("plugin.jpa") version kotlinVersion
-    kotlin("plugin.allopen") version kotlinVersion
+    kotlin("jvm") version Dependencies.Versions.kotlin
+    kotlin("plugin.spring") version Dependencies.Versions.kotlin apply false
+    kotlin("plugin.jpa") version Dependencies.Versions.kotlin apply false
+    kotlin("kapt") version Dependencies.Versions.kotlin apply false
+    kotlin("plugin.allopen") version Dependencies.Versions.kotlin
 }
 
-group = "com.devfloor"
-version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_11
+val springProjects = listOf(
+    project(":hongit-core"),
+    project(":hongit-api")
+)
 
-repositories {
-    mavenCentral()
-}
+val querydslProjects = listOf(
+    project(":hongit-core")
+)
 
-allOpen {
-    annotation("javax.persistence.Entity")
-    annotation("javax.persistence.Embeddable")
-    annotation("javax.persistence.MappedSuperclass")
-}
-
-dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-
-    runtimeOnly("com.h2database:h2")
-    runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
-
-    testImplementation("org.springframework.boot:spring-boot-starter-test") {
-        exclude("junit-platform-commons")
+allprojects {
+    apply {
+        plugin("idea")
     }
-    testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
-    testImplementation("io.rest-assured:kotlin-extensions:4.3.3")
-}
 
-tasks.withType<KotlinCompile> {
-    sourceCompatibility = "11"
-
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "11"
+    repositories {
+        mavenCentral()
     }
+
+    group = "${property("projectGroup")}"
+    version = "${property("projectVersion")}"
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
+configure(springProjects) {
+    apply {
+        plugin<JavaLibraryPlugin>()
+        plugin<KotlinPlatformJvmPlugin>()
+        plugin("io.spring.dependency-management")
+        plugin("org.springframework.boot")
+    }
+
+    dependencies {
+        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.jetbrains.kotlin:kotlin-reflect")
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+        implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+        implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+
+        implementation("com.querydsl:querydsl-jpa")
+        implementation("org.springframework.boot:spring-boot-configuration-processor")
+
+        testImplementation("org.springframework.boot:spring-boot-starter-test") {
+            exclude("junit-platform-commons")
+        }
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom(configurations.annotationProcessor.get())
+        }
+    }
+
+    tasks.withType<KotlinCompile> {
+        sourceCompatibility = "11"
+
+        kotlinOptions {
+            freeCompilerArgs.plus("-Xjsr305=strict")
+            freeCompilerArgs.plus("-Xjvm-default=enable")
+            freeCompilerArgs.plus("-progressive")
+            freeCompilerArgs.plus("-XXLanguage:+InlineClasses")
+
+            jvmTarget = "11"
+        }
+
+        dependsOn("processResources")
+    }
+
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
 }

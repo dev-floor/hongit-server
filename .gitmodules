@@ -1,3 +1,3 @@
-[submodule "untitled-secret"]
-    path = untitled-secret
-    url = https://github.com/dev-floor/untitled-secret.git
+[submodule "hongit-secret"]
+	path = hongit-secret
+	url = https://github.com/dev-floor/hongit-secret.git
