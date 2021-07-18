@@ -21,6 +21,16 @@ class CommonExceptionAdvice {
         ErrorResponse(e.javaClass.simpleName, e.message)
             .also { loggingError(::handleEntityNotFoundException.name, it) }
 
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = [IllegalArgumentException::class])
+    fun handleIllegalArgumentException(e: IllegalArgumentException): ErrorResponse =
+        ErrorResponse(e.javaClass.simpleName, e.message ?: ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE)
+            .also { loggingError(::handleIllegalArgumentException.name, it) }
+
     private fun loggingError(func: String, res: ErrorResponse) =
         log.error("[${this::class.simpleName}.$func] ${res.errorClass} - response: $res")
+
+    companion object {
+        const val ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE = "유효하지 않은 요청입니다."
+    }
 }
