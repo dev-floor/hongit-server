@@ -31,6 +31,7 @@ import javax.persistence.UniqueConstraint
     ],
 )
 class User(
+    username: String,
     nickname: String,
     type: UserType,
     image: String?,
@@ -43,6 +44,9 @@ class User(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     val id: Long = 0
+
+    @Column(name = "username")
+    val username: String = username
 
     @Column(name = "name")
     var nickname: String = nickname

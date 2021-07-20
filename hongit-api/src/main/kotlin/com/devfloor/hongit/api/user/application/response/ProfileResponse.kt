@@ -4,6 +4,7 @@ import com.devfloor.hongit.api.common.application.response.BaseEnumResponse
 import com.devfloor.hongit.core.user.domain.User
 
 data class ProfileResponse(
+    val username: String,
     val nickname: String,
     val type: BaseEnumResponse,
     val image: String?,
@@ -12,6 +13,7 @@ data class ProfileResponse(
     val description: String?,
 ) {
     constructor(user: User) : this(
+        username = user.username,
         nickname = user.nickname,
         type = BaseEnumResponse(user.type),
         image = user.image,
