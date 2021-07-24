@@ -2,6 +2,7 @@ package com.devfloor.hongit.core.user.domain
 
 import com.devfloor.hongit.core.common.domain.BaseEntity
 import javax.persistence.Column
+import javax.persistence.Embedded
 import javax.persistence.Entity
 import javax.persistence.EnumType
 import javax.persistence.Enumerated
@@ -40,6 +41,7 @@ class User(
     username: String,
     password: String,
     nickname: String,
+    email: Email,
     type: UserType,
     image: String?,
     classOf: String?,
@@ -52,16 +54,20 @@ class User(
     @Column(name = "user_id")
     val id: Long = 0
 
-    @Column
+    @Column(name = "username")
     val username: String = username
 
-    @Column
+    @Column(name = "password")
     var password: String = password
         protected set
 
     @Column(name = "name")
     var nickname: String = nickname
         protected set
+
+    @Embedded
+    @Column(name = "email")
+    val email: Email = email
 
     @Enumerated(value = EnumType.STRING)
     @Column(name = "user_type")
