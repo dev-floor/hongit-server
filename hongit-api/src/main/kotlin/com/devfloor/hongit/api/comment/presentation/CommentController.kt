@@ -34,8 +34,8 @@ class CommentController(
 
     @GetMapping
     @ResponseStatus(value = HttpStatus.OK)
-    fun showAllByAuthor(@RequestParam userId: Long): List<CommentResponse> =
-        commentService.showAllByAuthor(userId)
+    fun showAllByUserId(@RequestParam userId: Long): List<CommentResponse> =
+        commentService.showAllByUserId(userId)
 
     @PostMapping
     fun create(

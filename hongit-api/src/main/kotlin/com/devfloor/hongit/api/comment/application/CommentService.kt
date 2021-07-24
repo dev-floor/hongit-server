@@ -37,7 +37,7 @@ class CommentService(
     }
 
     @Transactional(readOnly = true)
-    fun showAllByAuthor(userId: Long): List<CommentResponse> {
+    fun showAllByUserId(userId: Long): List<CommentResponse> {
         val comments = userRepository.findByIdOrNull(userId)
             ?.let(commentRepository::findAllByAuthor)
             ?: EntityNotFoundException.notExistsId(User::class, userId)
