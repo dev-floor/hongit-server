@@ -93,4 +93,8 @@ class User(
     @Column(name = "description")
     var description: String? = description
         protected set
+
+    fun updatePassword(password: String) {
+        this.password = password
+    }
 }
