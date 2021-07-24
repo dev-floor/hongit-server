@@ -32,6 +32,11 @@ class CommentController(
     fun showAllByArticleId(@RequestParam articleId: Long): List<CommentResponse> =
         commentService.showAllByArticleId(articleId)
 
+    @GetMapping
+    @ResponseStatus(value = HttpStatus.OK)
+    fun showAllByAuthor(@RequestParam userId: Long): List<CommentResponse> =
+        commentService.showAllByAuthor(userId)
+
     @PostMapping
     fun create(
         @RequestBody request: CommentCreateRequest,
