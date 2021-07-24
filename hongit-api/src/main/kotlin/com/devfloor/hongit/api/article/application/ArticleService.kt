@@ -81,18 +81,16 @@ class ArticleService(
 
     @Transactional(readOnly = true)
     fun showAllByUserId(userId: Long): List<ArticleFeedResponse> {
-        val user = userRepository.findByIdOrNull(userId)
+        val articles = userRepository.findByIdOrNull(userId)
+            ?.let(articleRepository::findAllByAuthor)
             ?: EntityNotFoundException.notExistsId(User::class, userId)
 
-        return articleRepository.findAllByAuthor(user)
-            .map { article ->
-                val articleOptions = articleOptionRepository.findAllByArticle(article)
-                val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
-
+        return articles
+            .map {
                 ArticleFeedResponse(
-                    article = article,
-                    articleOptions = articleOptions,
-                    articleFavorites = articleFavorites,
+                    article = it,
+                    articleOptions = articleOptionRepository.findAllByArticle(it),
+                    articleFavorites = articleFavoriteRepository.findAllByArticle(it),
                 )
             }
     }
