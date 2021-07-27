@@ -4,6 +4,7 @@ import com.devfloor.hongit.api.comment.application.CommentService
 import com.devfloor.hongit.api.comment.application.request.CommentCreateRequest
 import com.devfloor.hongit.api.comment.application.request.CommentModifyRequest
 import com.devfloor.hongit.api.comment.application.response.CommentResponse
+import com.devfloor.hongit.api.comment.application.response.CommentResponseInProfile
 import com.devfloor.hongit.api.comment.presentation.CommentController.Companion.COMMENT_API_URI
 import com.devfloor.hongit.api.common.utils.BASE_API_URI
 import com.devfloor.hongit.api.security.core.LoginUser
@@ -34,7 +35,7 @@ class CommentController(
 
     @GetMapping
     @ResponseStatus(value = HttpStatus.OK)
-    fun showAllByUserId(@RequestParam userId: Long): List<CommentResponse> =
+    fun showAllByUserId(@RequestParam userId: Long): List<CommentResponseInProfile> =
         commentService.showAllByUserId(userId)
 
     @PostMapping
