@@ -5,11 +5,12 @@ plugins {
     id("org.springframework.boot") version Dependencies.Versions.springBoot apply false
     id("io.spring.dependency-management") version Dependencies.Versions.springDependencyManagement apply false
     id("org.jlleitschuh.gradle.ktlint") version Dependencies.Versions.ktlint
+    id("com.ewerk.gradle.plugins.querydsl") version "1.0.10" apply false
 
     kotlin("jvm") version Dependencies.Versions.kotlin
     kotlin("plugin.spring") version Dependencies.Versions.kotlin apply false
     kotlin("plugin.jpa") version Dependencies.Versions.kotlin apply false
-    kotlin("kapt") version Dependencies.Versions.kotlin apply false
+    kotlin("kapt") version Dependencies.Versions.kotlin
     kotlin("plugin.allopen") version Dependencies.Versions.kotlin
 }
 
@@ -34,7 +35,11 @@ allprojects {
     group = "${property("projectGroup")}"
     version = "${property("projectVersion")}"
 }
-
+configure(querydslProjects){
+    apply {
+        plugin("com.ewerk.gradle.plugins.querydsl")
+    }
+}
 configure(springProjects) {
     apply {
         plugin<JavaLibraryPlugin>()
@@ -51,7 +56,6 @@ configure(springProjects) {
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
-        implementation("com.querydsl:querydsl-jpa")
         implementation("org.springframework.boot:spring-boot-configuration-processor")
 
         testImplementation("org.springframework.boot:spring-boot-starter-test") {

@@ -1,6 +1,8 @@
 package com.devfloor.hongit.core.board.domain
 
 import com.devfloor.hongit.core.common.domain.BaseEntity
+import com.devfloor.hongit.core.professor.domain.Professor
+import com.devfloor.hongit.core.subject.domain.Subject
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.EnumType
@@ -14,7 +16,9 @@ import javax.persistence.Table
  * 게시판 정보를 관리하는 entity
  *
  * @property id 아이디
- * @property title 제목
+ * @property professor 교수
+ * @property subject 과목
+ * @property openingSemester 개설학기
  * @property type 게시판 종류
  */
 @Entity
@@ -34,4 +38,6 @@ class Board(
     @Enumerated(value = EnumType.STRING)
     @Column(name = "board_type")
     val type: BoardType = type
+
+    fun matchesType(type: BoardType): Boolean = this.type == type
 }

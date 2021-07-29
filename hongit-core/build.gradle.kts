@@ -10,10 +10,16 @@ tasks.getByName<BootJar>("bootJar") {
 plugins {
     id("org.springframework.boot")
     id("org.jlleitschuh.gradle.ktlint")
+    id("com.ewerk.gradle.plugins.querydsl")
 
     kotlin("plugin.spring")
     kotlin("plugin.jpa")
     kotlin("plugin.allopen")
+    kotlin("kapt")
+}
+
+sourceSets["main"].withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
+    kotlin.srcDir("$buildDir/generated/source/kapt/main")
 }
 
 allOpen {
@@ -24,6 +30,8 @@ allOpen {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("com.querydsl:querydsl-jpa")
+    kapt("com.querydsl:querydsl-apt:4.2.2:jpa")
 
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
