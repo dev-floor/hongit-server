@@ -22,6 +22,7 @@ import com.devfloor.hongit.core.board.domain.Board
 import com.devfloor.hongit.core.board.domain.BoardRepository
 import com.devfloor.hongit.core.option.domain.OptionRepository
 import com.devfloor.hongit.core.user.domain.User
+import com.devfloor.hongit.core.user.domain.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -35,6 +36,7 @@ class ArticleService(
     private val boardRepository: BoardRepository,
     private val optionRepository: OptionRepository,
     private val articleViewCountRepository: ArticleViewCountRepository,
+    private val userRepository: UserRepository,
 
     private val articleHashtagService: ArticleHashtagService,
     private val articleOptionService: ArticleOptionService,
@@ -73,6 +75,22 @@ class ArticleService(
                     article = article,
                     articleOptions = articleOptions,
                     articleFavorites = articleFavorites,
+                )
+            }
+    }
+
+    @Transactional(readOnly = true)
+    fun showAllByUserId(userId: Long): List<ArticleFeedResponse> {
+        val articles = userRepository.findByIdOrNull(userId)
+            ?.let(articleRepository::findAllByAuthor)
+            ?: EntityNotFoundException.notExistsId(User::class, userId)
+
+        return articles
+            .map {
+                ArticleFeedResponse(
+                    article = it,
+                    articleOptions = articleOptionRepository.findAllByArticle(it),
+                    articleFavorites = articleFavoriteRepository.findAllByArticle(it),
                 )
             }
     }

@@ -37,6 +37,11 @@ class ArticleController(
     fun showAllByBoardId(@RequestParam boardId: Long): List<ArticleFeedResponse> =
         articleService.showAllByBoardId(boardId)
 
+    @GetMapping
+    @ResponseStatus(value = HttpStatus.OK)
+    fun showAllByUserId(@RequestParam userId: Long): List<ArticleFeedResponse> =
+        articleService.showAllByUserId(userId)
+
     @PostMapping
     fun create(@RequestBody request: ArticleCreateRequest, @LoginUser author: User): ResponseEntity<Unit> {
         val articleId = articleService.create(request, author)
