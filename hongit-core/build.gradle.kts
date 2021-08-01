@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 tasks.getByName<Jar>("jar") {
@@ -23,14 +24,14 @@ allOpen {
     annotation("javax.persistence.MappedSuperclass")
 }
 
-sourceSets["main"].withConvention(org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet::class) {
+sourceSets["main"].withConvention(KotlinSourceSet::class) {
     kotlin.srcDir("$buildDir/generated/source/kapt/main")
 }
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     api("com.querydsl:querydsl-jpa")
-    kapt("com.querydsl:querydsl-apt:4.2.2:jpa")
+    kapt("com.querydsl:querydsl-apt:${Dependencies.Versions.querydsl}:jpa")
 
     runtimeOnly("com.h2database:h2")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
