@@ -2,6 +2,7 @@ package com.devfloor.hongit.api.common.presentation
 
 import com.devfloor.hongit.api.common.application.response.ErrorResponse
 import com.devfloor.hongit.api.common.exception.EntityNotFoundException
+import com.devfloor.hongit.api.common.exception.ErrorMessages.Common.ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE
 import com.devfloor.hongit.core.common.config.Slf4j
 import com.devfloor.hongit.core.common.config.Slf4j.Companion.log
 import org.springframework.http.HttpStatus
@@ -29,8 +30,4 @@ class CommonExceptionAdvice {
 
     private fun loggingError(func: String, res: ErrorResponse) =
         log.error("[${this::class.simpleName}.$func] ${res.errorClass} - response: $res")
-
-    companion object {
-        const val ILLEGAL_ARGUMENT_EXCEPTION_MESSAGE = "유효하지 않은 요청입니다."
-    }
 }

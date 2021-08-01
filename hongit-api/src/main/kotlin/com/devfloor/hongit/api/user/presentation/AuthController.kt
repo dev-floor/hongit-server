@@ -14,13 +14,13 @@ import java.net.URI
 class AuthController(
     private val authService: AuthService,
 ) {
-    @PostMapping
+    @PostMapping(value = ["/join"])
     fun join(request: JoinRequest): ResponseEntity<Unit> {
         val userId = authService.join(request)
-        return ResponseEntity.created(URI.create("$USER_API_URI/$userId")).build();
+        return ResponseEntity.created(URI.create("$USER_API_URI/$userId")).build()
     }
 
     companion object {
-        private const val USER_API_URI = "$BASE_API_URI/users"
+        private const val USER_API_URI = "$BASE_API_URI/users" // TODO: 2021/08/01 UserController가 생기면 제거할 예정
     }
 }

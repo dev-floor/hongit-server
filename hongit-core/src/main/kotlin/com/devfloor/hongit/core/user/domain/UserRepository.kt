@@ -8,4 +8,6 @@ interface UserRepository : JpaRepository<User, Long> {
     fun existsByUsername(username: String): Boolean
 
     fun existsByNickname(nickname: String): Boolean
+
+    fun existsByClassOf(classOf: String): Boolean
 }

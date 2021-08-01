@@ -11,7 +11,6 @@ import javax.persistence.GenerationType
 import javax.persistence.Id
 import javax.persistence.Index
 import javax.persistence.Table
-import javax.persistence.UniqueConstraint
 
 /**
  * 회원 정보를 관리하는 entity
@@ -20,9 +19,10 @@ import javax.persistence.UniqueConstraint
  * @property username 계정 아이디
  * @property password 비밀번호
  * @property nickname 닉네임
+ * @property email 이메일
  * @property type 유형
- * @property image 프로필 사진
  * @property classOf 학번
+ * @property image 프로필 사진
  * @property github 깃허브 주소
  * @property blog 블로그 주소
  * @property description 추가 설명
@@ -31,10 +31,8 @@ import javax.persistence.UniqueConstraint
 @Table(
     name = "users",
     indexes = [
+        Index(name = "idx_username", columnList = "username"),
         Index(name = "idx_nickname", columnList = "nickname")
-    ],
-    uniqueConstraints = [
-        UniqueConstraint(name = "uk_user_class_of", columnNames = ["class_of"]),
     ],
 )
 class User(
@@ -43,11 +41,11 @@ class User(
     nickname: String,
     email: Email,
     type: UserType,
-    image: String?,
-    classOf: String?,
-    github: String?,
-    blog: String?,
-    description: String?,
+    classOf: String,
+    image: String? = null,
+    github: String? = null,
+    blog: String? = null,
+    description: String? = null,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,12 +72,12 @@ class User(
     var type: UserType = type
         protected set
 
-    @Column(name = "image")
-    var image: String? = image
+    @Column(name = "class_of")
+    var classOf: String = classOf
         protected set
 
-    @Column(name = "class_of")
-    var classOf: String? = classOf
+    @Column(name = "image")
+    var image: String? = image
         protected set
 
     @Column(name = "github")
