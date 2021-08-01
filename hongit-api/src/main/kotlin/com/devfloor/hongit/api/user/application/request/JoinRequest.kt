@@ -15,13 +15,13 @@ data class JoinRequest(
     val classOf: String,
     val approved: Boolean,
 ) {
-    fun verifyInfo(): Boolean = StringUtils.hasText(username)
-        && StringUtils.hasText(nickname)
-        && StringUtils.hasText(password)
-        && StringUtils.hasText(checkedPassword)
-        && StringUtils.hasText(email)
-        && StringUtils.hasText(classOf)
-        && approved
+    fun verifyInfo(): Boolean = StringUtils.hasText(username) &&
+        StringUtils.hasText(nickname) &&
+        StringUtils.hasText(password) &&
+        StringUtils.hasText(checkedPassword) &&
+        StringUtils.hasText(email) &&
+        StringUtils.hasText(classOf) &&
+        approved
 
     fun verifyPassword(): Boolean = this.password == this.checkedPassword
 
