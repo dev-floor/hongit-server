@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import java.net.URI
 import java.time.LocalDateTime
 
-data class CommentResponseInProfile(
+data class CommentInProfileResponse(
     val id: Long,
 
     val author: ProfileResponse,

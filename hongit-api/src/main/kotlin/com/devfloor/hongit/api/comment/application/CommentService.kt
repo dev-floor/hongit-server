@@ -3,7 +3,7 @@ package com.devfloor.hongit.api.comment.application
 import com.devfloor.hongit.api.comment.application.request.CommentCreateRequest
 import com.devfloor.hongit.api.comment.application.request.CommentModifyRequest
 import com.devfloor.hongit.api.comment.application.response.CommentResponse
-import com.devfloor.hongit.api.comment.application.response.CommentResponseInProfile
+import com.devfloor.hongit.api.comment.application.response.CommentInProfileResponse
 import com.devfloor.hongit.api.common.exception.EntityNotFoundException
 import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.article.domain.ArticleRepository
@@ -38,13 +38,13 @@ class CommentService(
     }
 
     @Transactional(readOnly = true)
-    fun showAllByUserId(userId: Long): List<CommentResponseInProfile> {
+    fun showAllByUserId(userId: Long): List<CommentInProfileResponse> {
         val comments = userRepository.findByIdOrNull(userId)
             ?.let(commentRepository::findAllByAuthor)
             ?: EntityNotFoundException.notExistsId(User::class, userId)
 
         return comments.map {
-            CommentResponseInProfile(
+            CommentInProfileResponse(
                 comment = it,
                 favoriteCount = commentFavoriteRepository.countAllByComment(it),
             )
