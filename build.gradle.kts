@@ -18,11 +18,6 @@ val springProjects = listOf(
     project(":hongit-api")
 )
 
-val querydslProjects = listOf(
-    project(":hongit-core"),
-    project(":hongit-api")
-)
-
 allprojects {
     apply {
         plugin("idea")
