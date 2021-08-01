@@ -9,17 +9,13 @@ plugins {
     kotlin("jvm") version Dependencies.Versions.kotlin
     kotlin("plugin.spring") version Dependencies.Versions.kotlin apply false
     kotlin("plugin.jpa") version Dependencies.Versions.kotlin apply false
-    kotlin("kapt") version Dependencies.Versions.kotlin apply false
+    kotlin("kapt") version Dependencies.Versions.kotlin
     kotlin("plugin.allopen") version Dependencies.Versions.kotlin
 }
 
 val springProjects = listOf(
     project(":hongit-core"),
     project(":hongit-api")
-)
-
-val querydslProjects = listOf(
-    project(":hongit-core")
 )
 
 allprojects {
@@ -51,7 +47,6 @@ configure(springProjects) {
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
-        implementation("com.querydsl:querydsl-jpa")
         implementation("org.springframework.boot:spring-boot-configuration-processor")
 
         testImplementation("org.springframework.boot:spring-boot-starter-test") {

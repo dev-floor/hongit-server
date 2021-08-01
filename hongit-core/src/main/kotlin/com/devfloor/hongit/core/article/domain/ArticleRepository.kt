@@ -8,6 +8,6 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 interface ArticleRepository : JpaRepository<Article, Long> {
     fun findAllByBoard(board: Board): List<Article>
-
     fun findAllByAuthor(author: User): List<Article>
+    fun findTop5ByBoardOrderByCreatedAtDesc(board: Board): List<Article>
 }
