@@ -14,31 +14,28 @@ class HomeBoardService(
 ) {
     @Transactional(readOnly = true)
     fun showAll(): List<HomeResponse> {
-        return boardRepository.findByTypeNot(BoardType.COURSE_BOARD)
-            .map { board ->
-                val articles = articleService.showTopFiveByBoard(board)
-
+        return boardRepository.findAllByTypeNot(BoardType.COURSE_BOARD)
+            .map {
                 HomeResponse(
-                    board.id,
-                    board.title,
-                    articles,
+                    it.id,
+                    it.title,
+                    articleService.showTopFiveByBoard(it),
                 )
-            }.plus(
-                articleService.showTopFiveByFavorite().let {
-                    HomeResponse(
-                        boardId = -1,
-                        title = "통합 좋아요",
-                        it
-                    )
-                }
-            ).plus(
-                articleService.showTopFiveByViewCount().let {
-                    HomeResponse(
-                        boardId = -1,
-                        title = "통합 조회수",
-                        it
-                    )
-                }
+            }.plus(showTotalTopFive())
+    }
+
+    private fun showTotalTopFive(): List<HomeResponse> {
+        return listOf(
+            HomeResponse(
+                boardId = -1,
+                title = "통합 좋아요",
+                articles = articleService.showTopFiveByFavorite()
+            ),
+            HomeResponse(
+                boardId = -2,
+                title = "통합 조회수",
+                articles = articleService.showTopFiveByViewCount()
             )
+        )
     }
 }

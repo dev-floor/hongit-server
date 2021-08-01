@@ -5,7 +5,6 @@ plugins {
     id("org.springframework.boot") version Dependencies.Versions.springBoot apply false
     id("io.spring.dependency-management") version Dependencies.Versions.springDependencyManagement apply false
     id("org.jlleitschuh.gradle.ktlint") version Dependencies.Versions.ktlint
-    id("com.ewerk.gradle.plugins.querydsl") version "1.0.10" apply false
 
     kotlin("jvm") version Dependencies.Versions.kotlin
     kotlin("plugin.spring") version Dependencies.Versions.kotlin apply false
@@ -20,7 +19,8 @@ val springProjects = listOf(
 )
 
 val querydslProjects = listOf(
-    project(":hongit-core")
+    project(":hongit-core"),
+    project(":hongit-api")
 )
 
 allprojects {
@@ -35,11 +35,7 @@ allprojects {
     group = "${property("projectGroup")}"
     version = "${property("projectVersion")}"
 }
-configure(querydslProjects){
-    apply {
-        plugin("com.ewerk.gradle.plugins.querydsl")
-    }
-}
+
 configure(springProjects) {
     apply {
         plugin<JavaLibraryPlugin>()

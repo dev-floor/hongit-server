@@ -7,7 +7,7 @@ import com.devfloor.hongit.api.article.application.response.ArticleHomeResponse
 import com.devfloor.hongit.api.article.application.response.ArticleResponse
 import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.article.domain.ArticleRepository
-import com.devfloor.hongit.core.article.domain.ArticleRepositoryCustom
+import com.devfloor.hongit.api.article.domain.ArticleRepositoryCustom
 import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavoriteRepository
 import com.devfloor.hongit.api.articlehashtag.application.ArticleHashtagService
 import com.devfloor.hongit.core.articlehashtag.domain.ArticleHashtag
@@ -68,50 +68,41 @@ class ArticleService(
             ?: EntityNotFoundException.notExistsId(Board::class, boardId)
 
         return articleRepository.findAllByBoard(board)
-            .map { article ->
-                val articleOptions = articleOptionRepository.findAllByArticle(article)
-                val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
-
+            .map {
                 ArticleFeedResponse(
-                    article = article,
-                    articleOptions = articleOptions,
-                    articleFavorites = articleFavorites,
+                    article = it,
+                    articleOptions = articleOptionRepository.findAllByArticle(it),
+                    articleFavorites = articleFavoriteRepository.findAllByArticle(it),
                 )
             }
     }
 
     fun showTopFiveByFavorite(): List<ArticleHomeResponse> {
         return articleRepositoryCustom.findByFavoriteTopFive()
-            .map { article ->
-                val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
-
+            .map {
                 ArticleHomeResponse(
-                    article = article,
-                    articleFavorites = articleFavorites,
+                    article = it,
+                    articleFavorites = articleFavoriteRepository.findAllByArticle(it),
                 )
             }
     }
 
     fun showTopFiveByViewCount(): List<ArticleHomeResponse> {
         return articleRepositoryCustom.findByViewCountTopFive()
-            .map { article ->
-                val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
-
+            .map {
                 ArticleHomeResponse(
-                    article = article,
-                    articleFavorites = articleFavorites,
+                    article = it,
+                    articleFavorites = articleFavoriteRepository.findAllByArticle(it),
                 )
             }
     }
 
     fun showTopFiveByBoard(board: Board): List<ArticleHomeResponse> {
         return articleRepository.findTop5ByBoardOrderByCreatedAtDesc(board)
-            .map { article ->
-                val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
-
+            .map {
                 ArticleHomeResponse(
-                    article = article,
-                    articleFavorites = articleFavorites,
+                    article = it,
+                    articleFavorites = articleFavoriteRepository.findAllByArticle(it),
                 )
             }
     }

@@ -8,6 +8,4 @@ data class HomeResponse(
     val title: String,
 
     val articles: List<ArticleHomeResponse>,
-) {
-
-}
+)

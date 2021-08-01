@@ -1,9 +1,11 @@
-package com.devfloor.hongit.core.article.domain
+package com.devfloor.hongit.api.article.domain
 
+import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.article.domain.QArticle.article
 import com.devfloor.hongit.core.articlefavorite.domain.QArticleFavorite.articleFavorite
 import com.devfloor.hongit.core.articleviewcount.domain.QArticleViewCount.articleViewCount
 import com.querydsl.jpa.impl.JPAQueryFactory
+
 import org.springframework.stereotype.Repository
 import javax.persistence.EntityManager
 
@@ -12,6 +14,7 @@ class ArticleRepositoryCustom(
     val entityManager: EntityManager,
     val jpaQueryFactory: JPAQueryFactory,
 ) {
+
     fun findByFavoriteTopFive(): List<Article> {
         return jpaQueryFactory.selectFrom(article)
             .leftJoin(articleFavorite).on(article.eq(articleFavorite.article))

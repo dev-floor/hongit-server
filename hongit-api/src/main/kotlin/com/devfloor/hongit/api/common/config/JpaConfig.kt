@@ -1,4 +1,4 @@
-package com.devfloor.hongit.core.common.config
+package com.devfloor.hongit.api.common.config
 
 import com.querydsl.jpa.impl.JPAQueryFactory
 import org.springframework.context.annotation.Bean
@@ -7,11 +7,10 @@ import javax.persistence.EntityManager
 import javax.persistence.PersistenceContext
 
 @Configuration
-class QuerydslConfiguration(
+class JpaConfig(
     @PersistenceContext
     val entityManager: EntityManager
 ) {
-
     @Bean
     fun jpaQueryFactory() = JPAQueryFactory(entityManager)
 }
