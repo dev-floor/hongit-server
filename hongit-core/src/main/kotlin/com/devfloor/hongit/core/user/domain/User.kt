@@ -59,7 +59,7 @@ class User(
     var password: String = password
         protected set
 
-    @Column(name = "name")
+    @Column(name = "nickname")
     var nickname: String = nickname
         protected set
 
