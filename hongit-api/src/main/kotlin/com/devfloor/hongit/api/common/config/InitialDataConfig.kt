@@ -114,6 +114,7 @@ class InitialDataConfig(
 
     companion object {
         private val TEST_USER_1 = User(
+            username = "lxxjn0",
             nickname = "lxxjn0",
             type = UserType.STUDENT,
             image = "https://avatars.githubusercontent.com/u/48052622?v=4",
@@ -123,6 +124,7 @@ class InitialDataConfig(
             description = "안녕하세요, 개발자 이XX입니다."
         )
         private val TEST_USER_2 = User(
+            username = "test",
             nickname = "test",
             type = UserType.STUDENT,
             image = null,
