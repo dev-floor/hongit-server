@@ -70,12 +70,11 @@ class BoardService(
             .also { log.info("[BoardService.showAllBoardByBoardType] 수업 게시판 선택 화면 조회 - response: $it") }
     }
 
-    fun updateAllBookmarks(boardIds: List<Long>, user: User) {
+    @Transactional
+    fun modifyAllBookmarks(boardIds: List<Long>, user: User) {
         bookmarkBoardRepository.deleteAllByUser(user)
-        boardIds.map {
-            val board = boardRepository.findByIdOrNull(it)
-                ?: EntityNotFoundException.notExistsId(Board::class, it)
-            BookmarkBoard(board = board, user = user)
-        }.let { bookmarkBoardRepository.saveAll(it) }
+        boardRepository.findAllById(boardIds)
+            .map { BookmarkBoard(board = it, user = user) }
+            .let (bookmarkBoardRepository::saveAll)
     }
 }

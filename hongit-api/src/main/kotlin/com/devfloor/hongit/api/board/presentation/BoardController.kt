@@ -51,12 +51,12 @@ class BoardController(
             .also { log.info("[BoardController.showAllBoardByBoardType] 수업 게시판 선택 화면 조회 완료 - response: $it") }
     }
 
-    @PutMapping
+    @PutMapping("/bookmarks")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun updateAllBookmarks(
+    fun modifyAllBookmarks(
         @RequestBody boardIds: List<Long>,
         @LoginUser user: User,
-    ) = boardService.updateAllBookmarks(boardIds, user)
+    ) = boardService.modifyAllBookmarks(boardIds, user)
 
     companion object {
         const val BOARD_API_URI = "$BASE_API_URI/boards"
