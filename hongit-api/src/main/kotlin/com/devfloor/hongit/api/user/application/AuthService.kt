@@ -32,7 +32,7 @@ class AuthService(
         Assert.isTrue(request.verifyInfo(), INVALID_REQUEST_INFO)
         Assert.isTrue(request.verifyPassword(), PASSWORD_VERIFICATION_MISMATCH)
         Assert.isTrue(userRepository.existsByUsername(request.username).not(), EXISTING_USERNAME)
-        Assert.isTrue(userRepository.existsByUsername(request.nickname).not(), EXISTING_NICKNAME)
+        Assert.isTrue(userRepository.existsByNickname(request.nickname).not(), EXISTING_NICKNAME)
         Assert.isTrue(userRepository.existsByClassOf(request.classOf).not(), EXISTING_CLASS_OF)
     }
 }
