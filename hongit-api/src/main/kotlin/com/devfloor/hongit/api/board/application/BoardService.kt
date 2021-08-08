@@ -8,8 +8,8 @@ import com.devfloor.hongit.core.board.domain.Board
 import com.devfloor.hongit.core.board.domain.BoardRepository
 import com.devfloor.hongit.core.board.domain.BoardType
 import com.devfloor.hongit.core.boardoption.domain.BoardOptionRepository
-import com.devfloor.hongit.core.bookmarkboard.domain.BookmarkBoard
-import com.devfloor.hongit.core.bookmarkboard.domain.BookmarkBoardRepository
+import com.devfloor.hongit.core.bookmarkboard.domain.BoardBookmark
+import com.devfloor.hongit.core.bookmarkboard.domain.BoardBookmarkRepository
 import com.devfloor.hongit.core.common.config.Slf4j
 import com.devfloor.hongit.core.common.config.Slf4j.Companion.log
 import com.devfloor.hongit.core.user.domain.User
@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional
 class BoardService(
     private val boardRepository: BoardRepository,
     private val boardOptionRepository: BoardOptionRepository,
-    private val bookmarkBoardRepository: BookmarkBoardRepository,
+    private val boardBookmarkRepository: BoardBookmarkRepository,
 
     private val courseService: CourseService,
 ) {
@@ -71,10 +71,10 @@ class BoardService(
     }
 
     @Transactional
-    fun modifyAllBookmarks(boardIds: List<Long>, user: User) {
-        bookmarkBoardRepository.deleteAllByUser(user)
+    fun modifyAllBoardBookmarks(boardIds: List<Long>, user: User) {
+        boardBookmarkRepository.deleteAllByUser(user)
         boardRepository.findAllById(boardIds)
-            .map { BookmarkBoard(board = it, user = user) }
-            .let(bookmarkBoardRepository::saveAll)
+            .map { BoardBookmark(board = it, user = user) }
+            .let(boardBookmarkRepository::saveAll)
     }
 }

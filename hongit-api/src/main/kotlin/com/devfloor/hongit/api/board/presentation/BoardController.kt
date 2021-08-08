@@ -53,10 +53,10 @@ class BoardController(
 
     @PutMapping("/bookmarks")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun modifyAllBookmarks(
+    fun modifyAllBoardBookmarks(
         @RequestBody boardIds: List<Long>,
         @LoginUser user: User,
-    ) = boardService.modifyAllBookmarks(boardIds, user)
+    ) = boardService.modifyAllBoardBookmarks(boardIds, user)
 
     companion object {
         const val BOARD_API_URI = "$BASE_API_URI/boards"
