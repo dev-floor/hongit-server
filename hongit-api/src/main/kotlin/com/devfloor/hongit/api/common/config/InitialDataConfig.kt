@@ -30,6 +30,7 @@ import com.devfloor.hongit.core.professor.domain.Professor
 import com.devfloor.hongit.core.professor.domain.ProfessorRepository
 import com.devfloor.hongit.core.subject.domain.Subject
 import com.devfloor.hongit.core.subject.domain.SubjectRepository
+import com.devfloor.hongit.core.user.domain.Email
 import com.devfloor.hongit.core.user.domain.User
 import com.devfloor.hongit.core.user.domain.UserRepository
 import com.devfloor.hongit.core.user.domain.UserType
@@ -115,7 +116,9 @@ class InitialDataConfig(
     companion object {
         private val TEST_USER_1 = User(
             username = "lxxjn0",
+            password = "password1",
             nickname = "lxxjn0",
+            email = Email.from("lxxjn0@mail.hongik.ac.kr"),
             type = UserType.STUDENT,
             image = "https://avatars.githubusercontent.com/u/48052622?v=4",
             classOf = "B411158",
@@ -125,12 +128,11 @@ class InitialDataConfig(
         )
         private val TEST_USER_2 = User(
             username = "test",
+            password = "password2",
             nickname = "test",
+            email = Email.from("test@g.hongik.ac.kr"),
             type = UserType.STUDENT,
-            image = null,
             classOf = "B000000",
-            github = null,
-            blog = null,
             description = "안녕하세요, test 사용자입니다."
         )
 

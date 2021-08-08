@@ -21,6 +21,7 @@ dependencies {
     implementation(project(":hongit-core"))
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-security")
 
     testImplementation(project(":hongit-core"))
 }

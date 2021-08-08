@@ -30,6 +30,8 @@ sourceSets["main"].withConvention(KotlinSourceSet::class) {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+
     api("com.querydsl:querydsl-jpa")
     kapt("com.querydsl:querydsl-apt:${Dependencies.Versions.querydsl}:jpa")
 
