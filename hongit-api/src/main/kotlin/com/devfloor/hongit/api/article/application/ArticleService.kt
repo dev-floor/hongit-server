@@ -3,7 +3,9 @@ package com.devfloor.hongit.api.article.application
 import com.devfloor.hongit.api.article.application.request.ArticleCreateRequest
 import com.devfloor.hongit.api.article.application.request.ArticleModifyRequest
 import com.devfloor.hongit.api.article.application.response.ArticleFeedResponse
+import com.devfloor.hongit.api.article.application.response.ArticleHomeResponse
 import com.devfloor.hongit.api.article.application.response.ArticleResponse
+import com.devfloor.hongit.api.article.domain.ArticleRepositoryCustom
 import com.devfloor.hongit.api.articlehashtag.application.ArticleHashtagService
 import com.devfloor.hongit.api.articleoption.application.ArticleOptionService
 import com.devfloor.hongit.api.common.exception.EntityNotFoundException
@@ -22,6 +24,7 @@ import com.devfloor.hongit.core.board.domain.Board
 import com.devfloor.hongit.core.board.domain.BoardRepository
 import com.devfloor.hongit.core.option.domain.OptionRepository
 import com.devfloor.hongit.core.user.domain.User
+import com.devfloor.hongit.core.user.domain.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -35,6 +38,8 @@ class ArticleService(
     private val boardRepository: BoardRepository,
     private val optionRepository: OptionRepository,
     private val articleViewCountRepository: ArticleViewCountRepository,
+    private val userRepository: UserRepository,
+    private val articleRepositoryCustom: ArticleRepositoryCustom,
 
     private val articleHashtagService: ArticleHashtagService,
     private val articleOptionService: ArticleOptionService,
@@ -65,14 +70,57 @@ class ArticleService(
             ?: EntityNotFoundException.notExistsId(Board::class, boardId)
 
         return articleRepository.findAllByBoard(board)
-            .map { article ->
-                val articleOptions = articleOptionRepository.findAllByArticle(article)
-                val articleFavorites = articleFavoriteRepository.findAllByArticle(article)
-
+            .map {
                 ArticleFeedResponse(
-                    article = article,
-                    articleOptions = articleOptions,
-                    articleFavorites = articleFavorites,
+                    article = it,
+                    articleOptions = articleOptionRepository.findAllByArticle(it),
+                    articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                )
+            }
+    }
+
+    fun showTopFiveByFavorite(): List<ArticleHomeResponse> {
+        return articleRepositoryCustom.findByFavoriteTopFive()
+            .map {
+                ArticleHomeResponse(
+                    article = it,
+                    articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                )
+            }
+    }
+
+    fun showTopFiveByViewCount(): List<ArticleHomeResponse> {
+        return articleRepositoryCustom.findByViewCountTopFive()
+            .map {
+                ArticleHomeResponse(
+                    article = it,
+                    articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                )
+            }
+    }
+
+    fun showTopFiveByBoard(board: Board): List<ArticleHomeResponse> {
+        return articleRepository.findTop5ByBoardOrderByCreatedAtDesc(board)
+            .map {
+                ArticleHomeResponse(
+                    article = it,
+                    articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                )
+            }
+    }
+
+    @Transactional(readOnly = true)
+    fun showAllByUserId(userId: Long): List<ArticleFeedResponse> {
+        val articles = userRepository.findByIdOrNull(userId)
+            ?.let(articleRepository::findAllByAuthor)
+            ?: EntityNotFoundException.notExistsId(User::class, userId)
+
+        return articles
+            .map {
+                ArticleFeedResponse(
+                    article = it,
+                    articleOptions = articleOptionRepository.findAllByArticle(it),
+                    articleFavorites = articleFavoriteRepository.findAllByArticle(it),
                 )
             }
     }
