@@ -75,6 +75,6 @@ class BoardService(
         bookmarkBoardRepository.deleteAllByUser(user)
         boardRepository.findAllById(boardIds)
             .map { BookmarkBoard(board = it, user = user) }
-            .let (bookmarkBoardRepository::saveAll)
+            .let(bookmarkBoardRepository::saveAll)
     }
 }
