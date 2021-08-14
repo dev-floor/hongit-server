@@ -1,0 +1,43 @@
+ifndef::snippets[]
+:snippets: ../../../build/generated-snippets
+endif::[]
+
+= Hongit API document
+:doctype: book
+:icons: font
+:source-highlighter: prettify
+:toc: left
+:toc-title: 목차
+:toclevels: 2
+:doctitle: Hongit-api document
+
+[[common]]
+== 개발 환경
+
+|===
+|환경|url
+
+|로컬
+|`http://localhost:8080`
+
+|베타
+|`http://34.64.111.91:8080`
+|===
+
+[[user]]
+== 회원 관리 (User)
+
+회원과 관련된 API 정리
+
+[[user-join]]
+=== 회원 가입
+
+==== Request
+
+include::{snippets}/user/join/http-request.adoc[]
+include::{snippets}/user/join/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/user/join/http-response.adoc[]
+include::{snippets}/user/join/response-headers.adoc[]
