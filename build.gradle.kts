@@ -5,6 +5,7 @@ plugins {
     id("org.springframework.boot") version Dependencies.Versions.springBoot apply false
     id("io.spring.dependency-management") version Dependencies.Versions.springDependencyManagement apply false
     id("org.jlleitschuh.gradle.ktlint") version Dependencies.Versions.ktlint
+    id("org.asciidoctor.convert") version Dependencies.Versions.asciiDoctor
 
     kotlin("jvm") version Dependencies.Versions.kotlin
     kotlin("plugin.spring") version Dependencies.Versions.kotlin apply false
@@ -15,6 +16,10 @@ plugins {
 
 val springProjects = listOf(
     project(":hongit-core"),
+    project(":hongit-api")
+)
+
+val restDocsProjects = listOf(
     project(":hongit-api")
 )
 
@@ -77,5 +82,21 @@ configure(springProjects) {
 
     tasks.withType<Test> {
         useJUnitPlatform()
+    }
+}
+
+configure(restDocsProjects) {
+    apply {
+        plugin("io.spring.dependency-management")
+        plugin("org.asciidoctor.convert")
+    }
+
+    extra["snippetsDir"] = file("build/generated-snippets")
+
+    dependencies {
+        implementation("org.jetbrains.kotlin:kotlin-reflect")
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+
+        testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
     }
 }

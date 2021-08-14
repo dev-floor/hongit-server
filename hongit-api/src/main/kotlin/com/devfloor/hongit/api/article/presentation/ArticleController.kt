@@ -32,12 +32,12 @@ class ArticleController(
     @ResponseStatus(value = HttpStatus.OK)
     fun showByArticleId(@PathVariable articleId: Long): ArticleResponse = articleService.showByArticleId(articleId)
 
-    @GetMapping
+    @GetMapping(params = ["boardId"])
     @ResponseStatus(value = HttpStatus.OK)
     fun showAllByBoardId(@RequestParam boardId: Long): List<ArticleFeedResponse> =
         articleService.showAllByBoardId(boardId)
 
-    @GetMapping
+    @GetMapping(params = ["userId"])
     @ResponseStatus(value = HttpStatus.OK)
     fun showAllByUserId(@RequestParam userId: Long): List<ArticleFeedResponse> =
         articleService.showAllByUserId(userId)

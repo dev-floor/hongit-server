@@ -3,8 +3,8 @@ package com.devfloor.hongit.api.comment.presentation
 import com.devfloor.hongit.api.comment.application.CommentService
 import com.devfloor.hongit.api.comment.application.request.CommentCreateRequest
 import com.devfloor.hongit.api.comment.application.request.CommentModifyRequest
-import com.devfloor.hongit.api.comment.application.response.CommentResponse
 import com.devfloor.hongit.api.comment.application.response.CommentInProfileResponse
+import com.devfloor.hongit.api.comment.application.response.CommentResponse
 import com.devfloor.hongit.api.comment.presentation.CommentController.Companion.COMMENT_API_URI
 import com.devfloor.hongit.api.common.utils.BASE_API_URI
 import com.devfloor.hongit.api.security.core.LoginUser
@@ -28,12 +28,12 @@ import java.net.URI
 class CommentController(
     private val commentService: CommentService,
 ) {
-    @GetMapping
+    @GetMapping(params = ["articleId"])
     @ResponseStatus(value = HttpStatus.OK)
     fun showAllByArticleId(@RequestParam articleId: Long): List<CommentResponse> =
         commentService.showAllByArticleId(articleId)
 
-    @GetMapping
+    @GetMapping(params = ["userId"])
     @ResponseStatus(value = HttpStatus.OK)
     fun showAllByUserId(@RequestParam userId: Long): List<CommentInProfileResponse> =
         commentService.showAllByUserId(userId)
