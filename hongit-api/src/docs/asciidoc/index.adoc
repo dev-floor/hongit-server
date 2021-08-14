@@ -18,7 +18,7 @@ endif::[]
 |환경|url
 
 |로컬
-|`http:://localhost:8080`
+|`http://localhost:8080`
 
 |베타
 |`http://34.64.111.91:8080`
