@@ -30,7 +30,7 @@ class Email(
 
     companion object {
         private const val AT_SIGN = "@"
-        private val VALID_DOMAINS = listOf("mail.hongik.ac.kr", "g.hongik.ac.kr")
+        val VALID_DOMAINS = listOf("mail.hongik.ac.kr", "g.hongik.ac.kr")
 
         fun from(email: String): Email {
             val splits = email.split(AT_SIGN)
