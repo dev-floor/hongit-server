@@ -36,6 +36,7 @@ import javax.persistence.Table
     ],
 )
 class User(
+    id: Long = 0,
     username: String,
     password: String,
     nickname: String,
@@ -50,7 +51,7 @@ class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    val id: Long = 0
+    val id: Long = id
 
     @Column(name = "username")
     val username: String = username
