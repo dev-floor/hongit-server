@@ -8,7 +8,7 @@ endif::[]
 :source-highlighter: prettify
 :toc: left
 :toc-title: 목차
-:toclevels: 2
+:toclevels: 3
 :doctitle: Hongit-api document
 
 [[common]]
@@ -25,7 +25,7 @@ endif::[]
 |===
 
 [[user]]
-== 회원 관리 (User)
+== 회원 (User)
 
 회원과 관련된 API 정리
 
@@ -35,9 +35,31 @@ endif::[]
 ==== Request
 
 include::{snippets}/user/join/http-request.adoc[]
+
 include::{snippets}/user/join/request-fields.adoc[]
 
 ==== Response
 
 include::{snippets}/user/join/http-response.adoc[]
+
 include::{snippets}/user/join/response-headers.adoc[]
+
+[[article]]
+== 게시글 (Article)
+
+게시글과 관련된 API 정리
+
+[[article-getByArticleId]]
+=== 게시글 상세 조회
+
+==== Request
+
+include::{snippets}/article/getByArticleId/http-request.adoc[]
+
+include::{snippets}/article/getByArticleId/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/article/getByArticleId/http-response.adoc[]
+
+include::{snippets}/article/getByArticleId/response-fields.adoc[]

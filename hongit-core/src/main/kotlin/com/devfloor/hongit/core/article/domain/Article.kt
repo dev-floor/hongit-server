@@ -32,6 +32,7 @@ import javax.persistence.Table
     ]
 )
 class Article(
+    id: Long = 0,
     title: String?,
     anonymous: Boolean,
     content: String,
@@ -41,7 +42,7 @@ class Article(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_id")
-    val id: Long = 0
+    val id: Long = id
 
     @Column(name = "title")
     var title: String? = title
