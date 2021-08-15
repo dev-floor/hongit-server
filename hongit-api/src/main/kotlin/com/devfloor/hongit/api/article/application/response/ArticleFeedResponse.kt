@@ -1,6 +1,5 @@
 package com.devfloor.hongit.api.article.application.response
 
-import com.devfloor.hongit.api.common.utils.LOCAL_DATE_TIME_FORMAT
 import com.devfloor.hongit.api.common.utils.SEOUL_TIME_ZONE
 import com.devfloor.hongit.api.option.application.response.OptionResponse
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
@@ -8,6 +7,7 @@ import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavorite
 import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavoriteType
 import com.devfloor.hongit.core.articleoption.domain.ArticleOption
+import com.devfloor.hongit.core.common.utils.LOCAL_DATE_TIME_FORMAT
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 
