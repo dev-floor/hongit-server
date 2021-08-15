@@ -43,12 +43,14 @@ class CommentService(
             ?.let(commentRepository::findAllByAuthor)
             ?: EntityNotFoundException.notExistsId(User::class, userId)
 
-        return comments.map {
-            CommentInProfileResponse(
-                comment = it,
-                favoriteCount = commentFavoriteRepository.countAllByComment(it),
-            )
-        }
+        return comments
+            .filter { !it.anonymous }
+            .map {
+                CommentInProfileResponse(
+                    comment = it,
+                    favoriteCount = commentFavoriteRepository.countAllByComment(it),
+                )
+            }
     }
 
     @Transactional

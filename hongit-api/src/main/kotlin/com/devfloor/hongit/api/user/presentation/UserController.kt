@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController
 class UserController(
     private val userService: UserService,
 ) {
-    @GetMapping(value = ["/{userId}"])
+    @GetMapping(value = ["/{nickname}"])
     @ResponseStatus(value = HttpStatus.OK)
-    fun showByUserId(@PathVariable userId: Long): ProfileResponse =
-        userService.showByUserId(userId)
+    fun showByNickname(@PathVariable nickname: String): ProfileResponse =
+        userService.showByNickname(nickname)
 
     companion object {
         const val USER_API_URI = "$BASE_API_URI/users"

@@ -116,6 +116,7 @@ class ArticleService(
             ?: EntityNotFoundException.notExistsId(User::class, userId)
 
         return articles
+            .filter { !it.anonymous }
             .map {
                 ArticleFeedResponse(
                     article = it,
