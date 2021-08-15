@@ -25,6 +25,7 @@ import com.devfloor.hongit.core.board.domain.BoardRepository
 import com.devfloor.hongit.core.option.domain.OptionRepository
 import com.devfloor.hongit.core.user.domain.User
 import com.devfloor.hongit.core.user.domain.UserRepository
+import com.devfloor.hongit.core.user.domain.findByNicknameOrNull
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -110,10 +111,10 @@ class ArticleService(
     }
 
     @Transactional(readOnly = true)
-    fun showAllByUserId(userId: Long): List<ArticleFeedResponse> {
-        val articles = userRepository.findByIdOrNull(userId)
+    fun showAllByNickname(nickname: String): List<ArticleFeedResponse> {
+        val articles = userRepository.findByNicknameOrNull(nickname)
             ?.let(articleRepository::findAllByAuthor)
-            ?: EntityNotFoundException.notExistsId(User::class, userId)
+            ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
 
         return articles
             .filter { !it.anonymous }
