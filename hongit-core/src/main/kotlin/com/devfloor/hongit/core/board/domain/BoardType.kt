@@ -12,6 +12,9 @@ enum class BoardType(
 ) : BaseEnum {
     COURSE_BOARD("수업게시판"),
     QNA_BOARD("질문게시판"),
+    COMMUNITY_BOARD("커뮤니티게시판"),
+    GATHERING_BOARD("구인게시판"),
+    RECRUIT_BOARD("채용게시판"),
     ;
 
     override val id: String
