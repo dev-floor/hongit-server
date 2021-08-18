@@ -15,7 +15,7 @@ import javax.persistence.Table
 
 @Entity
 @Table(
-    name = "board_bookmark",
+    name = "board_bookmarks",
     indexes = [
         Index(name = "idx_user_id", columnList = "user_id")
     ]
