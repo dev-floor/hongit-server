@@ -9,5 +9,7 @@ import org.springframework.transaction.annotation.Transactional
 interface ArticleRepository : JpaRepository<Article, Long> {
     fun findAllByBoard(board: Board): List<Article>
     fun findAllByAuthor(author: User): List<Article>
+    fun findAllByIdIn(ids: List<Long>): List<Article>
     fun findTop5ByBoardOrderByCreatedAtDesc(board: Board): List<Article>
+    fun findAllByAuthorAndAnonymousFalse(author: User): List<Article>
 }

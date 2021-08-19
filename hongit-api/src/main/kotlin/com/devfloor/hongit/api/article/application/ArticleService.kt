@@ -125,6 +125,41 @@ class ArticleService(
             }
     }
 
+    @Transactional(readOnly = true)
+    fun showAllByUserIdNotAnonymous(userId: Long): List<ArticleFeedResponse> {
+        val articles = userRepository.findByIdOrNull(userId)
+            ?.let(articleRepository::findAllByAuthorAndAnonymousFalse)
+            ?: EntityNotFoundException.notExistsId(User::class, userId)
+
+        return articles
+            .map {
+                ArticleFeedResponse(
+                    article = it,
+                    articleOptions = articleOptionRepository.findAllByArticle(it),
+                    articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                )
+            }
+    }
+
+    @Transactional(readOnly = true)
+    fun showAllByFavoritedUserId(userId: Long): List<ArticleFeedResponse> {
+        val articles = userRepository.findByIdOrNull(userId)
+            ?.let(articleFavoriteRepository::findAllByUser)
+            ?.let {
+                articleRepository.findAllByIdIn(it.map { it.id })
+
+            } ?: EntityNotFoundException.notExistsId(User::class, userId)
+
+        return articles
+            .map {
+                ArticleFeedResponse(
+                    article = it,
+                    articleOptions = articleOptionRepository.findAllByArticle(it),
+                    articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                )
+            }
+    }
+
     @Transactional
     fun create(request: ArticleCreateRequest, author: User): Long {
         val article = boardRepository.findByIdOrNull(request.boardId)
