@@ -8,7 +8,6 @@ import com.devfloor.hongit.api.board.application.response.BoardSimpleResponse
 import com.devfloor.hongit.api.board.presentation.BoardController.Companion.BOARD_API_URI
 import com.devfloor.hongit.api.common.utils.BASE_API_URI
 import com.devfloor.hongit.api.security.core.LoginUser
-import com.devfloor.hongit.api.user.application.UserService
 import com.devfloor.hongit.core.board.domain.BoardType
 import com.devfloor.hongit.core.common.config.Slf4j
 import com.devfloor.hongit.core.common.config.Slf4j.Companion.log
@@ -26,7 +25,6 @@ import org.springframework.web.bind.annotation.RestController
 class BoardController(
     private val boardService: BoardService,
     private val articleService: ArticleService,
-    private val userService: UserService,
 ) {
     /**
      * 스크린: 게시판 > 게시글 목록 조회
@@ -37,8 +35,9 @@ class BoardController(
         @RequestParam boardId: Long,
         @RequestParam(required = false) sort: String?,
         @RequestParam(required = false) options: List<Long>?,
+        @RequestParam size: Int
     ): List<ArticleFeedResponse> =
-        articleService.showAllByBoardId(boardId)
+        articleService.showAllByBoardId(boardId, size)
             .also { log.info("boardId = $boardId, sort = $sort, options = $options") }
 
     /**
@@ -47,12 +46,16 @@ class BoardController(
      */
     @GetMapping(params = ["authorId"])
     @ResponseStatus(value = HttpStatus.OK)
-    fun showAllByUserId(@LoginUser loginUser: User, @RequestParam authorId: Long): List<ArticleFeedResponse> {
+    fun showAllByUserId(
+        @LoginUser loginUser: User,
+        @RequestParam authorId: Long,
+        @RequestParam size: Int,
+    ): List<ArticleFeedResponse> {
         return if (loginUser.id == authorId) {
-            articleService.showAllByUserId(authorId)
+            articleService.showAllByUserId(authorId, size)
                 .also { log.info("userId = $authorId") }
         } else {
-            articleService.showAllByUserIdNotAnonymous(authorId)
+            articleService.showAllByUserIdNotAnonymous(authorId, size)
                 .also { log.info("userId = $authorId") }
         }
     }
@@ -66,8 +69,9 @@ class BoardController(
         @LoginUser loginUser: User,
         @RequestParam(value = "favoritedUserId") userId: Long,
         @RequestParam(value = "favoriteType") type: String,
+        @RequestParam size: Int,
     ): List<ArticleFeedResponse> {
-        return articleService.showAllByFavoritedUserId(userId)
+        return articleService.showAllByFavoritedUserId(userId, size)
             .also { log.info("userId = $userId, type = $type") }
     }
 

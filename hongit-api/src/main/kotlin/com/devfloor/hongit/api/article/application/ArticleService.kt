@@ -25,6 +25,7 @@ import com.devfloor.hongit.core.board.domain.BoardRepository
 import com.devfloor.hongit.core.option.domain.OptionRepository
 import com.devfloor.hongit.core.user.domain.User
 import com.devfloor.hongit.core.user.domain.UserRepository
+import org.springframework.data.domain.PageRequest
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -44,7 +45,8 @@ class ArticleService(
     private val articleHashtagService: ArticleHashtagService,
     private val articleOptionService: ArticleOptionService,
     private val hashtagService: HashtagService,
-) {
+
+    ) {
     @Transactional(readOnly = true)
     fun showByArticleId(articleId: Long): ArticleResponse {
         val article = articleRepository.findByIdOrNull(articleId)
@@ -65,11 +67,11 @@ class ArticleService(
     }
 
     @Transactional(readOnly = true)
-    fun showAllByBoardId(boardId: Long): List<ArticleFeedResponse> {
+    fun showAllByBoardId(boardId: Long, size: Int): List<ArticleFeedResponse> {
         val board = boardRepository.findByIdOrNull(boardId)
             ?: EntityNotFoundException.notExistsId(Board::class, boardId)
-
-        return articleRepository.findAllByBoard(board)
+        val pageRequest: PageRequest = PageRequest.of(FIRST_PAGE, size)
+        return articleRepository.findAllByBoard(board, pageRequest).content
             .map {
                 ArticleFeedResponse(
                     article = it,
@@ -110,12 +112,13 @@ class ArticleService(
     }
 
     @Transactional(readOnly = true)
-    fun showAllByUserId(userId: Long): List<ArticleFeedResponse> {
+    fun showAllByUserId(userId: Long, size: Int): List<ArticleFeedResponse> {
+        val pageRequest: PageRequest = PageRequest.of(FIRST_PAGE, size)
         val articles = userRepository.findByIdOrNull(userId)
-            ?.let(articleRepository::findAllByAuthor)
+            ?.let { articleRepository.findAllByAuthor(it, pageRequest) }
             ?: EntityNotFoundException.notExistsId(User::class, userId)
 
-        return articles
+        return articles.content
             .map {
                 ArticleFeedResponse(
                     article = it,
@@ -126,12 +129,13 @@ class ArticleService(
     }
 
     @Transactional(readOnly = true)
-    fun showAllByUserIdNotAnonymous(userId: Long): List<ArticleFeedResponse> {
+    fun showAllByUserIdNotAnonymous(userId: Long, size: Int): List<ArticleFeedResponse> {
+        val pageRequest: PageRequest = PageRequest.of(FIRST_PAGE, size)
         val articles = userRepository.findByIdOrNull(userId)
-            ?.let(articleRepository::findAllByAuthorAndAnonymousFalse)
+            ?.let { articleRepository.findAllByAuthorAndAnonymousFalse(it, pageRequest) }
             ?: EntityNotFoundException.notExistsId(User::class, userId)
 
-        return articles
+        return articles.content
             .map {
                 ArticleFeedResponse(
                     article = it,
@@ -142,15 +146,16 @@ class ArticleService(
     }
 
     @Transactional(readOnly = true)
-    fun showAllByFavoritedUserId(userId: Long): List<ArticleFeedResponse> {
+    fun showAllByFavoritedUserId(userId: Long, size: Int): List<ArticleFeedResponse> {
+        val pageRequest: PageRequest = PageRequest.of(FIRST_PAGE, size)
         val articles = userRepository.findByIdOrNull(userId)
             ?.let(articleFavoriteRepository::findAllByUser)
             ?.let {
-                articleRepository.findAllByIdIn(it.map { it.id })
+                articleRepository.findAllByIdIn(it.map { it.id }, pageRequest)
 
             } ?: EntityNotFoundException.notExistsId(User::class, userId)
 
-        return articles
+        return articles.content
             .map {
                 ArticleFeedResponse(
                     article = it,
@@ -205,5 +210,9 @@ class ArticleService(
         articleViewCountRepository.findByArticleOrNull(article)
             ?.run { ::increase }
             ?: articleViewCountRepository.save(ArticleViewCount(article))
+    }
+
+    companion object {
+        const val FIRST_PAGE = 0
     }
 }
