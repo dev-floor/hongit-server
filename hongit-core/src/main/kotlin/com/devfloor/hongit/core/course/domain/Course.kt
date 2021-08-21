@@ -48,11 +48,12 @@ class Course(
     option: Option,
     timetable: Timetable,
     board: Board? = null,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_id")
-    val id: Long = 0
+    val id: Long = id
 
     @Column(name = "code")
     val code: String = code

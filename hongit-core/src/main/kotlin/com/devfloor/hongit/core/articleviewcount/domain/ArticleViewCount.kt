@@ -14,11 +14,12 @@ import javax.persistence.Table
 @Table(name = "article_view_count")
 class ArticleViewCount(
     article: Article,
+    id: Long = 0,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_view_count_id")
-    val id: Long = 0
+    val id: Long = id
 
     @OneToOne
     @JoinColumn(name = "article_id")

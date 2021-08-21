@@ -85,7 +85,7 @@ class BoardController(
 
     @GetMapping(params = ["type"])
     @ResponseStatus(value = HttpStatus.OK)
-    fun showAllBoardByBoardType(@RequestParam type: BoardType): List<BoardResponse> {
+    fun showAllByBoardType(@RequestParam type: BoardType): List<BoardResponse> {
         log.info("[BoardController.showAllBoardByBoardType] 수업 게시판 선택 화면 조회 - type: $type")
 
         return boardService.showAllBoardByBoardType(type)

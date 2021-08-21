@@ -34,11 +34,12 @@ class ArticleFavorite(
     article: Article,
     user: User,
     type: ArticleFavoriteType,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "favorite_id")
-    val id: Long = 0
+    val id: Long = id
 
     @ManyToOne
     @JoinColumn(name = "article_id")

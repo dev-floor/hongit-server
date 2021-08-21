@@ -6,10 +6,7 @@ import com.devfloor.hongit.api.article.presentation.ArticleController.Companion.
 import com.devfloor.hongit.api.support.ApiDocsTest
 import com.devfloor.hongit.api.support.ApiDocsTestUtils
 import com.devfloor.hongit.api.support.ApiDocumentFormatGenerator.dateTimeFormat
-import com.devfloor.hongit.api.support.ApiDocumentFormatGenerator.emptyFormat
 import com.devfloor.hongit.api.support.ApiDocumentFormatGenerator.enumFormat
-import com.devfloor.hongit.api.support.ApiDocumentFormatGenerator.optional
-import com.devfloor.hongit.api.support.ApiDocumentFormatGenerator.required
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.ARTICLE_RESPONSE_1
 import com.devfloor.hongit.core.option.domain.OptionType
 import com.devfloor.hongit.core.user.domain.UserType
@@ -65,74 +62,63 @@ internal class ArticleControllerDocs {
                     Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                     Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
                     RequestDocumentation.pathParameters(
-                        parameterWithName("id").attributes(emptyFormat(), required()).description("상세조회 할 게시글 ID")
+                        parameterWithName("id").description("상세조회 할 게시글 ID")
                     ),
                     PayloadDocumentation.responseFields(
                         fieldWithPath("id").type(JsonFieldType.NUMBER)
-                            .attributes(emptyFormat(), required())
                             .description("게시글 ID"),
                         fieldWithPath("options[].id").type(JsonFieldType.NUMBER)
-                            .attributes(emptyFormat(), required())
                             .description("게시글의 옵션 ID"),
                         fieldWithPath("options[].text").type(JsonFieldType.STRING)
-                            .attributes(emptyFormat(), required())
                             .description("게시글의 옵션 설명"),
                         fieldWithPath("options[].type.id").type(JsonFieldType.STRING)
-                            .attributes(enumFormat(OptionType::class.java), optional())
+                            .optional()
+                            .enumFormat(OptionType::class)
                             .description("게시글의 옵션 타입"),
                         fieldWithPath("options[].type.text").type(JsonFieldType.STRING)
-                            .attributes(emptyFormat(), optional())
+                            .optional()
                             .description("게시글의 옵션 타입 설명"),
                         fieldWithPath("title").type(JsonFieldType.STRING)
-                            .attributes(emptyFormat(), required())
                             .description("게시글 제목"),
                         fieldWithPath("anonymous").type(JsonFieldType.BOOLEAN)
-                            .attributes(emptyFormat(), required())
                             .description("게시글 익명 여부"),
                         fieldWithPath("author.username").type(JsonFieldType.STRING)
-                            .attributes(emptyFormat(), required())
                             .description("게시글의 작성자 계정"),
                         fieldWithPath("author.nickname").type(JsonFieldType.STRING)
-                            .attributes(emptyFormat(), required())
                             .description("게시글의 작성자 닉네임"),
                         fieldWithPath("author.type.id").type(JsonFieldType.STRING)
-                            .attributes(enumFormat(UserType::class.java), required())
+                            .enumFormat(UserType::class)
                             .description("게시글의 작성자 유형"),
                         fieldWithPath("author.type.text").type(JsonFieldType.STRING)
-                            .attributes(emptyFormat(), required())
                             .description("게시글의 작성자 유형 설명"),
                         fieldWithPath("author.image").type(JsonFieldType.STRING)
-                            .attributes(emptyFormat(), optional())
+                            .optional()
                             .description("게시글의 작성자 프로필 사진 URL"),
                         fieldWithPath("author.github").type(JsonFieldType.STRING)
-                            .attributes(emptyFormat(), optional())
+                            .optional()
                             .description("게시글의 작성자 Github 계정"),
                         fieldWithPath("author.blog").type(JsonFieldType.STRING)
-                            .attributes(emptyFormat(), optional())
+                            .optional()
                             .description("게시글의 작성자 블로그 주소"),
                         fieldWithPath("author.description").type(JsonFieldType.STRING)
-                            .attributes(emptyFormat(), optional())
+                            .optional()
                             .description("게시글의 작성자 소개"),
                         fieldWithPath("content").type(JsonFieldType.STRING)
-                            .attributes(emptyFormat(), required())
                             .description("게시글 내용"),
                         fieldWithPath("hashtags[]").type(JsonFieldType.ARRAY)
-                            .attributes(emptyFormat(), optional())
+                            .optional()
                             .description("게시글 해시태그"),
                         fieldWithPath("favoriteCount").type(JsonFieldType.NUMBER)
-                            .attributes(emptyFormat(), required())
                             .description("게시글 좋아요 갯수"),
                         fieldWithPath("wonderCount").type(JsonFieldType.NUMBER)
-                            .attributes(emptyFormat(), required())
                             .description("게시글 궁금해요 갯수"),
                         fieldWithPath("clipCount").type(JsonFieldType.NUMBER)
-                            .attributes(emptyFormat(), required())
                             .description("게시글 스크랩 갯수"),
                         fieldWithPath("createdAt").type(JsonFieldType.STRING)
-                            .attributes(dateTimeFormat(), required())
+                            .dateTimeFormat()
                             .description("게시글 생성 시간"),
                         fieldWithPath("modifiedAt").type(JsonFieldType.STRING)
-                            .attributes(dateTimeFormat(), required())
+                            .dateTimeFormat()
                             .description("게시글 수정 시간")
                     )
                 )

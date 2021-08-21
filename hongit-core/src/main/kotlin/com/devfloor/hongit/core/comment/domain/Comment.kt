@@ -35,11 +35,12 @@ class Comment(
     author: User,
     anonymous: Boolean,
     content: String,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
-    val id: Long = 0
+    val id: Long = id
 
     @ManyToOne
     @JoinColumn(name = "article_id")
