@@ -16,6 +16,7 @@ data class BoardResponse(
     val type: BaseEnumResponse,
     val options: List<OptionResponse>,
 ) {
+    // TODO: 2021/08/21 해당 생성자를 사용하는 로직 점검해보기
     constructor(
         board: Board,
         options: List<Option>,

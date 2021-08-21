@@ -2,6 +2,7 @@ package com.devfloor.hongit.api.support
 
 import com.devfloor.hongit.api.article.application.response.ArticleResponse
 import com.devfloor.hongit.api.board.application.response.BoardResponse
+import com.devfloor.hongit.api.board.application.response.BoardSimpleResponse
 import com.devfloor.hongit.api.option.application.response.OptionResponse
 import com.devfloor.hongit.api.support.TestFixtures.BoardFixture.BOARD_1
 import com.devfloor.hongit.api.support.TestFixtures.CourseFixture.COURSE_1
@@ -92,14 +93,25 @@ object TestFixtures {
     object BoardFixture {
         val BOARD_1 = Board(
             id = 1,
-            title = "title",
+            title = "board 1",
             type = BoardType.COURSE_BOARD,
+        )
+
+        val BOARD_2 = Board(
+            id = 2,
+            title = "board 2",
+            type = BoardType.QNA_BOARD,
         )
 
         val BOARD_RESPONSE_1 = BoardResponse(
             board = BOARD_1,
             options = listOf(OPTION_1, OPTION_2),
             course = COURSE_1,
+        )
+
+        val BOARD_SIMPLE_RESPONSE_1 = BoardSimpleResponse(
+            board = BOARD_1,
+            grade = COURSE_1.grade,
         )
     }
 
@@ -130,11 +142,17 @@ object TestFixtures {
             type = OptionType.COURSE_GROUP,
         )
 
+        val OPTION_3 = Option(
+            id = 3,
+            text = "option 3",
+            type = OptionType.ARTICLE_KIND,
+        )
+
         val OPTION_RESPONSE_1 = OptionResponse(OPTION_1)
     }
 
     object SubjectFixture {
-        val SUBJECT_1 = Subject(1, "subject 1")
+        val SUBJECT_1 = Subject(id = 1, name = "subject 1")
     }
 
     object ProfessorFixture {
