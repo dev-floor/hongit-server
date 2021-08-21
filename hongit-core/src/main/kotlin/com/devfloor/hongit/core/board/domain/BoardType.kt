@@ -10,7 +10,8 @@ import com.devfloor.hongit.core.common.domain.BaseEnum
 enum class BoardType(
     override val text: String,
 ) : BaseEnum {
-    COURSE_BOARD("수업게시판")
+    COURSE_BOARD("수업게시판"),
+    QNA_BOARD("질문게시판"),
     ;
 
     override val id: String

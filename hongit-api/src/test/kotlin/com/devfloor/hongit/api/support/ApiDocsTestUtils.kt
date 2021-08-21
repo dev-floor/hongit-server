@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder
 import org.springframework.web.filter.CharacterEncodingFilter
 
 object ApiDocsTestUtils {
+    val TEST_AUTHORIZATION_HEADER = "Bearer"
     private val MESSAGE_CONVERTER = MappingJackson2HttpMessageConverter(Jackson2ObjectMapperBuilder().build())
 
     fun getRestDocsMockMvc(restDocumentation: RestDocumentationContextProvider, controller: Any): MockMvc =
