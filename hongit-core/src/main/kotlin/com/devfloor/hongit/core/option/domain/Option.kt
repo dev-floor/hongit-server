@@ -20,13 +20,14 @@ import javax.persistence.Table
 @Entity
 @Table(name = "options")
 class Option(
+    id: Long = 0,
     text: String,
     type: OptionType,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "option_id")
-    val id: Long = 0
+    val id: Long = id
 
     @Column(name = "text")
     val text: String = text

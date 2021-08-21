@@ -18,13 +18,14 @@ import javax.persistence.Table
 @Entity
 @Table(name = "professors")
 class Professor(
+    id: Long = 0,
     name: String,
     email: String? = null,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "professor_id")
-    val id: Long = 0
+    val id: Long = id
 
     @Column(name = "name")
     val name: String = name

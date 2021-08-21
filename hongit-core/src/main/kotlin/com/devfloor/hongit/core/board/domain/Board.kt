@@ -20,13 +20,14 @@ import javax.persistence.Table
 @Entity
 @Table(name = "boards")
 class Board(
+    id: Long = 0,
     title: String,
     type: BoardType,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
-    val id: Long = 0
+    val id: Long = id
 
     @Column(name = "title")
     val title: String = title

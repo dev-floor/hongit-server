@@ -31,6 +31,7 @@ import javax.persistence.Table
     ]
 )
 class ArticleFavorite(
+    id: Long = 0,
     article: Article,
     user: User,
     type: ArticleFavoriteType,
@@ -38,7 +39,7 @@ class ArticleFavorite(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "favorite_id")
-    val id: Long = 0
+    val id: Long = id
 
     @ManyToOne
     @JoinColumn(name = "article_id")

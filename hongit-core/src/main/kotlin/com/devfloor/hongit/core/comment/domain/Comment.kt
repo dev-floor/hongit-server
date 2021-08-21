@@ -31,6 +31,7 @@ import javax.persistence.Table
     ]
 )
 class Comment(
+    id: Long = 0,
     article: Article,
     author: User,
     anonymous: Boolean,
@@ -39,7 +40,7 @@ class Comment(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
-    val id: Long = 0
+    val id: Long = id
 
     @ManyToOne
     @JoinColumn(name = "article_id")

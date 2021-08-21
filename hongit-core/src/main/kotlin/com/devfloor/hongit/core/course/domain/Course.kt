@@ -40,6 +40,7 @@ import javax.persistence.Table
     ]
 )
 class Course(
+    id: Long = 0,
     code: String,
     openingSemester: OpeningSemester,
     professor: Professor,
@@ -52,7 +53,7 @@ class Course(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "course_id")
-    val id: Long = 0
+    val id: Long = id
 
     @Column(name = "code")
     val code: String = code

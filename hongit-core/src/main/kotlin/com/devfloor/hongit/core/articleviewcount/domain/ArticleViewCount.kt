@@ -13,12 +13,13 @@ import javax.persistence.Table
 @Entity
 @Table(name = "article_view_count")
 class ArticleViewCount(
+    id: Long = 0,
     article: Article,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_view_count_id")
-    val id: Long = 0
+    val id: Long = id
 
     @OneToOne
     @JoinColumn(name = "article_id")

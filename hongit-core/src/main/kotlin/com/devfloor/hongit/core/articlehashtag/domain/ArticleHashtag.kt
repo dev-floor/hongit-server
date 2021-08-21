@@ -28,13 +28,14 @@ import javax.persistence.Table
     ]
 )
 class ArticleHashtag(
+    id: Long = 0,
     article: Article,
     hashtag: Hashtag,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_hashtag_id")
-    val id: Long = 0
+    val id: Long = id
 
     @ManyToOne
     @JoinColumn(name = "article_id")

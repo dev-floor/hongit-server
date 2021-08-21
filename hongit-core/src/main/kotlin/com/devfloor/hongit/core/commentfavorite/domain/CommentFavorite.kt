@@ -28,13 +28,14 @@ import javax.persistence.Table
     ]
 )
 class CommentFavorite(
+    id: Long = 0,
     comment: Comment,
     user: User,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_favorite_id")
-    val id: Long = 0
+    val id: Long = id
 
     @ManyToOne
     @JoinColumn(name = "comment_id")
