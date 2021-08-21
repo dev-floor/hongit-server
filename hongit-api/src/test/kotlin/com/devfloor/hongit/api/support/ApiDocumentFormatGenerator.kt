@@ -1,8 +1,8 @@
 package com.devfloor.hongit.api.support
 
-import com.devfloor.hongit.core.common.domain.BaseEnum
 import com.devfloor.hongit.core.common.utils.LOCAL_DATE_TIME_FORMAT
 import org.apache.logging.log4j.util.Strings
+import org.apache.logging.log4j.util.Strings.LINE_SEPARATOR
 import org.springframework.restdocs.snippet.Attributes
 
 object ApiDocumentFormatGenerator {
@@ -12,17 +12,17 @@ object ApiDocumentFormatGenerator {
 
     fun customFormat(format: String): Attributes.Attribute = Attributes.key("format").value(format)
 
-    fun customFormat(formats: List<String>): Attributes.Attribute = customFormat(formats.joinToString(Strings.LINE_SEPARATOR))
+    fun customFormat(formats: List<String>): Attributes.Attribute = customFormat(formats.joinToString(LINE_SEPARATOR))
 
     fun emptyFormat(): Attributes.Attribute = customFormat(Strings.EMPTY)
 
     fun dateTimeFormat(): Attributes.Attribute = customFormat(LOCAL_DATE_TIME_FORMAT)
 
-    inline fun <reified T: Enum<T>> enumFormat(): Attributes.Attribute =
+    inline fun <reified T : Enum<T>> enumFormat(): Attributes.Attribute =
         Attributes.key("format")
             .value(
                 enumValues<T>()
                     .map { it.name }
-                    .run { joinToString(Strings.LINE_SEPARATOR) }
+                    .run { joinToString(LINE_SEPARATOR) }
             )
 }
