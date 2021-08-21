@@ -1,21 +1,36 @@
 package com.devfloor.hongit.api.support
 
 import com.devfloor.hongit.api.article.application.response.ArticleResponse
-import com.devfloor.hongit.api.common.application.response.BaseEnumResponse
+import com.devfloor.hongit.api.board.application.response.BoardResponse
 import com.devfloor.hongit.api.option.application.response.OptionResponse
 import com.devfloor.hongit.api.support.TestFixtures.BoardFixture.BOARD_1
+import com.devfloor.hongit.api.support.TestFixtures.CourseFixture.COURSE_1
+import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_1
+import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_2
 import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_RESPONSE_1
+import com.devfloor.hongit.api.support.TestFixtures.ProfessorFixture.PROFESSOR_1
+import com.devfloor.hongit.api.support.TestFixtures.SubjectFixture.SUBJECT_1
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_1
 import com.devfloor.hongit.api.user.application.request.JoinRequest
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.board.domain.Board
 import com.devfloor.hongit.core.board.domain.BoardType
+import com.devfloor.hongit.core.course.domain.Course
+import com.devfloor.hongit.core.course.domain.Grade
+import com.devfloor.hongit.core.course.domain.OpeningSemester
+import com.devfloor.hongit.core.course.domain.Schedule
+import com.devfloor.hongit.core.course.domain.Semester
+import com.devfloor.hongit.core.course.domain.Timetable
+import com.devfloor.hongit.core.option.domain.Option
 import com.devfloor.hongit.core.option.domain.OptionType
+import com.devfloor.hongit.core.professor.domain.Professor
+import com.devfloor.hongit.core.subject.domain.Subject
 import com.devfloor.hongit.core.user.domain.Email
 import com.devfloor.hongit.core.user.domain.User
 import com.devfloor.hongit.core.user.domain.UserType
 import java.time.LocalDateTime
+import java.time.Year
 
 object TestFixtures {
     private val TEST_CREATED_AT = LocalDateTime.of(2021, 8, 1, 12, 0, 0)
@@ -75,14 +90,58 @@ object TestFixtures {
     }
 
     object BoardFixture {
-        val BOARD_1 = Board("title", BoardType.COURSE_BOARD)
+        val BOARD_1 = Board(
+            id = 1,
+            title = "title",
+            type = BoardType.COURSE_BOARD,
+        )
+
+        val BOARD_RESPONSE_1 = BoardResponse(
+            board = BOARD_1,
+            options = listOf(OPTION_1, OPTION_2),
+            course = COURSE_1,
+        )
+    }
+
+    object CourseFixture {
+        val COURSE_1 = Course(
+            id = 1,
+            code = "0000",
+            openingSemester = OpeningSemester(Year.parse("2021"), Semester.FIRST_SEMESTER),
+            professor = PROFESSOR_1,
+            subject = SUBJECT_1,
+            grade = Grade.FRESHMAN,
+            option = OPTION_2,
+            timetable = Timetable(listOf(Schedule.from("월2"), Schedule.from("월3"), Schedule.from("수3"))),
+            board = BOARD_1,
+        )
     }
 
     object OptionFixture {
-        val OPTION_RESPONSE_1 = OptionResponse(
+        val OPTION_1 = Option(
             id = 1,
             text = "option 1",
-            type = BaseEnumResponse(OptionType.ARTICLE_KIND)
+            type = OptionType.ARTICLE_KIND
+        )
+
+        val OPTION_2 = Option(
+            id = 2,
+            text = "option 2",
+            type = OptionType.COURSE_GROUP,
+        )
+
+        val OPTION_RESPONSE_1 = OptionResponse(OPTION_1)
+    }
+
+    object SubjectFixture {
+        val SUBJECT_1 = Subject(1, "subject 1")
+    }
+
+    object ProfessorFixture {
+        val PROFESSOR_1 = Professor(
+            id = 1,
+            name = "professor 1",
+            email = "professor@gmail.com",
         )
     }
 }
