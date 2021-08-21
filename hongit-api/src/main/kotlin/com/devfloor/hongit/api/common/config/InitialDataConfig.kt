@@ -63,22 +63,21 @@ class InitialDataConfig(
         subjectRepository.save(TEST_SUBJECT_1)
         optionRepository.saveAll(
             listOf(
-                TEST_OPTION_1, TEST_OPTION_2, TEST_OPTION_3, TEST_OPTION_4, TEST_OPTION_5,
-                TEST_OPTION_6, TEST_OPTION_7
+                TEST_OPTION_1,
+                TEST_OPTION_2,
+                TEST_OPTION_3,
+                TEST_OPTION_4,
+                TEST_OPTION_5,
+                TEST_OPTION_6,
+                TEST_OPTION_7
             )
         )
         hashtagRepository.saveAll(
-            listOf(
-                TEST_HASHTAG_1, TEST_HASHTAG_2, TEST_HASHTAG_3, TEST_HASHTAG_4, TEST_HASHTAG_5,
-                TEST_HASHTAG_6
-            )
+            listOf(TEST_HASHTAG_1, TEST_HASHTAG_2, TEST_HASHTAG_3, TEST_HASHTAG_4, TEST_HASHTAG_5, TEST_HASHTAG_6)
         )
         val boards = boardRepository.saveAll(listOf(TEST_BOARD_1, TEST_BOARD_2))
         boardOptionRepository.saveAll(
-            listOf(
-                TEST_BOARD_OPTION_1, TEST_BOARD_OPTION_2, TEST_BOARD_OPTION_3,
-                TEST_BOARD_OPTION_4
-            )
+            listOf(TEST_BOARD_OPTION_1, TEST_BOARD_OPTION_2, TEST_BOARD_OPTION_3, TEST_BOARD_OPTION_4)
         )
         courseRepository.saveAll(
             listOf(
@@ -93,23 +92,33 @@ class InitialDataConfig(
         articleRepository.saveAll(listOf(TEST_ARTICLE_1, TEST_ARTICLE_2, TEST_ARTICLE_3, TEST_ARTICLE_4))
         articleHashtagRepository.saveAll(
             listOf(
-                TEST_ARTICLE_HASHTAG_1, TEST_ARTICLE_HASHTAG_2, TEST_ARTICLE_HASHTAG_3,
-                TEST_ARTICLE_HASHTAG_4, TEST_ARTICLE_HASHTAG_5, TEST_ARTICLE_HASHTAG_6, TEST_ARTICLE_HASHTAG_7,
-                TEST_ARTICLE_HASHTAG_8, TEST_ARTICLE_HASHTAG_9
+                TEST_ARTICLE_HASHTAG_1,
+                TEST_ARTICLE_HASHTAG_2,
+                TEST_ARTICLE_HASHTAG_3,
+                TEST_ARTICLE_HASHTAG_4,
+                TEST_ARTICLE_HASHTAG_5,
+                TEST_ARTICLE_HASHTAG_6,
+                TEST_ARTICLE_HASHTAG_7,
+                TEST_ARTICLE_HASHTAG_8,
+                TEST_ARTICLE_HASHTAG_9
             )
         )
         articleOptionRepository.saveAll(
             listOf(
-                TEST_ARTICLE_OPTION_1, TEST_ARTICLE_OPTION_2, TEST_ARTICLE_OPTION_3,
-                TEST_ARTICLE_OPTION_4, TEST_ARTICLE_OPTION_5, TEST_ARTICLE_OPTION_6, TEST_ARTICLE_OPTION_7,
-                TEST_ARTICLE_OPTION_8, TEST_ARTICLE_OPTION_9, TEST_ARTICLE_OPTION_10
+                TEST_ARTICLE_OPTION_1,
+                TEST_ARTICLE_OPTION_2,
+                TEST_ARTICLE_OPTION_3,
+                TEST_ARTICLE_OPTION_4,
+                TEST_ARTICLE_OPTION_5,
+                TEST_ARTICLE_OPTION_6,
+                TEST_ARTICLE_OPTION_7,
+                TEST_ARTICLE_OPTION_8,
+                TEST_ARTICLE_OPTION_9,
+                TEST_ARTICLE_OPTION_10
             )
         )
         commentRepository.saveAll(
-            listOf(
-                TEST_COMMENT_1, TEST_COMMENT_2, TEST_COMMENT_3, TEST_COMMENT_4,
-                TEST_COMMENT_5
-            )
+            listOf(TEST_COMMENT_1, TEST_COMMENT_2, TEST_COMMENT_3, TEST_COMMENT_4, TEST_COMMENT_5)
         )
     }
 
@@ -136,25 +145,25 @@ class InitialDataConfig(
             description = "안녕하세요, test 사용자입니다."
         )
 
-        private val TEST_PROFESSOR_1 = Professor("정균락", "krchong@hongik.ac.kr")
-        private val TEST_PROFESSOR_2 = Professor("하란")
+        private val TEST_PROFESSOR_1 = Professor(name = "정균락", email = "krchong@hongik.ac.kr")
+        private val TEST_PROFESSOR_2 = Professor(name = "하란")
 
-        private val TEST_SUBJECT_1 = Subject("알고리즘")
+        private val TEST_SUBJECT_1 = Subject(name = "알고리즘")
 
-        private val TEST_OPTION_1 = Option("1분반", OptionType.COURSE_GROUP)
-        private val TEST_OPTION_2 = Option("2분반", OptionType.COURSE_GROUP)
-        private val TEST_OPTION_3 = Option("3분반", OptionType.COURSE_GROUP)
-        private val TEST_OPTION_4 = Option("4분반", OptionType.COURSE_GROUP)
-        private val TEST_OPTION_5 = Option("5분반", OptionType.COURSE_GROUP)
-        private val TEST_OPTION_6 = Option("질문", OptionType.ARTICLE_KIND)
-        private val TEST_OPTION_7 = Option("일정", OptionType.ARTICLE_KIND)
+        private val TEST_OPTION_1 = Option(text = "1분반", type = OptionType.COURSE_GROUP)
+        private val TEST_OPTION_2 = Option(text = "2분반", type = OptionType.COURSE_GROUP)
+        private val TEST_OPTION_3 = Option(text = "3분반", type = OptionType.COURSE_GROUP)
+        private val TEST_OPTION_4 = Option(text = "4분반", type = OptionType.COURSE_GROUP)
+        private val TEST_OPTION_5 = Option(text = "5분반", type = OptionType.COURSE_GROUP)
+        private val TEST_OPTION_6 = Option(text = "질문", type = OptionType.ARTICLE_KIND)
+        private val TEST_OPTION_7 = Option(text = "일정", type = OptionType.ARTICLE_KIND)
 
-        private val TEST_HASHTAG_1 = Hashtag("해시태그1")
-        private val TEST_HASHTAG_2 = Hashtag("해시태그2")
-        private val TEST_HASHTAG_3 = Hashtag("해시태그3")
-        private val TEST_HASHTAG_4 = Hashtag("해시태그4")
-        private val TEST_HASHTAG_5 = Hashtag("해시태그5")
-        private val TEST_HASHTAG_6 = Hashtag("해시태그6")
+        private val TEST_HASHTAG_1 = Hashtag(name = "해시태그1")
+        private val TEST_HASHTAG_2 = Hashtag(name = "해시태그2")
+        private val TEST_HASHTAG_3 = Hashtag(name = "해시태그3")
+        private val TEST_HASHTAG_4 = Hashtag(name = "해시태그4")
+        private val TEST_HASHTAG_5 = Hashtag(name = "해시태그5")
+        private val TEST_HASHTAG_6 = Hashtag(name = "해시태그6")
 
         private val TEST_OPENING_SEMESTER = OpeningSemester(Year.parse("2021"), Semester.SECOND_SEMESTER)
 
@@ -213,10 +222,10 @@ class InitialDataConfig(
             type = BoardType.COURSE_BOARD
         )
 
-        private val TEST_BOARD_OPTION_1 = BoardOption(TEST_BOARD_1, TEST_OPTION_6)
-        private val TEST_BOARD_OPTION_2 = BoardOption(TEST_BOARD_1, TEST_OPTION_7)
-        private val TEST_BOARD_OPTION_3 = BoardOption(TEST_BOARD_2, TEST_OPTION_6)
-        private val TEST_BOARD_OPTION_4 = BoardOption(TEST_BOARD_2, TEST_OPTION_7)
+        private val TEST_BOARD_OPTION_1 = BoardOption(board = TEST_BOARD_1, option = TEST_OPTION_6)
+        private val TEST_BOARD_OPTION_2 = BoardOption(board = TEST_BOARD_1, option = TEST_OPTION_7)
+        private val TEST_BOARD_OPTION_3 = BoardOption(board = TEST_BOARD_2, option = TEST_OPTION_6)
+        private val TEST_BOARD_OPTION_4 = BoardOption(board = TEST_BOARD_2, option = TEST_OPTION_7)
 
         private val TEST_ARTICLE_1 = Article(
             title = "테스트 게시글 1 입니다.",
@@ -301,31 +310,56 @@ class InitialDataConfig(
             board = TEST_BOARD_1
         )
 
-        private val TEST_ARTICLE_HASHTAG_1 = ArticleHashtag(TEST_ARTICLE_1, TEST_HASHTAG_1)
-        private val TEST_ARTICLE_HASHTAG_2 = ArticleHashtag(TEST_ARTICLE_1, TEST_HASHTAG_3)
-        private val TEST_ARTICLE_HASHTAG_3 = ArticleHashtag(TEST_ARTICLE_1, TEST_HASHTAG_5)
-        private val TEST_ARTICLE_HASHTAG_4 = ArticleHashtag(TEST_ARTICLE_2, TEST_HASHTAG_1)
-        private val TEST_ARTICLE_HASHTAG_5 = ArticleHashtag(TEST_ARTICLE_2, TEST_HASHTAG_2)
-        private val TEST_ARTICLE_HASHTAG_6 = ArticleHashtag(TEST_ARTICLE_3, TEST_HASHTAG_4)
-        private val TEST_ARTICLE_HASHTAG_7 = ArticleHashtag(TEST_ARTICLE_4, TEST_HASHTAG_2)
-        private val TEST_ARTICLE_HASHTAG_8 = ArticleHashtag(TEST_ARTICLE_4, TEST_HASHTAG_5)
-        private val TEST_ARTICLE_HASHTAG_9 = ArticleHashtag(TEST_ARTICLE_4, TEST_HASHTAG_6)
+        private val TEST_ARTICLE_HASHTAG_1 = ArticleHashtag(article = TEST_ARTICLE_1, hashtag = TEST_HASHTAG_1)
+        private val TEST_ARTICLE_HASHTAG_2 = ArticleHashtag(article = TEST_ARTICLE_1, hashtag = TEST_HASHTAG_3)
+        private val TEST_ARTICLE_HASHTAG_3 = ArticleHashtag(article = TEST_ARTICLE_1, hashtag = TEST_HASHTAG_5)
+        private val TEST_ARTICLE_HASHTAG_4 = ArticleHashtag(article = TEST_ARTICLE_2, hashtag = TEST_HASHTAG_1)
+        private val TEST_ARTICLE_HASHTAG_5 = ArticleHashtag(article = TEST_ARTICLE_2, hashtag = TEST_HASHTAG_2)
+        private val TEST_ARTICLE_HASHTAG_6 = ArticleHashtag(article = TEST_ARTICLE_3, hashtag = TEST_HASHTAG_4)
+        private val TEST_ARTICLE_HASHTAG_7 = ArticleHashtag(article = TEST_ARTICLE_4, hashtag = TEST_HASHTAG_2)
+        private val TEST_ARTICLE_HASHTAG_8 = ArticleHashtag(article = TEST_ARTICLE_4, hashtag = TEST_HASHTAG_5)
+        private val TEST_ARTICLE_HASHTAG_9 = ArticleHashtag(article = TEST_ARTICLE_4, hashtag = TEST_HASHTAG_6)
 
-        private val TEST_ARTICLE_OPTION_1 = ArticleOption(TEST_ARTICLE_1, TEST_OPTION_1)
-        private val TEST_ARTICLE_OPTION_2 = ArticleOption(TEST_ARTICLE_1, TEST_OPTION_2)
-        private val TEST_ARTICLE_OPTION_3 = ArticleOption(TEST_ARTICLE_1, TEST_OPTION_6)
-        private val TEST_ARTICLE_OPTION_4 = ArticleOption(TEST_ARTICLE_2, TEST_OPTION_4)
-        private val TEST_ARTICLE_OPTION_5 = ArticleOption(TEST_ARTICLE_2, TEST_OPTION_7)
-        private val TEST_ARTICLE_OPTION_6 = ArticleOption(TEST_ARTICLE_3, TEST_OPTION_4)
-        private val TEST_ARTICLE_OPTION_7 = ArticleOption(TEST_ARTICLE_3, TEST_OPTION_5)
-        private val TEST_ARTICLE_OPTION_8 = ArticleOption(TEST_ARTICLE_3, TEST_OPTION_6)
-        private val TEST_ARTICLE_OPTION_9 = ArticleOption(TEST_ARTICLE_4, TEST_OPTION_1)
-        private val TEST_ARTICLE_OPTION_10 = ArticleOption(TEST_ARTICLE_4, TEST_OPTION_6)
+        private val TEST_ARTICLE_OPTION_1 = ArticleOption(article = TEST_ARTICLE_1, option = TEST_OPTION_1)
+        private val TEST_ARTICLE_OPTION_2 = ArticleOption(article = TEST_ARTICLE_1, option = TEST_OPTION_2)
+        private val TEST_ARTICLE_OPTION_3 = ArticleOption(article = TEST_ARTICLE_1, option = TEST_OPTION_6)
+        private val TEST_ARTICLE_OPTION_4 = ArticleOption(article = TEST_ARTICLE_2, option = TEST_OPTION_4)
+        private val TEST_ARTICLE_OPTION_5 = ArticleOption(article = TEST_ARTICLE_2, option = TEST_OPTION_7)
+        private val TEST_ARTICLE_OPTION_6 = ArticleOption(article = TEST_ARTICLE_3, option = TEST_OPTION_4)
+        private val TEST_ARTICLE_OPTION_7 = ArticleOption(article = TEST_ARTICLE_3, option = TEST_OPTION_5)
+        private val TEST_ARTICLE_OPTION_8 = ArticleOption(article = TEST_ARTICLE_3, option = TEST_OPTION_6)
+        private val TEST_ARTICLE_OPTION_9 = ArticleOption(article = TEST_ARTICLE_4, option = TEST_OPTION_1)
+        private val TEST_ARTICLE_OPTION_10 = ArticleOption(article = TEST_ARTICLE_4, option = TEST_OPTION_6)
 
-        private val TEST_COMMENT_1 = Comment(TEST_ARTICLE_1, TEST_USER_1, true, "테스트 댓글 1 입니다.")
-        private val TEST_COMMENT_2 = Comment(TEST_ARTICLE_1, TEST_USER_1, false, "테스트 댓글 2 입니다.")
-        private val TEST_COMMENT_3 = Comment(TEST_ARTICLE_1, TEST_USER_2, false, "테스트 댓글 3 입니다.")
-        private val TEST_COMMENT_4 = Comment(TEST_ARTICLE_2, TEST_USER_1, false, "테스트 댓글 4 입니다.")
-        private val TEST_COMMENT_5 = Comment(TEST_ARTICLE_3, TEST_USER_2, true, "테스트 댓글 5 입니다.")
+        private val TEST_COMMENT_1 = Comment(
+            article = TEST_ARTICLE_1,
+            author = TEST_USER_1,
+            anonymous = true,
+            content = "테스트 댓글 1 입니다.",
+        )
+        private val TEST_COMMENT_2 = Comment(
+            article = TEST_ARTICLE_1,
+            author = TEST_USER_1,
+            anonymous = false,
+            content = "테스트 댓글 2 입니다.",
+        )
+        private val TEST_COMMENT_3 = Comment(
+            article = TEST_ARTICLE_1,
+            author = TEST_USER_2,
+            anonymous = false,
+            content = "테스트 댓글 3 입니다.",
+        )
+        private val TEST_COMMENT_4 = Comment(
+            article = TEST_ARTICLE_2,
+            author = TEST_USER_1,
+            anonymous = false,
+            content = "테스트 댓글 4 입니다.",
+        )
+        private val TEST_COMMENT_5 = Comment(
+            article = TEST_ARTICLE_3,
+            author = TEST_USER_2,
+            anonymous = true,
+            content = "테스트 댓글 5 입니다.",
+        )
     }
 }
