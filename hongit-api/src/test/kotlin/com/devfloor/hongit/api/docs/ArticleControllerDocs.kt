@@ -78,7 +78,7 @@ internal class ArticleControllerDocs {
                             .attributes(emptyFormat(), required())
                             .description("게시글의 옵션 설명"),
                         fieldWithPath("options[].type.id").type(JsonFieldType.STRING)
-                            .attributes(enumFormat(OptionType::class.java), optional())
+                            .attributes(enumFormat<OptionType>(), optional())
                             .description("게시글의 옵션 타입"),
                         fieldWithPath("options[].type.text").type(JsonFieldType.STRING)
                             .attributes(emptyFormat(), optional())
@@ -96,7 +96,7 @@ internal class ArticleControllerDocs {
                             .attributes(emptyFormat(), required())
                             .description("게시글의 작성자 닉네임"),
                         fieldWithPath("author.type.id").type(JsonFieldType.STRING)
-                            .attributes(enumFormat(UserType::class.java), required())
+                            .attributes(enumFormat<UserType>(), required())
                             .description("게시글의 작성자 유형"),
                         fieldWithPath("author.type.text").type(JsonFieldType.STRING)
                             .attributes(emptyFormat(), required())
