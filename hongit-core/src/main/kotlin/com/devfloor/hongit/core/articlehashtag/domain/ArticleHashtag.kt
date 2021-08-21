@@ -28,9 +28,9 @@ import javax.persistence.Table
     ]
 )
 class ArticleHashtag(
-    id: Long = 0,
     article: Article,
     hashtag: Hashtag,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

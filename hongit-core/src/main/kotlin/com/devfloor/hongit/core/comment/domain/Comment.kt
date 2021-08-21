@@ -31,11 +31,11 @@ import javax.persistence.Table
     ]
 )
 class Comment(
-    id: Long = 0,
     article: Article,
     author: User,
     anonymous: Boolean,
     content: String,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

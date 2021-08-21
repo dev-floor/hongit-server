@@ -13,8 +13,8 @@ import javax.persistence.Table
 @Entity
 @Table(name = "article_view_count")
 class ArticleViewCount(
-    id: Long = 0,
     article: Article,
+    id: Long = 0,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

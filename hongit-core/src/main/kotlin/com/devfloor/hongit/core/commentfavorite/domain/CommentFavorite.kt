@@ -28,9 +28,9 @@ import javax.persistence.Table
     ]
 )
 class CommentFavorite(
-    id: Long = 0,
     comment: Comment,
     user: User,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

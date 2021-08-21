@@ -28,9 +28,9 @@ import javax.persistence.Table
     ]
 )
 class ArticleOption(
-    id: Long = 0,
     article: Article,
     option: Option,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

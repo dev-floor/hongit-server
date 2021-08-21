@@ -17,8 +17,8 @@ import javax.persistence.Table
 @Entity
 @Table(name = "subjects")
 class Subject(
-    id: Long = 0,
     name: String,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

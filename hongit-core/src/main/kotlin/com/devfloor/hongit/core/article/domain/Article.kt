@@ -32,12 +32,12 @@ import javax.persistence.Table
     ]
 )
 class Article(
-    id: Long = 0,
     title: String?,
     anonymous: Boolean,
     content: String,
     author: User,
     board: Board,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

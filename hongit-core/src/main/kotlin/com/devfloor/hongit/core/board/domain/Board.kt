@@ -20,9 +20,9 @@ import javax.persistence.Table
 @Entity
 @Table(name = "boards")
 class Board(
-    id: Long = 0,
     title: String,
     type: BoardType,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
