@@ -38,10 +38,19 @@ tasks.test {
 }
 
 tasks.asciidoctor {
+    doFirst { delete("src/main/resources/static/docs") }
+
     inputs.dir(snippetsDir)
     dependsOn(tasks.test)
 }
 
+tasks.register<Copy>("copyDocs") {
+    dependsOn(tasks.asciidoctor)
+    from("build/asciidoc/html5")
+    into("src/main/resources/static/docs")
+}
+
 tasks.build {
     dependsOn(tasks.asciidoctor)
+    dependsOn(tasks.getByName("copyDocs"))
 }

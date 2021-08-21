@@ -41,3 +41,6 @@ out/
 
 ### Docker ###
 docker/mariadb/data/*
+
+### Rest Docs ###
+**/src/main/resources/static/docs/
