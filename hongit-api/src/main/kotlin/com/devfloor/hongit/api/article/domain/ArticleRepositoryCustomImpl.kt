@@ -5,7 +5,9 @@ import com.devfloor.hongit.core.article.domain.QArticle.article
 import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavoriteType
 import com.devfloor.hongit.core.articlefavorite.domain.QArticleFavorite.articleFavorite
 import com.devfloor.hongit.core.articleviewcount.domain.QArticleViewCount.articleViewCount
+import com.devfloor.hongit.core.board.domain.Board
 import com.querydsl.jpa.impl.JPAQueryFactory
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -27,6 +29,27 @@ class ArticleRepositoryCustomImpl(
             .join(articleViewCount).on(article.eq(articleViewCount.article))
             .orderBy(articleViewCount.count.desc())
             .limit(5)
+            .fetch()
+    }
+
+    override fun findAllByBoardSortByViewCount(board: Board, pageRequest: PageRequest): List<Article> {
+        return jpaQueryFactory.selectFrom(article)
+            .join(articleViewCount).on(article.eq(articleViewCount.article))
+            .where(article.board.eq(board))
+            .orderBy(articleViewCount.count.desc())
+            .offset(pageRequest.offset)
+            .limit(pageRequest.pageSize.toLong())
+            .fetch()
+    }
+
+    override fun findAllByBoardSortByFavorite(board: Board, pageRequest: PageRequest): List<Article> {
+        return jpaQueryFactory.selectFrom(article)
+            .join(articleFavorite).on(article.eq(articleFavorite.article))
+            .where(articleFavorite.type.eq(ArticleFavoriteType.FAVORITE))
+            .groupBy(article)
+            .orderBy(articleFavorite.type.count().desc())
+            .offset(pageRequest.offset)
+            .limit(pageRequest.pageSize.toLong())
             .fetch()
     }
 }

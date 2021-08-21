@@ -5,9 +5,11 @@ import com.devfloor.hongit.api.article.application.request.ArticleCreateRequest
 import com.devfloor.hongit.api.article.application.request.ArticleModifyRequest
 import com.devfloor.hongit.api.article.application.response.ArticleFeedResponse
 import com.devfloor.hongit.api.article.application.response.ArticleResponse
+import com.devfloor.hongit.api.article.domain.ArticleSortType
 import com.devfloor.hongit.api.article.presentation.ArticleController.Companion.ARTICLE_API_URI
 import com.devfloor.hongit.api.common.utils.BASE_API_URI
 import com.devfloor.hongit.api.security.core.LoginUser
+import com.devfloor.hongit.core.common.config.Slf4j.Companion.log
 import com.devfloor.hongit.core.user.domain.User
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -32,15 +34,66 @@ class ArticleController(
     @ResponseStatus(value = HttpStatus.OK)
     fun showByArticleId(@PathVariable articleId: Long): ArticleResponse = articleService.showByArticleId(articleId)
 
-    @GetMapping(params = ["boardId"])
-    @ResponseStatus(value = HttpStatus.OK)
-    fun showAllByBoardId(@RequestParam boardId: Long, @RequestParam size: Int): List<ArticleFeedResponse> =
-        articleService.showAllByBoardId(boardId, size)
-
     @GetMapping(params = ["userId"])
     @ResponseStatus(value = HttpStatus.OK)
-    fun showAllByUserId(@RequestParam userId: Long, @RequestParam size: Int): List<ArticleFeedResponse> =
-        articleService.showAllByUserId(userId, size)
+    fun showAllByUserId(
+        @RequestParam userId: Long,
+        @RequestParam page: Int,
+        @RequestParam size: Int,
+    ): List<ArticleFeedResponse> =
+        articleService.showAllByUserId(userId, page, size)
+
+    /**
+     * 스크린: 게시판 > 게시글 목록 조회
+     */
+    @GetMapping(params = ["boardId"])
+    @ResponseStatus(value = HttpStatus.OK)
+    fun showAllByBoardId(
+        @RequestParam boardId: Long,
+        @RequestParam(required = false) sort: ArticleSortType?,
+        @RequestParam(required = false) options: List<Long>?,
+        @RequestParam page: Int,
+        @RequestParam size: Int,
+    ): List<ArticleFeedResponse> =
+        articleService.showAllByBoardId(boardId, page, size, sort, options)
+            .also { log.info("boardId = $boardId, sort = $sort, options = $options") }
+
+    /**
+     * 스크린: 프로필 & 마이페이지 > 작성한 게시글 목록 조회
+     * 로그인 본인의 경우 익명글 포함
+     */
+    @GetMapping(params = ["authorId"])
+    @ResponseStatus(value = HttpStatus.OK)
+    fun showAllByUserId(
+        @LoginUser loginUser: User,
+        @RequestParam authorId: Long,
+        @RequestParam page: Int,
+        @RequestParam size: Int,
+    ): List<ArticleFeedResponse> {
+        return if (loginUser.id == authorId) {
+            articleService.showAllByUserId(authorId, page, size)
+                .also { log.info("userId = $authorId") }
+        } else {
+            articleService.showAllByUserIdNotAnonymous(authorId, page, size)
+                .also { log.info("userId = $authorId") }
+        }
+    }
+
+    /**
+     * 스크린: 프로필 & 마이페이지 > 좋아요한 게시글 목록 조회
+     */
+    @GetMapping(params = ["favoritedUserId", "favoriteType"])
+    @ResponseStatus(value = HttpStatus.OK)
+    fun showAllByFavoritedUserId(
+        @LoginUser loginUser: User,
+        @RequestParam(value = "favoritedUserId") userId: Long,
+        @RequestParam(value = "favoriteType") type: String,
+        @RequestParam page: Int,
+        @RequestParam size: Int,
+    ): List<ArticleFeedResponse> {
+        return articleService.showAllByFavoritedUserId(userId, page, size)
+            .also { log.info("userId = $userId, type = $type") }
+    }
 
     @PostMapping
     fun create(@RequestBody request: ArticleCreateRequest, @LoginUser author: User): ResponseEntity<Unit> {

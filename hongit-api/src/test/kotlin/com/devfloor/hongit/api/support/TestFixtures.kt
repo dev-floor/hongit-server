@@ -1,5 +1,6 @@
 package com.devfloor.hongit.api.support
 
+import com.devfloor.hongit.api.article.application.response.ArticleFeedResponse
 import com.devfloor.hongit.api.article.application.response.ArticleResponse
 import com.devfloor.hongit.api.board.application.response.BoardResponse
 import com.devfloor.hongit.api.board.application.response.BoardSimpleResponse
@@ -82,6 +83,20 @@ object TestFixtures {
             author = ProfileResponse(ARTICLE_1.author),
             content = ARTICLE_1.content,
             hashtags = listOf("article", "1", "hashtag"),
+            favoriteCount = 0,
+            wonderCount = 1,
+            clipCount = 2,
+            createdAt = TEST_CREATED_AT,
+            modifiedAt = TEST_MODIFIED_AT,
+        )
+
+        val ARTICLE_FEED_RESPONSE_1 = ArticleFeedResponse(
+            id = ARTICLE_1.id,
+            options = listOf(OPTION_RESPONSE_1),
+            title = ARTICLE_1.title,
+            anonymous = ARTICLE_1.anonymous,
+            author = ProfileResponse(ARTICLE_1.author),
+            content = ARTICLE_1.content,
             favoriteCount = 0,
             wonderCount = 1,
             clipCount = 2,
