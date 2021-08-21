@@ -40,7 +40,6 @@ import javax.persistence.Table
     ]
 )
 class Course(
-    id: Long = 0,
     code: String,
     openingSemester: OpeningSemester,
     professor: Professor,
@@ -49,6 +48,7 @@ class Course(
     option: Option,
     timetable: Timetable,
     board: Board? = null,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

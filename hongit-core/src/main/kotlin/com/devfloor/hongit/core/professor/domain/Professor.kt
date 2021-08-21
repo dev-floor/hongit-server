@@ -18,9 +18,9 @@ import javax.persistence.Table
 @Entity
 @Table(name = "professors")
 class Professor(
-    id: Long = 0,
     name: String,
     email: String? = null,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

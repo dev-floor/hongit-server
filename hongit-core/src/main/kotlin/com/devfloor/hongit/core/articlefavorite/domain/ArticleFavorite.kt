@@ -31,10 +31,10 @@ import javax.persistence.Table
     ]
 )
 class ArticleFavorite(
-    id: Long = 0,
     article: Article,
     user: User,
     type: ArticleFavoriteType,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

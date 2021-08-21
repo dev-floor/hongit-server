@@ -23,8 +23,8 @@ import javax.persistence.Table
     ]
 )
 class Hashtag(
-    id: Long = 0,
     name: String,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
