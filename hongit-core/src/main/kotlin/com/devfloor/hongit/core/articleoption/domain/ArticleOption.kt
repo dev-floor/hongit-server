@@ -28,13 +28,14 @@ import javax.persistence.Table
     ]
 )
 class ArticleOption(
+    id: Long = 0,
     article: Article,
     option: Option,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_option_id")
-    val id: Long = 0
+    val id: Long = id
 
     @ManyToOne
     @JoinColumn(name = "article_id")

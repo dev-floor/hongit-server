@@ -29,13 +29,14 @@ import javax.persistence.Table
     ]
 )
 class BoardOption(
+    id: Long = 0,
     board: Board,
     option: Option,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_option_id")
-    val id: Long = 0
+    val id: Long = id
 
     @ManyToOne
     @JoinColumn(name = "board_id")

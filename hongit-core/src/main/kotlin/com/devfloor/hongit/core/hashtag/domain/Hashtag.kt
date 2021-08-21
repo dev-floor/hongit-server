@@ -23,12 +23,13 @@ import javax.persistence.Table
     ]
 )
 class Hashtag(
+    id: Long = 0,
     name: String,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "hashtag_id")
-    val id: Long = 0
+    val id: Long = id
 
     @Column(name = "name")
     var name: String = name
