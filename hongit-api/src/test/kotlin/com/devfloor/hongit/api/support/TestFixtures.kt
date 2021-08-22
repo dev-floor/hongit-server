@@ -3,7 +3,11 @@ package com.devfloor.hongit.api.support
 import com.devfloor.hongit.api.article.application.response.ArticleResponse
 import com.devfloor.hongit.api.board.application.response.BoardResponse
 import com.devfloor.hongit.api.board.application.response.BoardSimpleResponse
+import com.devfloor.hongit.api.comment.application.request.CommentCreateRequest
+import com.devfloor.hongit.api.comment.application.response.CommentInProfileResponse
+import com.devfloor.hongit.api.comment.application.response.CommentResponse
 import com.devfloor.hongit.api.option.application.response.OptionResponse
+import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.ARTICLE_1
 import com.devfloor.hongit.api.support.TestFixtures.BoardFixture.BOARD_1
 import com.devfloor.hongit.api.support.TestFixtures.CourseFixture.COURSE_1
 import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_1
@@ -17,6 +21,7 @@ import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.board.domain.Board
 import com.devfloor.hongit.core.board.domain.BoardType
+import com.devfloor.hongit.core.comment.domain.Comment
 import com.devfloor.hongit.core.course.domain.Course
 import com.devfloor.hongit.core.course.domain.Grade
 import com.devfloor.hongit.core.course.domain.OpeningSemester
@@ -126,6 +131,38 @@ object TestFixtures {
             option = OPTION_2,
             timetable = Timetable(listOf(Schedule.from("월2"), Schedule.from("월3"), Schedule.from("수3"))),
             board = BOARD_1,
+        )
+    }
+
+    object CommentFixture {
+        val COMMENT_1 = Comment(
+            id = 1,
+            article = ARTICLE_1,
+            author = USER_1,
+            anonymous = false,
+            content = "comment 1",
+        )
+
+        val COMMENT_CREATE_REQUEST_1 = CommentCreateRequest(
+            articleId = ARTICLE_1.id,
+            anonymous = false,
+            content = "comment 1",
+        )
+
+        val COMMENT_RESPONSE_1 = CommentResponse(
+            id = COMMENT_1.id,
+            authorName = COMMENT_1.author.nickname,
+            anonymous = COMMENT_1.anonymous,
+            content = COMMENT_1.content,
+            favoriteCount = 3,
+            createdAt = TEST_CREATED_AT,
+            modifiedAt = TEST_MODIFIED_AT,
+        )
+
+        val COMMENT_IN_PROFILE_RESPONSE_1 = CommentInProfileResponse(
+            commentResponse = COMMENT_RESPONSE_1,
+            articleId = ARTICLE_1.id,
+            articleTitle = ARTICLE_1.title,
         )
     }
 

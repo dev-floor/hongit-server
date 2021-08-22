@@ -51,7 +51,7 @@ internal class BoardControllerDocs {
     }
 
     @Test
-    internal fun `showByBoardId - 게시판 상세조회 문서화`() {
+    internal fun `showByBoardId - 게시판 상세 조회 API 문서화`() {
         // given
         given(boardService.showByBoardId(anyLong())).willReturn(BOARD_RESPONSE_1)
 
@@ -118,7 +118,7 @@ internal class BoardControllerDocs {
     }
 
     @Test
-    internal fun `showAll - 게시판 목록 조회 문서화`() {
+    internal fun `showAll - 게시판 목록 조회 API 문서화`() {
         // given
         given(boardService.showAll()).willReturn(listOf(BOARD_SIMPLE_RESPONSE_1))
 
@@ -164,9 +164,9 @@ internal class BoardControllerDocs {
     }
 
     @Test
-    internal fun `showAllBoardByBoardType - 게시판 유형별 조회 문서화`() {
+    internal fun `showAllBoardByBoardType - 게시판 유형별 조회 API 문서화`() {
         // given
-        given(boardService.showAllBoardByBoardType(any(BoardType::class.java))).willReturn(listOf(BOARD_RESPONSE_1))
+        given(boardService.showAllBoardByBoardType(any())).willReturn(listOf(BOARD_RESPONSE_1))
 
         // when - then
         mockMvc

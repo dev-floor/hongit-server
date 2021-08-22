@@ -113,3 +113,23 @@ include::{snippets}/board/getAllByBoardType/request-parameters.adoc[]
 include::{snippets}/board/getAllByBoardType/http-response.adoc[]
 
 include::{snippets}/board/getAllByBoardType/response-fields.adoc[]
+
+[[comment]]
+== 댓글 (Comment)
+
+댓글과 관련된 API 정리
+
+[[comment-getAllByArticleId]]
+=== 특정 게시글 댓글 목록 조회
+
+==== Request
+
+include::{snippets}/comment/getAllByArticleId/http-request.adoc[]
+
+include::{snippets}/comment/getAllByArticleId/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/comment/getAllByArticleId/http-response.adoc[]
+
+include::{snippets}/comment/getAllByArticleId/response-fields.adoc[]

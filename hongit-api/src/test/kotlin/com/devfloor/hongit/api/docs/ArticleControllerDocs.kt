@@ -45,7 +45,7 @@ internal class ArticleControllerDocs {
     }
 
     @Test
-    internal fun `showByArticleId - 게시글 상세조회 문서화`() {
+    internal fun `showByArticleId - 게시글 상세 조회 API 문서화`() {
         // given
         given(articleService.showByArticleId(anyLong())).willReturn(ARTICLE_RESPONSE_1)
 

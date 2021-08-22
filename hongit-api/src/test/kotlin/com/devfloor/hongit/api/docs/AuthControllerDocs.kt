@@ -44,7 +44,7 @@ internal class AuthControllerDocs {
     }
 
     @Test
-    internal fun `join - 회원가입 문서화 테스트`() {
+    internal fun `join - 회원가입 API 문서화`() {
         // given
         given(authService.join(JOIN_REQUEST_1)).willReturn(1)
 

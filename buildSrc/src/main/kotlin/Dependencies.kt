@@ -6,5 +6,6 @@ object Dependencies {
         const val ktlint = "10.0.0"
         const val querydsl = "4.4.0"
         const val asciiDoctor = "2.4.0"
+        const val mockk = "1.12.0"
     }
 }

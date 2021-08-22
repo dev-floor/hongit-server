@@ -57,6 +57,7 @@ configure(springProjects) {
         testImplementation("org.springframework.boot:spring-boot-starter-test") {
             exclude("junit-platform-commons")
         }
+        testImplementation("io.mockk:mockk:${Dependencies.Versions.mockk}")
     }
 
     configurations {
