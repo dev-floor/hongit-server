@@ -1,4 +1,4 @@
-package com.devfloor.hongit.client.mail.sender.spec
+package com.devfloor.hongit.client.mail.domain.spec
 
 import org.springframework.mail.SimpleMailMessage
 import org.springframework.scheduling.annotation.Async

@@ -1,4 +1,4 @@
-package com.devfloor.hongit.client.mail.sender.config
+package com.devfloor.hongit.client.mail.config
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding

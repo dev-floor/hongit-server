@@ -1,8 +1,8 @@
-package com.devfloor.hongit.client.mail.sender.config
+package com.devfloor.hongit.client.mail.config
 
-import com.devfloor.hongit.client.mail.sender.impl.DefaultMailSender
-import com.devfloor.hongit.client.mail.sender.impl.ProdMailSender
-import com.devfloor.hongit.client.mail.sender.spec.MailSender
+import com.devfloor.hongit.client.mail.domain.impl.DefaultMailSender
+import com.devfloor.hongit.client.mail.domain.impl.ProdMailSender
+import com.devfloor.hongit.client.mail.domain.spec.MailSender
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

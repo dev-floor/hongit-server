@@ -1,6 +1,6 @@
-package com.devfloor.hongit.client.mail.sender.impl
+package com.devfloor.hongit.client.mail.domain.impl
 
-import com.devfloor.hongit.client.mail.sender.spec.MailSender
+import com.devfloor.hongit.client.mail.domain.spec.MailSender
 import com.devfloor.hongit.core.common.config.Slf4j
 import com.devfloor.hongit.core.common.config.Slf4j.Companion.log
 import org.springframework.mail.MailException
