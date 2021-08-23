@@ -21,3 +21,18 @@ mail:
     connection-timeout: 5000
     timeout: 5000
     write-timeout: 5000
+
+hongit:
+  auth-api-url: http://localhost:8080/api/auth
+  auth-url: http://localhost:8080/auth
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+hongit:
+  auth-api-url: https://www.hongit.co.kr/api/auth
+  auth-url: https://www.hongit.co.kr/auth
