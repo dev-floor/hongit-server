@@ -1,4 +1,4 @@
-package com.devfloor.hongit.client.mail.dto
+package com.devfloor.hongit.client.mail.sender.dto
 
 import org.springframework.mail.SimpleMailMessage
 

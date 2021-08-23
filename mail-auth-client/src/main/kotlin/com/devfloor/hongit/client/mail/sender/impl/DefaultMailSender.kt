@@ -1,7 +1,7 @@
-package com.devfloor.hongit.client.mail.impl
+package com.devfloor.hongit.client.mail.sender.impl
 
-import com.devfloor.hongit.client.mail.dto.MailRequest
-import com.devfloor.hongit.client.mail.spec.MailSender
+import com.devfloor.hongit.client.mail.sender.dto.MailRequest
+import com.devfloor.hongit.client.mail.sender.spec.MailSender
 import com.devfloor.hongit.core.common.config.Slf4j
 import com.devfloor.hongit.core.common.config.Slf4j.Companion.log
 

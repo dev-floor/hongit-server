@@ -1,6 +1,6 @@
-package com.devfloor.hongit.client.mail.spec
+package com.devfloor.hongit.client.mail.sender.spec
 
-import com.devfloor.hongit.client.mail.dto.MailRequest
+import com.devfloor.hongit.client.mail.sender.dto.MailRequest
 import org.springframework.scheduling.annotation.Async
 
 interface MailSender {
