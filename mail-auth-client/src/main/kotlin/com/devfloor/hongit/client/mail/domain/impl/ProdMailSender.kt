@@ -10,15 +10,15 @@ import com.devfloor.hongit.core.common.config.Slf4j.Companion.log
 import org.springframework.mail.MailException
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
-import org.thymeleaf.TemplateEngine
 import org.thymeleaf.context.Context
+import org.thymeleaf.spring5.SpringTemplateEngine
 import javax.mail.internet.MimeMessage
 
 @Slf4j
 class ProdMailSender(
     private val sender: JavaMailSender,
     private val properties: MailAuthProperties,
-    private val templateEngine: TemplateEngine,
+    private val templateEngine: SpringTemplateEngine,
 ) : MailSender {
     override fun send(message: MimeMessage): Unit = try {
         sender.send(message)
@@ -30,14 +30,14 @@ class ProdMailSender(
 
     override fun createMimeMessage(request: MailSendRequest, tokenId: String): MimeMessage {
         val message = sender.createMimeMessage()
-        val helper = MimeMessageHelper(message, true)
+        val helper = MimeMessageHelper(message, true, "UTF-8")
 
         helper.setSubject(MAIL_SUBJECT)
         helper.setTo(request.receiverEmail)
         helper.setText(createContent(request, tokenId), true)
 
-        log.info("[ProdMailSender.createMimeMessage] MimeMessage 생성 완료 - receiverEmail: ${request.receiverEmail}, " +
-            "tokenId: $tokenId, authUrl: ${properties.authUrl}")
+        log.info("[ProdMailSender.createMimeMessage] MimeMessage 생성 완료 - " +
+            "receiverEmail: ${request.receiverEmail}, tokenId: $tokenId, authUrl: ${properties.authUrl}")
         return message
     }
 

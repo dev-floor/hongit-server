@@ -9,7 +9,9 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Profile
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.JavaMailSenderImpl
-import org.thymeleaf.TemplateEngine
+import org.thymeleaf.spring5.SpringTemplateEngine
+import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver
+import org.thymeleaf.templatemode.TemplateMode
 import java.util.Properties
 
 @Configuration
@@ -17,7 +19,6 @@ import java.util.Properties
 class MailAuthConfig(
     private val authProperties: MailAuthProperties,
     private val senderProperties: MailSenderProperties,
-    private val templateEngine: TemplateEngine,
 ) {
     @Bean
     @Profile(value = ["!prod"])
@@ -25,7 +26,7 @@ class MailAuthConfig(
 
     @Bean
     @Profile(value = ["prod"])
-    fun prodMailSender(javaMailSender: JavaMailSender): MailSender =
+    fun prodMailSender(javaMailSender: JavaMailSender, templateEngine: SpringTemplateEngine): MailSender =
         ProdMailSender(javaMailSender, authProperties, templateEngine)
 
     @Bean
@@ -48,5 +49,17 @@ class MailAuthConfig(
         javaMailProperties["mail.smtp.starttls.enable"] = senderProperties.starttlsEnable
         javaMailProperties["mail.smtp.starttls.required"] = senderProperties.starttlsRequired
         javaMailProperties["mail.debug"] = senderProperties.debug
+    }
+
+    @Bean
+    fun templateEngine(resolver: SpringResourceTemplateResolver): SpringTemplateEngine = SpringTemplateEngine().apply {
+        setTemplateResolver(resolver)
+    }
+
+    @Bean
+    fun thymeleafTemplateResolver(): SpringResourceTemplateResolver = SpringResourceTemplateResolver().apply {
+        prefix = "classpath:templates/"
+        suffix = ".html"
+        templateMode = TemplateMode.HTML
     }
 }
