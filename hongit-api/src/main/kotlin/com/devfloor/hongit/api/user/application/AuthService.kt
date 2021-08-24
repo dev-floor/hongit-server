@@ -6,6 +6,8 @@ import com.devfloor.hongit.api.common.exception.ErrorMessages.User.EXISTING_USER
 import com.devfloor.hongit.api.common.exception.ErrorMessages.User.INVALID_REQUEST_INFO
 import com.devfloor.hongit.api.common.exception.ErrorMessages.User.PASSWORD_VERIFICATION_MISMATCH
 import com.devfloor.hongit.api.user.application.request.JoinRequest
+import com.devfloor.hongit.client.mail.application.MailAuthService
+import com.devfloor.hongit.client.mail.application.request.MailSendRequest
 import com.devfloor.hongit.core.common.config.Slf4j
 import com.devfloor.hongit.core.common.config.Slf4j.Companion.log
 import com.devfloor.hongit.core.user.domain.UserRepository
@@ -18,14 +20,20 @@ import org.springframework.util.Assert
 class AuthService(
     private val passwordEncoder: PasswordEncoder,
     private val userRepository: UserRepository,
+    private val mailAuthService: MailAuthService,
 ) {
     fun join(request: JoinRequest): Long {
-        validateJoinInfo(request).also { log.info("[AuthService.join] 회원가입 정보 유효성 검증 완료") }
+        validateJoinInfo(request)
 
-        return request.toUser()
-            .apply { updatePassword(passwordEncoder.encode(password)) }
-            .let { userRepository.save(it).id }
-            .also { log.info("[AuthService.join] 회원가입 완료 - UserId: $it") }
+        val user = request.toUser()
+            .apply { encodePassword(passwordEncoder) }
+
+        return userRepository.save(user)
+            .also {
+                mailAuthService.sendAuthenticationMail(MailSendRequest(it))
+                log.info("[AuthService.join] 회원가입 완료 - UserId: ${it.id}")
+            }
+            .id
     }
 
     private fun validateJoinInfo(request: JoinRequest) {
@@ -34,5 +42,7 @@ class AuthService(
         Assert.isTrue(userRepository.existsByUsername(request.username).not(), EXISTING_USERNAME)
         Assert.isTrue(userRepository.existsByNickname(request.nickname).not(), EXISTING_NICKNAME)
         Assert.isTrue(userRepository.existsByClassOf(request.classOf).not(), EXISTING_CLASS_OF)
+
+        log.info("[AuthService.join] 회원가입 정보 유효성 검증 완료")
     }
 }

@@ -38,4 +38,17 @@ internal class EmailTest {
             .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage("유효하지 않은 도메인입니다.")
     }
+
+    @Test
+    internal fun `toEmailString - email의 name과 domain을 연결한 형태로 반환`() {
+        // given
+        val requestEmail = "hello@g.hongik.ac.kr"
+        val email = Email.from(requestEmail)
+
+        // when
+        val actual = email.toEmailString()
+
+        // then
+        assertThat(actual).isEqualTo(requestEmail)
+    }
 }

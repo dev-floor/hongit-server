@@ -1,6 +1,7 @@
 package com.devfloor.hongit.core.user.domain
 
 import com.devfloor.hongit.core.common.domain.BaseEntity
+import org.springframework.security.crypto.password.PasswordEncoder
 import javax.persistence.Column
 import javax.persistence.Embedded
 import javax.persistence.Entity
@@ -93,7 +94,8 @@ class User(
     var description: String? = description
         protected set
 
-    fun updatePassword(password: String) {
-        this.password = password
+    fun encodePassword(passwordEncoder: PasswordEncoder) {
+        val encodedPassword = passwordEncoder.encode(this.password)
+        this.password = encodedPassword
     }
 }
