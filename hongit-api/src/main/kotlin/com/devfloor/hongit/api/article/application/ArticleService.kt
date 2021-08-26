@@ -9,10 +9,12 @@ import com.devfloor.hongit.api.article.domain.ArticleRepositoryCustom
 import com.devfloor.hongit.api.article.domain.ArticleSortType
 import com.devfloor.hongit.api.articlehashtag.application.ArticleHashtagService
 import com.devfloor.hongit.api.articleoption.application.ArticleOptionService
+import com.devfloor.hongit.api.common.domain.PaginationResponse
 import com.devfloor.hongit.api.common.exception.EntityNotFoundException
 import com.devfloor.hongit.api.hashtag.application.HashtagService
 import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.article.domain.ArticleRepository
+import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavorite
 import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavoriteRepository
 import com.devfloor.hongit.core.articlehashtag.domain.ArticleHashtag
 import com.devfloor.hongit.core.articlehashtag.domain.ArticleHashtagRepository
@@ -48,7 +50,7 @@ class ArticleService(
     private val articleOptionService: ArticleOptionService,
     private val hashtagService: HashtagService,
 
-    ) {
+) {
     @Transactional(readOnly = true)
     fun showByArticleId(articleId: Long): ArticleResponse {
         val article = articleRepository.findByIdOrNull(articleId)
@@ -72,42 +74,47 @@ class ArticleService(
     fun showAllByBoardId(
         boardId: Long,
         page: Int,
-        size: Int,
+        range: Int,
         sort: ArticleSortType?,
         options: List<Long>?
     ): List<ArticleFeedResponse> {
         val board = boardRepository.findByIdOrNull(boardId)
             ?: EntityNotFoundException.notExistsId(Board::class, boardId)
 
+        val pagination = PaginationResponse(page, range, articleRepository.countAllByBoard(board))
+
         return when (sort) {
             ArticleSortType.CREATED -> {
-                val pageRequest: PageRequest = PageRequest.of(page, size, Sort.by("createdAt"))
+                val pageRequest: PageRequest = PageRequest.of(page, pagination.listSize, Sort.by("createdAt"))
                 articleRepository.findAllByBoard(board, pageRequest).content
                     .map {
                         ArticleFeedResponse(
                             article = it,
                             articleOptions = articleOptionRepository.findAllByArticle(it),
                             articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                            pagination = pagination
                         )
                     }
             }
             ArticleSortType.VIEW_COUNT -> {
-                val pageRequest: PageRequest = PageRequest.of(page, size)
+                val pageRequest: PageRequest = PageRequest.of(page, pagination.listSize)
                 articleRepositoryCustom.findAllByBoardSortByViewCount(board, pageRequest).map {
                     ArticleFeedResponse(
                         article = it,
                         articleOptions = articleOptionRepository.findAllByArticle(it),
                         articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                        pagination = pagination
                     )
                 }
             }
             ArticleSortType.FAVORITE -> {
-                val pageRequest: PageRequest = PageRequest.of(page, size, Sort.by("createdAt"))
+                val pageRequest: PageRequest = PageRequest.of(page, pagination.listSize, Sort.by("createdAt"))
                 articleRepositoryCustom.findAllByBoardSortByFavorite(board, pageRequest).map {
                     ArticleFeedResponse(
                         article = it,
                         articleOptions = articleOptionRepository.findAllByArticle(it),
                         articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                        pagination = pagination
                     )
                 }
             }
@@ -146,11 +153,13 @@ class ArticleService(
     }
 
     @Transactional(readOnly = true)
-    fun showAllByUserId(userId: Long, page: Int, size: Int): List<ArticleFeedResponse> {
-        val pageRequest: PageRequest = PageRequest.of(page, size)
-        val articles = userRepository.findByIdOrNull(userId)
-            ?.let { articleRepository.findAllByAuthor(it, pageRequest) }
+    fun showAllByUserId(userId: Long, page: Int, range: Int): List<ArticleFeedResponse> {
+        val user: User = userRepository.findByIdOrNull(userId)
             ?: EntityNotFoundException.notExistsId(User::class, userId)
+        val pagination = PaginationResponse(page, range, articleRepository.countAllByAuthor(user))
+        val pageRequest: PageRequest = PageRequest.of(page, pagination.listSize)
+        val articles = user
+            .let { articleRepository.findAllByAuthor(it, pageRequest) }
 
         return articles.content
             .map {
@@ -158,16 +167,24 @@ class ArticleService(
                     article = it,
                     articleOptions = articleOptionRepository.findAllByArticle(it),
                     articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                    pagination = pagination
                 )
             }
     }
 
     @Transactional(readOnly = true)
-    fun showAllByUserIdNotAnonymous(userId: Long, page: Int, size: Int): List<ArticleFeedResponse> {
-        val pageRequest: PageRequest = PageRequest.of(page, size)
-        val articles = userRepository.findByIdOrNull(userId)
-            ?.let { articleRepository.findAllByAuthorAndAnonymousFalse(it, pageRequest) }
+    fun showAllByUserIdNotAnonymous(userId: Long, page: Int, range: Int): List<ArticleFeedResponse> {
+        val user: User = userRepository.findByIdOrNull(userId)
             ?: EntityNotFoundException.notExistsId(User::class, userId)
+        val pagination = PaginationResponse(
+            page, range,
+            articleRepository.countAllByAuhorAndAndAnonymousFalse(
+                user
+            )
+        )
+        val pageRequest: PageRequest = PageRequest.of(page, pagination.listSize)
+        val articles = user
+            .let { articleRepository.findAllByAuthorAndAnonymousFalse(it, pageRequest) }
 
         return articles.content
             .map {
@@ -175,19 +192,23 @@ class ArticleService(
                     article = it,
                     articleOptions = articleOptionRepository.findAllByArticle(it),
                     articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                    pagination = pagination
                 )
             }
     }
 
     @Transactional(readOnly = true)
-    fun showAllByFavoritedUserId(userId: Long, page: Int, size: Int): List<ArticleFeedResponse> {
-        val pageRequest: PageRequest = PageRequest.of(page, size)
-        val articles = userRepository.findByIdOrNull(userId)
-            ?.let(articleFavoriteRepository::findAllByUser)
-            ?.let {
+    fun showAllByFavoritedUserId(userId: Long, page: Int, range: Int): List<ArticleFeedResponse> {
+        val user: User = userRepository.findByIdOrNull(userId)
+            ?: EntityNotFoundException.notExistsId(User::class, userId)
+        val articleFavorites: List<ArticleFavorite> = articleFavoriteRepository.findAllByUser(user)
+        val pagination =
+            PaginationResponse(page, range, articleRepository.countAllByIdIn(articleFavorites.map { it.id }))
+        val pageRequest: PageRequest = PageRequest.of(page, range)
+        val articles = articleFavorites
+            .let {
                 articleRepository.findAllByIdIn(it.map { it.id }, pageRequest)
-
-            } ?: EntityNotFoundException.notExistsId(User::class, userId)
+            }
 
         return articles.content
             .map {
@@ -195,6 +216,7 @@ class ArticleService(
                     article = it,
                     articleOptions = articleOptionRepository.findAllByArticle(it),
                     articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                    pagination = pagination
                 )
             }
     }

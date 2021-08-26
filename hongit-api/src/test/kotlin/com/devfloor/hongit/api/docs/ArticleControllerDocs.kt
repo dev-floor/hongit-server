@@ -131,7 +131,7 @@ internal class ArticleControllerDocs {
             )
     }
 
-    //@Test
+    // @Test
     internal fun `showAllByBoardId - 게시글 목록조회(게시판) 문서화`() {
         // given
         given(

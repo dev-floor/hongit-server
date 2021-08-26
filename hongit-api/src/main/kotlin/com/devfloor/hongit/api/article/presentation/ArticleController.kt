@@ -38,10 +38,10 @@ class ArticleController(
     @ResponseStatus(value = HttpStatus.OK)
     fun showAllByUserId(
         @RequestParam userId: Long,
-        @RequestParam page: Int,
-        @RequestParam size: Int,
+        @RequestParam(required = false, defaultValue = "1") page: Int,
+        @RequestParam(required = false, defaultValue = "1") range: Int,
     ): List<ArticleFeedResponse> =
-        articleService.showAllByUserId(userId, page, size)
+        articleService.showAllByUserId(userId, page, range)
 
     /**
      * 스크린: 게시판 > 게시글 목록 조회
@@ -52,10 +52,10 @@ class ArticleController(
         @RequestParam boardId: Long,
         @RequestParam(required = false) sort: ArticleSortType?,
         @RequestParam(required = false) options: List<Long>?,
-        @RequestParam page: Int,
-        @RequestParam size: Int,
+        @RequestParam(required = false, defaultValue = "1") page: Int,
+        @RequestParam(required = false, defaultValue = "1") range: Int,
     ): List<ArticleFeedResponse> =
-        articleService.showAllByBoardId(boardId, page, size, sort, options)
+        articleService.showAllByBoardId(boardId, page, range, sort, options)
             .also { log.info("boardId = $boardId, sort = $sort, options = $options") }
 
     /**
@@ -67,14 +67,14 @@ class ArticleController(
     fun showAllByUserId(
         @LoginUser loginUser: User,
         @RequestParam authorId: Long,
-        @RequestParam page: Int,
-        @RequestParam size: Int,
+        @RequestParam(required = false, defaultValue = "1") page: Int,
+        @RequestParam(required = false, defaultValue = "1") range: Int,
     ): List<ArticleFeedResponse> {
         return if (loginUser.id == authorId) {
-            articleService.showAllByUserId(authorId, page, size)
+            articleService.showAllByUserId(authorId, page, range)
                 .also { log.info("userId = $authorId") }
         } else {
-            articleService.showAllByUserIdNotAnonymous(authorId, page, size)
+            articleService.showAllByUserIdNotAnonymous(authorId, page, range)
                 .also { log.info("userId = $authorId") }
         }
     }
@@ -88,10 +88,10 @@ class ArticleController(
         @LoginUser loginUser: User,
         @RequestParam(value = "favoritedUserId") userId: Long,
         @RequestParam(value = "favoriteType") type: String,
-        @RequestParam page: Int,
-        @RequestParam size: Int,
+        @RequestParam(required = false, defaultValue = "1") page: Int,
+        @RequestParam(required = false, defaultValue = "1") range: Int,
     ): List<ArticleFeedResponse> {
-        return articleService.showAllByFavoritedUserId(userId, page, size)
+        return articleService.showAllByFavoritedUserId(userId, page, range)
             .also { log.info("userId = $userId, type = $type") }
     }
 
