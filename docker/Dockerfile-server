@@ -6,10 +6,10 @@ COPY gradlew .
 COPY gradle gradle
 COPY build.gradle.kts .
 COPY settings.gradle.kts .
-COPY src src
+COPY hongit-api/src src
 
 RUN chmod +x ./gradlew
-RUN ./gradlew bootJar
+RUN ./gradlew hongit-api:bootJar
 
 FROM amazoncorretto:11-alpine-jdk
 
@@ -17,8 +17,8 @@ WORKDIR .
 
 EXPOSE 8080
 
-ARG JAR_FILE=build/libs/hongit-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=hongit-api/build/libs/hongit-api-1.0.0.jar
 
-COPY --from=builder ${JAR_FILE} hongit-0.0.1-SNAPSHOT.jar
+COPY --from=builder ${JAR_FILE} hongit-api-1.0.0.jar
 
-ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=dev", "-jar", "/hongit-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-Djava.security.egd=file:/dev/./urandom", "-Dspring.profiles.active=dev", "-jar", "/hongit-api-1.0.0.jar"]
