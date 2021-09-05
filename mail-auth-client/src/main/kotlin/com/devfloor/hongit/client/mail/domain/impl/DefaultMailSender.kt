@@ -17,7 +17,9 @@ class DefaultMailSender(
 
     override fun createMimeMessage(request: MailSendRequest, tokenId: String): MimeMessage = sender.createMimeMessage()
         .also {
-            log.info("[DefaultMailSender.createMimeMessage] MimeMessage 생성 완료 - " +
-                "receiverEmail: ${request.receiverEmail}, tokenId: $tokenId")
+            log.info(
+                "[DefaultMailSender.createMimeMessage] MimeMessage 생성 완료 - receiverEmail: " +
+                    "${request.receiverEmail}, tokenId: $tokenId"
+            )
         }
 }

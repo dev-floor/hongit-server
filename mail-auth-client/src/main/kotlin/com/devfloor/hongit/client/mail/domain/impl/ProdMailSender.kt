@@ -36,8 +36,10 @@ class ProdMailSender(
         helper.setTo(request.receiverEmail)
         helper.setText(createContent(request, tokenId), true)
 
-        log.info("[ProdMailSender.createMimeMessage] MimeMessage 생성 완료 - " +
-            "receiverEmail: ${request.receiverEmail}, tokenId: $tokenId, authUrl: ${properties.authUrl}")
+        log.info(
+            "[ProdMailSender.createMimeMessage] MimeMessage 생성 완료 - " +
+                "receiverEmail: ${request.receiverEmail}, tokenId: $tokenId, authUrl: ${properties.authUrl}"
+        )
         return message
     }
 
