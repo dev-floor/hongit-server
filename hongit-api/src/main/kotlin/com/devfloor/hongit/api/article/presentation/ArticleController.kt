@@ -37,10 +37,10 @@ class ArticleController(
     fun showAllByBoardId(@RequestParam boardId: Long): List<ArticleFeedResponse> =
         articleService.showAllByBoardId(boardId)
 
-    @GetMapping(params = ["userId"])
+    @GetMapping(params = ["nickname"])
     @ResponseStatus(value = HttpStatus.OK)
-    fun showAllByUserId(@RequestParam userId: Long): List<ArticleFeedResponse> =
-        articleService.showAllByUserId(userId)
+    fun showAllByNickname(@RequestParam nickname: String): List<ArticleFeedResponse> =
+        articleService.showAllByNickname(nickname)
 
     @PostMapping
     fun create(@RequestBody request: ArticleCreateRequest, @LoginUser author: User): ResponseEntity<Unit> {

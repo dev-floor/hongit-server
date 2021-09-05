@@ -1,6 +1,5 @@
 package com.devfloor.hongit.api.comment.application.response
 
-import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.core.comment.domain.Comment
 import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
@@ -8,7 +7,7 @@ import java.time.LocalDateTime
 data class CommentResponse(
     val id: Long,
 
-    val author: ProfileResponse,
+    val authorName: String,
 
     val anonymous: Boolean,
 
@@ -27,7 +26,7 @@ data class CommentResponse(
         favoriteCount: Long = 0,
     ) : this(
         id = comment.id,
-        author = ProfileResponse(comment.author),
+        authorName = comment.author.nickname,
         anonymous = comment.anonymous,
         content = comment.content,
         favoriteCount = favoriteCount,

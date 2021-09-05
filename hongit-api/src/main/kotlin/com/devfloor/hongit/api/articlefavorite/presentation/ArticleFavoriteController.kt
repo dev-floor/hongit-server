@@ -26,9 +26,9 @@ class ArticleFavoriteController(
     @ResponseStatus(value = HttpStatus.CREATED)
     fun create(
         @RequestBody request: ArticleFavoriteCreateRequest,
-        @LoginUser user: User,
+        @LoginUser loginUser: User,
     ): ResponseEntity<Unit> {
-        val articleFavoriteId = articleFavoriteService.create(request, user)
+        val articleFavoriteId = articleFavoriteService.create(request, loginUser)
         return ResponseEntity.created(URI.create("$ARTICLE_FAVORITE_API_URI/$articleFavoriteId")).build()
     }
 
@@ -36,8 +36,8 @@ class ArticleFavoriteController(
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     fun destroy(
         @RequestParam articleId: Long,
-        @LoginUser user: User,
-    ) = articleFavoriteService.destroy(articleId, user)
+        @LoginUser loginUser: User,
+    ) = articleFavoriteService.destroy(articleId, loginUser)
 
     companion object {
         const val ARTICLE_FAVORITE_API_URI = "$BASE_API_URI/article-favorites"

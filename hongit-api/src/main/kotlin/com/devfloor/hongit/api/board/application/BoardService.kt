@@ -8,8 +8,11 @@ import com.devfloor.hongit.core.board.domain.Board
 import com.devfloor.hongit.core.board.domain.BoardRepository
 import com.devfloor.hongit.core.board.domain.BoardType
 import com.devfloor.hongit.core.boardoption.domain.BoardOptionRepository
+import com.devfloor.hongit.core.bookmarkboard.domain.BoardBookmark
+import com.devfloor.hongit.core.bookmarkboard.domain.BoardBookmarkRepository
 import com.devfloor.hongit.core.common.config.Slf4j
 import com.devfloor.hongit.core.common.config.Slf4j.Companion.log
+import com.devfloor.hongit.core.user.domain.User
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional
 class BoardService(
     private val boardRepository: BoardRepository,
     private val boardOptionRepository: BoardOptionRepository,
+    private val boardBookmarkRepository: BoardBookmarkRepository,
 
     private val courseService: CourseService,
 ) {
@@ -64,5 +68,13 @@ class BoardService(
                 BoardResponse(it, course)
             }
             .also { log.info("[BoardService.showAllBoardByBoardType] 수업 게시판 선택 화면 조회 - response: $it") }
+    }
+
+    @Transactional
+    fun modifyAllBoardBookmarks(boardIds: List<Long>, user: User) {
+        boardBookmarkRepository.deleteAllByUser(user)
+        boardRepository.findAllById(boardIds)
+            .map { BoardBookmark(board = it, user = user) }
+            .let(boardBookmarkRepository::saveAll)
     }
 }

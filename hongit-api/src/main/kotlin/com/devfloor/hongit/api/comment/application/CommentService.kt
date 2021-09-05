@@ -12,6 +12,7 @@ import com.devfloor.hongit.core.comment.domain.CommentRepository
 import com.devfloor.hongit.core.commentfavorite.domain.CommentFavoriteRepository
 import com.devfloor.hongit.core.user.domain.User
 import com.devfloor.hongit.core.user.domain.UserRepository
+import com.devfloor.hongit.core.user.domain.findByNicknameOrNull
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -38,17 +39,19 @@ class CommentService(
     }
 
     @Transactional(readOnly = true)
-    fun showAllByUserId(userId: Long): List<CommentInProfileResponse> {
-        val comments = userRepository.findByIdOrNull(userId)
+    fun showAllByNickname(nickname: String): List<CommentInProfileResponse> {
+        val comments = userRepository.findByNicknameOrNull(nickname)
             ?.let(commentRepository::findAllByAuthor)
-            ?: EntityNotFoundException.notExistsId(User::class, userId)
+            ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
 
-        return comments.map {
-            CommentInProfileResponse(
-                comment = it,
-                favoriteCount = commentFavoriteRepository.countAllByComment(it),
-            )
-        }
+        return comments
+            .filter { !it.anonymous }
+            .map {
+                CommentInProfileResponse(
+                    comment = it,
+                    favoriteCount = commentFavoriteRepository.countAllByComment(it),
+                )
+            }
     }
 
     @Transactional

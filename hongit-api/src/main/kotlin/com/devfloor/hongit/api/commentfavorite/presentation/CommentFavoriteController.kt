@@ -22,15 +22,15 @@ class CommentFavoriteController(
 ) {
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED)
-    fun create(@RequestParam commentId: Long, @LoginUser user: User): ResponseEntity<Unit> {
-        val commentFavoriteId = commentFavoriteService.create(commentId, user)
+    fun create(@RequestParam commentId: Long, @LoginUser loginUser: User): ResponseEntity<Unit> {
+        val commentFavoriteId = commentFavoriteService.create(commentId, loginUser)
         return ResponseEntity.created(URI.create("$COMMENT_FAVORITE_API_URI/$commentFavoriteId")).build()
     }
 
     @DeleteMapping
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun destroy(@RequestParam commentId: Long, @LoginUser user: User) =
-        commentFavoriteService.destroy(commentId, user)
+    fun destroy(@RequestParam commentId: Long, @LoginUser loginUser: User) =
+        commentFavoriteService.destroy(commentId, loginUser)
 
     companion object {
         const val COMMENT_FAVORITE_API_URI = "$BASE_API_URI/comment-favorites"

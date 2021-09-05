@@ -33,10 +33,10 @@ class CommentController(
     fun showAllByArticleId(@RequestParam articleId: Long): List<CommentResponse> =
         commentService.showAllByArticleId(articleId)
 
-    @GetMapping(params = ["userId"])
+    @GetMapping(params = ["nickname"])
     @ResponseStatus(value = HttpStatus.OK)
-    fun showAllByUserId(@RequestParam userId: Long): List<CommentInProfileResponse> =
-        commentService.showAllByUserId(userId)
+    fun showAllByNickname(@RequestParam nickname: String): List<CommentInProfileResponse> =
+        commentService.showAllByNickname(nickname)
 
     @PostMapping
     fun create(
