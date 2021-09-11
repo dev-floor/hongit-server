@@ -10,14 +10,16 @@ import com.devfloor.hongit.api.support.ApiDocumentFormatGenerator.dateTimeFormat
 import com.devfloor.hongit.api.support.MockitoHelper.any
 import com.devfloor.hongit.api.support.TestFixtures.CommentFixture.COMMENT_CREATE_REQUEST_1
 import com.devfloor.hongit.api.support.TestFixtures.CommentFixture.COMMENT_IN_PROFILE_RESPONSE_1
+import com.devfloor.hongit.api.support.TestFixtures.CommentFixture.COMMENT_MODIFY_REQUEST_1
 import com.devfloor.hongit.api.support.TestFixtures.CommentFixture.COMMENT_RESPONSE_1
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_1
 import com.devfloor.hongit.core.user.domain.UserRepository
 import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.anyLong
+import org.mockito.BDDMockito.anyString
 import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.willDoNothing
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.springframework.http.HttpHeaders
@@ -96,11 +98,10 @@ internal class CommentControllerDocs {
             )
     }
 
-    @Disabled // TODO: 2021/08/22 nickname 코드 반영 후 다시
     @Test
-    internal fun `showAllByUserId - 특정 회원 댓글 목록 조회 API 문서화`() {
+    internal fun `showAllByNickname - 특정 회원 댓글 목록 조회 API 문서화`() {
         // given
-        given(commentService.showAllByUserId(anyLong())).willReturn(listOf(COMMENT_IN_PROFILE_RESPONSE_1))
+        given(commentService.showAllByNickname(anyString())).willReturn(listOf(COMMENT_IN_PROFILE_RESPONSE_1))
 
         // when - then
         mockMvc
@@ -119,20 +120,20 @@ internal class CommentControllerDocs {
                         parameterWithName("nickname").description("특정 회원의 닉네임")
                     ),
                     PayloadDocumentation.responseFields(
-                        fieldWithPath("[].commentResponse.id").type(JsonFieldType.NUMBER)
+                        fieldWithPath("[].comment.id").type(JsonFieldType.NUMBER)
                             .description("댓글 ID"),
-                        fieldWithPath("[].commentResponse.authorName").type(JsonFieldType.STRING)
+                        fieldWithPath("[].comment.authorName").type(JsonFieldType.STRING)
                             .description("댓글 작성자 닉네임"),
-                        fieldWithPath("[].commentResponse.anonymous").type(JsonFieldType.BOOLEAN)
+                        fieldWithPath("[].comment.anonymous").type(JsonFieldType.BOOLEAN)
                             .description("댓글 익명 여부"),
-                        fieldWithPath("[].commentResponse.content").type(JsonFieldType.STRING)
+                        fieldWithPath("[].comment.content").type(JsonFieldType.STRING)
                             .description("댓글 내용"),
-                        fieldWithPath("[].commentResponse.favoriteCount").type(JsonFieldType.NUMBER)
+                        fieldWithPath("[].comment.favoriteCount").type(JsonFieldType.NUMBER)
                             .description("댓글 좋아요 개수"),
-                        fieldWithPath("[].commentResponse.createdAt").type(JsonFieldType.STRING)
+                        fieldWithPath("[].comment.createdAt").type(JsonFieldType.STRING)
                             .dateTimeFormat()
                             .description("댓글 생성 시간"),
-                        fieldWithPath("[].commentResponse.modifiedAt").type(JsonFieldType.STRING)
+                        fieldWithPath("[].comment.modifiedAt").type(JsonFieldType.STRING)
                             .dateTimeFormat()
                             .description("댓글 수정 시간"),
                         fieldWithPath("[].articleId").type(JsonFieldType.NUMBER)
@@ -195,6 +196,84 @@ internal class CommentControllerDocs {
                         fieldWithPath("modifiedAt").type(JsonFieldType.STRING)
                             .dateTimeFormat()
                             .description("댓글 수정 시간")
+                    )
+                )
+            )
+    }
+
+    @Test
+    internal fun `modifyByCommentId - 댓글 수정 API 문서화`() {
+        // given
+        given(commentService.modifyByCommentId(anyLong(), any())).willReturn(COMMENT_RESPONSE_1)
+        given(userRepository.findAll()).willReturn(listOf(USER_1))
+
+        // when - then
+        mockMvc
+            .perform(
+                RestDocumentationRequestBuilders.put("$COMMENT_API_URI/{commentId}", COMMENT_RESPONSE_1.id)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(ApiDocsTestUtils.convertAsJson(COMMENT_MODIFY_REQUEST_1))
+                    .accept(MediaType.APPLICATION_JSON)
+            )
+            .andExpect(status().isOk)
+            .andDo(
+                MockMvcRestDocumentation.document(
+                    "comment/put",
+                    Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                    Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                    RequestDocumentation.pathParameters(
+                        parameterWithName("commentId").description("수정할 댓글 ID")
+                    ),
+                    PayloadDocumentation.requestFields(
+                        fieldWithPath("content").type(JsonFieldType.STRING)
+                            .description("수정 댓글 내용"),
+                    ),
+                    PayloadDocumentation.responseFields(
+                        fieldWithPath("id").type(JsonFieldType.NUMBER)
+                            .description("댓글 ID"),
+                        fieldWithPath("authorName").type(JsonFieldType.STRING)
+                            .description("댓글 작성자 닉네임"),
+                        fieldWithPath("anonymous").type(JsonFieldType.BOOLEAN)
+                            .description("댓글 익명 여부"),
+                        fieldWithPath("content").type(JsonFieldType.STRING)
+                            .description("댓글 내용"),
+                        fieldWithPath("favoriteCount").type(JsonFieldType.NUMBER)
+                            .description("댓글 좋아요 개수"),
+                        fieldWithPath("createdAt").type(JsonFieldType.STRING)
+                            .dateTimeFormat()
+                            .description("댓글 생성 시간"),
+                        fieldWithPath("modifiedAt").type(JsonFieldType.STRING)
+                            .dateTimeFormat()
+                            .description("댓글 수정 시간")
+                    )
+                )
+            )
+    }
+
+    @Test
+    internal fun `destroyByCommentId - 댓글 삭제 API 문서화`() {
+        // given
+        willDoNothing().given(commentService).destroyByCommentId(anyLong())
+        given(userRepository.findAll()).willReturn(listOf(USER_1))
+
+        // when - then
+        mockMvc
+            .perform(
+                RestDocumentationRequestBuilders.delete("$COMMENT_API_URI/{commentId}", 1)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer secretsecretsecret")
+            )
+            .andExpect(status().isNoContent)
+            .andDo(
+                MockMvcRestDocumentation.document(
+                    "comment/delete",
+                    Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                    Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                    RequestDocumentation.pathParameters(
+                        parameterWithName("commentId").description("삭제할 댓글 ID")
+                    ),
+                    HeaderDocumentation.requestHeaders(
+                        HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).authorizationFormat()
+                            .description("(로그인시 발급되는) 인증 토큰")
                     )
                 )
             )

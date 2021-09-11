@@ -4,6 +4,7 @@ import com.devfloor.hongit.api.article.application.response.ArticleResponse
 import com.devfloor.hongit.api.board.application.response.BoardResponse
 import com.devfloor.hongit.api.board.application.response.BoardSimpleResponse
 import com.devfloor.hongit.api.comment.application.request.CommentCreateRequest
+import com.devfloor.hongit.api.comment.application.request.CommentModifyRequest
 import com.devfloor.hongit.api.comment.application.response.CommentInProfileResponse
 import com.devfloor.hongit.api.comment.application.response.CommentResponse
 import com.devfloor.hongit.api.option.application.response.OptionResponse
@@ -149,6 +150,8 @@ object TestFixtures {
             content = "comment 1",
         )
 
+        val COMMENT_MODIFY_REQUEST_1 = CommentModifyRequest("modified content 1")
+
         val COMMENT_RESPONSE_1 = CommentResponse(
             id = COMMENT_1.id,
             authorName = COMMENT_1.author.nickname,
@@ -160,7 +163,7 @@ object TestFixtures {
         )
 
         val COMMENT_IN_PROFILE_RESPONSE_1 = CommentInProfileResponse(
-            commentResponse = COMMENT_RESPONSE_1,
+            comment = COMMENT_RESPONSE_1,
             articleId = ARTICLE_1.id,
             articleTitle = ARTICLE_1.title,
         )
