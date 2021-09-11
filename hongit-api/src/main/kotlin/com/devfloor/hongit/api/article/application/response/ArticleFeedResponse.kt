@@ -1,6 +1,5 @@
 package com.devfloor.hongit.api.article.application.response
 
-import com.devfloor.hongit.api.common.domain.PaginationResponse
 import com.devfloor.hongit.api.common.utils.SEOUL_TIME_ZONE
 import com.devfloor.hongit.api.option.application.response.OptionResponse
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
@@ -31,7 +30,9 @@ data class ArticleFeedResponse(
 
     val clipCount: Long,
 
-    val pagination: PaginationResponse,
+    val page: Int,
+
+    val totalArticleCount: Int,
 
     @JsonFormat(
         pattern = LOCAL_DATE_TIME_FORMAT,
@@ -51,7 +52,8 @@ data class ArticleFeedResponse(
         article: Article,
         articleOptions: List<ArticleOption>,
         articleFavorites: List<ArticleFavorite>,
-        pagination: PaginationResponse
+        page: Int,
+        totalArticleCount: Int,
     ) : this(
         id = article.id,
         options = articleOptions.map { OptionResponse(it.option) },
@@ -62,7 +64,8 @@ data class ArticleFeedResponse(
         favoriteCount = articleFavorites.count { it.matchesType(ArticleFavoriteType.FAVORITE) }.toLong(),
         wonderCount = articleFavorites.count { it.matchesType(ArticleFavoriteType.WONDER) }.toLong(),
         clipCount = articleFavorites.count { it.matchesType(ArticleFavoriteType.CLIP) }.toLong(),
-        pagination = pagination,
+        page = page,
+        totalArticleCount = totalArticleCount,
         createdAt = article.createdAt,
         modifiedAt = article.modifiedAt,
     )
