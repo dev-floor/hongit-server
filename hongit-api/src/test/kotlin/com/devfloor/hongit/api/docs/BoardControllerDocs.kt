@@ -88,7 +88,6 @@ internal class BoardControllerDocs {
                             .enumFormat(BoardType::class)
                             .description("게시판 유형"),
                         fieldWithPath("type.text").type(JsonFieldType.STRING)
-                            .enumFormat(BoardType::class)
                             .description("게시판 유형 설명"),
                         fieldWithPath("grade.id").type(JsonFieldType.STRING)
                             .optional()
@@ -96,7 +95,6 @@ internal class BoardControllerDocs {
                             .description("(수업게시판만) 게시판 수업의 개설 학년"),
                         fieldWithPath("grade.text").type(JsonFieldType.STRING)
                             .optional()
-                            .enumFormat(Grade::class)
                             .description("(수업게시판만) 게시판 수업의 개설 학년 설명"),
                         fieldWithPath("options[].id").type(JsonFieldType.NUMBER)
                             .optional()
@@ -110,7 +108,6 @@ internal class BoardControllerDocs {
                             .description("게시판 옵션의 유형"),
                         fieldWithPath("options[].type.text").type(JsonFieldType.STRING)
                             .optional()
-                            .enumFormat(OptionType::class)
                             .description("게시판 옵션의 유형 설명"),
                     )
                 )
@@ -148,7 +145,6 @@ internal class BoardControllerDocs {
                             .enumFormat(BoardType::class)
                             .description("게시판 유형"),
                         fieldWithPath("[].type.text").type(JsonFieldType.STRING)
-                            .enumFormat(BoardType::class)
                             .description("게시판 유형 설명"),
                         fieldWithPath("[].grade.id").type(JsonFieldType.STRING)
                             .optional()
@@ -203,7 +199,6 @@ internal class BoardControllerDocs {
                             .enumFormat(BoardType::class)
                             .description("게시판 유형"),
                         fieldWithPath("[].type.text").type(JsonFieldType.STRING)
-                            .enumFormat(BoardType::class)
                             .description("게시판 유형 설명"),
                         fieldWithPath("[].grade.id").type(JsonFieldType.STRING)
                             .optional()
@@ -211,7 +206,6 @@ internal class BoardControllerDocs {
                             .description("(수업게시판만) 게시판 수업의 개설 학년"),
                         fieldWithPath("[].grade.text").type(JsonFieldType.STRING)
                             .optional()
-                            .enumFormat(Grade::class)
                             .description("(수업게시판만) 게시판 수업의 개설 학년 설명"),
                         fieldWithPath("[].options[].id").type(JsonFieldType.NUMBER)
                             .optional()
@@ -225,7 +219,6 @@ internal class BoardControllerDocs {
                             .description("게시판 옵션의 유형"),
                         fieldWithPath("[].options[].type.text").type(JsonFieldType.STRING)
                             .optional()
-                            .enumFormat(OptionType::class)
                             .description("게시판 옵션의 유형 설명"),
                     )
                 )

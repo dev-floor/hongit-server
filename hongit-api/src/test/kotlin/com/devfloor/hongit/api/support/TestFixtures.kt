@@ -68,6 +68,8 @@ object TestFixtures {
             blog = "blog",
             description = "test user description",
         )
+
+        val PROFILE_RESPONSE_1 = ProfileResponse(USER_1)
     }
 
     object ArticleFixture {
