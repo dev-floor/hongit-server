@@ -5,16 +5,12 @@ import com.devfloor.hongit.api.board.application.response.BoardResponse
 import com.devfloor.hongit.api.board.application.response.BoardSimpleResponse
 import com.devfloor.hongit.api.board.presentation.BoardController.Companion.BOARD_API_URI
 import com.devfloor.hongit.api.common.utils.BASE_API_URI
-import com.devfloor.hongit.api.security.core.LoginUser
 import com.devfloor.hongit.core.board.domain.BoardType
 import com.devfloor.hongit.core.common.config.Slf4j
 import com.devfloor.hongit.core.common.config.Slf4j.Companion.log
-import com.devfloor.hongit.core.user.domain.User
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.ResponseStatus
@@ -50,13 +46,6 @@ class BoardController(
         return boardService.showAllBoardByBoardType(type)
             .also { log.info("[BoardController.showAllBoardByBoardType] 수업 게시판 선택 화면 조회 완료 - response: $it") }
     }
-
-    @PutMapping("/bookmarks")
-    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun modifyAllBoardBookmarks(
-        @RequestBody boardIds: List<Long>,
-        @LoginUser loginUser: User,
-    ) = boardService.modifyAllBoardBookmarks(boardIds, loginUser)
 
     companion object {
         const val BOARD_API_URI = "$BASE_API_URI/boards"
