@@ -82,8 +82,6 @@ internal class ArticleControllerDocs {
                             .description("게시글 제목"),
                         fieldWithPath("anonymous").type(JsonFieldType.BOOLEAN)
                             .description("게시글 익명 여부"),
-                        fieldWithPath("author.username").type(JsonFieldType.STRING)
-                            .description("게시글의 작성자 계정"),
                         fieldWithPath("author.nickname").type(JsonFieldType.STRING)
                             .description("게시글의 작성자 닉네임"),
                         fieldWithPath("author.type.id").type(JsonFieldType.STRING)

@@ -24,26 +24,6 @@ endif::[]
 |`http://34.64.111.91:8080`
 |===
 
-[[user]]
-== 회원 (User)
-
-회원과 관련된 API 정리
-
-[[user-join]]
-=== 회원 가입
-
-==== Request
-
-include::{snippets}/user/join/http-request.adoc[]
-
-include::{snippets}/user/join/request-fields.adoc[]
-
-==== Response
-
-include::{snippets}/user/join/http-response.adoc[]
-
-include::{snippets}/user/join/response-headers.adoc[]
-
 [[article]]
 == 게시글 (Article)
 
@@ -133,3 +113,98 @@ include::{snippets}/comment/getAllByArticleId/request-parameters.adoc[]
 include::{snippets}/comment/getAllByArticleId/http-response.adoc[]
 
 include::{snippets}/comment/getAllByArticleId/response-fields.adoc[]
+
+[[comment-getAllByNickname]]
+=== 특정 회원 댓글 목록 조회
+
+==== Request
+
+include::{snippets}/comment/getAllByNickname/http-request.adoc[]
+
+include::{snippets}/comment/getAllByNickname/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/comment/getAllByNickname/http-response.adoc[]
+
+include::{snippets}/comment/getAllByNickname/response-fields.adoc[]
+
+[[comment-post]]
+=== 댓글 생성
+
+==== Request
+
+include::{snippets}/comment/post/http-request.adoc[]
+
+include::{snippets}/comment/post/request-headers.adoc[]
+
+include::{snippets}/comment/post/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/comment/post/http-response.adoc[]
+
+include::{snippets}/comment/post/request-fields.adoc[]
+
+[[comment-putByCommentId]]
+=== 댓글 수정
+
+==== Request
+
+include::{snippets}/comment/putByCommentId/http-request.adoc[]
+
+include::{snippets}/comment/putByCommentId/path-parameters.adoc[]
+
+include::{snippets}/comment/putByCommentId/request-headers.adoc[]
+
+include::{snippets}/comment/putByCommentId/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/comment/putByCommentId/http-response.adoc[]
+
+include::{snippets}/comment/putByCommentId/request-fields.adoc[]
+
+[[comment-deleteByCommentId]]
+==== Request
+
+include::{snippets}/comment/deleteByCommentId/http-request.adoc[]
+
+include::{snippets}/comment/deleteByCommentId/path-parameters.adoc[]
+
+include::{snippets}/comment/deleteByCommentId/request-headers.adoc[]
+
+[[user]]
+== 회원 (User)
+
+회원과 관련된 API 정리
+
+[[user-join]]
+=== 회원 가입
+
+==== Request
+
+include::{snippets}/user/join/http-request.adoc[]
+
+include::{snippets}/user/join/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/user/join/http-response.adoc[]
+
+include::{snippets}/user/join/response-headers.adoc[]
+
+[[user-getByNickname]]
+=== 사용자 조회
+
+==== Request
+
+include::{snippets}/user/getByNickname/http-request.adoc[]
+
+include::{snippets}/user/getByNickname/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/user/getByNickname/http-response.adoc[]
+
+include::{snippets}/user/getByNickname/response-fields.adoc[]

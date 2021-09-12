@@ -43,7 +43,7 @@ internal class UserControllerDocs {
     }
 
     @Test
-    internal fun `showByNickname - 닉네임 사용자 조회 API 문서화`() {
+    internal fun `showByNickname - 사용자 조회 API 문서화`() {
         // given
         given(userService.showByNickname(anyString())).willReturn(PROFILE_RESPONSE_1)
 
@@ -71,16 +71,16 @@ internal class UserControllerDocs {
                             .description("사용자 유형 설명"),
                         fieldWithPath("image").type(JsonFieldType.STRING)
                             .optional()
-                            .description("프로필 이미지 링크"),
+                            .description("프로필 사진 URL"),
                         fieldWithPath("github").type(JsonFieldType.STRING)
                             .optional()
-                            .description("깃허브 닉네임"),
+                            .description("Github 계정"),
                         fieldWithPath("blog").type(JsonFieldType.STRING)
                             .optional()
                             .description("블로그 주소"),
                         fieldWithPath("description").type(JsonFieldType.STRING)
                             .optional()
-                            .description("프로필 설명")
+                            .description("프로필 소개")
                     )
                 )
             )

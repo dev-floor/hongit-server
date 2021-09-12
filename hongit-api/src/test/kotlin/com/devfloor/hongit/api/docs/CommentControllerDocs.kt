@@ -211,6 +211,7 @@ internal class CommentControllerDocs {
         mockMvc
             .perform(
                 RestDocumentationRequestBuilders.put("$COMMENT_API_URI/{commentId}", COMMENT_RESPONSE_1.id)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer secretsecretsecret")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(ApiDocsTestUtils.convertAsJson(COMMENT_MODIFY_REQUEST_1))
                     .accept(MediaType.APPLICATION_JSON)
@@ -218,11 +219,15 @@ internal class CommentControllerDocs {
             .andExpect(status().isOk)
             .andDo(
                 MockMvcRestDocumentation.document(
-                    "comment/put",
+                    "comment/putByCommentId",
                     Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                     Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
                     RequestDocumentation.pathParameters(
                         parameterWithName("commentId").description("수정할 댓글 ID")
+                    ),
+                    HeaderDocumentation.requestHeaders(
+                        HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).authorizationFormat()
+                            .description("(로그인시 발급되는) 인증 토큰")
                     ),
                     PayloadDocumentation.requestFields(
                         fieldWithPath("content").type(JsonFieldType.STRING)
@@ -265,7 +270,7 @@ internal class CommentControllerDocs {
             .andExpect(status().isNoContent)
             .andDo(
                 MockMvcRestDocumentation.document(
-                    "comment/delete",
+                    "comment/deleteByCommentId",
                     Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                     Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
                     RequestDocumentation.pathParameters(
