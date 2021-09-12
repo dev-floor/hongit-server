@@ -1,0 +1,210 @@
+ifndef::snippets[]
+:snippets: ../../../build/generated-snippets
+endif::[]
+
+= Hongit API document
+:doctype: book
+:icons: font
+:source-highlighter: prettify
+:toc: left
+:toc-title: 목차
+:toclevels: 3
+:doctitle: Hongit-api document
+
+[[common]]
+== 개발 환경
+
+|===
+|환경|url
+
+|로컬
+|`http://localhost:8080`
+
+|베타
+|`http://34.64.111.91:8080`
+|===
+
+[[article]]
+== 게시글 (Article)
+
+게시글과 관련된 API 정리
+
+[[article-getByArticleId]]
+=== 게시글 상세 조회
+
+==== Request
+
+include::{snippets}/article/getByArticleId/http-request.adoc[]
+
+include::{snippets}/article/getByArticleId/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/article/getByArticleId/http-response.adoc[]
+
+include::{snippets}/article/getByArticleId/response-fields.adoc[]
+
+[[board]]
+== 게시판 (Board)
+
+게시판과 관련된 API 정리
+
+[[board-getByBoardId]]
+=== 게시판 상세 조회
+
+==== Request
+
+include::{snippets}/board/getByBoardId/http-request.adoc[]
+
+include::{snippets}/board/getByBoardId/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/board/getByBoardId/http-response.adoc[]
+
+include::{snippets}/board/getByBoardId/response-fields.adoc[]
+
+[[board-getAll]]
+=== 게시판 목록 조회
+
+==== Request
+
+include::{snippets}/board/getAll/http-request.adoc[]
+
+include::{snippets}/board/getAll/request-headers.adoc[]
+
+==== Response
+
+include::{snippets}/board/getAll/http-response.adoc[]
+
+include::{snippets}/board/getAll/response-fields.adoc[]
+
+[[board-getAllByBoardType]]
+=== 게시판 유형별 조회
+
+==== Request
+
+include::{snippets}/board/getAllByBoardType/http-request.adoc[]
+
+include::{snippets}/board/getAllByBoardType/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/board/getAllByBoardType/http-response.adoc[]
+
+include::{snippets}/board/getAllByBoardType/response-fields.adoc[]
+
+[[comment]]
+== 댓글 (Comment)
+
+댓글과 관련된 API 정리
+
+[[comment-getAllByArticleId]]
+=== 특정 게시글 댓글 목록 조회
+
+==== Request
+
+include::{snippets}/comment/getAllByArticleId/http-request.adoc[]
+
+include::{snippets}/comment/getAllByArticleId/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/comment/getAllByArticleId/http-response.adoc[]
+
+include::{snippets}/comment/getAllByArticleId/response-fields.adoc[]
+
+[[comment-getAllByNickname]]
+=== 특정 회원 댓글 목록 조회
+
+==== Request
+
+include::{snippets}/comment/getAllByNickname/http-request.adoc[]
+
+include::{snippets}/comment/getAllByNickname/request-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/comment/getAllByNickname/http-response.adoc[]
+
+include::{snippets}/comment/getAllByNickname/response-fields.adoc[]
+
+[[comment-post]]
+=== 댓글 생성
+
+==== Request
+
+include::{snippets}/comment/post/http-request.adoc[]
+
+include::{snippets}/comment/post/request-headers.adoc[]
+
+include::{snippets}/comment/post/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/comment/post/http-response.adoc[]
+
+include::{snippets}/comment/post/request-fields.adoc[]
+
+[[comment-putByCommentId]]
+=== 댓글 수정
+
+==== Request
+
+include::{snippets}/comment/putByCommentId/http-request.adoc[]
+
+include::{snippets}/comment/putByCommentId/path-parameters.adoc[]
+
+include::{snippets}/comment/putByCommentId/request-headers.adoc[]
+
+include::{snippets}/comment/putByCommentId/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/comment/putByCommentId/http-response.adoc[]
+
+include::{snippets}/comment/putByCommentId/request-fields.adoc[]
+
+[[comment-deleteByCommentId]]
+==== Request
+
+include::{snippets}/comment/deleteByCommentId/http-request.adoc[]
+
+include::{snippets}/comment/deleteByCommentId/path-parameters.adoc[]
+
+include::{snippets}/comment/deleteByCommentId/request-headers.adoc[]
+
+[[user]]
+== 회원 (User)
+
+회원과 관련된 API 정리
+
+[[user-signup]]
+=== 회원 가입
+
+==== Request
+
+include::{snippets}/user/signup/http-request.adoc[]
+
+include::{snippets}/user/signup/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/user/signup/http-response.adoc[]
+
+include::{snippets}/user/signup/response-headers.adoc[]
+
+[[user-getByNickname]]
+=== 사용자 조회
+
+==== Request
+
+include::{snippets}/user/getByNickname/http-request.adoc[]
+
+include::{snippets}/user/getByNickname/path-parameters.adoc[]
+
+==== Response
+
+include::{snippets}/user/getByNickname/http-response.adoc[]
+
+include::{snippets}/user/getByNickname/response-fields.adoc[]

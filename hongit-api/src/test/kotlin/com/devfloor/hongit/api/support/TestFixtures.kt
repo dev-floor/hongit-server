@@ -17,7 +17,7 @@ import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_RESPONS
 import com.devfloor.hongit.api.support.TestFixtures.ProfessorFixture.PROFESSOR_1
 import com.devfloor.hongit.api.support.TestFixtures.SubjectFixture.SUBJECT_1
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_1
-import com.devfloor.hongit.api.user.application.request.JoinRequest
+import com.devfloor.hongit.api.user.application.request.SignUpRequest
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.board.domain.Board
@@ -44,7 +44,7 @@ object TestFixtures {
     private val TEST_MODIFIED_AT = LocalDateTime.of(2021, 8, 1, 12, 10, 0)
 
     object UserFixture {
-        val JOIN_REQUEST_1 = JoinRequest(
+        val JOIN_REQUEST_1 = SignUpRequest(
             username = "username",
             nickname = "nickname",
             password = "password",
