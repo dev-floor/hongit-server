@@ -23,11 +23,12 @@ import javax.persistence.Table
 class BoardBookmark(
     board: Board,
     user: User,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @Column(name = "board_bookmark_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0
+    val id: Long = id
 
     @ManyToOne
     @JoinColumn(name = "board_id")

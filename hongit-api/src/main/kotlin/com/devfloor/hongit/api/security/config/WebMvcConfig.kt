@@ -15,6 +15,6 @@ class WebMvcConfig(
     }
 
     override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
-        registry.addResourceHandler("/docs/**").addResourceLocations("classpath:/static/docs/")
+        registry.addResourceHandler("/static/docs/**").addResourceLocations("classpath:/static/docs/")
     }
 }
