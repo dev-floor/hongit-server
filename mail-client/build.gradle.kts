@@ -20,8 +20,8 @@ dependencies {
     implementation(project(":hongit-core"))
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-    implementation("org.springframework.boot:spring-boot-starter-mail")
-    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    api("org.springframework.boot:spring-boot-starter-mail")
+    api("org.springframework.boot:spring-boot-starter-thymeleaf")
 
     testImplementation(project(":hongit-core"))
 }

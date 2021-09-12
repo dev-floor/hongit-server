@@ -1,9 +1,9 @@
-package com.devfloor.hongit.client.mail.application
+package com.devfloor.hongit.api.auth.application
 
-import com.devfloor.hongit.client.mail.application.request.MailRequest
+import com.devfloor.hongit.api.auth.application.request.AuthMailRequest
+import com.devfloor.hongit.api.support.MockitoHelper.any
 import com.devfloor.hongit.client.mail.common.config.MailSenderConfig
 import com.devfloor.hongit.client.mail.domain.spec.MailSender
-import com.devfloor.hongit.client.mail.support.MockitoHelper.any
 import com.devfloor.hongit.core.authtoken.AuthToken
 import com.devfloor.hongit.core.authtoken.AuthTokenRepository
 import org.junit.jupiter.api.BeforeEach
@@ -26,11 +26,11 @@ import org.thymeleaf.spring5.SpringTemplateEngine
 @ActiveProfiles(value = ["prod"])
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(
-    classes = [MailService::class, MailSenderConfig::class, SpringTemplateEngine::class],
+    classes = [AuthMailService::class, MailSenderConfig::class, SpringTemplateEngine::class],
     properties = ["mail.sender", "hongit"]
 )
-class MailServiceTest {
-    private lateinit var mailService: MailService
+internal class AuthMailServiceTest {
+    private lateinit var service: AuthMailService
 
     @Autowired
     private lateinit var mailSender: MailSender
@@ -40,17 +40,15 @@ class MailServiceTest {
 
     @BeforeEach
     internal fun setUp() {
-        mailService = MailService(authTokenRepository, mailSender)
+        service = AuthMailService(authTokenRepository, mailSender)
     }
 
     @Test
     internal fun `sendAuthenticationMail - 인증 토큰에 따른 메일 발송`() {
         // given
-        val userId: Long = 1
-        val request = MailRequest("ljy3510@gmail.com")
         given(authTokenRepository.save(any())).willReturn(AuthToken())
 
         // when
-        mailService.sendAuthenticationMail(request)
+        service.sendAuthenticationMail(AuthMailRequest("ljy3510@gmail.com"))
     }
 }

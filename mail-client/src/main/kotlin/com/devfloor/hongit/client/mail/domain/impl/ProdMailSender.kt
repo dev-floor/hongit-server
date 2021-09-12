@@ -1,6 +1,5 @@
 package com.devfloor.hongit.client.mail.domain.impl
 
-import com.devfloor.hongit.client.mail.application.request.MailRequest
 import com.devfloor.hongit.client.mail.common.utils.MAIL_SUBJECT
 import com.devfloor.hongit.client.mail.common.utils.MAIL_TEMPLATE_FILE
 import com.devfloor.hongit.client.mail.common.utils.SIGN_UP_URL
@@ -27,25 +26,25 @@ class ProdMailSender(
         throw e
     }
 
-    override fun createMimeMessage(request: MailRequest, tokenId: String): MimeMessage {
+    override fun createMimeMessage(receiverEmail: String, tokenId: String): MimeMessage {
         val message = sender.createMimeMessage()
         val helper = MimeMessageHelper(message, true, "UTF-8")
 
         helper.setSubject(MAIL_SUBJECT)
-        helper.setTo(request.receiverEmail)
-        helper.setText(createContent(request, tokenId), true)
+        helper.setTo(receiverEmail)
+        helper.setText(createContent(receiverEmail, tokenId), true)
 
         log.info(
             "[ProdMailSender.createMimeMessage] MimeMessage 생성 완료 - " +
-                "receiverEmail: ${request.receiverEmail}, tokenId: $tokenId, url: $SIGN_UP_URL"
+                "receiverEmail: $receiverEmail, tokenId: $tokenId, url: $SIGN_UP_URL"
         )
         return message
     }
 
-    private fun createContent(request: MailRequest, tokenId: String): String =
+    private fun createContent(receiverEmail: String, tokenId: String): String =
         Context().let {
             val variables = linkedMapOf<String, Any>()
-            variables["receiverEmail"] = request.receiverEmail
+            variables["receiverEmail"] = receiverEmail
             variables["redirectUrl"] = "$SIGN_UP_URL?tokenId=$tokenId"
             it.setVariables(variables)
 

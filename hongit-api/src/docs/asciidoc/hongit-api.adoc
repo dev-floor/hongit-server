@@ -208,3 +208,17 @@ include::{snippets}/user/getByNickname/path-parameters.adoc[]
 include::{snippets}/user/getByNickname/http-response.adoc[]
 
 include::{snippets}/user/getByNickname/response-fields.adoc[]
+
+[[auth]]
+== 인증 (Auth)
+
+인증과 관련된 API 정리
+
+[[auth-sendAuthenticationMail]]
+=== 인증 메일 발송
+
+==== Request
+
+include::{snippets}/auth/postAuthMail/http-request.adoc[]
+
+include::{snippets}/auth/postAuthMail/request-fields.adoc[]
