@@ -1,12 +1,11 @@
 |===
-|Path|Type|Optional|Format|Description
+|Name|Optional|Format|Description
 
-{{#fields}}
-|{{#tableCellContent}}`+{{path}}+`{{/tableCellContent}}
-|{{#tableCellContent}}`+{{type}}+`{{/tableCellContent}}
+{{#headers}}
+|{{#tableCellContent}}`+{{name}}+`{{/tableCellContent}}
 |{{#tableCellContent}}{{#optional}}Yes{{/optional}}{{/tableCellContent}}
 |{{#tableCellContent}}{{#format}}{{format}}{{/format}}{{/tableCellContent}}
 |{{#tableCellContent}}{{description}}{{/tableCellContent}}
 
-{{/fields}}
+{{/headers}}
 |===

@@ -22,11 +22,12 @@ import javax.persistence.Table
 class Board(
     title: String,
     type: BoardType,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
-    val id: Long = 0
+    val id: Long = id
 
     @Column(name = "title")
     val title: String = title

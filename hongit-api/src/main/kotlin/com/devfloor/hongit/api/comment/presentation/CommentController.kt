@@ -41,8 +41,8 @@ class CommentController(
     @PostMapping
     fun create(
         @RequestBody request: CommentCreateRequest,
-        @LoginUser author: User,
-    ): ResponseEntity<CommentResponse> = commentService.create(author, request)
+        @LoginUser loginUser: User,
+    ): ResponseEntity<CommentResponse> = commentService.create(loginUser, request)
         .run { ResponseEntity.created(URI.create("$COMMENT_API_URI/$id")).body(this) }
 
     @PutMapping(value = ["/{commentId}"])

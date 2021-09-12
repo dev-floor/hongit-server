@@ -16,10 +16,10 @@ data class CommentResponse(
     val favoriteCount: Long,
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
-    val createdDate: LocalDateTime,
+    val createdAt: LocalDateTime,
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
-    val modifiedDate: LocalDateTime,
+    val modifiedAt: LocalDateTime,
 ) {
     constructor(
         comment: Comment,
@@ -30,7 +30,7 @@ data class CommentResponse(
         anonymous = comment.anonymous,
         content = comment.content,
         favoriteCount = favoriteCount,
-        createdDate = comment.createdAt,
-        modifiedDate = comment.modifiedAt,
+        createdAt = comment.createdAt,
+        modifiedAt = comment.modifiedAt,
     )
 }

@@ -36,7 +36,6 @@ import javax.persistence.Table
     ],
 )
 class User(
-    id: Long = 0,
     username: String,
     password: String,
     nickname: String,
@@ -47,6 +46,7 @@ class User(
     github: String? = null,
     blog: String? = null,
     description: String? = null,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -2,8 +2,8 @@ package com.devfloor.hongit.api.comment.application
 
 import com.devfloor.hongit.api.comment.application.request.CommentCreateRequest
 import com.devfloor.hongit.api.comment.application.request.CommentModifyRequest
-import com.devfloor.hongit.api.comment.application.response.CommentResponse
 import com.devfloor.hongit.api.comment.application.response.CommentInProfileResponse
+import com.devfloor.hongit.api.comment.application.response.CommentResponse
 import com.devfloor.hongit.api.common.exception.EntityNotFoundException
 import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.article.domain.ArticleRepository
@@ -65,6 +65,7 @@ class CommentService(
 
     @Transactional
     fun modifyByCommentId(commentId: Long, request: CommentModifyRequest): CommentResponse =
+        // TODO: 2021/09/11 validate 로직 필요
         commentRepository.findByIdOrNull(commentId)
             ?.let { comment ->
                 comment.modifyContent(request.content)
@@ -73,7 +74,7 @@ class CommentService(
             ?: EntityNotFoundException.notExistsId(Comment::class, commentId)
 
     @Transactional
-    fun destroyByCommentId(commentId: Long) {
+    fun destroyByCommentId(commentId: Long) { // TODO: 2021/09/11 validate 로직 필요
         val comment = commentRepository.findByIdOrNull(commentId)
             ?: EntityNotFoundException.notExistsId(Comment::class, commentId)
 

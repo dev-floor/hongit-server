@@ -18,11 +18,12 @@ import javax.persistence.Table
 @Table(name = "subjects")
 class Subject(
     name: String,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "subject_id")
-    val id: Long = 0
+    val id: Long = id
 
     @Column(name = "name")
     val name: String = name

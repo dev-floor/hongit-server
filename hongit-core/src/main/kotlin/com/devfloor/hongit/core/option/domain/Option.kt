@@ -22,11 +22,12 @@ import javax.persistence.Table
 class Option(
     text: String,
     type: OptionType,
+    id: Long = 0,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "option_id")
-    val id: Long = 0
+    val id: Long = id
 
     @Column(name = "text")
     val text: String = text
