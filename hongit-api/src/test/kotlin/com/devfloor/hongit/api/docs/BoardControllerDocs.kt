@@ -166,7 +166,7 @@ internal class BoardControllerDocs {
     @Test
     internal fun `showAllBoardByBoardType - 게시판 유형별 조회 문서화`() {
         // given
-        given(boardService.showAllBoardByBoardType(any(BoardType::class.java))).willReturn(listOf(BOARD_RESPONSE_1))
+        given(boardService.showAllBoardByBoardType(any())).willReturn(listOf(BOARD_RESPONSE_1))
 
         // when - then
         mockMvc

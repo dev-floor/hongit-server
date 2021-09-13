@@ -3,5 +3,5 @@ package com.devfloor.hongit.api.support
 import org.mockito.Mockito
 
 object MockitoHelper {
-    fun <T> any(type: Class<T>): T = Mockito.any(type)
+    inline fun <reified T> any(): T = Mockito.any(T::class.java)
 }
