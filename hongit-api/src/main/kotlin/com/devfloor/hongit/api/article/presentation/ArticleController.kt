@@ -34,18 +34,6 @@ class ArticleController(
     @ResponseStatus(value = HttpStatus.OK)
     fun showByArticleId(@PathVariable articleId: Long): ArticleResponse = articleService.showByArticleId(articleId)
 
-    @GetMapping(params = ["userId"])
-    @ResponseStatus(value = HttpStatus.OK)
-    fun showAllByUserId(
-        @RequestParam userId: Long,
-        @RequestParam page: Int,
-        @RequestParam pageSize: Int,
-    ): List<ArticleFeedResponse> =
-        articleService.showAllByUserId(userId, page, pageSize)
-
-    /**
-     * 스크린: 게시판 > 게시글 목록 조회
-     */
     @GetMapping(params = ["boardId"])
     @ResponseStatus(value = HttpStatus.OK)
     fun showAllByBoardId(
@@ -58,30 +46,16 @@ class ArticleController(
         articleService.showAllByBoardId(boardId, page, pageSize, sort, options)
             .also { log.info("boardId = $boardId, sort = $sort, options = $options") }
 
-    /**
-     * 스크린: 프로필 & 마이페이지 > 작성한 게시글 목록 조회
-     * 로그인 본인의 경우 익명글 포함
-     */
-    @GetMapping(params = ["authorId"])
+    @GetMapping(params = ["nickname"])
     @ResponseStatus(value = HttpStatus.OK)
-    fun showAllByUserId(
+    fun showAllByNickname(
         @LoginUser loginUser: User,
-        @RequestParam authorId: Long,
+        @RequestParam nickname: String,
         @RequestParam page: Int,
-        @RequestParam pageSize: Int,
-    ): List<ArticleFeedResponse> {
-        return if (loginUser.id == authorId) {
-            articleService.showAllByUserId(authorId, page, pageSize)
-                .also { log.info("userId = $authorId") }
-        } else {
-            articleService.showAllByUserIdNotAnonymous(authorId, page, pageSize)
-                .also { log.info("userId = $authorId") }
-        }
-    }
+        @RequestParam pageSize: Int
+    ): List<ArticleFeedResponse> =
+        articleService.showAllByNickname(nickname, page, pageSize)
 
-    /**
-     * 스크린: 프로필 & 마이페이지 > 좋아요한 게시글 목록 조회
-     */
     @GetMapping(params = ["favoritedUserId", "favoriteType"])
     @ResponseStatus(value = HttpStatus.OK)
     fun showAllByFavoritedUserId(

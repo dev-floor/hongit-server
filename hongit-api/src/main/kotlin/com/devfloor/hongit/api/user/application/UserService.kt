@@ -4,14 +4,14 @@ import com.devfloor.hongit.api.common.exception.EntityNotFoundException
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.core.user.domain.User
 import com.devfloor.hongit.core.user.domain.UserRepository
-import org.springframework.data.repository.findByIdOrNull
+import com.devfloor.hongit.core.user.domain.findByNicknameOrNull
 import org.springframework.stereotype.Service
 
 @Service
 class UserService(
     private val userRepository: UserRepository,
 ) {
-    fun showByUserId(userId: Long): ProfileResponse = userRepository.findByIdOrNull(userId)
+    fun showByNickname(nickname: String): ProfileResponse = userRepository.findByNicknameOrNull(nickname)
         ?.let { ProfileResponse(it) }
-        ?: EntityNotFoundException.notExistsId(User::class, userId)
+        ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
 }

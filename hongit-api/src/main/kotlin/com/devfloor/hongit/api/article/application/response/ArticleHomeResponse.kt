@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat
 import java.time.LocalDateTime
 
 data class ArticleHomeResponse(
-    val id: Long,
+    val articleId: Long,
 
     val title: String? = null,
 
@@ -37,7 +37,7 @@ data class ArticleHomeResponse(
         article: Article,
         articleFavorites: List<ArticleFavorite>,
     ) : this(
-        id = article.id,
+        articleId = article.id,
         title = article.title,
         favoriteCount = articleFavorites.count { it.matchesType(ArticleFavoriteType.FAVORITE) }.toLong(),
         wonderCount = articleFavorites.count { it.matchesType(ArticleFavoriteType.WONDER) }.toLong(),

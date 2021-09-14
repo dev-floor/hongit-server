@@ -51,7 +51,7 @@ internal class BoardControllerDocs {
     }
 
     @Test
-    internal fun `showByBoardId - 게시판 상세조회 문서화`() {
+    internal fun `showByBoardId - 게시판 상세 조회 API 문서화`() {
         // given
         given(boardService.showByBoardId(anyLong())).willReturn(BOARD_RESPONSE_1)
 
@@ -88,7 +88,6 @@ internal class BoardControllerDocs {
                             .enumFormat(BoardType::class)
                             .description("게시판 유형"),
                         fieldWithPath("type.text").type(JsonFieldType.STRING)
-                            .enumFormat(BoardType::class)
                             .description("게시판 유형 설명"),
                         fieldWithPath("grade.id").type(JsonFieldType.STRING)
                             .optional()
@@ -96,7 +95,6 @@ internal class BoardControllerDocs {
                             .description("(수업게시판만) 게시판 수업의 개설 학년"),
                         fieldWithPath("grade.text").type(JsonFieldType.STRING)
                             .optional()
-                            .enumFormat(Grade::class)
                             .description("(수업게시판만) 게시판 수업의 개설 학년 설명"),
                         fieldWithPath("options[].id").type(JsonFieldType.NUMBER)
                             .optional()
@@ -110,7 +108,6 @@ internal class BoardControllerDocs {
                             .description("게시판 옵션의 유형"),
                         fieldWithPath("options[].type.text").type(JsonFieldType.STRING)
                             .optional()
-                            .enumFormat(OptionType::class)
                             .description("게시판 옵션의 유형 설명"),
                     )
                 )
@@ -118,7 +115,7 @@ internal class BoardControllerDocs {
     }
 
     @Test
-    internal fun `showAll - 게시판 목록 조회 문서화`() {
+    internal fun `showAll - 게시판 목록 조회 API 문서화`() {
         // given
         given(boardService.showAll()).willReturn(listOf(BOARD_SIMPLE_RESPONSE_1))
 
@@ -148,7 +145,6 @@ internal class BoardControllerDocs {
                             .enumFormat(BoardType::class)
                             .description("게시판 유형"),
                         fieldWithPath("[].type.text").type(JsonFieldType.STRING)
-                            .enumFormat(BoardType::class)
                             .description("게시판 유형 설명"),
                         fieldWithPath("[].grade.id").type(JsonFieldType.STRING)
                             .optional()
@@ -164,7 +160,7 @@ internal class BoardControllerDocs {
     }
 
     @Test
-    internal fun `showAllBoardByBoardType - 게시판 유형별 조회 문서화`() {
+    internal fun `showAllBoardByBoardType - 게시판 유형별 조회 API 문서화`() {
         // given
         given(boardService.showAllBoardByBoardType(any())).willReturn(listOf(BOARD_RESPONSE_1))
 
@@ -203,7 +199,6 @@ internal class BoardControllerDocs {
                             .enumFormat(BoardType::class)
                             .description("게시판 유형"),
                         fieldWithPath("[].type.text").type(JsonFieldType.STRING)
-                            .enumFormat(BoardType::class)
                             .description("게시판 유형 설명"),
                         fieldWithPath("[].grade.id").type(JsonFieldType.STRING)
                             .optional()
@@ -211,7 +206,6 @@ internal class BoardControllerDocs {
                             .description("(수업게시판만) 게시판 수업의 개설 학년"),
                         fieldWithPath("[].grade.text").type(JsonFieldType.STRING)
                             .optional()
-                            .enumFormat(Grade::class)
                             .description("(수업게시판만) 게시판 수업의 개설 학년 설명"),
                         fieldWithPath("[].options[].id").type(JsonFieldType.NUMBER)
                             .optional()
@@ -225,7 +219,6 @@ internal class BoardControllerDocs {
                             .description("게시판 옵션의 유형"),
                         fieldWithPath("[].options[].type.text").type(JsonFieldType.STRING)
                             .optional()
-                            .enumFormat(OptionType::class)
                             .description("게시판 옵션의 유형 설명"),
                     )
                 )

@@ -16,7 +16,10 @@ object ApiDocsTestUtils {
     val TEST_AUTHORIZATION_HEADER = "Bearer"
     private val MESSAGE_CONVERTER = MappingJackson2HttpMessageConverter(Jackson2ObjectMapperBuilder().build())
 
-    fun getRestDocsMockMvc(restDocumentation: RestDocumentationContextProvider, controller: Any): MockMvc =
+    fun getRestDocsMockMvc(
+        restDocumentation: RestDocumentationContextProvider,
+        controller: Any,
+    ): MockMvc =
         MockMvcBuilders.standaloneSetup(controller)
             .setMessageConverters(MESSAGE_CONVERTER)
             .addFilter<StandaloneMockMvcBuilder>(CharacterEncodingFilter("UTF-8", true))

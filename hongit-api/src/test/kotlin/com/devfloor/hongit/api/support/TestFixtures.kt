@@ -8,6 +8,10 @@ import com.devfloor.hongit.api.article.domain.ArticleSortType
 import com.devfloor.hongit.api.articlefavorite.application.request.ArticleFavoriteCreateRequest
 import com.devfloor.hongit.api.board.application.response.BoardResponse
 import com.devfloor.hongit.api.board.application.response.BoardSimpleResponse
+import com.devfloor.hongit.api.comment.application.request.CommentCreateRequest
+import com.devfloor.hongit.api.comment.application.request.CommentModifyRequest
+import com.devfloor.hongit.api.comment.application.response.CommentInProfileResponse
+import com.devfloor.hongit.api.comment.application.response.CommentResponse
 import com.devfloor.hongit.api.option.application.response.OptionResponse
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.ARTICLE_1
 import com.devfloor.hongit.api.support.TestFixtures.BoardFixture.BOARD_1
@@ -31,6 +35,7 @@ import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavorite
 import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavoriteType
 import com.devfloor.hongit.core.board.domain.Board
 import com.devfloor.hongit.core.board.domain.BoardType
+import com.devfloor.hongit.core.comment.domain.Comment
 import com.devfloor.hongit.core.course.domain.Course
 import com.devfloor.hongit.core.course.domain.Grade
 import com.devfloor.hongit.core.course.domain.OpeningSemester
@@ -77,6 +82,8 @@ object TestFixtures {
             blog = "blog",
             description = "test user description",
         )
+
+        val PROFILE_RESPONSE_1 = ProfileResponse(USER_1)
     }
 
     object ArticleFixture {
@@ -116,8 +123,8 @@ object TestFixtures {
             options = listOf(OPTION_RESPONSE_1),
             title = ARTICLE_1.title,
             anonymous = ARTICLE_1.anonymous,
-            author = ProfileResponse(ARTICLE_1.author),
-            content = ARTICLE_1.content,
+            authorName = ARTICLE_1.author.nickname,
+            content = ARTICLE_1.sliceContentByLength(300),
             favoriteCount = 0,
             wonderCount = 1,
             clipCount = 2,
@@ -176,6 +183,40 @@ object TestFixtures {
         )
     }
 
+    object CommentFixture {
+        val COMMENT_1 = Comment(
+            id = 1,
+            article = ARTICLE_1,
+            author = USER_1,
+            anonymous = false,
+            content = "comment 1",
+        )
+
+        val COMMENT_CREATE_REQUEST_1 = CommentCreateRequest(
+            articleId = ARTICLE_1.id,
+            anonymous = false,
+            content = "comment 1",
+        )
+
+        val COMMENT_MODIFY_REQUEST_1 = CommentModifyRequest("modified content 1")
+
+        val COMMENT_RESPONSE_1 = CommentResponse(
+            id = COMMENT_1.id,
+            authorName = COMMENT_1.author.nickname,
+            anonymous = COMMENT_1.anonymous,
+            content = COMMENT_1.content,
+            favoriteCount = 3,
+            createdAt = TEST_CREATED_AT,
+            modifiedAt = TEST_MODIFIED_AT,
+        )
+
+        val COMMENT_IN_PROFILE_RESPONSE_1 = CommentInProfileResponse(
+            comment = COMMENT_RESPONSE_1,
+            articleId = ARTICLE_1.id,
+            articleTitle = ARTICLE_1.title,
+        )
+    }
+
     object OptionFixture {
         val OPTION_1 = Option(
             id = 1,
@@ -207,18 +248,6 @@ object TestFixtures {
             type = OptionType.COURSE_GROUP,
         )
         val OPTION_RESPONSE_1 = OptionResponse(OPTION_1)
-    }
-
-    object SubjectFixture {
-        val SUBJECT_1 = Subject(id = 1, name = "subject 1")
-    }
-
-    object ProfessorFixture {
-        val PROFESSOR_1 = Professor(
-            id = 1,
-            name = "professor 1",
-            email = "professor@gmail.com",
-        )
     }
 
     object ArticleSortTypeFixture {
@@ -261,6 +290,32 @@ object TestFixtures {
         val HASHTAG_MODIFY_2 = Hashtag(
             id = 4,
             name = "hashtagname modified 4"
+        )
+
+        val OPTION_2 = Option(
+            id = 2,
+            text = "option 2",
+            type = OptionType.COURSE_GROUP,
+        )
+
+        val OPTION_3 = Option(
+            id = 3,
+            text = "option 3",
+            type = OptionType.ARTICLE_KIND,
+        )
+
+        val OPTION_RESPONSE_1 = OptionResponse(OPTION_1)
+    }
+
+    object SubjectFixture {
+        val SUBJECT_1 = Subject(id = 1, name = "subject 1")
+    }
+
+    object ProfessorFixture {
+        val PROFESSOR_1 = Professor(
+            id = 1,
+            name = "professor 1",
+            email = "professor@gmail.com",
         )
     }
 }

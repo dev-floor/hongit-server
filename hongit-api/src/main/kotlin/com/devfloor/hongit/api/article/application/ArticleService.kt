@@ -29,6 +29,7 @@ import com.devfloor.hongit.core.user.domain.User
 import com.devfloor.hongit.core.user.domain.UserRepository
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
+import com.devfloor.hongit.core.user.domain.findByNicknameOrNull
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -153,15 +154,15 @@ class ArticleService(
     }
 
     @Transactional(readOnly = true)
-    fun showAllByUserId(userId: Long, page: Int, pageSize: Int): List<ArticleFeedResponse> {
-        val user: User = userRepository.findByIdOrNull(userId)
-            ?: EntityNotFoundException.notExistsId(User::class, userId)
+    fun showAllByNickname(nickname: String, page: Int, pageSize: Int): List<ArticleFeedResponse> {
+        val user: User = userRepository.findByNicknameOrNull(nickname)
+            ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
 
         val pageRequest: PageRequest = PageRequest.of(page, pageSize)
         val articles = user
             .let { articleRepository.findAllByAuthor(it, pageRequest) }
 
-        return articles.content
+        return articles.content.filter{!it.anonymous}
             .map {
                 ArticleFeedResponse(
                     article = it,
@@ -169,29 +170,6 @@ class ArticleService(
                     articleFavorites = articleFavoriteRepository.findAllByArticle(it),
                     page = page,
                     totalArticleCount = articleRepository.countAllByAuthor(user)
-                )
-            }
-    }
-
-    @Transactional(readOnly = true)
-    fun showAllByUserIdNotAnonymous(userId: Long, page: Int, pageSize: Int): List<ArticleFeedResponse> {
-        val user: User = userRepository.findByIdOrNull(userId)
-            ?: EntityNotFoundException.notExistsId(User::class, userId)
-
-        val pageRequest: PageRequest = PageRequest.of(page, pageSize)
-        val articles = user
-            .let { articleRepository.findAllByAuthorAndAnonymousFalse(it, pageRequest) }
-
-        return articles.content
-            .map {
-                ArticleFeedResponse(
-                    article = it,
-                    articleOptions = articleOptionRepository.findAllByArticle(it),
-                    articleFavorites = articleFavoriteRepository.findAllByArticle(it),
-                    page = page,
-                    totalArticleCount = articleRepository.countAllByAuhorAndAndAnonymousFalse(
-                        user
-                    )
                 )
             }
     }

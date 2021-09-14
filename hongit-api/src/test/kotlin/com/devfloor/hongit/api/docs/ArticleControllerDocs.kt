@@ -98,8 +98,6 @@ internal class ArticleControllerDocs {
                             .description("게시글 제목"),
                         fieldWithPath("anonymous").type(JsonFieldType.BOOLEAN)
                             .description("게시글 익명 여부"),
-                        fieldWithPath("author.username").type(JsonFieldType.STRING)
-                            .description("게시글의 작성자 계정"),
                         fieldWithPath("author.nickname").type(JsonFieldType.STRING)
                             .description("게시글의 작성자 닉네임"),
                         fieldWithPath("author.type.id").type(JsonFieldType.STRING)
@@ -199,27 +197,8 @@ internal class ArticleControllerDocs {
                             .description("게시글 제목"),
                         fieldWithPath("[].anonymous").type(JsonFieldType.BOOLEAN)
                             .description("게시글 익명 여부"),
-                        fieldWithPath("[].author.username").type(JsonFieldType.STRING)
-                            .description("게시글의 작성자 계정"),
-                        fieldWithPath("[].author.nickname").type(JsonFieldType.STRING)
+                        fieldWithPath("[].authorName").type(JsonFieldType.STRING)
                             .description("게시글의 작성자 닉네임"),
-                        fieldWithPath("[].author.type.id").type(JsonFieldType.STRING)
-                            .enumFormat(UserType::class)
-                            .description("게시글의 작성자 유형"),
-                        fieldWithPath("[].author.type.text").type(JsonFieldType.STRING)
-                            .description("게시글의 작성자 유형 설명"),
-                        fieldWithPath("[].author.image").type(JsonFieldType.STRING)
-                            .optional()
-                            .description("게시글의 작성자 프로필 사진 URL"),
-                        fieldWithPath("[].author.github").type(JsonFieldType.STRING)
-                            .optional()
-                            .description("게시글의 작성자 Github 계정"),
-                        fieldWithPath("[].author.blog").type(JsonFieldType.STRING)
-                            .optional()
-                            .description("게시글의 작성자 블로그 주소"),
-                        fieldWithPath("[].author.description").type(JsonFieldType.STRING)
-                            .optional()
-                            .description("게시글의 작성자 소개"),
                         fieldWithPath("[].content").type(JsonFieldType.STRING)
                             .description("게시글 내용"),
                         fieldWithPath("[].favoriteCount").type(JsonFieldType.NUMBER)
@@ -245,11 +224,11 @@ internal class ArticleControllerDocs {
     }
 
     @Test
-    fun `showAllByUserId - 게시글 목록조회(사용자) 문서화`() {
+    fun `showAllByNickname- 게시글 목록조회(사용자) 문서화`() {
         // given
         given(
-            articleService.showAllByUserId(
-                anyLong(),
+            articleService.showAllByNickname(
+                anyString(),
                 anyInt(),
                 anyInt()
             )
@@ -258,7 +237,7 @@ internal class ArticleControllerDocs {
         given(userRepository.findAll()).willReturn(listOf(USER_1))
 
         val params = LinkedMultiValueMap<String, String>()
-        params.add("authorId", "1")
+        params.add("nickname", "usernicknametest")
         params.add("page", "1")
         params.add("pageSize", "10")
 
@@ -273,7 +252,7 @@ internal class ArticleControllerDocs {
             .andExpect(status().isOk)
             .andDo(
                 MockMvcRestDocumentation.document(
-                    "article/getAllByUserId",
+                    "article/getAllByNickname",
                     Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                     Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
                     HeaderDocumentation.requestHeaders(
@@ -281,7 +260,7 @@ internal class ArticleControllerDocs {
                             .description("(로그인시 발급되는) 인증 토큰")
                     ),
                     RequestDocumentation.requestParameters(
-                        parameterWithName("authorId").description("게시글 목록을 조회할 작성자 ID"),
+                        parameterWithName("nickname").description("게시글 목록을 조회할 작성자 닉네임"),
                         parameterWithName("page").description("게시글 목록 페이지 번호"),
                         parameterWithName("pageSize").description("페이지 크기")
                     ),
@@ -303,27 +282,8 @@ internal class ArticleControllerDocs {
                             .description("게시글 제목"),
                         fieldWithPath("[].anonymous").type(JsonFieldType.BOOLEAN)
                             .description("게시글 익명 여부"),
-                        fieldWithPath("[].author.username").type(JsonFieldType.STRING)
-                            .description("게시글의 작성자 계정"),
-                        fieldWithPath("[].author.nickname").type(JsonFieldType.STRING)
+                        fieldWithPath("[].authorName").type(JsonFieldType.STRING)
                             .description("게시글의 작성자 닉네임"),
-                        fieldWithPath("[].author.type.id").type(JsonFieldType.STRING)
-                            .enumFormat(UserType::class)
-                            .description("게시글의 작성자 유형"),
-                        fieldWithPath("[].author.type.text").type(JsonFieldType.STRING)
-                            .description("게시글의 작성자 유형 설명"),
-                        fieldWithPath("[].author.image").type(JsonFieldType.STRING)
-                            .optional()
-                            .description("게시글의 작성자 프로필 사진 URL"),
-                        fieldWithPath("[].author.github").type(JsonFieldType.STRING)
-                            .optional()
-                            .description("게시글의 작성자 Github 계정"),
-                        fieldWithPath("[].author.blog").type(JsonFieldType.STRING)
-                            .optional()
-                            .description("게시글의 작성자 블로그 주소"),
-                        fieldWithPath("[].author.description").type(JsonFieldType.STRING)
-                            .optional()
-                            .description("게시글의 작성자 소개"),
                         fieldWithPath("[].content").type(JsonFieldType.STRING)
                             .description("게시글 내용"),
                         fieldWithPath("[].favoriteCount").type(JsonFieldType.NUMBER)
@@ -407,27 +367,8 @@ internal class ArticleControllerDocs {
                             .description("게시글 제목"),
                         fieldWithPath("[].anonymous").type(JsonFieldType.BOOLEAN)
                             .description("게시글 익명 여부"),
-                        fieldWithPath("[].author.username").type(JsonFieldType.STRING)
-                            .description("게시글의 작성자 계정"),
-                        fieldWithPath("[].author.nickname").type(JsonFieldType.STRING)
+                        fieldWithPath("[].authorName").type(JsonFieldType.STRING)
                             .description("게시글의 작성자 닉네임"),
-                        fieldWithPath("[].author.type.id").type(JsonFieldType.STRING)
-                            .enumFormat(UserType::class)
-                            .description("게시글의 작성자 유형"),
-                        fieldWithPath("[].author.type.text").type(JsonFieldType.STRING)
-                            .description("게시글의 작성자 유형 설명"),
-                        fieldWithPath("[].author.image").type(JsonFieldType.STRING)
-                            .optional()
-                            .description("게시글의 작성자 프로필 사진 URL"),
-                        fieldWithPath("[].author.github").type(JsonFieldType.STRING)
-                            .optional()
-                            .description("게시글의 작성자 Github 계정"),
-                        fieldWithPath("[].author.blog").type(JsonFieldType.STRING)
-                            .optional()
-                            .description("게시글의 작성자 블로그 주소"),
-                        fieldWithPath("[].author.description").type(JsonFieldType.STRING)
-                            .optional()
-                            .description("게시글의 작성자 소개"),
                         fieldWithPath("[].content").type(JsonFieldType.STRING)
                             .description("게시글 내용"),
                         fieldWithPath("[].favoriteCount").type(JsonFieldType.NUMBER)

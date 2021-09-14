@@ -2,7 +2,6 @@ package com.devfloor.hongit.api.article.application.response
 
 import com.devfloor.hongit.api.common.utils.SEOUL_TIME_ZONE
 import com.devfloor.hongit.api.option.application.response.OptionResponse
-import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavorite
 import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavoriteType
@@ -20,7 +19,7 @@ data class ArticleFeedResponse(
 
     val anonymous: Boolean,
 
-    val author: ProfileResponse,
+    val authorName: String,
 
     val content: String,
 
@@ -59,7 +58,7 @@ data class ArticleFeedResponse(
         options = articleOptions.map { OptionResponse(it.option) },
         title = article.title,
         anonymous = article.anonymous,
-        author = ProfileResponse(article.author),
+        authorName = article.author.nickname,
         content = article.sliceContentByLength(CONTENT_MAX_LENGTH),
         favoriteCount = articleFavorites.count { it.matchesType(ArticleFavoriteType.FAVORITE) }.toLong(),
         wonderCount = articleFavorites.count { it.matchesType(ArticleFavoriteType.WONDER) }.toLong(),
