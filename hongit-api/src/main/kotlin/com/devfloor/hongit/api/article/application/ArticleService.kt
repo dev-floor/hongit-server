@@ -50,7 +50,7 @@ class ArticleService(
     private val articleOptionService: ArticleOptionService,
     private val hashtagService: HashtagService,
 
-    ) {
+) {
     @Transactional(readOnly = true)
     fun showByArticleId(articleId: Long): ArticleResponse {
         val article = articleRepository.findByIdOrNull(articleId)
@@ -162,7 +162,7 @@ class ArticleService(
         val articles = user
             .let { articleRepository.findAllByAuthor(it, pageRequest) }
 
-        return articles.content.filter{!it.anonymous}
+        return articles.content.filter { !it.anonymous }
             .map {
                 ArticleFeedResponse(
                     article = it,
@@ -192,7 +192,8 @@ class ArticleService(
                     articleOptions = articleOptionRepository.findAllByArticle(it),
                     articleFavorites = articleFavoriteRepository.findAllByArticle(it),
                     page = page,
-                    totalArticleCount = articleRepository.countAllByIdIn(articleFavorites.map { it.id }
+                    totalArticleCount = articleRepository.countAllByIdIn(
+                        articleFavorites.map { it.id }
                     )
                 )
             }
