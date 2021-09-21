@@ -26,11 +26,11 @@ import org.thymeleaf.spring5.SpringTemplateEngine
 @ActiveProfiles(value = ["prod"])
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(
-    classes = [AuthMailService::class, MailSenderConfig::class, SpringTemplateEngine::class],
+    classes = [AuthService::class, MailSenderConfig::class, SpringTemplateEngine::class],
     properties = ["mail.sender", "hongit"]
 )
-internal class AuthMailServiceTest {
-    private lateinit var service: AuthMailService
+internal class ProdAuthServiceTest {
+    private lateinit var service: AuthService
 
     @Autowired
     private lateinit var mailSender: MailSender
@@ -40,7 +40,7 @@ internal class AuthMailServiceTest {
 
     @BeforeEach
     internal fun setUp() {
-        service = AuthMailService(authTokenRepository, mailSender)
+        service = AuthService(authTokenRepository, mailSender)
     }
 
     @Test

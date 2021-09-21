@@ -35,9 +35,14 @@ class AuthToken(
 
     @Column(name = "expired")
     var expired: Boolean = expired
+        protected set
 
-    fun useToken() {
-        this.expired = true
+    fun revalidate(now: LocalDateTime) {
+        expired = expired || now.isAfter(expirationTime)
+    }
+
+    fun expire() {
+        expired = true
     }
 
     companion object {

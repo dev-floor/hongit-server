@@ -20,6 +20,7 @@ import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_1
 import com.devfloor.hongit.api.user.application.request.SignUpRequest
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.core.article.domain.Article
+import com.devfloor.hongit.core.authtoken.AuthToken
 import com.devfloor.hongit.core.board.domain.Board
 import com.devfloor.hongit.core.board.domain.BoardType
 import com.devfloor.hongit.core.comment.domain.Comment
@@ -203,5 +204,9 @@ object TestFixtures {
             name = "professor 1",
             email = "professor@gmail.com",
         )
+    }
+
+    object AuthTokenFixture {
+        val AUTH_TOKEN_1 = AuthToken()
     }
 }

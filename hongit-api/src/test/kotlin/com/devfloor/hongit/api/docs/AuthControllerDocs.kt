@@ -1,6 +1,6 @@
 package com.devfloor.hongit.api.docs
 
-import com.devfloor.hongit.api.auth.application.AuthMailService
+import com.devfloor.hongit.api.auth.application.AuthService
 import com.devfloor.hongit.api.auth.application.request.AuthMailRequest
 import com.devfloor.hongit.api.auth.presentation.AuthController
 import com.devfloor.hongit.api.common.utils.BASE_API_URI
@@ -31,7 +31,7 @@ class AuthControllerDocs {
     private lateinit var authController: AuthController
 
     @Mock
-    private lateinit var authMailService: AuthMailService
+    private lateinit var authService: AuthService
 
     private lateinit var mockMvc: MockMvc
 
@@ -43,12 +43,12 @@ class AuthControllerDocs {
     @Test
     internal fun `sendAuthenticationMail - 인증메일 발송 API 문서화`() {
         // given
-        willDoNothing().given(authMailService).sendAuthenticationMail(any())
+        willDoNothing().given(authService).sendAuthenticationMail(any())
 
         // when - then
         mockMvc
             .perform(
-                RestDocumentationRequestBuilders.post("$BASE_API_URI/auth-mail")
+                RestDocumentationRequestBuilders.post("$BASE_API_URI/auth")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(ApiDocsTestUtils.convertAsJson(AuthMailRequest("test@g.hongik.ac.kr")))
                     .accept(MediaType.APPLICATION_JSON)
@@ -56,7 +56,7 @@ class AuthControllerDocs {
             .andExpect(status().isNoContent)
             .andDo(
                 MockMvcRestDocumentation.document(
-                    "auth/postAuthMail",
+                    "auth/postAuth",
                     Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                     Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
                     PayloadDocumentation.requestFields(
