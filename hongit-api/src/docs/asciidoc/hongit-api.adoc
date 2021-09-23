@@ -201,7 +201,7 @@ include::{snippets}/user/signup/response-headers.adoc[]
 
 include::{snippets}/user/getByNickname/http-request.adoc[]
 
-include::{snippets}/user/getByNickname/path-parameters.adoc[]
+include::{snippets}/user/getByNickname/request-parameters.adoc[]
 
 ==== Response
 

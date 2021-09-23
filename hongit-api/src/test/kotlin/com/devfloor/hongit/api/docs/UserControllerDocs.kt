@@ -101,8 +101,10 @@ internal class UserControllerDocs {
         // when - then
         mockMvc
             .perform(
-                RestDocumentationRequestBuilders.get("$USER_API_URI/{nickname}", PROFILE_RESPONSE_1.nickname)
+                RestDocumentationRequestBuilders.get(USER_API_URI)
+                    .param("nickname", PROFILE_RESPONSE_1.nickname)
                     .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
             )
             .andExpect(status().isOk)
             .andDo(
@@ -110,7 +112,7 @@ internal class UserControllerDocs {
                     "user/getByNickname",
                     Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                     Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
-                    RequestDocumentation.pathParameters(
+                    RequestDocumentation.requestParameters(
                         parameterWithName("nickname").description("조회 닉네임")
                     ),
                     PayloadDocumentation.responseFields(
