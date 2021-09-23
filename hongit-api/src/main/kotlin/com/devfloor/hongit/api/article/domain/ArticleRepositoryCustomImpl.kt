@@ -32,7 +32,7 @@ class ArticleRepositoryCustomImpl(
             .fetch()
     }
 
-    override fun findAllByBoardSortByViewCount(board: Board, pageRequest: PageRequest): List<Article> {
+    override fun findAllByBoardOrderByViewCount(board: Board, pageRequest: PageRequest): List<Article> {
         return jpaQueryFactory.selectFrom(article)
             .join(articleViewCount).on(article.eq(articleViewCount.article))
             .where(article.board.eq(board))
@@ -42,7 +42,7 @@ class ArticleRepositoryCustomImpl(
             .fetch()
     }
 
-    override fun findAllByBoardSortByFavorite(board: Board, pageRequest: PageRequest): List<Article> {
+    override fun findAllByBoardOrderByFavorite(board: Board, pageRequest: PageRequest): List<Article> {
         return jpaQueryFactory.selectFrom(article)
             .join(articleFavorite).on(article.eq(articleFavorite.article))
             .where(articleFavorite.type.eq(ArticleFavoriteType.FAVORITE))

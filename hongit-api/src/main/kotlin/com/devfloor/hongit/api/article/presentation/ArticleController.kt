@@ -38,10 +38,10 @@ class ArticleController(
     @ResponseStatus(value = HttpStatus.OK)
     fun showAllByBoardId(
         @RequestParam boardId: Long,
-        @RequestParam(required = false) sort: ArticleSortType?,
-        @RequestParam(required = false) options: List<Long>?,
         @RequestParam page: Int,
         @RequestParam pageSize: Int,
+        @RequestParam(required = false) sort: ArticleSortType?,
+        @RequestParam(required = false) options: List<Long>?,
     ): List<ArticleFeedResponse> =
         articleService.showAllByBoardId(boardId, page, pageSize, sort, options)
             .also { log.info("boardId = $boardId, sort = $sort, options = $options") }
@@ -54,7 +54,7 @@ class ArticleController(
         @RequestParam page: Int,
         @RequestParam pageSize: Int
     ): List<ArticleFeedResponse> =
-        articleService.showAllByNickname(nickname, page, pageSize)
+        articleService.showAllByNickname(nickname, page, pageSize, loginUser)
 
     @GetMapping(params = ["favoritedUserId", "favoriteType"])
     @ResponseStatus(value = HttpStatus.OK)

@@ -13,7 +13,6 @@ import com.devfloor.hongit.api.common.exception.EntityNotFoundException
 import com.devfloor.hongit.api.hashtag.application.HashtagService
 import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.article.domain.ArticleRepository
-import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavorite
 import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavoriteRepository
 import com.devfloor.hongit.core.articlehashtag.domain.ArticleHashtag
 import com.devfloor.hongit.core.articlehashtag.domain.ArticleHashtagRepository
@@ -27,9 +26,9 @@ import com.devfloor.hongit.core.board.domain.BoardRepository
 import com.devfloor.hongit.core.option.domain.OptionRepository
 import com.devfloor.hongit.core.user.domain.User
 import com.devfloor.hongit.core.user.domain.UserRepository
+import com.devfloor.hongit.core.user.domain.findByNicknameOrNull
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Sort
-import com.devfloor.hongit.core.user.domain.findByNicknameOrNull
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -49,7 +48,6 @@ class ArticleService(
     private val articleHashtagService: ArticleHashtagService,
     private val articleOptionService: ArticleOptionService,
     private val hashtagService: HashtagService,
-
 ) {
     @Transactional(readOnly = true)
     fun showByArticleId(articleId: Long): ArticleResponse {
@@ -83,8 +81,7 @@ class ArticleService(
 
         return when (sort) {
             ArticleSortType.CREATED -> {
-                val pageRequest: PageRequest = PageRequest.of(page, pageSize, Sort.by("createdAt"))
-                articleRepository.findAllByBoard(board, pageRequest).content
+                articleRepository.findAllByBoard(board, PageRequest.of(page, pageSize, Sort.by("createdAt"))).content
                     .map {
                         ArticleFeedResponse(
                             article = it,
@@ -96,28 +93,31 @@ class ArticleService(
                     }
             }
             ArticleSortType.VIEW_COUNT -> {
-                val pageRequest: PageRequest = PageRequest.of(page, pageSize)
-                articleRepositoryCustom.findAllByBoardSortByViewCount(board, pageRequest).map {
-                    ArticleFeedResponse(
-                        article = it,
-                        articleOptions = articleOptionRepository.findAllByArticle(it),
-                        articleFavorites = articleFavoriteRepository.findAllByArticle(it),
-                        page = page,
-                        totalArticleCount = articleRepository.countAllByBoard(board)
-                    )
-                }
+                articleRepositoryCustom.findAllByBoardOrderByViewCount(board, PageRequest.of(page, pageSize))
+                    .map {
+                        ArticleFeedResponse(
+                            article = it,
+                            articleOptions = articleOptionRepository.findAllByArticle(it),
+                            articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                            page = page,
+                            totalArticleCount = articleRepository.countAllByBoard(board)
+                        )
+                    }
             }
             ArticleSortType.FAVORITE -> {
-                val pageRequest: PageRequest = PageRequest.of(page, pageSize, Sort.by("createdAt"))
-                articleRepositoryCustom.findAllByBoardSortByFavorite(board, pageRequest).map {
-                    ArticleFeedResponse(
-                        article = it,
-                        articleOptions = articleOptionRepository.findAllByArticle(it),
-                        articleFavorites = articleFavoriteRepository.findAllByArticle(it),
-                        page = page,
-                        totalArticleCount = articleRepository.countAllByBoard(board)
-                    )
-                }
+                articleRepositoryCustom.findAllByBoardOrderByFavorite(
+                    board,
+                    PageRequest.of(page, pageSize, Sort.by("createdAt"))
+                )
+                    .map {
+                        ArticleFeedResponse(
+                            article = it,
+                            articleOptions = articleOptionRepository.findAllByArticle(it),
+                            articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                            page = page,
+                            totalArticleCount = articleRepository.countAllByBoard(board)
+                        )
+                    }
             }
             else -> throw IllegalArgumentException()
         }
@@ -154,37 +154,43 @@ class ArticleService(
     }
 
     @Transactional(readOnly = true)
-    fun showAllByNickname(nickname: String, page: Int, pageSize: Int): List<ArticleFeedResponse> {
-        val user: User = userRepository.findByNicknameOrNull(nickname)
+    fun showAllByNickname(nickname: String, page: Int, pageSize: Int, loginUser: User): List<ArticleFeedResponse> {
+        val user = userRepository.findByNicknameOrNull(nickname)
             ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
 
-        val pageRequest: PageRequest = PageRequest.of(page, pageSize)
-        val articles = user
-            .let { articleRepository.findAllByAuthor(it, pageRequest) }
-
-        return articles.content.filter { !it.anonymous }
-            .map {
-                ArticleFeedResponse(
-                    article = it,
-                    articleOptions = articleOptionRepository.findAllByArticle(it),
-                    articleFavorites = articleFavoriteRepository.findAllByArticle(it),
-                    page = page,
-                    totalArticleCount = articleRepository.countAllByAuthor(user)
-                )
-            }
+        val articles = articleRepository.findAllByAuthor(user, PageRequest.of(page, pageSize))
+        if (loginUser.id != user.id) {
+            return articles.content.filter { !it.anonymous }
+                .map {
+                    ArticleFeedResponse(
+                        article = it,
+                        articleOptions = articleOptionRepository.findAllByArticle(it),
+                        articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                        page = page,
+                        totalArticleCount = articleRepository.countAllByAuthor(user)
+                    )
+                }
+        } else {
+            return articles.content
+                .map {
+                    ArticleFeedResponse(
+                        article = it,
+                        articleOptions = articleOptionRepository.findAllByArticle(it),
+                        articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                        page = page,
+                        totalArticleCount = articleRepository.countAllByAuthor(user)
+                    )
+                }
+        }
     }
 
     @Transactional(readOnly = true)
-    fun showAllByFavoritedUserId(userId: Long, page: Int, pageSize: Int): List<ArticleFeedResponse> {
-        val user: User = userRepository.findByIdOrNull(userId)
-            ?: EntityNotFoundException.notExistsId(User::class, userId)
-        val articleFavorites: List<ArticleFavorite> = articleFavoriteRepository.findAllByUser(user)
-        val pageRequest: PageRequest = PageRequest.of(page, pageSize)
-        val articles = articleFavorites
-            .let {
-                articleRepository.findAllByIdIn(it.map { it.id }, pageRequest)
-            }
-
+    fun showAllByFavoritedUserId(favoriteUserId: Long, page: Int, pageSize: Int): List<ArticleFeedResponse> {
+        val user = userRepository.findByIdOrNull(favoriteUserId)
+            ?: EntityNotFoundException.notExistsId(User::class, favoriteUserId)
+        val articleFavoriteIds = articleFavoriteRepository.findAllByUser(user)
+            .map { it.id }
+        val articles = articleRepository.findAllByIdIn(articleFavoriteIds, PageRequest.of(page, pageSize))
         return articles.content
             .map {
                 ArticleFeedResponse(
@@ -192,9 +198,7 @@ class ArticleService(
                     articleOptions = articleOptionRepository.findAllByArticle(it),
                     articleFavorites = articleFavoriteRepository.findAllByArticle(it),
                     page = page,
-                    totalArticleCount = articleRepository.countAllByIdIn(
-                        articleFavorites.map { it.id }
-                    )
+                    totalArticleCount = articleRepository.countAllByIdIn(articleFavoriteIds)
                 )
             }
     }
