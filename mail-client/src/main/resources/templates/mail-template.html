@@ -107,7 +107,7 @@
                 ">
                   안녕하세요. 홍익대학교 컴퓨터공학과 커뮤니티 <span
                   style="color: #3b82f6; font-weight: bold;">HongIT</span>입니다.<br/>
-                  <span th:text="${receiverEmail}"></span> 회원님, 아래 버튼을 클릭하여 이메일 인증을 완료해주세요.
+                  <span th:text="${receiverEmail}"></span> 회원님, 아래 버튼을 클릭하여 회원가입을 완료해주세요.
                 </td>
               </tr>
               <tr>
@@ -127,9 +127,21 @@
                     font-weight: bold;
                     font-size: 1rem;
                   ">
-                    <a th:href="${redirectUrl}" style="color: #ffffff; text-decoration: unset">메일
-                      인증하기</a>
+                    <a th:href="${redirectUrl}" style="color: #ffffff; text-decoration: unset">회원가입하기</a>
                   </div>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  style="width: 100%; padding: 0 0 10px 0; text-align: center; color: #808080; font-size: 0.8rem">
+                  위 버튼을 클릭하시거나 다음 링크를 열으세요:<br/>
+                  <span th: text="${redirectUrl}"></span>
+                </td>
+              </tr>
+              <tr>
+                <td
+                  style="width: 100%; padding: 0 0 20px 0; text-align: center; color: #808080; font-size: 0.8rem">
+                  위 링크는 24시간동안 유효합니다.
                 </td>
               </tr>
             </table>
