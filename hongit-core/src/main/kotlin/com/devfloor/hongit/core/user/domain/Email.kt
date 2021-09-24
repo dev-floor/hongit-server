@@ -28,6 +28,8 @@ class Email(
         if (!VALID_DOMAINS.contains(domain)) throw IllegalArgumentException("유효하지 않은 도메인입니다.")
     }
 
+    fun toEmailString(): String = "$name$AT_SIGN$domain"
+
     companion object {
         private const val AT_SIGN = "@"
         val VALID_DOMAINS = listOf("mail.hongik.ac.kr", "g.hongik.ac.kr")

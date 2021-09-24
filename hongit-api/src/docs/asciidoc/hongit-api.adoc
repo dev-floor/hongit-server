@@ -34,13 +34,21 @@ endif::[]
 
 ==== Request
 
+===== [http-request]
+
 include::{snippets}/article/getByArticleId/http-request.adoc[]
+
+===== [path-parameters]
 
 include::{snippets}/article/getByArticleId/path-parameters.adoc[]
 
 ==== Response
 
+===== [http-response]
+
 include::{snippets}/article/getByArticleId/http-response.adoc[]
+
+===== [response-body]
 
 include::{snippets}/article/getByArticleId/response-fields.adoc[]
 
@@ -54,13 +62,21 @@ include::{snippets}/article/getByArticleId/response-fields.adoc[]
 
 ==== Request
 
+===== [http-request]
+
 include::{snippets}/board/getByBoardId/http-request.adoc[]
+
+===== [path-parameters]
 
 include::{snippets}/board/getByBoardId/path-parameters.adoc[]
 
 ==== Response
 
+===== [http-response]
+
 include::{snippets}/board/getByBoardId/http-response.adoc[]
+
+===== [response-body]
 
 include::{snippets}/board/getByBoardId/response-fields.adoc[]
 
@@ -69,13 +85,21 @@ include::{snippets}/board/getByBoardId/response-fields.adoc[]
 
 ==== Request
 
+===== [http-request]
+
 include::{snippets}/board/getAll/http-request.adoc[]
+
+===== [request-headers]
 
 include::{snippets}/board/getAll/request-headers.adoc[]
 
 ==== Response
 
+===== [http-response]
+
 include::{snippets}/board/getAll/http-response.adoc[]
+
+===== [response-body]
 
 include::{snippets}/board/getAll/response-fields.adoc[]
 
@@ -84,13 +108,21 @@ include::{snippets}/board/getAll/response-fields.adoc[]
 
 ==== Request
 
+===== [http-request]
+
 include::{snippets}/board/getAllByBoardType/http-request.adoc[]
+
+===== [request-parameters]
 
 include::{snippets}/board/getAllByBoardType/request-parameters.adoc[]
 
 ==== Response
 
+===== [http-response]
+
 include::{snippets}/board/getAllByBoardType/http-response.adoc[]
+
+===== [response-body]
 
 include::{snippets}/board/getAllByBoardType/response-fields.adoc[]
 
@@ -104,13 +136,21 @@ include::{snippets}/board/getAllByBoardType/response-fields.adoc[]
 
 ==== Request
 
+===== [http-request]
+
 include::{snippets}/comment/getAllByArticleId/http-request.adoc[]
+
+===== [request-parameters]
 
 include::{snippets}/comment/getAllByArticleId/request-parameters.adoc[]
 
 ==== Response
 
+===== [http-response]
+
 include::{snippets}/comment/getAllByArticleId/http-response.adoc[]
+
+===== [response-body]
 
 include::{snippets}/comment/getAllByArticleId/response-fields.adoc[]
 
@@ -119,13 +159,21 @@ include::{snippets}/comment/getAllByArticleId/response-fields.adoc[]
 
 ==== Request
 
+===== [http-request]
+
 include::{snippets}/comment/getAllByNickname/http-request.adoc[]
+
+===== [request-parameters]
 
 include::{snippets}/comment/getAllByNickname/request-parameters.adoc[]
 
 ==== Response
 
+===== [http-response]
+
 include::{snippets}/comment/getAllByNickname/http-response.adoc[]
+
+===== [response-body]
 
 include::{snippets}/comment/getAllByNickname/response-fields.adoc[]
 
@@ -134,77 +182,172 @@ include::{snippets}/comment/getAllByNickname/response-fields.adoc[]
 
 ==== Request
 
+===== [http-request]
+
 include::{snippets}/comment/post/http-request.adoc[]
 
+===== [request-headers]
+
 include::{snippets}/comment/post/request-headers.adoc[]
+
+===== [request-body]
 
 include::{snippets}/comment/post/request-fields.adoc[]
 
 ==== Response
 
+===== [http-response]
+
 include::{snippets}/comment/post/http-response.adoc[]
 
-include::{snippets}/comment/post/request-fields.adoc[]
+===== [response-body]
+
+include::{snippets}/comment/post/response-fields.adoc[]
 
 [[comment-putByCommentId]]
 === 댓글 수정
 
 ==== Request
 
+===== [http-request]
+
 include::{snippets}/comment/putByCommentId/http-request.adoc[]
+
+===== [path-parameters]
 
 include::{snippets}/comment/putByCommentId/path-parameters.adoc[]
 
+===== [request-headers]
+
 include::{snippets}/comment/putByCommentId/request-headers.adoc[]
+
+===== [request-body]
 
 include::{snippets}/comment/putByCommentId/request-fields.adoc[]
 
 ==== Response
 
+===== [http-response]
+
 include::{snippets}/comment/putByCommentId/http-response.adoc[]
 
-include::{snippets}/comment/putByCommentId/request-fields.adoc[]
+===== [response-body]
+
+include::{snippets}/comment/putByCommentId/response-fields.adoc[]
 
 [[comment-deleteByCommentId]]
+=== 댓글 삭제
+
 ==== Request
+
+===== [http-request]
 
 include::{snippets}/comment/deleteByCommentId/http-request.adoc[]
 
+===== [path-parameters]
+
 include::{snippets}/comment/deleteByCommentId/path-parameters.adoc[]
 
+===== [request-headers]
+
 include::{snippets}/comment/deleteByCommentId/request-headers.adoc[]
+
+==== Response
+
+===== [http-response]
+
+include::{snippets}/comment/deleteByCommentId/http-response.adoc[]
 
 [[user]]
 == 회원 (User)
 
 회원과 관련된 API 정리
 
-[[user-join]]
+[[user-signup]]
 === 회원 가입
 
 ==== Request
 
-include::{snippets}/user/join/http-request.adoc[]
+===== [http-request]
 
-include::{snippets}/user/join/request-fields.adoc[]
+include::{snippets}/user/signup/http-request.adoc[]
+
+===== [request-body]
+
+include::{snippets}/user/signup/request-fields.adoc[]
 
 ==== Response
 
-include::{snippets}/user/join/http-response.adoc[]
+===== [http-response]
 
-include::{snippets}/user/join/response-headers.adoc[]
+include::{snippets}/user/signup/http-response.adoc[]
+
+===== [response-headers]
+
+include::{snippets}/user/signup/response-headers.adoc[]
 
 [[user-getByNickname]]
 === 사용자 조회
 
 ==== Request
 
+===== [http-request]
+
 include::{snippets}/user/getByNickname/http-request.adoc[]
 
-include::{snippets}/user/getByNickname/path-parameters.adoc[]
+===== [request-parameters]
+
+include::{snippets}/user/getByNickname/request-parameters.adoc[]
 
 ==== Response
 
+===== [http-response]
+
 include::{snippets}/user/getByNickname/http-response.adoc[]
 
+===== [response-body]
+
 include::{snippets}/user/getByNickname/response-fields.adoc[]
+
+[[auth]]
+== 인증 (Auth)
+
+인증과 관련된 API 정리
+
+[[auth-sendAuthenticationMail]]
+=== 인증 메일 발송
+
+==== Request
+
+===== [http-request]
+
+include::{snippets}/auth/postAuth/http-request.adoc[]
+
+===== [request-body]
+
+include::{snippets}/auth/postAuth/request-fields.adoc[]
+
+==== Response
+
+===== [http-response]
+
+include::{snippets}/auth/postAuth/http-response.adoc[]
+
+[[auth-validateAuthToken]]
+=== 인증토큰 검증
+
+==== Request
+
+===== [http-request]
+
+include::{snippets}/auth/getValidateAuthToken/http-request.adoc[]
+
+===== [path-parameters]
+
+include::{snippets}/auth/getValidateAuthToken/path-parameters.adoc[]
+
+==== Response
+
+===== [http-response]
+
+include::{snippets}/auth/getValidateAuthToken/http-response.adoc[]
