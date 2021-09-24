@@ -1,8 +1,11 @@
 spring:
+  config:
+    import: classpath:mail.yml
   profiles:
     include:
       - db
       - common
+      - mail
 
 ---
 
