@@ -8,8 +8,8 @@ mail:
   sender:
     host: smtp.gmail.com
     port: 587
-    username: useremail
-    password: userpassword
+    username: username
+    password: password
     protocol: smtp
     auth: true
     starttls-enable: true
