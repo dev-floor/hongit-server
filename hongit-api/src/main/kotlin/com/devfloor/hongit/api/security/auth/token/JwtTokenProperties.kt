@@ -1,4 +1,4 @@
-package com.devfloor.hongit.api.security.auth
+package com.devfloor.hongit.api.security.auth.token
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.boot.context.properties.ConstructorBinding

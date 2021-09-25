@@ -1,4 +1,4 @@
-package com.devfloor.hongit.api.security.auth
+package com.devfloor.hongit.api.security.auth.authentication
 
 import com.devfloor.hongit.api.security.web.AuthorizationType
 import org.apache.logging.log4j.util.Strings

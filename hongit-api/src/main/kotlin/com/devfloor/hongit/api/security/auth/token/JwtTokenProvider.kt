@@ -1,4 +1,4 @@
-package com.devfloor.hongit.api.security.auth
+package com.devfloor.hongit.api.security.auth.token
 
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
