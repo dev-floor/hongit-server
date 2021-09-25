@@ -114,7 +114,7 @@ class ArticleService(
     fun showAllByNickname(nickname: String): List<ArticleFeedResponse> {
         val articles = userRepository.findByNicknameOrNull(nickname)
             ?.let(articleRepository::findAllByAuthor)
-            ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
+            ?: EntityNotFoundException.notExistsField(User::class, nickname, "nickname")
 
         return articles
             .filter { !it.anonymous }

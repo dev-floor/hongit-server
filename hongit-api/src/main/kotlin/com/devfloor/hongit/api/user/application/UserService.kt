@@ -2,12 +2,18 @@ package com.devfloor.hongit.api.user.application
 
 import com.devfloor.hongit.api.common.exception.EntityNotFoundException
 import com.devfloor.hongit.api.common.exception.ErrorMessages
+import com.devfloor.hongit.api.security.auth.token.JwtTokenProvider
+import com.devfloor.hongit.api.security.web.AuthorizationType
+import com.devfloor.hongit.api.security.web.exception.AuthenticationException
+import com.devfloor.hongit.api.user.application.request.LoginRequest
 import com.devfloor.hongit.api.user.application.request.SignUpRequest
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
+import com.devfloor.hongit.api.user.application.response.TokenResponse
 import com.devfloor.hongit.core.common.config.Slf4j.Companion.log
 import com.devfloor.hongit.core.user.domain.User
 import com.devfloor.hongit.core.user.domain.UserRepository
 import com.devfloor.hongit.core.user.domain.findByNicknameOrNull
+import com.devfloor.hongit.core.user.domain.findByUsernameOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.util.Assert
@@ -16,6 +22,7 @@ import org.springframework.util.Assert
 class UserService(
     private val userRepository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
+    private val jwtTokenProvider: JwtTokenProvider,
 ) {
     fun signUp(request: SignUpRequest): Long {
         validateJoinInfo(request)
@@ -39,5 +46,14 @@ class UserService(
 
     fun showByNickname(nickname: String): ProfileResponse = userRepository.findByNicknameOrNull(nickname)
         ?.let { ProfileResponse(it) }
-        ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
+        ?: EntityNotFoundException.notExistsField(User::class, nickname, "nickname")
+
+    fun login(request: LoginRequest): TokenResponse {
+        val user = userRepository.findByUsernameOrNull(request.username)
+            ?: EntityNotFoundException.notExistsField(User::class, request.username, "username")
+
+        if (!user.verify(passwordEncoder, request.password)) throw AuthenticationException("비밀번호가 일치하지 않습니다.")
+
+        return TokenResponse(jwtTokenProvider.createToken(request.username), AuthorizationType.BEARER)
+    }
 }

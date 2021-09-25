@@ -98,4 +98,7 @@ class User(
         val encodedPassword = passwordEncoder.encode(this.password)
         this.password = encodedPassword
     }
+
+    fun verify(passwordEncoder: PasswordEncoder, password: String): Boolean =
+        passwordEncoder.matches(password, this.password)
 }

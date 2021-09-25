@@ -1,6 +1,5 @@
 package com.devfloor.hongit.api.docs
 
-import com.devfloor.hongit.api.common.utils.BASE_API_URI
 import com.devfloor.hongit.api.support.ApiDocsTest
 import com.devfloor.hongit.api.support.ApiDocsTestUtils
 import com.devfloor.hongit.api.support.ApiDocumentFormatGenerator.enumFormat
@@ -9,6 +8,7 @@ import com.devfloor.hongit.api.support.TestFixtures
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.PROFILE_RESPONSE_1
 import com.devfloor.hongit.api.user.application.UserService
 import com.devfloor.hongit.api.user.presentation.UserController
+import com.devfloor.hongit.api.user.presentation.UserController.Companion.SIGNUP_API_URI
 import com.devfloor.hongit.api.user.presentation.UserController.Companion.USER_API_URI
 import com.devfloor.hongit.core.user.domain.Email
 import com.devfloor.hongit.core.user.domain.UserType
@@ -55,7 +55,7 @@ internal class UserControllerDocs {
         // when - then
         mockMvc
             .perform(
-                RestDocumentationRequestBuilders.post("$BASE_API_URI/signup")
+                RestDocumentationRequestBuilders.post(SIGNUP_API_URI)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(ApiDocsTestUtils.convertAsJson(TestFixtures.UserFixture.JOIN_REQUEST_1))
                     .accept(MediaType.APPLICATION_JSON)

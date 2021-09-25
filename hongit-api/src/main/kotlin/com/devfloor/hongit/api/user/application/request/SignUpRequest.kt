@@ -1,5 +1,6 @@
 package com.devfloor.hongit.api.user.application.request
 
+import com.devfloor.hongit.api.common.utils.ApiUtils
 import com.devfloor.hongit.core.user.domain.Email
 import com.devfloor.hongit.core.user.domain.User
 import com.devfloor.hongit.core.user.domain.UserType
@@ -33,4 +34,16 @@ data class SignUpRequest(
         type = type,
         classOf = classOf,
     )
+
+    override fun toString(): String =
+        "SignUpRequest(" +
+            "username=$username, " +
+            "nickname=$nickname, " +
+            "password=${ApiUtils.mask(password)}, " +
+            "checkedPassword=${ApiUtils.mask(checkedPassword)}, " +
+            "email=$email, " +
+            "type=$type, " +
+            "classOf=$classOf, " +
+            "approved=$approved" +
+            ")"
 }
