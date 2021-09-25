@@ -40,6 +40,12 @@ logging:
       SQL: DEBUG
       type.descriptor.sql: trace
 
+security:
+  jwt:
+    token:
+      secret-key: secretsecretsecret
+      expire-time: 1000
+
 ---
 
 spring:
