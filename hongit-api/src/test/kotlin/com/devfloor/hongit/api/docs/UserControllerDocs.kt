@@ -1,13 +1,18 @@
 package com.devfloor.hongit.api.docs
 
+import com.devfloor.hongit.api.security.web.AuthorizationType
 import com.devfloor.hongit.api.support.ApiDocsTest
 import com.devfloor.hongit.api.support.ApiDocsTestUtils
 import com.devfloor.hongit.api.support.ApiDocumentFormatGenerator.enumFormat
 import com.devfloor.hongit.api.support.ApiDocumentFormatGenerator.format
 import com.devfloor.hongit.api.support.TestFixtures
+import com.devfloor.hongit.api.support.TestFixtures.UserFixture.JOIN_REQUEST_1
+import com.devfloor.hongit.api.support.TestFixtures.UserFixture.LOGIN_REQUEST_1
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.PROFILE_RESPONSE_1
 import com.devfloor.hongit.api.user.application.UserService
+import com.devfloor.hongit.api.user.application.response.TokenResponse
 import com.devfloor.hongit.api.user.presentation.UserController
+import com.devfloor.hongit.api.user.presentation.UserController.Companion.LOGIN_API_URI
 import com.devfloor.hongit.api.user.presentation.UserController.Companion.SIGNUP_API_URI
 import com.devfloor.hongit.api.user.presentation.UserController.Companion.USER_API_URI
 import com.devfloor.hongit.core.user.domain.Email
@@ -50,7 +55,7 @@ internal class UserControllerDocs {
     @Test
     internal fun `signUp - 회원가입 API 문서화`() {
         // given
-        given(userService.signUp(TestFixtures.UserFixture.JOIN_REQUEST_1)).willReturn(1)
+        given(userService.signUp(JOIN_REQUEST_1)).willReturn(1)
 
         // when - then
         mockMvc
@@ -88,6 +93,42 @@ internal class UserControllerDocs {
                     ),
                     HeaderDocumentation.responseHeaders(
                         HeaderDocumentation.headerWithName("Location").description("생성된 사용자 상세조회 API")
+                    )
+                )
+            )
+    }
+
+    @Test
+    internal fun `login - 로그인 API 문서화`() {
+        // given
+        given(userService.login(LOGIN_REQUEST_1)).willReturn(TokenResponse("token", AuthorizationType.BEARER))
+
+        // when - then
+        mockMvc
+            .perform(
+                RestDocumentationRequestBuilders.post(LOGIN_API_URI)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(ApiDocsTestUtils.convertAsJson(LOGIN_REQUEST_1))
+                    .accept(MediaType.APPLICATION_JSON)
+            )
+            .andExpect(status().isOk)
+            .andDo(
+                MockMvcRestDocumentation.document(
+                    "user/login",
+                    Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                    Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                    PayloadDocumentation.requestFields(
+                        fieldWithPath("username").type(JsonFieldType.STRING)
+                            .description("사용자 계정"),
+                        fieldWithPath("password").type(JsonFieldType.STRING)
+                            .description("사용자 비밀번호"),
+                    ),
+                    PayloadDocumentation.responseFields(
+                        fieldWithPath("token").type(JsonFieldType.STRING)
+                            .description("생성된 JWT 토큰"),
+                        fieldWithPath("type").type(JsonFieldType.STRING)
+                            .enumFormat(AuthorizationType::class)
+                            .description("생성된 JWT 토큰 타입")
                     )
                 )
             )

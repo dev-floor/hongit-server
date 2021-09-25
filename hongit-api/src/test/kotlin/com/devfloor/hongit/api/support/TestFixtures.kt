@@ -17,6 +17,7 @@ import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_RESPONS
 import com.devfloor.hongit.api.support.TestFixtures.ProfessorFixture.PROFESSOR_1
 import com.devfloor.hongit.api.support.TestFixtures.SubjectFixture.SUBJECT_1
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_1
+import com.devfloor.hongit.api.user.application.request.LoginRequest
 import com.devfloor.hongit.api.user.application.request.SignUpRequest
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.core.article.domain.Article
@@ -54,6 +55,11 @@ object TestFixtures {
             type = UserType.STUDENT,
             classOf = "B411158",
             approved = true,
+        )
+
+        val LOGIN_REQUEST_1 = LoginRequest(
+            username = "username",
+            password = "password",
         )
 
         val USER_1 = User(

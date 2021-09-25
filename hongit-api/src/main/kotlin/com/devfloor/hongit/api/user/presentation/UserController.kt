@@ -33,20 +33,20 @@ class UserController(
             }
     }
 
-    @GetMapping(value = [USER_API_URI])
-    @ResponseStatus(value = HttpStatus.OK)
-    fun showByNickname(@RequestParam nickname: String): ProfileResponse {
-        log.info("[UserController.showByNickname] 닉네임 회원 조회 - nickname: $nickname")
-        return userService.showByNickname(nickname)
-            .also { log.info("[UserController.showByNickname] 닉네임 회원 조회 완료 - response: $it") }
-    }
-
     @PostMapping(value = [LOGIN_API_URI])
     @ResponseStatus(value = HttpStatus.OK)
     fun login(@RequestBody request: LoginRequest): TokenResponse {
         log.info("[UserController.showByNickname] 로그인 - request: $request")
         return userService.login(request)
             .also { log.info("[UserController.showByNickname] 로그인 완료 - response: $it") }
+    }
+
+    @GetMapping(value = [USER_API_URI])
+    @ResponseStatus(value = HttpStatus.OK)
+    fun showByNickname(@RequestParam nickname: String): ProfileResponse {
+        log.info("[UserController.showByNickname] 닉네임 회원 조회 - nickname: $nickname")
+        return userService.showByNickname(nickname)
+            .also { log.info("[UserController.showByNickname] 닉네임 회원 조회 완료 - response: $it") }
     }
 
     companion object {
