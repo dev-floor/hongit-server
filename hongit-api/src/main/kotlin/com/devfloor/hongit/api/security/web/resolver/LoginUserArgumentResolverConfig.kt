@@ -1,5 +1,7 @@
-package com.devfloor.hongit.api.security.web
+package com.devfloor.hongit.api.security.web.resolver
 
+import com.devfloor.hongit.api.security.web.resolver.impl.DefaultLoginUserArgumentResolver
+import com.devfloor.hongit.api.security.web.resolver.impl.ProdLoginUserArgumentResolver
 import com.devfloor.hongit.core.user.domain.UserRepository
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
