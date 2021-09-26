@@ -230,7 +230,8 @@ internal class ArticleControllerDocs {
             articleService.showAllByNickname(
                 anyString(),
                 anyInt(),
-                anyInt()
+                anyInt(),
+                any()
             )
         ).willReturn(listOf(ARTICLE_FEED_RESPONSE_1))
 

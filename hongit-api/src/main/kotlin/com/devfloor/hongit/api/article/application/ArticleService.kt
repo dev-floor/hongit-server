@@ -107,7 +107,7 @@ class ArticleService(
             ArticleSortType.FAVORITE -> {
                 articleRepositoryCustom.findAllByBoardOrderByFavorite(
                     board,
-                    PageRequest.of(page, pageSize, Sort.by("createdAt"))
+                    PageRequest.of(page, pageSize)
                 )
                     .map {
                         ArticleFeedResponse(

@@ -16,6 +16,4 @@ interface ArticleRepository : JpaRepository<Article, Long> {
     fun findAllByIdIn(ids: List<Long>, pageRequest: PageRequest): Page<Article>
     fun countAllByIdIn(ids: List<Long>): Int
     fun findTop5ByBoardOrderByCreatedAtDesc(board: Board): List<Article>
-    fun findAllByAuthorAndAnonymousFalse(author: User, pageRequest: PageRequest): Page<Article>
-    fun countAllByAuhorAndAndAnonymousFalse(author: User): Int
 }
