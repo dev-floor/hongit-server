@@ -1,0 +1,44 @@
+Configuration:
+  name: Hongit-api default log4j2
+  status: info
+
+  Properties:
+    Property:
+      - name: log-pattern
+        value: %style{%d{yyyy/MM/dd HH:mm:ss,SSS}}{cyan} %highlight{[%-5p]}{FATAL=bg_red, ERROR=red, INFO=green, DEBUG=blue}  [%C] %style{[%t]}{yellow} - %m%n
+      - name: log-path
+        value: ./logs
+
+  Appenders:
+    Console:
+      name: Console_Appender
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: ${log-pattern}
+    RollingFile:
+      name: RollingFile_Appender
+      fileName: ${log-path}/logfile.log
+      filePattern: ${log-path}/logfile_%d{yyyy-MM-dd}_%i.log
+      PatternLayout:
+        pattern: ${log-pattern}
+      Policies:
+        TimeBasedTriggeringPolicy:
+          Interval: 1
+        DefaultRolloverStrategy:
+          Delete:
+            basePath: ${log-path}
+            IfAccumulatedFileCount:
+              exceeds: 31
+  Loggers:
+    Root:
+      level: debug
+      AppenderRef:
+        - ref: Console_Appender
+        - ref: RollingFile_Appender
+    Logger:
+      - name: com.devfloor.hongit
+        additivity: false
+        level: debug
+        AppenderRef:
+          - ref: Console_Appender
+          - ref: RollingFile_Appender
