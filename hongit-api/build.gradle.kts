@@ -24,7 +24,7 @@ plugins {
 
 dependencies {
     implementation(project(":hongit-core"))
-    implementation(project(":mail-client"))
+    implementation(project(":clients:mail-client"))
 
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")

@@ -17,7 +17,8 @@ plugins {
 val springProjects = listOf(
     project(":hongit-core"),
     project(":hongit-api"),
-    project(":mail-client")
+    project(":clients:mail-client"),
+    project(":clients:aws-s3-client")
 )
 
 val restDocsProjects = listOf(
