@@ -55,3 +55,12 @@ tasks.build {
     dependsOn(tasks.asciidoctor)
     dependsOn(tasks.getByName("copyDocs"))
 }
+
+tasks.processResources {
+    dependsOn(tasks.getByName("copySecretYaml"))
+}
+
+tasks.register<Copy>("copySecretYaml") {
+    from("../hongit-secret/application-secret.yml")
+    into("src/main/resources")
+}

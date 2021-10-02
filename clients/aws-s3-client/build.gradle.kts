@@ -24,3 +24,12 @@ dependencies {
 
     testImplementation(project(":hongit-core"))
 }
+
+tasks.processResources {
+    dependsOn(tasks.getByName("copySecretYaml"))
+}
+
+tasks.register<Copy>("copySecretYaml") {
+    from("../../hongit-secret/application-secret.yml")
+    into("src/main/resources")
+}

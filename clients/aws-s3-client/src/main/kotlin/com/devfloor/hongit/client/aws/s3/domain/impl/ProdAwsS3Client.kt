@@ -33,8 +33,10 @@ class ProdAwsS3Client(
             log.error("[ProdAwsS3Client.upload] S3 파일 업로드에 실패하였습니다 - key: $key")
             throw AwsS3ClientException(e.message)
         } catch (e: SdkException) {
-            log.error("[ProdAwsS3Client.upload] AWS S3 SDK 오류가 발생하였습니다 - key: $key")
-            throw AwsS3ClientException("AWS S3 SDK 오류가 발생하였습니다")
+            log.error("[ProdAwsS3Client.upload] AWS S3 SDK 오류가 발생하였습니다 - key: $key, message: ${e.message}")
+            throw AwsS3ClientException("AWS S3 SDK 오류가 발생하였습니다 - message: ${e.message}")
+        } finally {
+            uploadFile.delete()
         }
     }
 }
