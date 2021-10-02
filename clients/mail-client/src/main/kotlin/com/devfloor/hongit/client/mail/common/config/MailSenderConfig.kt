@@ -1,6 +1,5 @@
 package com.devfloor.hongit.client.mail.common.config
 
-import com.devfloor.hongit.client.mail.common.utils.MAIL_SENDER_MODE
 import com.devfloor.hongit.client.mail.domain.impl.DefaultMailSender
 import com.devfloor.hongit.client.mail.domain.impl.ProdMailSender
 import com.devfloor.hongit.client.mail.domain.spec.MailSender
@@ -19,7 +18,7 @@ import java.util.Properties
 @Configuration
 @EnableConfigurationProperties(value = [MailSenderProperties::class])
 class MailSenderConfig(
-    private val senderProperties: MailSenderProperties,
+    private val properties: MailSenderProperties,
 ) {
     @Bean
     @ConditionalOnProperty(value = [MAIL_SENDER_MODE], havingValue = "stub")
@@ -37,19 +36,19 @@ class MailSenderConfig(
     @Bean
     @ConditionalOnProperty(value = [MAIL_SENDER_MODE], havingValue = "prod")
     fun prodJavaMailSender(): JavaMailSender = JavaMailSenderImpl().apply {
-        host = senderProperties.host
-        port = senderProperties.port
-        username = senderProperties.username
-        password = senderProperties.password
+        host = properties.host
+        port = properties.port
+        username = properties.username
+        password = properties.password
         configurationJavaMailProperties(javaMailProperties)
     }
 
     private fun configurationJavaMailProperties(javaMailProperties: Properties) {
-        javaMailProperties["mail.transport.protocol"] = senderProperties.protocol
-        javaMailProperties["mail.smtp.auth"] = senderProperties.auth
-        javaMailProperties["mail.smtp.starttls.enable"] = senderProperties.starttlsEnable
-        javaMailProperties["mail.smtp.starttls.required"] = senderProperties.starttlsRequired
-        javaMailProperties["mail.debug"] = senderProperties.debug
+        javaMailProperties["mail.transport.protocol"] = properties.protocol
+        javaMailProperties["mail.smtp.auth"] = properties.auth
+        javaMailProperties["mail.smtp.starttls.enable"] = properties.starttlsEnable
+        javaMailProperties["mail.smtp.starttls.required"] = properties.starttlsRequired
+        javaMailProperties["mail.debug"] = properties.debug
     }
 
     @Bean
@@ -64,5 +63,9 @@ class MailSenderConfig(
         prefix = "classpath:templates/"
         suffix = ".html"
         templateMode = TemplateMode.HTML
+    }
+
+    companion object {
+        const val MAIL_SENDER_MODE = "mail.sender.mode"
     }
 }

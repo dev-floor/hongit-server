@@ -19,6 +19,7 @@ plugins {
 dependencies {
     implementation(project(":hongit-core"))
 
+    implementation("software.amazon.awssdk:s3")
     implementation(platform("software.amazon.awssdk:bom:2.15.0"))
 
     testImplementation(project(":hongit-core"))
