@@ -2,11 +2,13 @@ package com.devfloor.hongit.api.user.application
 
 import com.devfloor.hongit.api.common.exception.EntityNotFoundException
 import com.devfloor.hongit.api.common.exception.ErrorMessages
+import com.devfloor.hongit.api.user.application.request.ProfileModifyRequest
 import com.devfloor.hongit.api.user.application.request.SignUpRequest
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.core.common.config.Slf4j.Companion.log
 import com.devfloor.hongit.core.user.domain.User
 import com.devfloor.hongit.core.user.domain.UserRepository
+import com.devfloor.hongit.core.user.domain.UserType
 import com.devfloor.hongit.core.user.domain.findByNicknameOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -40,4 +42,21 @@ class UserService(
     fun showByNickname(nickname: String): ProfileResponse = userRepository.findByNicknameOrNull(nickname)
         ?.let { ProfileResponse(it) }
         ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
+
+    fun modifyByNickname(nickname: String, request: ProfileModifyRequest) {
+        userRepository.findByNicknameOrNull(nickname)
+            ?.apply {
+                if (!userRepository.existsByNickname(request.nickname)) {
+                    modify(
+                        request.nickname,
+                        UserType.valueOf(request.type),
+                        request.image,
+                        request.github,
+                        request.blog,
+                        request.description
+                    )
+                }
+            }
+            ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
+    }
 }
