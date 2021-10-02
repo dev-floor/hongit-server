@@ -96,4 +96,8 @@ class User(
     fun updatePassword(password: String) {
         this.password = password
     }
+
+    fun hasSameId(user: User): Boolean {
+        return this.id == user.id
+    }
 }

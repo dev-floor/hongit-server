@@ -80,18 +80,6 @@ class ArticleService(
             ?: EntityNotFoundException.notExistsId(Board::class, boardId)
 
         return when (sort) {
-            ArticleSortType.CREATED -> {
-                articleRepository.findAllByBoard(board, PageRequest.of(page, pageSize, Sort.by("createdAt"))).content
-                    .map {
-                        ArticleFeedResponse(
-                            article = it,
-                            articleOptions = articleOptionRepository.findAllByArticle(it),
-                            articleFavorites = articleFavoriteRepository.findAllByArticle(it),
-                            page = page,
-                            totalArticleCount = articleRepository.countAllByBoard(board)
-                        )
-                    }
-            }
             ArticleSortType.VIEW_COUNT -> {
                 articleRepositoryCustom.findAllByBoardOrderByViewCount(board, PageRequest.of(page, pageSize))
                     .map {
@@ -119,7 +107,19 @@ class ArticleService(
                         )
                     }
             }
-            else -> throw IllegalArgumentException()
+            else -> articleRepository.findAllByBoard(
+                board,
+                PageRequest.of(page, pageSize, Sort.by("createdAt"))
+            ).content
+                .map {
+                    ArticleFeedResponse(
+                        article = it,
+                        articleOptions = articleOptionRepository.findAllByArticle(it),
+                        articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                        page = page,
+                        totalArticleCount = articleRepository.countAllByBoard(board)
+                    )
+                }
         }
     }
 
@@ -159,29 +159,17 @@ class ArticleService(
             ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
 
         val articles = articleRepository.findAllByAuthor(user, PageRequest.of(page, pageSize))
-        if (loginUser.id != user.id) {
-            return articles.content.filter { !it.anonymous }
-                .map {
-                    ArticleFeedResponse(
-                        article = it,
-                        articleOptions = articleOptionRepository.findAllByArticle(it),
-                        articleFavorites = articleFavoriteRepository.findAllByArticle(it),
-                        page = page,
-                        totalArticleCount = articleRepository.countAllByAuthor(user)
-                    )
-                }
-        } else {
-            return articles.content
-                .map {
-                    ArticleFeedResponse(
-                        article = it,
-                        articleOptions = articleOptionRepository.findAllByArticle(it),
-                        articleFavorites = articleFavoriteRepository.findAllByArticle(it),
-                        page = page,
-                        totalArticleCount = articleRepository.countAllByAuthor(user)
-                    )
-                }
-        }
+        return articles.content
+            .filter { loginUser.hasSameId(user) || !it.anonymous } // 내부 predicate 로직을 따로 메서드로 뽑아도 좋고
+            .map {
+                ArticleFeedResponse(
+                    article = it,
+                    articleOptions = articleOptionRepository.findAllByArticle(it),
+                    articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                    page = page,
+                    totalArticleCount = articleRepository.countAllByAuthor(user)
+                )
+            }
     }
 
     @Transactional(readOnly = true)
