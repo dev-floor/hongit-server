@@ -1,4 +1,7 @@
 spring:
+  config:
+    activate:
+      on-profile: common
   thymeleaf:
     prefix: classpath:templates/
     suffix: .html
@@ -6,6 +9,7 @@ spring:
 
 mail:
   sender:
+    mode: stub
     host: smtp.gmail.com
     port: 587
     username: username
@@ -18,3 +22,37 @@ mail:
     connection-timeout: 5000
     timeout: 5000
     write-timeout: 5000
+
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+mail:
+  sender:
+    mode: stub
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+mail:
+  sender:
+    mode: stub
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+mail:
+  sender:
+    mode: prod

@@ -1,5 +1,7 @@
 package com.devfloor.hongit.client.mail.common.utils
 
+const val MAIL_SENDER_MODE = "mail.sender.mode"
+
 const val MAIL_TEMPLATE_FILE = "mail-template"
 
 const val SIGN_UP_URL = "https://hongit.co.kr/signup"

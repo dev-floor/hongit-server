@@ -1,13 +1,14 @@
 package com.devfloor.hongit.client.mail.common.config
 
+import com.devfloor.hongit.client.mail.common.utils.MAIL_SENDER_MODE
 import com.devfloor.hongit.client.mail.domain.impl.DefaultMailSender
 import com.devfloor.hongit.client.mail.domain.impl.ProdMailSender
 import com.devfloor.hongit.client.mail.domain.spec.MailSender
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
-import org.springframework.context.annotation.Profile
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.JavaMailSenderImpl
 import org.thymeleaf.spring5.SpringTemplateEngine
@@ -21,20 +22,20 @@ class MailSenderConfig(
     private val senderProperties: MailSenderProperties,
 ) {
     @Bean
-    @Profile(value = ["!prod"])
+    @ConditionalOnProperty(value = [MAIL_SENDER_MODE], havingValue = "stub")
     fun defaultMailSender(javaMailSender: JavaMailSender): MailSender = DefaultMailSender(javaMailSender)
 
     @Bean
-    @Profile(value = ["prod"])
+    @ConditionalOnProperty(value = [MAIL_SENDER_MODE], havingValue = "prod")
     fun prodMailSender(javaMailSender: JavaMailSender, templateEngine: SpringTemplateEngine): MailSender =
         ProdMailSender(javaMailSender, templateEngine)
 
     @Bean
-    @Profile(value = ["!prod"])
+    @ConditionalOnProperty(value = [MAIL_SENDER_MODE], havingValue = "stub")
     fun defaultJavaMailSender(): JavaMailSender = JavaMailSenderImpl()
 
     @Bean
-    @Profile(value = ["prod"])
+    @ConditionalOnProperty(value = [MAIL_SENDER_MODE], havingValue = "prod")
     fun prodJavaMailSender(): JavaMailSender = JavaMailSenderImpl().apply {
         host = senderProperties.host
         port = senderProperties.port
@@ -57,8 +58,8 @@ class MailSenderConfig(
             setTemplateResolver(resolver)
         }
 
-    @Primary
     @Bean
+    @Primary
     fun thymeleafTemplateResolver(): SpringResourceTemplateResolver = SpringResourceTemplateResolver().apply {
         prefix = "classpath:templates/"
         suffix = ".html"
