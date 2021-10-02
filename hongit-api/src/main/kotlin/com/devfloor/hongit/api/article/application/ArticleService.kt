@@ -80,46 +80,21 @@ class ArticleService(
             ?: EntityNotFoundException.notExistsId(Board::class, boardId)
 
         return when (sort) {
-            ArticleSortType.VIEW_COUNT -> {
+            ArticleSortType.VIEW_COUNT ->
                 articleRepositoryCustom.findAllByBoardOrderByViewCount(board, PageRequest.of(page, pageSize))
-                    .map {
-                        ArticleFeedResponse(
-                            article = it,
-                            articleOptions = articleOptionRepository.findAllByArticle(it),
-                            articleFavorites = articleFavoriteRepository.findAllByArticle(it),
-                            page = page,
-                            totalArticleCount = articleRepository.countAllByBoard(board)
-                        )
-                    }
-            }
-            ArticleSortType.FAVORITE -> {
-                articleRepositoryCustom.findAllByBoardOrderByFavorite(
-                    board,
-                    PageRequest.of(page, pageSize)
-                )
-                    .map {
-                        ArticleFeedResponse(
-                            article = it,
-                            articleOptions = articleOptionRepository.findAllByArticle(it),
-                            articleFavorites = articleFavoriteRepository.findAllByArticle(it),
-                            page = page,
-                            totalArticleCount = articleRepository.countAllByBoard(board)
-                        )
-                    }
-            }
-            else -> articleRepository.findAllByBoard(
-                board,
-                PageRequest.of(page, pageSize, Sort.by("createdAt"))
-            ).content
-                .map {
-                    ArticleFeedResponse(
-                        article = it,
-                        articleOptions = articleOptionRepository.findAllByArticle(it),
-                        articleFavorites = articleFavoriteRepository.findAllByArticle(it),
-                        page = page,
-                        totalArticleCount = articleRepository.countAllByBoard(board)
-                    )
-                }
+            ArticleSortType.FAVORITE ->
+                articleRepositoryCustom.findAllByBoardOrderByFavorite(board, PageRequest.of(page, pageSize))
+            else ->
+                articleRepository.findAllByBoard(board, PageRequest.of(page, pageSize, Sort.by("createdAt")))
+                    .content
+        }.map {
+            ArticleFeedResponse(
+                article = it,
+                articleOptions = articleOptionRepository.findAllByArticle(it),
+                articleFavorites = articleFavoriteRepository.findAllByArticle(it),
+                page = page,
+                totalArticleCount = articleRepository.countAllByBoard(board)
+            )
         }
     }
 
@@ -157,10 +132,10 @@ class ArticleService(
     fun showAllByNickname(nickname: String, page: Int, pageSize: Int, loginUser: User): List<ArticleFeedResponse> {
         val user = userRepository.findByNicknameOrNull(nickname)
             ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
-
         val articles = articleRepository.findAllByAuthor(user, PageRequest.of(page, pageSize))
+
         return articles.content
-            .filter { loginUser.hasSameId(user) || !it.anonymous } // 내부 predicate 로직을 따로 메서드로 뽑아도 좋고
+            .filter { loginUser.hasSameId(user) || !it.anonymous }
             .map {
                 ArticleFeedResponse(
                     article = it,
@@ -179,6 +154,7 @@ class ArticleService(
         val articleFavoriteIds = articleFavoriteRepository.findAllByUser(user)
             .map { it.id }
         val articles = articleRepository.findAllByIdIn(articleFavoriteIds, PageRequest.of(page, pageSize))
+
         return articles.content
             .map {
                 ArticleFeedResponse(

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 interface ArticleFavoriteRepository : JpaRepository<ArticleFavorite, Long> {
     fun findAllByArticle(article: Article): List<ArticleFavorite>
+
     fun findAllByUser(favoritedUser: User): List<ArticleFavorite>
 
     @Transactional

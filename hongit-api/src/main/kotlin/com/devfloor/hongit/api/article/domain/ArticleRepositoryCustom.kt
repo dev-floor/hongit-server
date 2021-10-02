@@ -6,7 +6,10 @@ import org.springframework.data.domain.PageRequest
 
 interface ArticleRepositoryCustom {
     fun findByFavoriteTopFive(): List<Article>
+
     fun findByViewCountTopFive(): List<Article>
+
     fun findAllByBoardOrderByViewCount(board: Board, pageRequest: PageRequest): List<Article>
+
     fun findAllByBoardOrderByFavorite(board: Board, pageRequest: PageRequest): List<Article>
 }

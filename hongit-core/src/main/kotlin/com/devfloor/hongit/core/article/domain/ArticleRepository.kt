@@ -10,10 +10,16 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 interface ArticleRepository : JpaRepository<Article, Long> {
     fun findAllByBoard(board: Board, pageRequest: PageRequest): Page<Article>
+
     fun countAllByBoard(board: Board): Int
+
     fun findAllByAuthor(author: User, pageRequest: PageRequest): Page<Article>
+
     fun countAllByAuthor(author: User): Int
+
     fun findAllByIdIn(ids: List<Long>, pageRequest: PageRequest): Page<Article>
+
     fun countAllByIdIn(ids: List<Long>): Int
+
     fun findTop5ByBoardOrderByCreatedAtDesc(board: Board): List<Article>
 }

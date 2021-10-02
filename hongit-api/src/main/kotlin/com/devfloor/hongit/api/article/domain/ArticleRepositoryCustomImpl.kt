@@ -15,7 +15,8 @@ class ArticleRepositoryCustomImpl(
     private val jpaQueryFactory: JPAQueryFactory,
 ) : ArticleRepositoryCustom {
     override fun findByFavoriteTopFive(): List<Article> {
-        return jpaQueryFactory.selectFrom(article)
+        return jpaQueryFactory
+            .selectFrom(article)
             .join(articleFavorite).on(article.eq(articleFavorite.article))
             .where(articleFavorite.type.eq(ArticleFavoriteType.FAVORITE))
             .groupBy(article)
@@ -25,7 +26,8 @@ class ArticleRepositoryCustomImpl(
     }
 
     override fun findByViewCountTopFive(): List<Article> {
-        return jpaQueryFactory.selectFrom(article)
+        return jpaQueryFactory
+            .selectFrom(article)
             .join(articleViewCount).on(article.eq(articleViewCount.article))
             .orderBy(articleViewCount.count.desc())
             .limit(5)
@@ -33,7 +35,8 @@ class ArticleRepositoryCustomImpl(
     }
 
     override fun findAllByBoardOrderByViewCount(board: Board, pageRequest: PageRequest): List<Article> {
-        return jpaQueryFactory.selectFrom(article)
+        return jpaQueryFactory
+            .selectFrom(article)
             .join(articleViewCount).on(article.eq(articleViewCount.article))
             .where(article.board.eq(board))
             .orderBy(articleViewCount.count.desc())
@@ -44,7 +47,8 @@ class ArticleRepositoryCustomImpl(
     }
 
     override fun findAllByBoardOrderByFavorite(board: Board, pageRequest: PageRequest): List<Article> {
-        return jpaQueryFactory.selectFrom(article)
+        return jpaQueryFactory
+            .selectFrom(article)
             .join(articleFavorite).on(article.eq(articleFavorite.article))
             .where(articleFavorite.type.eq(ArticleFavoriteType.FAVORITE))
             .groupBy(article)

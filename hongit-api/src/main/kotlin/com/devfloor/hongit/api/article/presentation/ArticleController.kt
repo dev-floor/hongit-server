@@ -45,7 +45,7 @@ class ArticleController(
         @RequestParam(required = false) options: List<Long>?,
     ): List<ArticleFeedResponse> =
         articleService.showAllByBoardId(boardId, page, pageSize, sort, options)
-            .also { log.info("[ArticleController.showAllByBoardId] 게시판 내 게시글 목록 조회 완료 - , response: $it") }
+            .also { log.info("[ArticleController.showAllByBoardId] 게시판 내 게시글 목록 조회 완료 - response: $it") }
 
     @GetMapping(params = ["nickname"])
     @ResponseStatus(value = HttpStatus.OK)
@@ -56,7 +56,7 @@ class ArticleController(
         @RequestParam pageSize: Int
     ): List<ArticleFeedResponse> =
         articleService.showAllByNickname(nickname, page, pageSize, loginUser)
-            .also { log.info("[ArticleController.showAllByNickname] 유저가 작성한 게시글 목록 조회 완료 - , response: $it") }
+            .also { log.info("[ArticleController.showAllByNickname] 유저가 작성한 게시글 목록 조회 완료 - response: $it") }
 
     @GetMapping(params = ["favoritedUserId", "favoriteType"])
     @ResponseStatus(value = HttpStatus.OK)
@@ -68,7 +68,7 @@ class ArticleController(
         @RequestParam pageSize: Int,
     ): List<ArticleFeedResponse> {
         return articleService.showAllByFavoritedUserId(userId, page, pageSize)
-            .also { log.info("[ArticleController.showAllByFavoritedUserId] 좋아요한 게시글 목록 조회 완료 - , response: $it") }
+            .also { log.info("[ArticleController.showAllByFavoritedUserId] 좋아요한 게시글 목록 조회 완료 - response: $it") }
     }
 
     @PostMapping
