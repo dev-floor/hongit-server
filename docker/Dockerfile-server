@@ -7,9 +7,10 @@ COPY gradle gradle
 COPY build.gradle.kts .
 COPY settings.gradle.kts .
 COPY gradle.properties .
+COPY buildSrc buildSrc
 COPY hongit-api hongit-api
 COPY hongit-core hongit-core
-COPY buildSrc buildSrc
+COPY mail-client mail-client
 
 RUN chmod +x ./gradlew
 RUN ./gradlew hongit-api:bootJar

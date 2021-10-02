@@ -28,11 +28,12 @@ import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_RESPONS
 import com.devfloor.hongit.api.support.TestFixtures.ProfessorFixture.PROFESSOR_1
 import com.devfloor.hongit.api.support.TestFixtures.SubjectFixture.SUBJECT_1
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_1
-import com.devfloor.hongit.api.user.application.request.JoinRequest
+import com.devfloor.hongit.api.user.application.request.SignUpRequest
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavorite
 import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavoriteType
+import com.devfloor.hongit.core.authtoken.AuthToken
 import com.devfloor.hongit.core.board.domain.Board
 import com.devfloor.hongit.core.board.domain.BoardType
 import com.devfloor.hongit.core.comment.domain.Comment
@@ -58,7 +59,7 @@ object TestFixtures {
     private val TEST_MODIFIED_AT = LocalDateTime.of(2021, 8, 1, 12, 10, 0)
 
     object UserFixture {
-        val JOIN_REQUEST_1 = JoinRequest(
+        val JOIN_REQUEST_1 = SignUpRequest(
             username = "username",
             nickname = "nickname",
             password = "password",
@@ -117,31 +118,6 @@ object TestFixtures {
             createdAt = TEST_CREATED_AT,
             modifiedAt = TEST_MODIFIED_AT,
         )
-
-        val ARTICLE_FEED_RESPONSE_1 = ArticleFeedResponse(
-            id = ARTICLE_1.id,
-            options = listOf(OPTION_RESPONSE_1),
-            title = ARTICLE_1.title,
-            anonymous = ARTICLE_1.anonymous,
-            authorName = ARTICLE_1.author.nickname,
-            content = ARTICLE_1.sliceContentByLength(300),
-            favoriteCount = 0,
-            wonderCount = 1,
-            clipCount = 2,
-            page = 1,
-            totalArticleCount = 120,
-            createdAt = TEST_CREATED_AT,
-            modifiedAt = TEST_MODIFIED_AT,
-        )
-
-        val ARTICLE_MODIFY_REQUEST_1 = ArticleModifyRequest(
-            optionIds = listOf(OPTION_MODIFY_1.id, OPTION_MODIFY_2.id),
-            title = "modify article title 111",
-            content = "modify article content 111",
-            hashtagNames = listOf(HASHTAG_MODIFY_1.name, HASHTAG_MODIFY_2.name)
-        )
-
-        val ARTICLE_ID_1: Long = 1
     }
 
     object BoardFixture {
@@ -317,5 +293,9 @@ object TestFixtures {
             name = "professor 1",
             email = "professor@gmail.com",
         )
+    }
+
+    object AuthTokenFixture {
+        val AUTH_TOKEN_1 = AuthToken()
     }
 }

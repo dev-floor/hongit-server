@@ -5,7 +5,7 @@ import com.devfloor.hongit.core.user.domain.User
 import com.devfloor.hongit.core.user.domain.UserType
 import org.springframework.util.StringUtils
 
-data class JoinRequest(
+data class SignUpRequest(
     val username: String,
     val nickname: String,
     val password: String,

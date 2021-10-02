@@ -11,5 +11,6 @@ rootProject.name = "hongit"
 
 include(
     "hongit-api",
-    "hongit-core"
+    "hongit-core",
+    "mail-client"
 )

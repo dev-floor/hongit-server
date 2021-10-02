@@ -1,12 +1,16 @@
 package com.devfloor.hongit.api.docs
 
+import com.devfloor.hongit.api.common.utils.BASE_API_URI
 import com.devfloor.hongit.api.support.ApiDocsTest
 import com.devfloor.hongit.api.support.ApiDocsTestUtils
 import com.devfloor.hongit.api.support.ApiDocumentFormatGenerator.enumFormat
+import com.devfloor.hongit.api.support.ApiDocumentFormatGenerator.format
+import com.devfloor.hongit.api.support.TestFixtures
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.PROFILE_RESPONSE_1
 import com.devfloor.hongit.api.user.application.UserService
 import com.devfloor.hongit.api.user.presentation.UserController
 import com.devfloor.hongit.api.user.presentation.UserController.Companion.USER_API_URI
+import com.devfloor.hongit.core.user.domain.Email
 import com.devfloor.hongit.core.user.domain.UserType
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -16,6 +20,7 @@ import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.springframework.http.MediaType
 import org.springframework.restdocs.RestDocumentationContextProvider
+import org.springframework.restdocs.headers.HeaderDocumentation
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
 import org.springframework.restdocs.operation.preprocess.Preprocessors
@@ -43,6 +48,52 @@ internal class UserControllerDocs {
     }
 
     @Test
+    internal fun `signUp - 회원가입 API 문서화`() {
+        // given
+        given(userService.signUp(TestFixtures.UserFixture.JOIN_REQUEST_1)).willReturn(1)
+
+        // when - then
+        mockMvc
+            .perform(
+                RestDocumentationRequestBuilders.post("$BASE_API_URI/signup")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(ApiDocsTestUtils.convertAsJson(TestFixtures.UserFixture.JOIN_REQUEST_1))
+                    .accept(MediaType.APPLICATION_JSON)
+            )
+            .andExpect(status().isCreated)
+            .andDo(
+                MockMvcRestDocumentation.document(
+                    "user/signup",
+                    Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                    Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                    PayloadDocumentation.requestFields(
+                        fieldWithPath("username").type(JsonFieldType.STRING)
+                            .description("사용자 계정"),
+                        fieldWithPath("nickname").type(JsonFieldType.STRING)
+                            .description("사용자 닉네임"),
+                        fieldWithPath("password").type(JsonFieldType.STRING)
+                            .description("사용자 비밀번호"),
+                        fieldWithPath("checkedPassword").type(JsonFieldType.STRING)
+                            .description("사용자 비밀번호 확인"),
+                        fieldWithPath("email").type(JsonFieldType.STRING)
+                            .format(Email.VALID_DOMAINS.map { "@$it" })
+                            .description("사용자 이메일"),
+                        fieldWithPath("type").type(JsonFieldType.STRING)
+                            .enumFormat(UserType::class)
+                            .description("사용자 유형"),
+                        fieldWithPath("classOf").type(JsonFieldType.STRING)
+                            .description("사용자 학번"),
+                        fieldWithPath("approved").type(JsonFieldType.BOOLEAN)
+                            .description("이메일 인증 여부")
+                    ),
+                    HeaderDocumentation.responseHeaders(
+                        HeaderDocumentation.headerWithName("Location").description("생성된 사용자 상세조회 API")
+                    )
+                )
+            )
+    }
+
+    @Test
     internal fun `showByNickname - 사용자 조회 API 문서화`() {
         // given
         given(userService.showByNickname(anyString())).willReturn(PROFILE_RESPONSE_1)
@@ -50,8 +101,10 @@ internal class UserControllerDocs {
         // when - then
         mockMvc
             .perform(
-                RestDocumentationRequestBuilders.get("$USER_API_URI/{nickname}", PROFILE_RESPONSE_1.nickname)
+                RestDocumentationRequestBuilders.get(USER_API_URI)
+                    .param("nickname", PROFILE_RESPONSE_1.nickname)
                     .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
             )
             .andExpect(status().isOk)
             .andDo(
@@ -59,7 +112,7 @@ internal class UserControllerDocs {
                     "user/getByNickname",
                     Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                     Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
-                    RequestDocumentation.pathParameters(
+                    RequestDocumentation.requestParameters(
                         parameterWithName("nickname").description("조회 닉네임")
                     ),
                     PayloadDocumentation.responseFields(
