@@ -29,6 +29,10 @@ data class ArticleFeedResponse(
 
     val clipCount: Long,
 
+    val page: Int,
+
+    val totalArticleCount: Int,
+
     @JsonFormat(
         pattern = LOCAL_DATE_TIME_FORMAT,
         shape = JsonFormat.Shape.STRING,
@@ -47,6 +51,8 @@ data class ArticleFeedResponse(
         article: Article,
         articleOptions: List<ArticleOption>,
         articleFavorites: List<ArticleFavorite>,
+        page: Int,
+        totalArticleCount: Int,
     ) : this(
         id = article.id,
         options = articleOptions.map { OptionResponse(it.option) },
@@ -57,6 +63,8 @@ data class ArticleFeedResponse(
         favoriteCount = articleFavorites.count { it.matchesType(ArticleFavoriteType.FAVORITE) }.toLong(),
         wonderCount = articleFavorites.count { it.matchesType(ArticleFavoriteType.WONDER) }.toLong(),
         clipCount = articleFavorites.count { it.matchesType(ArticleFavoriteType.CLIP) }.toLong(),
+        page = page,
+        totalArticleCount = totalArticleCount,
         createdAt = article.createdAt,
         modifiedAt = article.modifiedAt,
     )

@@ -1,6 +1,11 @@
 package com.devfloor.hongit.api.support
 
+import com.devfloor.hongit.api.article.application.request.ArticleCreateRequest
+import com.devfloor.hongit.api.article.application.request.ArticleModifyRequest
+import com.devfloor.hongit.api.article.application.response.ArticleFeedResponse
 import com.devfloor.hongit.api.article.application.response.ArticleResponse
+import com.devfloor.hongit.api.article.domain.ArticleSortType
+import com.devfloor.hongit.api.articlefavorite.application.request.ArticleFavoriteCreateRequest
 import com.devfloor.hongit.api.board.application.response.BoardResponse
 import com.devfloor.hongit.api.board.application.response.BoardSimpleResponse
 import com.devfloor.hongit.api.comment.application.request.CommentCreateRequest
@@ -11,8 +16,14 @@ import com.devfloor.hongit.api.option.application.response.OptionResponse
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.ARTICLE_1
 import com.devfloor.hongit.api.support.TestFixtures.BoardFixture.BOARD_1
 import com.devfloor.hongit.api.support.TestFixtures.CourseFixture.COURSE_1
+import com.devfloor.hongit.api.support.TestFixtures.HashtagFixture.HASHTAG_1
+import com.devfloor.hongit.api.support.TestFixtures.HashtagFixture.HASHTAG_2
+import com.devfloor.hongit.api.support.TestFixtures.HashtagFixture.HASHTAG_MODIFY_1
+import com.devfloor.hongit.api.support.TestFixtures.HashtagFixture.HASHTAG_MODIFY_2
 import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_1
 import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_2
+import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_MODIFY_1
+import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_MODIFY_2
 import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_RESPONSE_1
 import com.devfloor.hongit.api.support.TestFixtures.ProfessorFixture.PROFESSOR_1
 import com.devfloor.hongit.api.support.TestFixtures.SubjectFixture.SUBJECT_1
@@ -20,6 +31,8 @@ import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_1
 import com.devfloor.hongit.api.user.application.request.SignUpRequest
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.core.article.domain.Article
+import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavorite
+import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavoriteType
 import com.devfloor.hongit.core.authtoken.AuthToken
 import com.devfloor.hongit.core.board.domain.Board
 import com.devfloor.hongit.core.board.domain.BoardType
@@ -30,6 +43,7 @@ import com.devfloor.hongit.core.course.domain.OpeningSemester
 import com.devfloor.hongit.core.course.domain.Schedule
 import com.devfloor.hongit.core.course.domain.Semester
 import com.devfloor.hongit.core.course.domain.Timetable
+import com.devfloor.hongit.core.hashtag.domain.Hashtag
 import com.devfloor.hongit.core.option.domain.Option
 import com.devfloor.hongit.core.option.domain.OptionType
 import com.devfloor.hongit.core.professor.domain.Professor
@@ -57,7 +71,7 @@ object TestFixtures {
         )
 
         val USER_1 = User(
-            id = 0,
+            id = 1,
             username = "username",
             password = "password",
             nickname = "nickname",
@@ -82,7 +96,14 @@ object TestFixtures {
             author = USER_1,
             board = BOARD_1,
         )
-
+        val ARTICLE_CREATE_REQUEST_1 = ArticleCreateRequest(
+            optionIds = listOf(OPTION_1.id, OPTION_2.id),
+            title = ARTICLE_1.title,
+            anonymous = ARTICLE_1.anonymous,
+            content = ARTICLE_1.content,
+            hashtagNames = listOf(HASHTAG_1.name, HASHTAG_2.name),
+            boardId = ARTICLE_1.board.id
+        )
         val ARTICLE_RESPONSE_1 = ArticleResponse(
             id = ARTICLE_1.id,
             options = listOf(OPTION_RESPONSE_1),
@@ -177,6 +198,74 @@ object TestFixtures {
             id = 1,
             text = "option 1",
             type = OptionType.ARTICLE_KIND
+        )
+
+        val OPTION_2 = Option(
+            id = 2,
+            text = "option 2",
+            type = OptionType.COURSE_GROUP,
+        )
+
+        val OPTION_3 = Option(
+            id = 3,
+            text = "option 3",
+            type = OptionType.ARTICLE_KIND,
+        )
+
+        val OPTION_MODIFY_1 = Option(
+            id = 4,
+            text = "option modify 1",
+            type = OptionType.ARTICLE_KIND
+        )
+
+        val OPTION_MODIFY_2 = Option(
+            id = 5,
+            text = "option modify 2",
+            type = OptionType.COURSE_GROUP,
+        )
+        val OPTION_RESPONSE_1 = OptionResponse(OPTION_1)
+    }
+
+    object ArticleSortTypeFixture {
+        val ARTICLE_SORT_TYPE_1 = ArticleSortType.CREATED
+    }
+
+    object ArticleFavoriteFixture {
+        val ARTICLE_FAVORITE_1 = ArticleFavorite(
+            article = ARTICLE_1,
+            user = USER_1,
+            type = ArticleFavoriteType.FAVORITE
+        )
+
+        val ARTICLE_FAVORITE_CREATE_REQUEST_1 = ArticleFavoriteCreateRequest(
+            articleId = 1,
+            type = ArticleFavoriteType.FAVORITE
+        )
+    }
+
+    object FavoriteTypeFixture {
+        val FAVORITE_TYPE_1 = ArticleFavoriteType.FAVORITE
+    }
+
+    object HashtagFixture {
+        val HASHTAG_1 = Hashtag(
+            id = 1,
+            name = "hashtagname1"
+        )
+
+        val HASHTAG_2 = Hashtag(
+            id = 2,
+            name = "hashtagname2"
+        )
+
+        val HASHTAG_MODIFY_1 = Hashtag(
+            id = 3,
+            name = "hashtagname modified 3"
+        )
+
+        val HASHTAG_MODIFY_2 = Hashtag(
+            id = 4,
+            name = "hashtagname modified 4"
         )
 
         val OPTION_2 = Option(

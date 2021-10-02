@@ -98,4 +98,8 @@ class User(
         val encodedPassword = passwordEncoder.encode(this.password)
         this.password = encodedPassword
     }
+
+    fun hasSameId(user: User): Boolean {
+        return this.id == user.id
+    }
 }

@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional
 interface ArticleFavoriteRepository : JpaRepository<ArticleFavorite, Long> {
     fun findAllByArticle(article: Article): List<ArticleFavorite>
 
+    fun findAllByUser(favoritedUser: User): List<ArticleFavorite>
+
     @Transactional
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query(value = "DELETE FROM ArticleFavorite WHERE article = :article")
