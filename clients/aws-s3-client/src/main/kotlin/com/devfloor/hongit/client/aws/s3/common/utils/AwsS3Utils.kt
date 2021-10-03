@@ -32,7 +32,9 @@ object AwsS3Utils {
     }
 
     fun createKey(file: File, type: S3DirectoryType): String {
-        val uploadDateTime = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        return "${type.text}/$uploadDateTime/${file.name}"
+        val now = LocalDateTime.now()
+        val uploadDate = now.format(DateTimeFormatter.ISO_LOCAL_DATE)
+        val uploadDateTime = now.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        return "${type.text}/$uploadDate/${uploadDateTime}_${file.name}"
     }
 }
