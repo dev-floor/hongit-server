@@ -13,17 +13,17 @@ import com.devfloor.hongit.api.comment.application.request.CommentModifyRequest
 import com.devfloor.hongit.api.comment.application.response.CommentInProfileResponse
 import com.devfloor.hongit.api.comment.application.response.CommentResponse
 import com.devfloor.hongit.api.option.application.response.OptionResponse
+import com.devfloor.hongit.api.support.TestFixtures.ArticleFavoriteFixture.ARTICLE_FAVORITE_1
+import com.devfloor.hongit.api.support.TestFixtures.ArticleFavoriteFixture.ARTICLE_FAVORITE_2
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.ARTICLE_1
+import com.devfloor.hongit.api.support.TestFixtures.ArticleOptionFixture.ARTICLE_OPTION_1
+import com.devfloor.hongit.api.support.TestFixtures.ArticleOptionFixture.ARTICLE_OPTION_2
 import com.devfloor.hongit.api.support.TestFixtures.BoardFixture.BOARD_1
 import com.devfloor.hongit.api.support.TestFixtures.CourseFixture.COURSE_1
 import com.devfloor.hongit.api.support.TestFixtures.HashtagFixture.HASHTAG_1
 import com.devfloor.hongit.api.support.TestFixtures.HashtagFixture.HASHTAG_2
-import com.devfloor.hongit.api.support.TestFixtures.HashtagFixture.HASHTAG_MODIFY_1
-import com.devfloor.hongit.api.support.TestFixtures.HashtagFixture.HASHTAG_MODIFY_2
 import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_1
 import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_2
-import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_MODIFY_1
-import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_MODIFY_2
 import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_RESPONSE_1
 import com.devfloor.hongit.api.support.TestFixtures.ProfessorFixture.PROFESSOR_1
 import com.devfloor.hongit.api.support.TestFixtures.SubjectFixture.SUBJECT_1
@@ -33,6 +33,7 @@ import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavorite
 import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavoriteType
+import com.devfloor.hongit.core.articleoption.domain.ArticleOption
 import com.devfloor.hongit.core.authtoken.AuthToken
 import com.devfloor.hongit.core.board.domain.Board
 import com.devfloor.hongit.core.board.domain.BoardType
@@ -117,6 +118,22 @@ object TestFixtures {
             clipCount = 2,
             createdAt = TEST_CREATED_AT,
             modifiedAt = TEST_MODIFIED_AT,
+        )
+
+        val ARTICLE_FEED_RESPONSE_1 = ArticleFeedResponse(
+            article = ARTICLE_1,
+            articleOptions = listOf(ARTICLE_OPTION_1, ARTICLE_OPTION_2),
+            articleFavorites = listOf(ARTICLE_FAVORITE_1, ARTICLE_FAVORITE_2),
+            page = 3,
+            totalArticleCount = 150
+
+        )
+
+        val ARTICLE_MODIFY_REQUEST_1 = ArticleModifyRequest(
+            optionIds = listOf(OPTION_1.id, OPTION_2.id),
+            title = ARTICLE_1.title,
+            content = ARTICLE_1.content,
+            hashtagNames = listOf(HASHTAG_1.name, HASHTAG_2.name)
         )
     }
 
@@ -230,11 +247,31 @@ object TestFixtures {
         val ARTICLE_SORT_TYPE_1 = ArticleSortType.CREATED
     }
 
+    object ArticleOptionFixture {
+        val ARTICLE_OPTION_1 = ArticleOption(
+            article = ARTICLE_1,
+            option = OPTION_1,
+            id = 1
+        )
+
+        val ARTICLE_OPTION_2 = ArticleOption(
+            article = ARTICLE_1,
+            option = OPTION_2,
+            id = 2
+        )
+    }
+
     object ArticleFavoriteFixture {
         val ARTICLE_FAVORITE_1 = ArticleFavorite(
             article = ARTICLE_1,
             user = USER_1,
             type = ArticleFavoriteType.FAVORITE
+        )
+
+        val ARTICLE_FAVORITE_2 = ArticleFavorite(
+            article = ARTICLE_1,
+            user = USER_1,
+            type = ArticleFavoriteType.WONDER
         )
 
         val ARTICLE_FAVORITE_CREATE_REQUEST_1 = ArticleFavoriteCreateRequest(

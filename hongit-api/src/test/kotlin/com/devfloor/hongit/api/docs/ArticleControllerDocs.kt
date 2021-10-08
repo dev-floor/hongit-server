@@ -11,7 +11,6 @@ import com.devfloor.hongit.api.support.ApiDocumentFormatGenerator.enumFormat
 import com.devfloor.hongit.api.support.MockitoHelper.any
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.ARTICLE_CREATE_REQUEST_1
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.ARTICLE_FEED_RESPONSE_1
-import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.ARTICLE_ID_1
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.ARTICLE_MODIFY_REQUEST_1
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.ARTICLE_RESPONSE_1
 import com.devfloor.hongit.api.support.TestFixtures.ArticleSortTypeFixture.ARTICLE_SORT_TYPE_1
@@ -22,7 +21,12 @@ import com.devfloor.hongit.core.user.domain.UserRepository
 import com.devfloor.hongit.core.user.domain.UserType
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito.*
+import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.ArgumentMatchers.anyList
+import org.mockito.ArgumentMatchers.anyLong
+import org.mockito.ArgumentMatchers.anyString
+import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.willDoNothing
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.springframework.http.HttpHeaders
@@ -397,7 +401,7 @@ internal class ArticleControllerDocs {
     @Test
     fun `create - 게시글 생성 API 문서화`() {
         // given
-        given(articleService.create(any(), any())).willReturn(ARTICLE_ID_1)
+        given(articleService.create(any(), any())).willReturn(ARTICLE_RESPONSE_1.id)
         given(userRepository.findAll()).willReturn(listOf(USER_1))
 
         // when - then
