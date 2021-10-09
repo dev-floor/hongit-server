@@ -6,6 +6,7 @@ import com.devfloor.hongit.api.security.auth.token.JwtTokenProvider
 import com.devfloor.hongit.api.security.web.AuthorizationType
 import com.devfloor.hongit.api.security.web.exception.AuthenticationException
 import com.devfloor.hongit.api.user.application.request.LoginRequest
+import com.devfloor.hongit.api.user.application.request.PasswordModifyRequest
 import com.devfloor.hongit.api.user.application.request.SignUpRequest
 import com.devfloor.hongit.api.user.application.request.UserModifyRequest
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
@@ -16,6 +17,7 @@ import com.devfloor.hongit.core.user.domain.UserRepository
 import com.devfloor.hongit.core.user.domain.UserType
 import com.devfloor.hongit.core.user.domain.findByNicknameOrNull
 import com.devfloor.hongit.core.user.domain.findByUsernameOrNull
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.util.Assert
@@ -91,4 +93,26 @@ class UserService(
     private fun isNotEqualNickname(nickname: String, requestNickname: String): Boolean {
         return nickname != requestNickname
     }
+
+    @Transactional
+    fun modifyPassword(request: PasswordModifyRequest, id: Long) {
+        if (!request.matchesPassword()) {
+            throw IllegalArgumentException(ErrorMessages.User.PASSWORD_VERIFICATION_MISMATCH)
+        }
+
+        val user = userRepository.findByIdOrNull(id)
+            ?: EntityNotFoundException.notExistsId(User::class, id)
+
+        // TODO : IllegalArgumentException -> AuthenticationException
+        if (!user.matchesPassword(passwordEncoder, request.oldPassword)) throw IllegalArgumentException("비밀번호가 일치하지 않습니다.")
+        user.apply { modifyPassword(request.newPassword) }
+            .apply { encodePassword(passwordEncoder) }
+    }
+
+    // TODO : IllegalArgumentException -> AuthenticationException
+    @Transactional
+    fun destroy(id: Long, password: String) = userRepository.findByIdOrNull(id)
+        ?.apply { if (matchesPassword(passwordEncoder, password)) throw IllegalArgumentException("비밀번호가 일치하지 않습니다.") }
+        ?.let { userRepository.delete(it) }
+        ?: EntityNotFoundException.notExistsId(User::class, id)
 }

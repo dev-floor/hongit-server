@@ -121,6 +121,10 @@ class User(
     fun matchesPassword(passwordEncoder: PasswordEncoder, password: String): Boolean =
         passwordEncoder.matches(password, this.password)
 
+    fun modifyPassword(newPassword: String) {
+        this.password = newPassword
+    }
+
     fun hasSameId(user: User): Boolean {
         return this.id == user.id
     }
