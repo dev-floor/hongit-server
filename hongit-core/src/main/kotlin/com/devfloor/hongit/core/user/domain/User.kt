@@ -94,9 +94,23 @@ class User(
     var description: String? = description
         protected set
 
-    fun modify(nickname: String, type: UserType, image: String?, github: String?, blog: String?, description: String?) {
+    fun modifyProfile(image: String?, github: String?, blog: String?, description: String?) {
+        this.image = image
+        this.github = github
+        this.blog = blog
+        this.description = description
+    }
+
+    fun modifyUser(
+        nickname: String,
+        userType: UserType,
+        image: String?,
+        github: String?,
+        blog: String?,
+        description: String?
+    ) {
         this.nickname = nickname
-        this.type = type
+        this.type = userType
         this.image = image
         this.github = github
         this.blog = blog
@@ -110,5 +124,9 @@ class User(
 
     fun hasSameId(user: User): Boolean {
         return this.id == user.id
+    }
+
+    fun isSameNickname(nickname: String): Boolean {
+        return this.nickname == nickname
     }
 }

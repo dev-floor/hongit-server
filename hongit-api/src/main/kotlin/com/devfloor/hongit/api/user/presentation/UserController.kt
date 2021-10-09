@@ -5,6 +5,7 @@ import com.devfloor.hongit.api.security.core.LoginUser
 import com.devfloor.hongit.api.user.application.UserService
 import com.devfloor.hongit.api.user.application.request.ProfileModifyRequest
 import com.devfloor.hongit.api.user.application.request.SignUpRequest
+import com.devfloor.hongit.api.user.application.request.UserModifyRequest
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.core.user.domain.User
 import org.springframework.http.HttpStatus
@@ -30,13 +31,19 @@ class UserController(
     @ResponseStatus(value = HttpStatus.OK)
     fun showByNickname(@RequestParam nickname: String): ProfileResponse = userService.showByNickname(nickname)
 
-    @PutMapping(value = ["$USER_API_URI/{nickname}"])
+    @PutMapping(value = ["$USER_API_URI/myprofile"])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun modifyByArticleId(
-        @RequestParam nickname: String,
+    fun modifyProfileByArticleId(
         @RequestBody request: ProfileModifyRequest,
         @LoginUser loginUser: User,
-    ) = userService.modifyByNickname(nickname, request)
+    ) = userService.modifyProfileByNickname(loginUser, request)
+
+    @PutMapping(value = ["$USER_API_URI/my"])
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    fun modifyUserByArticleId(
+        @RequestBody request: UserModifyRequest,
+        @LoginUser loginUser: User,
+    ) = userService.modifyUserByNickname(loginUser, request)
 
     companion object {
         const val USER_API_URI = "$BASE_API_URI/users"

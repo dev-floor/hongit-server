@@ -1,9 +1,11 @@
 package com.devfloor.hongit.api.user.application
 
+import com.devfloor.hongit.api.common.exception.EntityAlreadyExistException
 import com.devfloor.hongit.api.common.exception.EntityNotFoundException
 import com.devfloor.hongit.api.common.exception.ErrorMessages
 import com.devfloor.hongit.api.user.application.request.ProfileModifyRequest
 import com.devfloor.hongit.api.user.application.request.SignUpRequest
+import com.devfloor.hongit.api.user.application.request.UserModifyRequest
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.core.common.config.Slf4j.Companion.log
 import com.devfloor.hongit.core.user.domain.User
@@ -43,20 +45,35 @@ class UserService(
         ?.let { ProfileResponse(it) }
         ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
 
-    fun modifyByNickname(nickname: String, request: ProfileModifyRequest) {
-        userRepository.findByNicknameOrNull(nickname)
+    fun modifyProfileByNickname(loginUser: User, request: ProfileModifyRequest) {
+        userRepository.findByNicknameOrNull(loginUser.nickname)
             ?.apply {
-                if (!userRepository.existsByNickname(request.nickname)) {
-                    modify(
+                modifyProfile(
+                    request.image,
+                    request.github,
+                    request.blog,
+                    request.description
+                )
+            }
+            ?: EntityNotFoundException.notExistsNickname(User::class, loginUser.nickname)
+    }
+
+    fun modifyUserByNickname(loginUser: User, request: UserModifyRequest) {
+        userRepository.findByNicknameOrNull(loginUser.nickname)
+            ?.apply {
+                if (!userRepository.existsByNickname(request.nickname) && !loginUser.isSameNickname(request.nickname)) {
+                    modifyUser(
                         request.nickname,
-                        UserType.valueOf(request.type),
+                        UserType.valueOf(request.userType),
                         request.image,
                         request.github,
                         request.blog,
                         request.description
                     )
+                } else {
+                    EntityAlreadyExistException.existsNickname(User::class, request.nickname)
                 }
             }
-            ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
+            ?: EntityNotFoundException.notExistsNickname(User::class, loginUser.nickname)
     }
 }
