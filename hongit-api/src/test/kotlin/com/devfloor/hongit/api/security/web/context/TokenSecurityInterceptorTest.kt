@@ -59,7 +59,7 @@ internal class TokenSecurityInterceptorTest {
     internal fun `preHandle - 로그인 토큰이 유효하면 true 반환`() {
         // given
         request.addHeader(AUTHORIZATION, TEST_AUTHORIZATION_HEADER)
-        `when`(jwtTokenProvider.validateToken(anyString())).thenReturn(true)
+        `when`(jwtTokenProvider.isValidToken(anyString())).thenReturn(true)
 
         // when - then
         assertThat(interceptor.preHandle(request, response, null)).isTrue

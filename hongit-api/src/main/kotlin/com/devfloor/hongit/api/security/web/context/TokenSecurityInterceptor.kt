@@ -20,7 +20,7 @@ class TokenSecurityInterceptor(
 
         if (!StringUtils.hasText(credentials)) throw AuthenticationException("로그인 토큰이 존재하지 않습니다.")
 
-        if (!jwtTokenProvider.validateToken(credentials)) throw AuthenticationException("로그인 토큰이 유효하지 않습니다.")
+        if (!jwtTokenProvider.isValidToken(credentials)) throw AuthenticationException("로그인 토큰이 유효하지 않습니다.")
 
         request.setAttribute(USERNAME_ATTRIBUTE, jwtTokenProvider.extractPayload(credentials))
         return true

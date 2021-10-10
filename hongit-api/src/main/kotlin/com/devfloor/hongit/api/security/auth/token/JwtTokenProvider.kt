@@ -31,7 +31,7 @@ class JwtTokenProvider(
         .parseClaimsJws(token)
         .body
 
-    fun validateToken(token: String): Boolean = try {
+    fun isValidToken(token: String): Boolean = try {
         extractClaims(token).expiration
             .before(Date())
             .not()
