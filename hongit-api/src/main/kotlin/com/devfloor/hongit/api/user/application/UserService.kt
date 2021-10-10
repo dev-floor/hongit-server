@@ -46,13 +46,13 @@ class UserService(
 
     fun showByNickname(nickname: String): ProfileResponse = userRepository.findByNicknameOrNull(nickname)
         ?.let { ProfileResponse(it) }
-        ?: EntityNotFoundException.notExistsField(User::class, nickname, "nickname")
+        ?: EntityNotFoundException.notExistsField(User::class, "nickname", nickname)
 
     fun login(request: LoginRequest): TokenResponse {
         val user = userRepository.findByUsernameOrNull(request.username)
-            ?: EntityNotFoundException.notExistsField(User::class, request.username, "username")
+            ?: EntityNotFoundException.notExistsField(User::class, "username", request.username)
 
-        if (!user.verify(passwordEncoder, request.password)) throw AuthenticationException("비밀번호가 일치하지 않습니다.")
+        if (!user.matchPassword(passwordEncoder, request.password)) throw AuthenticationException("비밀번호가 일치하지 않습니다.")
 
         return TokenResponse(jwtTokenProvider.createToken(request.username), AuthorizationType.BEARER)
     }
