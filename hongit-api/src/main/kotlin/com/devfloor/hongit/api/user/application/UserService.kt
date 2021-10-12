@@ -1,9 +1,7 @@
 package com.devfloor.hongit.api.user.application
 
-import com.devfloor.hongit.api.common.exception.EntityAlreadyExistException
 import com.devfloor.hongit.api.common.exception.EntityNotFoundException
 import com.devfloor.hongit.api.common.exception.ErrorMessages
-import com.devfloor.hongit.api.user.application.request.ProfileModifyRequest
 import com.devfloor.hongit.api.user.application.request.SignUpRequest
 import com.devfloor.hongit.api.user.application.request.UserModifyRequest
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
@@ -45,20 +43,7 @@ class UserService(
         ?.let { ProfileResponse(it) }
         ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
 
-    fun modifyProfileByNickname(loginUser: User, request: ProfileModifyRequest) {
-        userRepository.findByNicknameOrNull(loginUser.nickname)
-            ?.apply {
-                modifyProfile(
-                    request.image,
-                    request.github,
-                    request.blog,
-                    request.description
-                )
-            }
-            ?: EntityNotFoundException.notExistsNickname(User::class, loginUser.nickname)
-    }
-
-    fun modifyUserByNickname(loginUser: User, request: UserModifyRequest) {
+    fun modifyUser(loginUser: User, request: UserModifyRequest) {
         userRepository.findByNicknameOrNull(loginUser.nickname)
             ?.apply {
                 if (!userRepository.existsByNickname(request.nickname) && !loginUser.isSameNickname(request.nickname)) {
@@ -71,7 +56,7 @@ class UserService(
                         request.description
                     )
                 } else {
-                    EntityAlreadyExistException.existsNickname(User::class, request.nickname)
+                    IllegalArgumentException(ErrorMessages.User.EXISTING_NICKNAME)
                 }
             }
             ?: EntityNotFoundException.notExistsNickname(User::class, loginUser.nickname)
