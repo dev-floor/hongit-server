@@ -46,7 +46,7 @@ class UserService(
     fun modifyUser(loginUser: User, request: UserModifyRequest) {
         userRepository.findByNicknameOrNull(loginUser.nickname)
             ?.apply {
-                if (!userRepository.existsByNickname(request.nickname) && !loginUser.isSameNickname(request.nickname)) {
+                if (checkNickname(loginUser.nickname, request.nickname)) {
                     modifyUser(
                         request.nickname,
                         UserType.valueOf(request.userType),
@@ -55,10 +55,12 @@ class UserService(
                         request.blog,
                         request.description
                     )
-                } else {
-                    IllegalArgumentException(ErrorMessages.User.EXISTING_NICKNAME)
-                }
+                } else throw IllegalArgumentException(ErrorMessages.User.EXISTING_NICKNAME)
             }
             ?: EntityNotFoundException.notExistsNickname(User::class, loginUser.nickname)
+    }
+
+    private fun checkNickname(nickname: String, requestNickname: String): Boolean {
+        return !userRepository.existsByNickname(requestNickname) && nickname != (requestNickname)
     }
 }
