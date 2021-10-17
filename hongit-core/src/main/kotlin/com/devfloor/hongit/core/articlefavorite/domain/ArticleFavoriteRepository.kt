@@ -20,4 +20,6 @@ interface ArticleFavoriteRepository : JpaRepository<ArticleFavorite, Long> {
 
     @Transactional
     fun deleteByArticleAndUser(article: Article, user: User)
+
+    fun existsByArticleAndUser(article: Article, user: User): Boolean
 }
