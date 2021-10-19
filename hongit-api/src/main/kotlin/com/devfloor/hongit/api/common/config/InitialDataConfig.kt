@@ -75,7 +75,16 @@ class InitialDataConfig(
         hashtagRepository.saveAll(
             listOf(TEST_HASHTAG_1, TEST_HASHTAG_2, TEST_HASHTAG_3, TEST_HASHTAG_4, TEST_HASHTAG_5, TEST_HASHTAG_6)
         )
-        val boards = boardRepository.saveAll(listOf(TEST_BOARD_1, TEST_BOARD_2))
+        val boards = boardRepository.saveAll(
+            listOf(
+                TEST_COURSE_BOARD_1,
+                TEST_COURSE_BOARD_2,
+                TEST_QNA_BOARD,
+                TEST_COMMUNITY_BOARD,
+                TEST_GATHERING_BOARD,
+                TEST_RECRUIT_BOARD,
+            )
+        )
         boardOptionRepository.saveAll(
             listOf(TEST_BOARD_OPTION_1, TEST_BOARD_OPTION_2, TEST_BOARD_OPTION_3, TEST_BOARD_OPTION_4)
         )
@@ -120,8 +129,24 @@ class InitialDataConfig(
         commentRepository.saveAll(
             listOf(TEST_COMMENT_1, TEST_COMMENT_2, TEST_COMMENT_3, TEST_COMMENT_4, TEST_COMMENT_5)
         )
+        makeArticlesInEachBoard(boards, 12)
     }
 
+    private fun makeArticlesInEachBoard(boards: List<Board>, articleCount: Int) {
+        boards.forEach {
+            for (index in 0..articleCount) {
+                articleRepository.save(
+                    Article(
+                        title = "${it.type} 게시판 test 게시물-$index",
+                        anonymous = false,
+                        content = "test content test content test content test content test content",
+                        author = TEST_USER_1,
+                        board = it
+                    )
+                )
+            }
+        }
+    }
     companion object {
         private val TEST_USER_1 = User(
             username = "lxxjn0",
@@ -213,24 +238,29 @@ class InitialDataConfig(
             timetable = Timetable(listOf(Schedule.from("월3"), Schedule.from("화3"), Schedule.from("수3")))
         )
 
-        private val TEST_BOARD_1 = Board(
+        private val TEST_COURSE_BOARD_1 = Board(
             title = "${TEST_SUBJECT_1.name} - ${TEST_PROFESSOR_1.name}",
             type = BoardType.COURSE_BOARD
         )
-        private val TEST_BOARD_2 = Board(
+        private val TEST_COURSE_BOARD_2 = Board(
             title = "${TEST_SUBJECT_1.name} - ${TEST_PROFESSOR_2.name}",
             type = BoardType.COURSE_BOARD
         )
+        private val TEST_QNA_BOARD = Board(title = "QnA", type = BoardType.QNA_BOARD)
+        private val TEST_COMMUNITY_BOARD = Board(title = "Community", type = BoardType.COMMUNITY_BOARD)
+        private val TEST_GATHERING_BOARD = Board(title = "Gathering", type = BoardType.GATHERING_BOARD)
+        private val TEST_RECRUIT_BOARD = Board(title = "Recruit", type = BoardType.RECRUIT_BOARD)
+    }
 
-        private val TEST_BOARD_OPTION_1 = BoardOption(TEST_BOARD_1, TEST_OPTION_6)
-        private val TEST_BOARD_OPTION_2 = BoardOption(TEST_BOARD_1, TEST_OPTION_7)
-        private val TEST_BOARD_OPTION_3 = BoardOption(TEST_BOARD_2, TEST_OPTION_6)
-        private val TEST_BOARD_OPTION_4 = BoardOption(TEST_BOARD_2, TEST_OPTION_7)
+    private val TEST_BOARD_OPTION_1 = BoardOption(TEST_COURSE_BOARD_1, TEST_OPTION_6)
+    private val TEST_BOARD_OPTION_2 = BoardOption(TEST_COURSE_BOARD_1, TEST_OPTION_7)
+    private val TEST_BOARD_OPTION_3 = BoardOption(TEST_COURSE_BOARD_2, TEST_OPTION_6)
+    private val TEST_BOARD_OPTION_4 = BoardOption(TEST_COURSE_BOARD_2, TEST_OPTION_7)
 
-        private val TEST_ARTICLE_1 = Article(
-            title = "테스트 게시글 1 입니다.",
-            anonymous = false,
-            content = """
+    private val TEST_ARTICLE_1 = Article(
+        title = "테스트 게시글 1 입니다.",
+        anonymous = false,
+        content = """
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                       labore et dolore magna aliqua. Arcu odio ut sem nulla pharetra diam sit. Enim sit amet venenatis
                       urna cursus eget nunc scelerisque viverra. Sit amet mauris commodo quis imperdiet massa tincidunt.
@@ -248,14 +278,14 @@ class InitialDataConfig(
                       Quis enim lobortis scelerisque fermentum dui. Laoreet id donec ultrices tincidunt arcu non
                       sodales. Quam vulputate dignissim suspendisse in est ante in. Sodales ut etiam sit amet nisl.
                       Est ante in nibh mauris cursus mattis. Senectus et netus et malesuada fames ac turpis egestas.
-            """.trimIndent(),
-            author = TEST_USER_1,
-            board = TEST_BOARD_1
-        )
-        private val TEST_ARTICLE_2 = Article(
-            title = "테스트 게시글 2 입니다.",
-            anonymous = false,
-            content = """
+        """.trimIndent(),
+        author = TEST_USER_1,
+        board = TEST_COURSE_BOARD_1
+    )
+    private val TEST_ARTICLE_2 = Article(
+        title = "테스트 게시글 2 입니다.",
+        anonymous = false,
+        content = """
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                       labore et dolore magna aliqua. Arcu odio ut sem nulla pharetra diam sit. Enim sit amet venenatis
                       urna cursus eget nunc scelerisque viverra. Sit amet mauris commodo quis imperdiet massa tincidunt.
@@ -267,14 +297,14 @@ class InitialDataConfig(
                       egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat
                       consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor
                       commodo ullamcorper a lacus vestibulum sed. Ultrices mi tempus imperdiet nulla malesuada.
-            """.trimIndent(),
-            author = TEST_USER_2,
-            board = TEST_BOARD_2
-        )
-        private val TEST_ARTICLE_3 = Article(
-            title = "테스트 게시글 3 입니다.",
-            anonymous = true,
-            content = """
+        """.trimIndent(),
+        author = TEST_USER_2,
+        board = TEST_COURSE_BOARD_2
+    )
+    private val TEST_ARTICLE_3 = Article(
+        title = "테스트 게시글 3 입니다.",
+        anonymous = true,
+        content = """
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                       labore et dolore magna aliqua. Arcu odio ut sem nulla pharetra diam sit. Enim sit amet venenatis
                       urna cursus eget nunc scelerisque viverra. Sit amet mauris commodo quis imperdiet massa tincidunt.
@@ -286,14 +316,14 @@ class InitialDataConfig(
                       egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat
                       consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor
                       commodo ullamcorper a lacus vestibulum sed. Ultrices mi tempus imperdiet nulla malesuada.
-            """.trimIndent(),
-            author = TEST_USER_1,
-            board = TEST_BOARD_2
-        )
-        private val TEST_ARTICLE_4 = Article(
-            title = "테스트 게시글 4 입니다.",
-            anonymous = false,
-            content = """
+        """.trimIndent(),
+        author = TEST_USER_1,
+        board = TEST_COURSE_BOARD_2
+    )
+    private val TEST_ARTICLE_4 = Article(
+        title = "테스트 게시글 4 입니다.",
+        anonymous = false,
+        content = """
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
                       labore et dolore magna aliqua. Arcu odio ut sem nulla pharetra diam sit. Enim sit amet venenatis
                       urna cursus eget nunc scelerisque viverra. Sit amet mauris commodo quis imperdiet massa tincidunt.
@@ -305,61 +335,60 @@ class InitialDataConfig(
                       egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat
                       consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor
                       commodo ullamcorper a lacus vestibulum sed. Ultrices mi tempus imperdiet nulla malesuada.
-            """.trimIndent(),
-            author = TEST_USER_1,
-            board = TEST_BOARD_1
-        )
+        """.trimIndent(),
+        author = TEST_USER_1,
+        board = TEST_COURSE_BOARD_1
+    )
 
-        private val TEST_ARTICLE_HASHTAG_1 = ArticleHashtag(TEST_ARTICLE_1, TEST_HASHTAG_1)
-        private val TEST_ARTICLE_HASHTAG_2 = ArticleHashtag(TEST_ARTICLE_1, TEST_HASHTAG_3)
-        private val TEST_ARTICLE_HASHTAG_3 = ArticleHashtag(TEST_ARTICLE_1, TEST_HASHTAG_5)
-        private val TEST_ARTICLE_HASHTAG_4 = ArticleHashtag(TEST_ARTICLE_2, TEST_HASHTAG_1)
-        private val TEST_ARTICLE_HASHTAG_5 = ArticleHashtag(TEST_ARTICLE_2, TEST_HASHTAG_2)
-        private val TEST_ARTICLE_HASHTAG_6 = ArticleHashtag(TEST_ARTICLE_3, TEST_HASHTAG_4)
-        private val TEST_ARTICLE_HASHTAG_7 = ArticleHashtag(TEST_ARTICLE_4, TEST_HASHTAG_2)
-        private val TEST_ARTICLE_HASHTAG_8 = ArticleHashtag(TEST_ARTICLE_4, TEST_HASHTAG_5)
-        private val TEST_ARTICLE_HASHTAG_9 = ArticleHashtag(TEST_ARTICLE_4, TEST_HASHTAG_6)
+    private val TEST_ARTICLE_HASHTAG_1 = ArticleHashtag(TEST_ARTICLE_1, TEST_HASHTAG_1)
+    private val TEST_ARTICLE_HASHTAG_2 = ArticleHashtag(TEST_ARTICLE_1, TEST_HASHTAG_3)
+    private val TEST_ARTICLE_HASHTAG_3 = ArticleHashtag(TEST_ARTICLE_1, TEST_HASHTAG_5)
+    private val TEST_ARTICLE_HASHTAG_4 = ArticleHashtag(TEST_ARTICLE_2, TEST_HASHTAG_1)
+    private val TEST_ARTICLE_HASHTAG_5 = ArticleHashtag(TEST_ARTICLE_2, TEST_HASHTAG_2)
+    private val TEST_ARTICLE_HASHTAG_6 = ArticleHashtag(TEST_ARTICLE_3, TEST_HASHTAG_4)
+    private val TEST_ARTICLE_HASHTAG_7 = ArticleHashtag(TEST_ARTICLE_4, TEST_HASHTAG_2)
+    private val TEST_ARTICLE_HASHTAG_8 = ArticleHashtag(TEST_ARTICLE_4, TEST_HASHTAG_5)
+    private val TEST_ARTICLE_HASHTAG_9 = ArticleHashtag(TEST_ARTICLE_4, TEST_HASHTAG_6)
 
-        private val TEST_ARTICLE_OPTION_1 = ArticleOption(TEST_ARTICLE_1, TEST_OPTION_1)
-        private val TEST_ARTICLE_OPTION_2 = ArticleOption(TEST_ARTICLE_1, TEST_OPTION_2)
-        private val TEST_ARTICLE_OPTION_3 = ArticleOption(TEST_ARTICLE_1, TEST_OPTION_6)
-        private val TEST_ARTICLE_OPTION_4 = ArticleOption(TEST_ARTICLE_2, TEST_OPTION_4)
-        private val TEST_ARTICLE_OPTION_5 = ArticleOption(TEST_ARTICLE_2, TEST_OPTION_7)
-        private val TEST_ARTICLE_OPTION_6 = ArticleOption(TEST_ARTICLE_3, TEST_OPTION_4)
-        private val TEST_ARTICLE_OPTION_7 = ArticleOption(TEST_ARTICLE_3, TEST_OPTION_5)
-        private val TEST_ARTICLE_OPTION_8 = ArticleOption(TEST_ARTICLE_3, TEST_OPTION_6)
-        private val TEST_ARTICLE_OPTION_9 = ArticleOption(TEST_ARTICLE_4, TEST_OPTION_1)
-        private val TEST_ARTICLE_OPTION_10 = ArticleOption(TEST_ARTICLE_4, TEST_OPTION_6)
+    private val TEST_ARTICLE_OPTION_1 = ArticleOption(TEST_ARTICLE_1, TEST_OPTION_1)
+    private val TEST_ARTICLE_OPTION_2 = ArticleOption(TEST_ARTICLE_1, TEST_OPTION_2)
+    private val TEST_ARTICLE_OPTION_3 = ArticleOption(TEST_ARTICLE_1, TEST_OPTION_6)
+    private val TEST_ARTICLE_OPTION_4 = ArticleOption(TEST_ARTICLE_2, TEST_OPTION_4)
+    private val TEST_ARTICLE_OPTION_5 = ArticleOption(TEST_ARTICLE_2, TEST_OPTION_7)
+    private val TEST_ARTICLE_OPTION_6 = ArticleOption(TEST_ARTICLE_3, TEST_OPTION_4)
+    private val TEST_ARTICLE_OPTION_7 = ArticleOption(TEST_ARTICLE_3, TEST_OPTION_5)
+    private val TEST_ARTICLE_OPTION_8 = ArticleOption(TEST_ARTICLE_3, TEST_OPTION_6)
+    private val TEST_ARTICLE_OPTION_9 = ArticleOption(TEST_ARTICLE_4, TEST_OPTION_1)
+    private val TEST_ARTICLE_OPTION_10 = ArticleOption(TEST_ARTICLE_4, TEST_OPTION_6)
 
-        private val TEST_COMMENT_1 = Comment(
-            article = TEST_ARTICLE_1,
-            author = TEST_USER_1,
-            anonymous = true,
-            content = "테스트 댓글 1 입니다.",
-        )
-        private val TEST_COMMENT_2 = Comment(
-            article = TEST_ARTICLE_1,
-            author = TEST_USER_1,
-            anonymous = false,
-            content = "테스트 댓글 2 입니다.",
-        )
-        private val TEST_COMMENT_3 = Comment(
-            article = TEST_ARTICLE_1,
-            author = TEST_USER_2,
-            anonymous = false,
-            content = "테스트 댓글 3 입니다.",
-        )
-        private val TEST_COMMENT_4 = Comment(
-            article = TEST_ARTICLE_2,
-            author = TEST_USER_1,
-            anonymous = false,
-            content = "테스트 댓글 4 입니다.",
-        )
-        private val TEST_COMMENT_5 = Comment(
-            article = TEST_ARTICLE_3,
-            author = TEST_USER_2,
-            anonymous = true,
-            content = "테스트 댓글 5 입니다.",
-        )
-    }
+    private val TEST_COMMENT_1 = Comment(
+        article = TEST_ARTICLE_1,
+        author = TEST_USER_1,
+        anonymous = true,
+        content = "테스트 댓글 1 입니다.",
+    )
+    private val TEST_COMMENT_2 = Comment(
+        article = TEST_ARTICLE_1,
+        author = TEST_USER_1,
+        anonymous = false,
+        content = "테스트 댓글 2 입니다.",
+    )
+    private val TEST_COMMENT_3 = Comment(
+        article = TEST_ARTICLE_1,
+        author = TEST_USER_2,
+        anonymous = false,
+        content = "테스트 댓글 3 입니다.",
+    )
+    private val TEST_COMMENT_4 = Comment(
+        article = TEST_ARTICLE_2,
+        author = TEST_USER_1,
+        anonymous = false,
+        content = "테스트 댓글 4 입니다.",
+    )
+    private val TEST_COMMENT_5 = Comment(
+        article = TEST_ARTICLE_3,
+        author = TEST_USER_2,
+        anonymous = true,
+        content = "테스트 댓글 5 입니다.",
+    )
 }
