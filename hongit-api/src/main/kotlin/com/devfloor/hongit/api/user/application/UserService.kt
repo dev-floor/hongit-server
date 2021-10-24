@@ -13,6 +13,7 @@ import com.devfloor.hongit.core.user.domain.findByNicknameOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.util.Assert
+import javax.transaction.Transactional
 
 @Service
 class UserService(
@@ -43,10 +44,11 @@ class UserService(
         ?.let { ProfileResponse(it) }
         ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
 
+    @Transactional
     fun modifyUser(loginUser: User, request: UserModifyRequest) {
         userRepository.findByNicknameOrNull(loginUser.nickname)
             ?.apply {
-                if (checkNickname(loginUser.nickname, request.nickname)) {
+                if (validateNickname(loginUser.nickname, request.nickname)) {
                     modifyUser(
                         request.nickname,
                         UserType.valueOf(request.userType),
@@ -55,12 +57,15 @@ class UserService(
                         request.blog,
                         request.description
                     )
-                } else throw IllegalArgumentException(ErrorMessages.User.EXISTING_NICKNAME)
+                }
             }
             ?: EntityNotFoundException.notExistsNickname(User::class, loginUser.nickname)
     }
 
-    private fun checkNickname(nickname: String, requestNickname: String): Boolean {
-        return !userRepository.existsByNickname(requestNickname) && nickname != (requestNickname)
+    private fun validateNickname(nickname: String, requestNickname: String): Boolean {
+        if(!userRepository.existsByNickname(requestNickname) && nickname != (requestNickname)){
+            return true;
+        }
+        else throw IllegalArgumentException(ErrorMessages.User.EXISTING_NICKNAME)
     }
 }
