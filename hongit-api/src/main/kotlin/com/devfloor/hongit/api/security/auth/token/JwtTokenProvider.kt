@@ -12,8 +12,8 @@ import java.util.Date
 class JwtTokenProvider(
     private val properties: JwtTokenProperties,
 ) {
-    fun createToken(payload: String): String {
-        val claims = Jwts.claims().setSubject(payload)
+    fun createToken(subject: String): String {
+        val claims = Jwts.claims().setSubject(subject)
         val currentDate = Date()
 
         return Jwts.builder()
@@ -24,7 +24,7 @@ class JwtTokenProvider(
             .compact()
     }
 
-    fun extractPayload(token: String): String = extractClaims(token).subject
+    fun extractSubject(token: String): String = extractClaims(token).subject
 
     private fun extractClaims(token: String): Claims = Jwts.parser()
         .setSigningKey(properties.secretKey)
