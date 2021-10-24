@@ -21,16 +21,18 @@ internal class SignUpRequestTest {
 
         // when - then
         assertThat(request.toString())
-            .isEqualTo("SignUpRequest(" +
-                "username=username, " +
-                "nickname=nickname, " +
-                "password=pa******, " +
-                "checkedPassword=pa******, " +
-                "email=email@g.hongik.ac.kr, " +
-                "type=STUDENT, " +
-                "classOf=C000000, " +
-                "approved=true" +
-                ")")
+            .isEqualTo(
+                "SignUpRequest(" +
+                    "username=username, " +
+                    "nickname=nickname, " +
+                    "password=pa******, " +
+                    "checkedPassword=pa******, " +
+                    "email=email@g.hongik.ac.kr, " +
+                    "type=STUDENT, " +
+                    "classOf=C000000, " +
+                    "approved=true" +
+                    ")"
+            )
             .also { println(request) }
     }
 }

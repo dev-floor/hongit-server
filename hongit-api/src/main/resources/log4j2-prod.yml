@@ -1,0 +1,59 @@
+Configuration:
+  name: Hongit-api default log4j2
+  status: warn
+
+  Properties:
+    Property:
+      - name: log-pattern
+        value: "%d{DEFAULT} %highlight{%-5p}{ERROR=red, INFO=green, DEBUG=blue, TRACE=white} --- [%15t] %style{%-50c{1.}}{cyan} : %m%n"
+      - name: log-path
+        value: logs
+
+  Appenders:
+    Console:
+      name: Console_Appender
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: ${log-pattern}
+    RollingFile:
+      name: RollingFile_Appender
+      fileName: ${log-path}/logfile.log
+      filePattern: ${log-path}/logfile_%d{yyyy-MM-dd}_%i.log
+      PatternLayout:
+        pattern: ${log-pattern}
+      Policies:
+        TimeBasedTriggeringPolicy:
+          Interval: 1
+        DefaultRolloverStrategy:
+          Delete:
+            basePath: ${log-path}
+            IfAccumulatedFileCount:
+              exceeds: 31
+  Loggers:
+    Root:
+      level: info
+      AppenderRef:
+        - ref: Console_Appender
+        - ref: RollingFile_Appender
+    Logger:
+      - name: com.devfloor.hongit
+        additivity: false
+        level: info
+        AppenderRef:
+          - ref: Console_Appender
+          - ref: RollingFile_Appender
+      - name: org.springframework.*
+        level: info
+        AppenderRef:
+          - ref: Console_Appender
+          - ref: RollingFile_Appender
+      - name: org.thymeleaf
+        level: info
+        AppenderRef:
+          - ref: Console_Appender
+          - ref: RollingFile_Appender
+      - name: org.hibernate.SQL
+        level: info
+        AppenderRef:
+          - ref: Console_Appender
+          - ref: RollingFile_Appender

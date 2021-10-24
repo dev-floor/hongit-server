@@ -19,11 +19,16 @@ class ArticleFavoriteService(
         val article = articleRepository.findByIdOrNull(request.articleId)
             ?: EntityNotFoundException.notExistsId(Article::class, request.articleId)
 
+        if (articleFavoriteRepository.existsByArticleAndUser(article, user)) {
+            throw IllegalArgumentException("해당 article에 대한 좋아요가 이미 존재합니다.")
+        }
+
         return ArticleFavorite(
             article = article,
             user = user,
             type = request.type
-        ).let { articleFavoriteRepository.save(it) }.run { id }
+        ).let { articleFavoriteRepository.save(it) }
+            .id
     }
 
     fun destroy(articleId: Long, user: User) {
