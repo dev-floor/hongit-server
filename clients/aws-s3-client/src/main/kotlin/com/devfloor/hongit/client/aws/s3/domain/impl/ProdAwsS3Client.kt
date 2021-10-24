@@ -11,6 +11,8 @@ import org.springframework.web.multipart.MultipartFile
 import software.amazon.awssdk.core.exception.SdkException
 import software.amazon.awssdk.services.s3.S3Client
 import software.amazon.awssdk.services.s3.model.ObjectCannedACL
+import software.amazon.awssdk.services.s3.model.PutObjectRequest
+import java.io.File
 
 @Slf4j
 class ProdAwsS3Client(
@@ -20,13 +22,25 @@ class ProdAwsS3Client(
     override fun upload(file: MultipartFile, type: S3DirectoryType): String {
         val uploadFile = AwsS3Utils.convertMultipartFileToFile(file)
         val key = AwsS3Utils.createKey(uploadFile, type)
+        val request = PutObjectRequest.builder()
+            .bucket(properties.bucket)
+            .key(key)
+            .acl(ObjectCannedACL.PUBLIC_READ)
+            .build()
 
+        return putObjectAndGetUrl(request, uploadFile, key)
+    }
+
+    private fun putObjectAndGetUrl(
+        request: PutObjectRequest,
+        uploadFile: File,
+        key: String,
+    ): String =
         try {
-            s3Client.putObject({ it.bucket(properties.bucket).key(key).acl(ObjectCannedACL.PUBLIC_READ) },
-                uploadFile.toPath())
-                .also { if (!it.sdkHttpResponse().isSuccessful) throw AwsS3ClientException("S3 업로드에 실패하였습니다") }
+            s3Client.putObject(request, uploadFile.toPath())
+                .run { if (!sdkHttpResponse().isSuccessful) throw AwsS3ClientException("S3 업로드에 실패하였습니다") }
 
-            return s3Client.utilities()
+            s3Client.utilities()
                 .getUrl { it.bucket(properties.bucket).key(key) }
                 .toString()
         } catch (e: AwsS3ClientException) {
@@ -38,5 +52,4 @@ class ProdAwsS3Client(
         } finally {
             uploadFile.delete()
         }
-    }
 }
