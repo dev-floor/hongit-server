@@ -52,7 +52,7 @@ class UserService(
         val user = userRepository.findByUsernameOrNull(request.username)
             ?: EntityNotFoundException.notExistsField(User::class, "username", request.username)
 
-        if (!user.matchPassword(passwordEncoder, request.password)) throw AuthenticationException("비밀번호가 일치하지 않습니다.")
+        if (!user.matchesPassword(passwordEncoder, request.password)) throw AuthenticationException("비밀번호가 일치하지 않습니다.")
 
         return TokenResponse(jwtTokenProvider.createToken(request.username), AuthorizationType.BEARER)
     }

@@ -99,6 +99,6 @@ class User(
         this.password = encodedPassword
     }
 
-    fun matchPassword(passwordEncoder: PasswordEncoder, password: String): Boolean =
+    fun matchesPassword(passwordEncoder: PasswordEncoder, password: String): Boolean =
         passwordEncoder.matches(password, this.password)
 }
