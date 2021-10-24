@@ -98,4 +98,11 @@ class User(
         val encodedPassword = passwordEncoder.encode(this.password)
         this.password = encodedPassword
     }
+
+    fun matchesPassword(passwordEncoder: PasswordEncoder, password: String): Boolean =
+        passwordEncoder.matches(password, this.password)
+
+    fun hasSameId(user: User): Boolean {
+        return this.id == user.id
+    }
 }

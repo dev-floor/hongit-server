@@ -1,0 +1,40 @@
+Configuration:
+  name: Hongit-api default log4j2
+  status: warn
+
+  Properties:
+    Property:
+      - name: log-pattern
+        value: "%d{DEFAULT} %highlight{%-5p}{ERROR=red, INFO=green, DEBUG=blue, TRACE=white} --- [%15t] %style{%-50c{1.}}{cyan} : %m%n"
+
+  Appenders:
+    Console:
+      name: Console_Appender
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: ${log-pattern}
+
+  Loggers:
+    Root:
+      level: info
+      AppenderRef:
+        - ref: Console_Appender
+        - ref: RollingFile_Appender
+    Logger:
+      - name: com.devfloor.hongit
+        additivity: false
+        level: debug
+        AppenderRef:
+          ref: Console_Appender
+      - name: org.springframework.web
+        level: debug
+        AppenderRef:
+          ref: Console_Appender
+      - name: org.springframework.boot
+        level: info
+        AppenderRef:
+          ref: Console_Appender
+      - name: org.hibernate.SQL
+        level: debug
+        AppenderRef:
+          ref: Console_Appender

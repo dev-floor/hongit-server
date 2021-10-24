@@ -1,6 +1,6 @@
 package com.devfloor.hongit.api.support
 
-import com.devfloor.hongit.api.security.web.DefaultLoginUserArgumentResolver
+import com.devfloor.hongit.api.security.web.resolver.impl.DefaultLoginUserArgumentResolver
 import com.devfloor.hongit.core.user.domain.UserRepository
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.setup.StandaloneMockMvcBuilder
 import org.springframework.web.filter.CharacterEncodingFilter
 
 object ApiDocsTestUtils {
+    val TEST_AUTHORIZATION_HEADER = "Bearer"
     private val MESSAGE_CONVERTER = MappingJackson2HttpMessageConverter(Jackson2ObjectMapperBuilder().build())
 
     fun getRestDocsMockMvc(

@@ -14,9 +14,17 @@ class CommentFavoriteService(
     private val commentRepository: CommentRepository,
     private val commentFavoriteRepository: CommentFavoriteRepository,
 ) {
-    fun create(commentId: Long, user: User): Long = commentRepository.findByIdOrNull(commentId)
-        ?.let { commentFavoriteRepository.save(CommentFavorite(it, user)) }?.run { id }
-        ?: EntityNotFoundException.notExistsId(Comment::class, commentId)
+    fun create(commentId: Long, user: User): Long {
+        val comment = commentRepository.findByIdOrNull(commentId)
+            ?: EntityNotFoundException.notExistsId(Comment::class, commentId)
+
+        if (commentFavoriteRepository.existsByCommentAndUser(comment, user)) {
+            throw IllegalArgumentException("해당 comment에 대한 좋아요가 이미 존재합니다.")
+        }
+
+        return commentFavoriteRepository.save(CommentFavorite(comment, user))
+            .id
+    }
 
     fun destroy(commentId: Long, user: User) = commentRepository.findByIdOrNull(commentId)
         ?.let { commentFavoriteRepository.deleteByCommentAndUser(it, user) }

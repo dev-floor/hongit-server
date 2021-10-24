@@ -47,3 +47,6 @@ docker/mariadb/data/*
 
 ### Secret YAML ###
 **/src/main/resources/application-secret.yml
+
+### Logs ###
+logs

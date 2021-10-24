@@ -1,4 +1,4 @@
-package com.devfloor.hongit.api.security.web
+package com.devfloor.hongit.api.security.web.resolver.spec
 
 import com.devfloor.hongit.api.security.core.LoginUser
 import org.springframework.core.MethodParameter

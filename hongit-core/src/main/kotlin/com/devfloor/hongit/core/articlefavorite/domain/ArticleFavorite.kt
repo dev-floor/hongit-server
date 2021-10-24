@@ -39,7 +39,7 @@ class ArticleFavorite(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "article_favorite_id")
-    val id: Long = 0
+    val id: Long = id
 
     @ManyToOne
     @JoinColumn(name = "article_id")

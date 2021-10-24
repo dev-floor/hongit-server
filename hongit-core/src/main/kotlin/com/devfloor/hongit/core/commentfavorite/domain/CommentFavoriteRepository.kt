@@ -18,4 +18,6 @@ interface CommentFavoriteRepository : JpaRepository<CommentFavorite, Long> {
 
     @Transactional
     fun deleteByCommentAndUser(comment: Comment, user: User)
+
+    fun existsByCommentAndUser(comment: Comment, user: User): Boolean
 }

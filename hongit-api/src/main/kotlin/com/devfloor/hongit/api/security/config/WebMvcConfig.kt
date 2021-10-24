@@ -1,6 +1,6 @@
 package com.devfloor.hongit.api.security.config
 
-import com.devfloor.hongit.api.security.web.LoginUserArgumentResolver
+import com.devfloor.hongit.api.security.web.resolver.spec.LoginUserArgumentResolver
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry

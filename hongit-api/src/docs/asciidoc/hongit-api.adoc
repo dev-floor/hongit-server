@@ -52,6 +52,34 @@ include::{snippets}/article/getByArticleId/http-response.adoc[]
 
 include::{snippets}/article/getByArticleId/response-fields.adoc[]
 
+[[articleFavorite-post]]
+=== 게시글 좋아요 생성
+
+==== Request
+
+include::{snippets}/articleFavorite/post/http-request.adoc[]
+
+include::{snippets}/articleFavorite/post/request-headers.adoc[]
+
+include::{snippets}/articleFavorite/post/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/articleFavorite/post/http-response.adoc[]
+
+include::{snippets}/articleFavorite/post/response-fields.adoc[]
+
+[[articleFavorite-delete]]
+=== 게시글 좋아요 삭제
+
+==== Request
+
+include::{snippets}/articleFavorite/delete/http-request.adoc[]
+
+include::{snippets}/articleFavorite/delete/request-headers.adoc[]
+
+include::{snippets}/articleFavorite/delete/request-fields.adoc[]
+
 [[board]]
 == 게시판 (Board)
 
@@ -258,6 +286,34 @@ include::{snippets}/comment/deleteByCommentId/request-headers.adoc[]
 
 include::{snippets}/comment/deleteByCommentId/http-response.adoc[]
 
+[[commentFavorite-post]]
+=== 댓글 좋아요 생성
+
+==== Request
+
+include::{snippets}/commentFavorite/post/http-request.adoc[]
+
+include::{snippets}/commentFavorite/post/request-headers.adoc[]
+
+include::{snippets}/commentFavorite/post/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/commentFavorite/post/http-response.adoc[]
+
+include::{snippets}/commentFavorite/post/response-fields.adoc[]
+
+[[commentFavorite-delete]]
+=== 댓글 좋아요 삭제
+
+==== Request
+
+include::{snippets}/commentFavorite/delete/http-request.adoc[]
+
+include::{snippets}/commentFavorite/delete/request-headers.adoc[]
+
+include::{snippets}/commentFavorite/delete/request-fields.adoc[]
+
 [[user]]
 == 회원 (User)
 
@@ -285,6 +341,29 @@ include::{snippets}/user/signup/http-response.adoc[]
 ===== [response-headers]
 
 include::{snippets}/user/signup/response-headers.adoc[]
+
+[[user-login]]
+=== 로그인
+
+==== Request
+
+===== [http-request]
+
+include::{snippets}/user/login/http-request.adoc[]
+
+===== [request-body]
+
+include::{snippets}/user/login/request-fields.adoc[]
+
+==== Response
+
+===== [http-response]
+
+include::{snippets}/user/login/http-response.adoc[]
+
+===== [response-body]
+
+include::{snippets}/user/login/response-fields.adoc[]
 
 [[user-getByNickname]]
 === 사용자 조회
@@ -351,3 +430,17 @@ include::{snippets}/auth/getValidateAuthToken/path-parameters.adoc[]
 ===== [http-response]
 
 include::{snippets}/auth/getValidateAuthToken/http-response.adoc[]
+=======
+[[home-get]]
+=== 홈화면 조회
+
+==== Request
+
+include::{snippets}/home/get/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/home/get/http-response.adoc[]
+
+include::{snippets}/home/get/response-fields.adoc[]
+>>>>>>> 37b1b15 (test: Article Favorite 생성 삭제 테스트):hongit-api/src/docs/asciidoc/hongit-api-docs.adoc

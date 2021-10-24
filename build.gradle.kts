@@ -47,13 +47,15 @@ configure(springProjects) {
     }
 
     dependencies {
-        implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("org.jetbrains.kotlin:kotlin-reflect")
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
         implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
+        implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
 
+        implementation("org.springframework.boot:spring-boot-starter-web")
+        implementation("org.springframework.boot:spring-boot-starter-log4j2")
         implementation("org.springframework.boot:spring-boot-configuration-processor")
 
         testImplementation("org.springframework.boot:spring-boot-starter-test") {
@@ -63,6 +65,10 @@ configure(springProjects) {
     }
 
     configurations {
+        all {
+            exclude("org.springframework.boot", "spring-boot-starter-logging")
+        }
+
         compileOnly {
             extendsFrom(configurations.annotationProcessor.get())
         }
