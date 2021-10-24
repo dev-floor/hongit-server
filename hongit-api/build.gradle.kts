@@ -25,7 +25,7 @@ plugins {
 dependencies {
     // sub-module
     implementation(project(":hongit-core"))
-    implementation(project(":mail-client"))
+    implementation(project(":clients:mail-client"))
 
     // spring
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -60,4 +60,13 @@ tasks.register<Copy>("copyDocs") {
 tasks.build {
     dependsOn(tasks.asciidoctor)
     dependsOn(tasks.getByName("copyDocs"))
+}
+
+tasks.processResources {
+    dependsOn(tasks.getByName("copySecretYaml"))
+}
+
+tasks.register<Copy>("copySecretYaml") {
+    from("../hongit-secret/application-secret.yml")
+    into("src/main/resources")
 }

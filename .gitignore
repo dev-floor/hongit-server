@@ -45,5 +45,8 @@ docker/mariadb/data/*
 ### Rest Docs ###
 **/src/main/resources/static/docs/
 
+### Secret YAML ###
+**/src/main/resources/application-secret.yml
+
 ### Logs ###
 logs

@@ -12,5 +12,6 @@ rootProject.name = "hongit"
 include(
     "hongit-api",
     "hongit-core",
-    "mail-client"
+    "clients:mail-client",
+    "clients:aws-s3-client"
 )

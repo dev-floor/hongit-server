@@ -1,6 +1,9 @@
 spring:
   config:
-    import: classpath:mail.yml
+    import:
+      - classpath:application-mail.yml
+      - classpath:application-aws-s3.yml
+      - classpath:application-secret.yml
   profiles:
     include:
       - db
