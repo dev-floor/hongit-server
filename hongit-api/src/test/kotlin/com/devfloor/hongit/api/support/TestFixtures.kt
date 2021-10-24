@@ -18,32 +18,33 @@ import com.devfloor.hongit.api.option.application.response.OptionResponse
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFavoriteFixture.ARTICLE_FAVORITE_1
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFavoriteFixture.ARTICLE_FAVORITE_2
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.ARTICLE_1
-import com.devfloor.hongit.api.support.TestFixtures.ArticleOptionFixture.ARTICLE_OPTION_1
-import com.devfloor.hongit.api.support.TestFixtures.ArticleOptionFixture.ARTICLE_OPTION_2
-import com.devfloor.hongit.api.support.TestFixtures.BoardFixture.BOARD_1
-import com.devfloor.hongit.api.support.TestFixtures.CourseFixture.COURSE_1
-import com.devfloor.hongit.api.support.TestFixtures.HashtagFixture.HASHTAG_1
-import com.devfloor.hongit.api.support.TestFixtures.HashtagFixture.HASHTAG_2
-import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_1
-import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_2
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.COMMUNITY_ARTICLE_HOME_RESPONSE_1
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.COMMUNITY_ARTICLE_HOME_RESPONSE_2
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.MOST_VIEWED_ARTICLE_HOME_RESPONSE_1
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.MOST_VIEWED_ARTICLE_HOME_RESPONSE_2
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.QNA_ARTICLE_HOME_RESPONSE_1
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.QNA_ARTICLE_HOME_RESPONSE_2
+import com.devfloor.hongit.api.support.TestFixtures.ArticleOptionFixture.ARTICLE_OPTION_1
+import com.devfloor.hongit.api.support.TestFixtures.ArticleOptionFixture.ARTICLE_OPTION_2
+import com.devfloor.hongit.api.support.TestFixtures.BoardFixture.BOARD_1
 import com.devfloor.hongit.api.support.TestFixtures.BoardFixture.COMMUNITY_BOARD_1
 import com.devfloor.hongit.api.support.TestFixtures.BoardFixture.COURSE_BOARD_1
 import com.devfloor.hongit.api.support.TestFixtures.BoardFixture.GATHERING_BOARD_1
 import com.devfloor.hongit.api.support.TestFixtures.BoardFixture.QNA_BOARD_1
 import com.devfloor.hongit.api.support.TestFixtures.BoardFixture.RECRUIT_BOARD_1
 import com.devfloor.hongit.api.support.TestFixtures.CommentFixture.COMMENT_1
+import com.devfloor.hongit.api.support.TestFixtures.CourseFixture.COURSE_1
+import com.devfloor.hongit.api.support.TestFixtures.HashtagFixture.HASHTAG_1
+import com.devfloor.hongit.api.support.TestFixtures.HashtagFixture.HASHTAG_2
+import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_1
+import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_2
 import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_RESPONSE_1
 import com.devfloor.hongit.api.support.TestFixtures.ProfessorFixture.PROFESSOR_1
 import com.devfloor.hongit.api.support.TestFixtures.SubjectFixture.SUBJECT_1
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_1
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_2
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_3
+import com.devfloor.hongit.api.user.application.request.LoginRequest
 import com.devfloor.hongit.api.user.application.request.SignUpRequest
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.core.article.domain.Article
@@ -54,6 +55,7 @@ import com.devfloor.hongit.core.authtoken.AuthToken
 import com.devfloor.hongit.core.board.domain.Board
 import com.devfloor.hongit.core.board.domain.BoardType
 import com.devfloor.hongit.core.comment.domain.Comment
+import com.devfloor.hongit.core.commentfavorite.domain.CommentFavorite
 import com.devfloor.hongit.core.course.domain.Course
 import com.devfloor.hongit.core.course.domain.Grade
 import com.devfloor.hongit.core.course.domain.OpeningSemester
@@ -62,7 +64,6 @@ import com.devfloor.hongit.core.course.domain.Semester
 import com.devfloor.hongit.core.course.domain.Timetable
 import com.devfloor.hongit.core.hashtag.domain.Hashtag
 import com.devfloor.hongit.core.option.domain.Option
-import com.devfloor.hongit.core.commentfavorite.domain.CommentFavorite
 import com.devfloor.hongit.core.option.domain.OptionType
 import com.devfloor.hongit.core.professor.domain.Professor
 import com.devfloor.hongit.core.subject.domain.Subject
@@ -86,6 +87,11 @@ object TestFixtures {
             type = UserType.STUDENT,
             classOf = "B411158",
             approved = true,
+        )
+
+        val LOGIN_REQUEST_1 = LoginRequest(
+            username = "username",
+            password = "password",
         )
 
         val USER_1 = User(

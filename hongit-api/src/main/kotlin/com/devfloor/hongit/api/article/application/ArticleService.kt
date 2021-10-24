@@ -74,7 +74,7 @@ class ArticleService(
         page: Int,
         pageSize: Int,
         sort: ArticleSortType?,
-        options: List<Long>?
+        options: List<Long>?,
     ): List<ArticleFeedResponse> {
         val board = boardRepository.findByIdOrNull(boardId)
             ?: EntityNotFoundException.notExistsId(Board::class, boardId)
@@ -131,7 +131,7 @@ class ArticleService(
     @Transactional(readOnly = true)
     fun showAllByNickname(nickname: String, page: Int, pageSize: Int, loginUser: User): List<ArticleFeedResponse> {
         val user = userRepository.findByNicknameOrNull(nickname)
-            ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
+            ?: EntityNotFoundException.notExistsField(User::class, "nickname", nickname)
         val articles = articleRepository.findAllByAuthor(user, PageRequest.of(page, pageSize))
 
         return articles.content

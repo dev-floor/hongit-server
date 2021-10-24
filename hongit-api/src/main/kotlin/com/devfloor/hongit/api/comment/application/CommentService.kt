@@ -42,7 +42,7 @@ class CommentService(
     fun showAllByNickname(nickname: String): List<CommentInProfileResponse> {
         val comments = userRepository.findByNicknameOrNull(nickname)
             ?.let(commentRepository::findAllByAuthor)
-            ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
+            ?: EntityNotFoundException.notExistsField(User::class, nickname, "nickname")
 
         return comments
             .filter { !it.anonymous }

@@ -99,6 +99,9 @@ class User(
         this.password = encodedPassword
     }
 
+    fun matchesPassword(passwordEncoder: PasswordEncoder, password: String): Boolean =
+        passwordEncoder.matches(password, this.password)
+
     fun hasSameId(user: User): Boolean {
         return this.id == user.id
     }

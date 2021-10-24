@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConstructorBinding
 
 @ConstructorBinding
 @ConfigurationProperties(prefix = "mail.sender")
-class MailSenderProperties(
+data class MailSenderProperties(
     val host: String,
     val port: Int,
     val username: String,
