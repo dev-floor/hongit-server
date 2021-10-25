@@ -17,4 +17,5 @@ enum class ArticleFavoriteType(
 
     override val id: String
         get() = this.name
+
 }
