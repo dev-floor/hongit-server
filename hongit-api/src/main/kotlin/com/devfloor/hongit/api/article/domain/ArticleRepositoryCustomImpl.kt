@@ -53,8 +53,10 @@ class ArticleRepositoryCustomImpl(
         val result = jpaQueryFactory
             .selectFrom(article)
             .join(articleFavorite).on(article.id.eq(articleFavorite.article.id))
-            .where(articleFavorite.type.eq(ArticleFavoriteType.FAVORITE),
-                article.board.id.eq(board.id))
+            .where(
+                articleFavorite.type.eq(ArticleFavoriteType.FAVORITE),
+                article.board.id.eq(board.id)
+            )
             .groupBy(article.id)
             .orderBy(articleFavorite.type.count().desc())
             .offset(pageable.offset)
