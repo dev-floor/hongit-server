@@ -6,6 +6,6 @@ node {
         sh './gradlew hongit-api:clean hongit-api:build && ./gradlew hongit-core:clean hongit-core:build'
     }
     stage('docker') {
-      sh 'docker-compose up -d'
+      sh 'cd docker && docker-compose up -d'
     }
 }
