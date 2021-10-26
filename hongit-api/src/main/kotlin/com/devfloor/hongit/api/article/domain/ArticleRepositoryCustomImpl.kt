@@ -11,12 +11,10 @@ import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
-import javax.persistence.EntityManager
 
 @Repository
 class ArticleRepositoryCustomImpl(
     private val jpaQueryFactory: JPAQueryFactory,
-    private val entityManager: EntityManager,
 ) : ArticleRepositoryCustom {
     override fun findByFavoriteTopFive(): List<Article> {
         return jpaQueryFactory
