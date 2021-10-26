@@ -82,10 +82,27 @@ class ArticleService(
         return when (sort) {
             ArticleSortType.VIEW_COUNT ->
                 articleRepositoryCustom.findAllByBoardOrderByViewCount(board, PageRequest.of(page, pageSize))
+                    .ifEmpty {
+                        articleRepository.findAllByBoard(
+                            board,
+                            PageRequest.of(page, pageSize, Sort.by("createdAt").descending())
+                        )
+                            .content
+                    }
             ArticleSortType.FAVORITE ->
-                articleRepositoryCustom.findAllByBoardOrderByFavorite(board, PageRequest.of(page, pageSize))
+                articleRepositoryCustom.findAllByBoardOrderByFavorite(board, PageRequest.of(page, pageSize)).content
+                    .ifEmpty {
+                        articleRepository.findAllByBoard(
+                            board,
+                            PageRequest.of(page, pageSize, Sort.by("createdAt").descending())
+                        )
+                            .content
+                    }
             else ->
-                articleRepository.findAllByBoard(board, PageRequest.of(page, pageSize, Sort.by("createdAt")))
+                articleRepository.findAllByBoard(
+                    board,
+                    PageRequest.of(page, pageSize, Sort.by("createdAt").descending())
+                )
                     .content
         }.map {
             ArticleFeedResponse(

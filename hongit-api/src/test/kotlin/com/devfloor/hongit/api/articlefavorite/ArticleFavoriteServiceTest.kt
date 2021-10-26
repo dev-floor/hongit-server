@@ -1,8 +1,8 @@
 package com.devfloor.hongit.api.articlefavorite
 
 import com.devfloor.hongit.api.articlefavorite.application.ArticleFavoriteService
+import com.devfloor.hongit.api.articlefavorite.application.request.ArticleFavoriteCreateRequest
 import com.devfloor.hongit.api.common.exception.EntityNotFoundException
-import com.devfloor.hongit.api.support.TestFixtures.ArticleFavoriteFixture.ARTICLE_FAVORITE_CREATE_REQUEST_1
 import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.article.domain.ArticleRepository
 import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavorite
@@ -44,6 +44,8 @@ internal class ArticleFavoriteServiceTest {
 
     private lateinit var board: Board
 
+    private lateinit var articleFavoriteCreateRequest: ArticleFavoriteCreateRequest
+
     @BeforeEach
     internal fun setUp() {
         articleFavoriteService = ArticleFavoriteService(articleFavoriteRepository, articleRepository)
@@ -78,6 +80,11 @@ internal class ArticleFavoriteServiceTest {
             user = user,
             type = ArticleFavoriteType.FAVORITE
         )
+
+        articleFavoriteCreateRequest = ArticleFavoriteCreateRequest(
+            articleId = article.id,
+            type = ArticleFavoriteType.FAVORITE
+        )
     }
 
     @Test
@@ -85,7 +92,7 @@ internal class ArticleFavoriteServiceTest {
         `when`(articleRepository.findById(article.id)).thenReturn(Optional.of(article))
         `when`(articleFavoriteRepository.save(any())).thenReturn(articleFavorite)
 
-        val articleFavoriteId = articleFavoriteService.create(ARTICLE_FAVORITE_CREATE_REQUEST_1, user)
+        val articleFavoriteId = articleFavoriteService.create(articleFavoriteCreateRequest, user)
 
         assertThat(articleFavoriteId).isEqualTo(articleFavorite.id)
     }
@@ -95,7 +102,7 @@ internal class ArticleFavoriteServiceTest {
         `when`(articleRepository.findById(article.id)).thenReturn(Optional.empty())
         val errorMessage = "id에 해당하는 Article이(가) 존재하지 않습니다 - ArticleId: 1"
 
-        assertThatThrownBy { articleFavoriteService.create(ARTICLE_FAVORITE_CREATE_REQUEST_1, user) }
+        assertThatThrownBy { articleFavoriteService.create(articleFavoriteCreateRequest, user) }
             .isInstanceOf(EntityNotFoundException::class.java)
             .hasMessage(errorMessage)
     }
@@ -106,7 +113,7 @@ internal class ArticleFavoriteServiceTest {
         `when`(articleFavoriteRepository.existsByArticleAndUser(article, user)).thenReturn(true)
         val errorMessage = "해당 article에 대한 좋아요가 이미 존재합니다."
 
-        assertThatThrownBy { articleFavoriteService.create(ARTICLE_FAVORITE_CREATE_REQUEST_1, user) }
+        assertThatThrownBy { articleFavoriteService.create(articleFavoriteCreateRequest, user) }
             .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage(errorMessage)
     }
