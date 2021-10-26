@@ -2,6 +2,9 @@ package com.devfloor.hongit.api.common.config
 
 import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.article.domain.ArticleRepository
+import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavorite
+import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavoriteRepository
+import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavoriteType
 import com.devfloor.hongit.core.articlehashtag.domain.ArticleHashtag
 import com.devfloor.hongit.core.articlehashtag.domain.ArticleHashtagRepository
 import com.devfloor.hongit.core.articleoption.domain.ArticleOption
@@ -56,9 +59,10 @@ class InitialDataConfig(
     private val articleHashtagRepository: ArticleHashtagRepository,
     private val articleOptionRepository: ArticleOptionRepository,
     private val commentRepository: CommentRepository,
+    private val articleFavoriteRepository: ArticleFavoriteRepository,
 ) : ApplicationRunner {
     override fun run(args: ApplicationArguments?) {
-        userRepository.saveAll(listOf(TEST_USER_1, TEST_USER_2))
+        userRepository.saveAll(listOf(TEST_USER_1, TEST_USER_2, TEST_USER_3))
         professorRepository.saveAll(listOf(TEST_PROFESSOR_1, TEST_PROFESSOR_2))
         subjectRepository.save(TEST_SUBJECT_1)
         optionRepository.saveAll(
@@ -98,7 +102,13 @@ class InitialDataConfig(
             )
         )
 
-        articleRepository.saveAll(listOf(TEST_ARTICLE_1, TEST_ARTICLE_2, TEST_ARTICLE_3, TEST_ARTICLE_4))
+        articleRepository.saveAll(
+            listOf(
+                TEST_ARTICLE_1, TEST_ARTICLE_2, TEST_ARTICLE_3, TEST_ARTICLE_4,
+                TEST_ARTICLE_5, TEST_ARTICLE_6, TEST_ARTICLE_7, TEST_ARTICLE_8
+            )
+        )
+
         articleHashtagRepository.saveAll(
             listOf(
                 TEST_ARTICLE_HASHTAG_1,
@@ -130,6 +140,13 @@ class InitialDataConfig(
             listOf(TEST_COMMENT_1, TEST_COMMENT_2, TEST_COMMENT_3, TEST_COMMENT_4, TEST_COMMENT_5)
         )
         makeArticlesInEachBoard(boards, 12)
+
+        articleFavoriteRepository.saveAll(
+            listOf(
+                TEST_ARTICLE_FAVORITE_1, TEST_ARTICLE_FAVORITE_2, TEST_ARTICLE_FAVORITE_3,
+                TEST_ARTICLE_FAVORITE_4, TEST_ARTICLE_FAVORITE_5, TEST_ARTICLE_FAVORITE_6
+            )
+        )
     }
 
     private fun makeArticlesInEachBoard(boards: List<Board>, articleCount: Int) {
@@ -168,6 +185,16 @@ class InitialDataConfig(
             type = UserType.STUDENT,
             classOf = "B000000",
             description = "안녕하세요, test 사용자입니다."
+        )
+
+        private val TEST_USER_3 = User(
+            username = "pjh",
+            password = "password2",
+            nickname = "pjh",
+            email = Email.from("pjh@g.hongik.ac.kr"),
+            type = UserType.STUDENT,
+            classOf = "B411092",
+            description = "안녕하세요, pjh 사용자입니다."
         )
 
         private val TEST_PROFESSOR_1 = Professor("정균락", "krchong@hongik.ac.kr")
@@ -336,8 +363,88 @@ class InitialDataConfig(
                       consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor
                       commodo ullamcorper a lacus vestibulum sed. Ultrices mi tempus imperdiet nulla malesuada.
         """.trimIndent(),
+        author = TEST_USER_3,
+        board = TEST_QNA_BOARD
+    )
+
+    private val TEST_ARTICLE_5 = Article(
+        title = "테스트 게시글 5 입니다.",
+        anonymous = false,
+        content = """
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua. Arcu odio ut sem nulla pharetra diam sit. Enim sit amet venenatis
+                      urna cursus eget nunc scelerisque viverra. Sit amet mauris commodo quis imperdiet massa tincidunt.
+                      Ultricies integer quis auctor elit sed vulputate mi. In metus vulputate eu scelerisque felis.
+                      Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Nisl condimentum id venenatis
+                      a condimentum vitae sapien pellentesque habitant. Mauris sit amet massa vitae tortor. Sit amet
+                      consectetur adipiscing elit. Purus sit amet volutpat consequat. Sapien faucibus et molestie ac
+                      feugiat sed lectus vestibulum. Fermentum posuere urna nec tincidunt praesent semper. Quisque
+                      egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat
+                      consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor
+                      commodo ullamcorper a lacus vestibulum sed. Ultrices mi tempus imperdiet nulla malesuada.
+        """.trimIndent(),
+        author = TEST_USER_3,
+        board = TEST_QNA_BOARD
+    )
+
+    private val TEST_ARTICLE_6 = Article(
+        title = "테스트 게시글 6 입니다.",
+        anonymous = false,
+        content = """
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua. Arcu odio ut sem nulla pharetra diam sit. Enim sit amet venenatis
+                      urna cursus eget nunc scelerisque viverra. Sit amet mauris commodo quis imperdiet massa tincidunt.
+                      Ultricies integer quis auctor elit sed vulputate mi. In metus vulputate eu scelerisque felis.
+                      Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Nisl condimentum id venenatis
+                      a condimentum vitae sapien pellentesque habitant. Mauris sit amet massa vitae tortor. Sit amet
+                      consectetur adipiscing elit. Purus sit amet volutpat consequat. Sapien faucibus et molestie ac
+                      feugiat sed lectus vestibulum. Fermentum posuere urna nec tincidunt praesent semper. Quisque
+                      egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat
+                      consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor
+                      commodo ullamcorper a lacus vestibulum sed. Ultrices mi tempus imperdiet nulla malesuada.
+        """.trimIndent(),
+        author = TEST_USER_3,
+        board = TEST_COMMUNITY_BOARD
+    )
+
+    private val TEST_ARTICLE_7 = Article(
+        title = "테스트 게시글 7 입니다.",
+        anonymous = false,
+        content = """
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua. Arcu odio ut sem nulla pharetra diam sit. Enim sit amet venenatis
+                      urna cursus eget nunc scelerisque viverra. Sit amet mauris commodo quis imperdiet massa tincidunt.
+                      Ultricies integer quis auctor elit sed vulputate mi. In metus vulputate eu scelerisque felis.
+                      Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Nisl condimentum id venenatis
+                      a condimentum vitae sapien pellentesque habitant. Mauris sit amet massa vitae tortor. Sit amet
+                      consectetur adipiscing elit. Purus sit amet volutpat consequat. Sapien faucibus et molestie ac
+                      feugiat sed lectus vestibulum. Fermentum posuere urna nec tincidunt praesent semper. Quisque
+                      egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat
+                      consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor
+                      commodo ullamcorper a lacus vestibulum sed. Ultrices mi tempus imperdiet nulla malesuada.
+        """.trimIndent(),
         author = TEST_USER_1,
-        board = TEST_COURSE_BOARD_1
+        board = TEST_GATHERING_BOARD
+    )
+
+    private val TEST_ARTICLE_8 = Article(
+        title = "테스트 게시글 8 입니다.",
+        anonymous = false,
+        content = """
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+                      labore et dolore magna aliqua. Arcu odio ut sem nulla pharetra diam sit. Enim sit amet venenatis
+                      urna cursus eget nunc scelerisque viverra. Sit amet mauris commodo quis imperdiet massa tincidunt.
+                      Ultricies integer quis auctor elit sed vulputate mi. In metus vulputate eu scelerisque felis.
+                      Aliquam eleifend mi in nulla posuere sollicitudin aliquam ultrices. Nisl condimentum id venenatis
+                      a condimentum vitae sapien pellentesque habitant. Mauris sit amet massa vitae tortor. Sit amet
+                      consectetur adipiscing elit. Purus sit amet volutpat consequat. Sapien faucibus et molestie ac
+                      feugiat sed lectus vestibulum. Fermentum posuere urna nec tincidunt praesent semper. Quisque
+                      egestas diam in arcu cursus euismod quis viverra. Nisl condimentum id venenatis a. Volutpat
+                      consequat mauris nunc congue. Risus nullam eget felis eget nunc lobortis. Metus dictum at tempor
+                      commodo ullamcorper a lacus vestibulum sed. Ultrices mi tempus imperdiet nulla malesuada.
+        """.trimIndent(),
+        author = TEST_USER_1,
+        board = TEST_RECRUIT_BOARD
     )
 
     private val TEST_ARTICLE_HASHTAG_1 = ArticleHashtag(TEST_ARTICLE_1, TEST_HASHTAG_1)
@@ -390,5 +497,36 @@ class InitialDataConfig(
         author = TEST_USER_2,
         anonymous = true,
         content = "테스트 댓글 5 입니다.",
+    )
+
+    private val TEST_ARTICLE_FAVORITE_1 = ArticleFavorite(
+        article = TEST_ARTICLE_1,
+        user = TEST_USER_1,
+        type = ArticleFavoriteType.FAVORITE
+    )
+    private val TEST_ARTICLE_FAVORITE_2 = ArticleFavorite(
+        article = TEST_ARTICLE_1,
+        user = TEST_USER_2,
+        type = ArticleFavoriteType.FAVORITE
+    )
+    private val TEST_ARTICLE_FAVORITE_3 = ArticleFavorite(
+        article = TEST_ARTICLE_1,
+        user = TEST_USER_3,
+        type = ArticleFavoriteType.FAVORITE
+    )
+    private val TEST_ARTICLE_FAVORITE_4 = ArticleFavorite(
+        article = TEST_ARTICLE_2,
+        user = TEST_USER_1,
+        type = ArticleFavoriteType.FAVORITE
+    )
+    private val TEST_ARTICLE_FAVORITE_5 = ArticleFavorite(
+        article = TEST_ARTICLE_2,
+        user = TEST_USER_2,
+        type = ArticleFavoriteType.FAVORITE
+    )
+    private val TEST_ARTICLE_FAVORITE_6 = ArticleFavorite(
+        article = TEST_ARTICLE_3,
+        user = TEST_USER_1,
+        type = ArticleFavoriteType.FAVORITE
     )
 }

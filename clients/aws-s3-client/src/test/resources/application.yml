@@ -1,7 +1,7 @@
 spring:
   config:
     import:
-#      - classpath:application-aws-s3.yml
+      - classpath:application-aws-s3.yml
       - classpath:application-secret.yml
   profiles:
     include:
