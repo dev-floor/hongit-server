@@ -16,7 +16,11 @@ node {
                    failureMessage: "Missing submodule README contents."])
           }
     }
+    stage('submodule'){
+        sh 'git submodule init'
+        sh 'git submodule update'
+    }
     stage('docker') {
-      sh 'cd docker && docker-compose up -d'
+        sh 'cd docker && docker-compose up -d'
     }
 }
