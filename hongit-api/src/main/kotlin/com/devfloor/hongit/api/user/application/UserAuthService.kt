@@ -6,7 +6,7 @@ import com.devfloor.hongit.core.user.domain.UserRepository
 import org.springframework.stereotype.Service
 
 @Service
-class AuthService(
+class UserAuthService(
     private val userRepository: UserRepository,
 ) {
     fun validateUsername(username: String) {

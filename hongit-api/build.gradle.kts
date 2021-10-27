@@ -26,6 +26,7 @@ dependencies {
     // sub-module
     implementation(project(":hongit-core"))
     implementation(project(":clients:mail-client"))
+    implementation(project(":clients:aws-s3-client"))
 
     // spring
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")

@@ -1,8 +1,8 @@
 package com.devfloor.hongit.api.user.presentation
 
 import com.devfloor.hongit.api.common.utils.BASE_API_URI
-import com.devfloor.hongit.api.user.application.AuthService
-import com.devfloor.hongit.api.user.presentation.AuthController.Companion.AUTH_API_URI
+import com.devfloor.hongit.api.user.application.UserAuthService
+import com.devfloor.hongit.api.user.presentation.UserAuthController.Companion.AUTH_API_URI
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping(value = [AUTH_API_URI])
-class AuthController(
-    private val authService: AuthService,
+class UserAuthController(
+    private val authService: UserAuthService,
 ) {
     @GetMapping(value = ["/users"], params = ["username"])
     @ResponseStatus(HttpStatus.OK)
