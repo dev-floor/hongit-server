@@ -47,7 +47,7 @@ class ArticleRepositoryCustomImpl(
             .fetch()
     }
 
-    override fun findAllByBoardOrderByFavorite(board: Board, pageable: Pageable): Page<Article> {
+    override fun findAllByBoardOrderByFavorite(board: Board, pageRequest: Pageable): Page<Article> {
         val result = jpaQueryFactory
             .selectFrom(article)
             .join(articleFavorite).on(article.id.eq(articleFavorite.article.id))
@@ -57,10 +57,10 @@ class ArticleRepositoryCustomImpl(
             )
             .groupBy(article.id)
             .orderBy(articleFavorite.type.count().desc())
-            .offset(pageable.offset)
-            .limit(pageable.pageSize.toLong())
+            .offset(pageRequest.offset)
+            .limit(pageRequest.pageSize.toLong())
             .fetchResults()
 
-        return PageImpl(result.results, pageable, result.total)
+        return PageImpl(result.results, pageRequest, result.total)
     }
 }

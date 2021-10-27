@@ -10,7 +10,7 @@ interface ArticleRepositoryCustom {
 
     fun findByViewCountTopFive(): List<Article>
 
-    fun findAllByBoardOrderByViewCount(board: Board, pageable: Pageable): List<Article>
+    fun findAllByBoardOrderByViewCount(board: Board, pageRequest: Pageable): List<Article>
 
-    fun findAllByBoardOrderByFavorite(board: Board, pageable: Pageable): Page<Article>
+    fun findAllByBoardOrderByFavorite(board: Board, pageRequest: Pageable): Page<Article>
 }

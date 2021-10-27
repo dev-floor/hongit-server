@@ -13,11 +13,11 @@ interface ArticleRepository : JpaRepository<Article, Long> {
 
     fun countAllByBoard(board: Board): Int
 
-    fun findAllByAuthor(author: User, pageable: Pageable): Page<Article>
+    fun findAllByAuthor(author: User, pageRequest: Pageable): Page<Article>
 
     fun countAllByAuthor(author: User): Int
 
-    fun findAllByIdIn(ids: List<Long>, pageable: Pageable): Page<Article>
+    fun findAllByIdIn(ids: List<Long>, pageRequest: Pageable): Page<Article>
 
     fun countAllByIdIn(ids: List<Long>): Int
 
