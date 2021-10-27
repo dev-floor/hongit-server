@@ -5,6 +5,17 @@ node {
     stage('build') {
         sh './gradlew hongit-api:clean hongit-api:build && ./gradlew hongit-core:clean hongit-core:build'
     }
+    stage('verify') {
+          when {
+            // Only test when cloning from ssh protocol URL
+            // Submodule is defined with ssh protocol URL
+            expression { scm.userRemoteConfigs[0].url ==~ /JoonBro@github.com:.*/ }
+          }
+          steps {
+            logContains([expectedRegEx: ".*Found:.*JENKINS-57936.*",
+                   failureMessage: "Missing submodule README contents."])
+          }
+    }
     stage('docker') {
       sh 'cd docker && docker-compose up -d'
     }
