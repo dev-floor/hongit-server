@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  server:
+    image: hongit-server
+    platform: linux/x86_64
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile-server
+    container_name: hongit_server
+    ports:
+      - 8080:8080
