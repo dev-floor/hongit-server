@@ -73,7 +73,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop # 이후 flyway를 사용할 경우 validate로 수정
+      ddl-auto: update
 
   datasource:
     url: jdbc:mariadb://hongit_database:3306/hongit
