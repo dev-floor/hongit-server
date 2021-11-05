@@ -42,6 +42,7 @@ import com.devfloor.hongit.api.common.config.DataFixture.Users.TEST_USERS
 import com.devfloor.hongit.api.common.config.DataFixture.Users.TEST_USER_1
 import com.devfloor.hongit.api.common.config.DataFixture.Users.TEST_USER_2
 import com.devfloor.hongit.api.common.config.DataFixture.Users.TEST_USER_3
+import com.devfloor.hongit.api.common.utils.BASE_API_URI
 import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.article.domain.ArticleRepository
 import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavorite
@@ -59,6 +60,7 @@ import com.devfloor.hongit.core.boardoption.domain.BoardOptionRepository
 import com.devfloor.hongit.core.comment.domain.Comment
 import com.devfloor.hongit.core.comment.domain.CommentRepository
 import com.devfloor.hongit.core.common.config.Slf4j
+import com.devfloor.hongit.core.common.config.Slf4j.Companion.log
 import com.devfloor.hongit.core.course.domain.Course
 import com.devfloor.hongit.core.course.domain.CourseRepository
 import com.devfloor.hongit.core.course.domain.Grade
@@ -79,16 +81,19 @@ import com.devfloor.hongit.core.user.domain.Email
 import com.devfloor.hongit.core.user.domain.User
 import com.devfloor.hongit.core.user.domain.UserRepository
 import com.devfloor.hongit.core.user.domain.UserType
-import org.springframework.boot.ApplicationArguments
-import org.springframework.boot.ApplicationRunner
 import org.springframework.context.annotation.Profile
-import org.springframework.stereotype.Component
+import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.bind.annotation.RestController
 import java.time.Year
 
 @Slf4j
-@Profile(value = ["init"])
-@Component
-class DataInitializer(
+@Profile(value = ["local", "dev"])
+@RestController
+@RequestMapping(value = [BASE_API_URI])
+class DataInitializeController(
     private val userRepository: UserRepository,
     private val professorRepository: ProfessorRepository,
     private val subjectRepository: SubjectRepository,
@@ -102,10 +107,14 @@ class DataInitializer(
     private val articleOptionRepository: ArticleOptionRepository,
     private val commentRepository: CommentRepository,
     private val articleFavoriteRepository: ArticleFavoriteRepository,
-) : ApplicationRunner {
-    override fun run(args: ApplicationArguments?) {
+) {
+    @PostMapping(value = ["/data/init"])
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    fun initializeData() {
         deleteAll()
+        log.info("[DataInitializeController] 데이터 삭제 완료")
         saveAll()
+        log.info("[DataInitializeController] 데이터 생성 완료")
     }
 
     private fun deleteAll() {
