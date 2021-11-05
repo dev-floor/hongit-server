@@ -37,4 +37,6 @@ class BoardBookmark(
     @ManyToOne
     @JoinColumn(name = "user_id")
     val user: User = user
+
+    fun withId(id: Long): BoardBookmark = BoardBookmark(board, user, id)
 }

@@ -35,4 +35,6 @@ class Board(
     @Enumerated(value = EnumType.STRING)
     @Column(name = "board_type")
     val type: BoardType = type
+
+    fun withId(id: Long): Board = Board(title, type, id)
 }

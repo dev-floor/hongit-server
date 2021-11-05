@@ -44,4 +44,6 @@ class CommentFavorite(
     @ManyToOne
     @JoinColumn(name = "user_id")
     val user: User = user
+
+    fun withId(id: Long): CommentFavorite = CommentFavorite(comment, user, id)
 }

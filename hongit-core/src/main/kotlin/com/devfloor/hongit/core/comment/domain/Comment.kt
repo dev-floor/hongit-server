@@ -59,6 +59,8 @@ class Comment(
     var content: String = content
         protected set
 
+    fun withId(id: Long): Comment = Comment(article, author, anonymous, content, id)
+
     fun modifyContent(content: String) {
         this.content = content
     }

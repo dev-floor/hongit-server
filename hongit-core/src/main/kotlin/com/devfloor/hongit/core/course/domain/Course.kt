@@ -94,6 +94,9 @@ class Course(
         }
     }
 
+    fun withId(id: Long): Course =
+        Course(code, openingSemester, professor, subject, grade, option, timetable, board, id)
+
     fun updateBoard(board: Board) {
         this.board = board
     }

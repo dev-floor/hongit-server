@@ -44,4 +44,6 @@ class ArticleOption(
     @ManyToOne
     @JoinColumn(name = "option_id")
     val option: Option = option
+
+    fun withId(id: Long): ArticleOption = ArticleOption(article, option, id)
 }

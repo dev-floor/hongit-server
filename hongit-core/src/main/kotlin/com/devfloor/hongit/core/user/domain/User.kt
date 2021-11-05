@@ -94,6 +94,9 @@ class User(
     var description: String? = description
         protected set
 
+    fun withId(id: Long): User =
+        User(username, password, nickname, email, type, classOf, image, github, blog, description, id)
+
     fun encodePassword(passwordEncoder: PasswordEncoder) {
         val encodedPassword = passwordEncoder.encode(this.password)
         this.password = encodedPassword

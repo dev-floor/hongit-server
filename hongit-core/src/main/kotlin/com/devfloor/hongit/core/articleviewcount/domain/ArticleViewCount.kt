@@ -14,6 +14,7 @@ import javax.persistence.Table
 @Table(name = "article_view_count")
 class ArticleViewCount(
     article: Article,
+    count: Long = 1,
     id: Long = 0,
 ) {
     @Id
@@ -26,8 +27,10 @@ class ArticleViewCount(
     val article: Article = article
 
     @Column(name = "count")
-    var count: Long = 1
+    var count: Long = count
         protected set
+
+    fun withId(id: Long): ArticleViewCount = ArticleViewCount(article, count, id)
 
     fun increase() = this.count++
 }

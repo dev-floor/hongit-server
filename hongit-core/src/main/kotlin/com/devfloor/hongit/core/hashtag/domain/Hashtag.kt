@@ -34,4 +34,6 @@ class Hashtag(
     @Column(name = "name")
     var name: String = name
         protected set
+
+    fun withId(id: Long): Hashtag = Hashtag(name, id)
 }

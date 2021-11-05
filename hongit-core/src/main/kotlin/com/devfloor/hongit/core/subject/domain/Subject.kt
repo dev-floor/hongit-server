@@ -27,4 +27,6 @@ class Subject(
 
     @Column(name = "name")
     val name: String = name
+
+    fun withId(id: Long): Subject = Subject(name, id)
 }
