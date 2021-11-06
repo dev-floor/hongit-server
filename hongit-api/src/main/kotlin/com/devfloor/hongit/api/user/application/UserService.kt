@@ -7,16 +7,19 @@ import com.devfloor.hongit.api.security.web.AuthorizationType
 import com.devfloor.hongit.api.security.web.exception.AuthenticationException
 import com.devfloor.hongit.api.user.application.request.LoginRequest
 import com.devfloor.hongit.api.user.application.request.SignUpRequest
+import com.devfloor.hongit.api.user.application.request.UserModifyRequest
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.api.user.application.response.TokenResponse
 import com.devfloor.hongit.core.common.config.Slf4j.Companion.log
 import com.devfloor.hongit.core.user.domain.User
 import com.devfloor.hongit.core.user.domain.UserRepository
+import com.devfloor.hongit.core.user.domain.UserType
 import com.devfloor.hongit.core.user.domain.findByNicknameOrNull
 import com.devfloor.hongit.core.user.domain.findByUsernameOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.util.Assert
+import javax.transaction.Transactional
 
 @Service
 class UserService(
@@ -55,5 +58,37 @@ class UserService(
         if (!user.matchesPassword(passwordEncoder, request.password)) throw AuthenticationException("비밀번호가 일치하지 않습니다.")
 
         return TokenResponse(jwtTokenProvider.createToken(request.username), AuthorizationType.BEARER)
+    }
+
+    @Transactional
+    fun modifyUser(loginUser: User, request: UserModifyRequest) {
+        userRepository.findByNicknameOrNull(loginUser.nickname)
+            ?.apply {
+                if (validateNickname(loginUser.nickname, request.nickname)) {
+                    modifyUser(
+                        request.nickname,
+                        UserType.valueOf(request.userType),
+                        request.image,
+                        request.github,
+                        request.blog,
+                        request.description
+                    )
+                }
+            }
+            ?: IllegalArgumentException(ErrorMessages.User.NOT_EXISTING_USERNAME)
+    }
+
+    private fun validateNickname(nickname: String, requestNickname: String): Boolean {
+        if (!isExistNickname(requestNickname) && isNotEqualNickname(nickname, requestNickname)) {
+            return true
+        } else throw IllegalArgumentException(ErrorMessages.User.EXISTING_NICKNAME)
+    }
+
+    private fun isExistNickname(nickname: String): Boolean {
+        return userRepository.existsByNickname(nickname)
+    }
+
+    private fun isNotEqualNickname(nickname: String, requestNickname: String): Boolean {
+        return nickname != requestNickname
     }
 }
