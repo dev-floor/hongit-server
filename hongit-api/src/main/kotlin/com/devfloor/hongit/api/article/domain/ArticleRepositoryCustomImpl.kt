@@ -7,7 +7,9 @@ import com.devfloor.hongit.core.articlefavorite.domain.QArticleFavorite.articleF
 import com.devfloor.hongit.core.articleviewcount.domain.QArticleViewCount.articleViewCount
 import com.devfloor.hongit.core.board.domain.Board
 import com.querydsl.jpa.impl.JPAQueryFactory
-import org.springframework.data.domain.PageRequest
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Repository
 
 @Repository
@@ -34,28 +36,31 @@ class ArticleRepositoryCustomImpl(
             .fetch()
     }
 
-    override fun findAllByBoardOrderByViewCount(board: Board, pageRequest: PageRequest): List<Article> {
+    override fun findAllByBoardOrderByViewCount(board: Board, pageRequest: Pageable): List<Article> {
         return jpaQueryFactory
             .selectFrom(article)
             .join(articleViewCount).on(article.eq(articleViewCount.article))
             .where(article.board.eq(board))
             .orderBy(articleViewCount.count.desc())
-            .orderBy(article.createdAt.desc())
             .offset(pageRequest.offset)
             .limit(pageRequest.pageSize.toLong())
             .fetch()
     }
 
-    override fun findAllByBoardOrderByFavorite(board: Board, pageRequest: PageRequest): List<Article> {
-        return jpaQueryFactory
+    override fun findAllByBoardOrderByFavorite(board: Board, pageable: Pageable): Page<Article> {
+        val result = jpaQueryFactory
             .selectFrom(article)
-            .join(articleFavorite).on(article.eq(articleFavorite.article))
-            .where(articleFavorite.type.eq(ArticleFavoriteType.FAVORITE))
-            .groupBy(article)
+            .join(articleFavorite).on(article.id.eq(articleFavorite.article.id))
+            .where(
+                articleFavorite.type.eq(ArticleFavoriteType.FAVORITE),
+                article.board.id.eq(board.id)
+            )
+            .groupBy(article.id)
             .orderBy(articleFavorite.type.count().desc())
-            .orderBy(article.createdAt.desc())
-            .offset(pageRequest.offset)
-            .limit(pageRequest.pageSize.toLong())
-            .fetch()
+            .offset(pageable.offset)
+            .limit(pageable.pageSize.toLong())
+            .fetchResults()
+
+        return PageImpl(result.results, pageable, result.total)
     }
 }

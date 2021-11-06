@@ -13,6 +13,10 @@ interface UserRepository : JpaRepository<User, Long> {
     fun existsByClassOf(classOf: String): Boolean
 
     fun findByNickname(nickname: String): Optional<User>
+
+    fun findByUsername(username: String): Optional<User>
 }
 
 fun UserRepository.findByNicknameOrNull(nickname: String): User? = findByNickname(nickname).orElse(null)
+
+fun UserRepository.findByUsernameOrNull(username: String): User? = findByUsername(username).orElse(null)

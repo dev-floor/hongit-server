@@ -1,0 +1,51 @@
+spring:
+  config:
+    import:
+      - classpath:application-secret.yml
+  profiles:
+    include:
+      - common
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: common
+
+aws:
+  s3:
+    mode: stub
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+aws:
+  s3:
+    mode: stub
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+aws:
+  s3:
+    mode: stub
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+aws:
+  s3:
+    mode: prod

@@ -74,7 +74,7 @@ class ArticleService(
         page: Int,
         pageSize: Int,
         sort: ArticleSortType?,
-        options: List<Long>?
+        options: List<Long>?,
     ): List<ArticleFeedResponse> {
         val board = boardRepository.findByIdOrNull(boardId)
             ?: EntityNotFoundException.notExistsId(Board::class, boardId)
@@ -82,10 +82,27 @@ class ArticleService(
         return when (sort) {
             ArticleSortType.VIEW_COUNT ->
                 articleRepositoryCustom.findAllByBoardOrderByViewCount(board, PageRequest.of(page, pageSize))
+                    .ifEmpty {
+                        articleRepository.findAllByBoard(
+                            board,
+                            PageRequest.of(page, pageSize, Sort.by("createdAt").descending())
+                        )
+                            .content
+                    }
             ArticleSortType.FAVORITE ->
-                articleRepositoryCustom.findAllByBoardOrderByFavorite(board, PageRequest.of(page, pageSize))
+                articleRepositoryCustom.findAllByBoardOrderByFavorite(board, PageRequest.of(page, pageSize)).content
+                    .ifEmpty {
+                        articleRepository.findAllByBoard(
+                            board,
+                            PageRequest.of(page, pageSize, Sort.by("createdAt").descending())
+                        )
+                            .content
+                    }
             else ->
-                articleRepository.findAllByBoard(board, PageRequest.of(page, pageSize, Sort.by("createdAt")))
+                articleRepository.findAllByBoard(
+                    board,
+                    PageRequest.of(page, pageSize, Sort.by("createdAt").descending())
+                )
                     .content
         }.map {
             ArticleFeedResponse(
@@ -131,7 +148,7 @@ class ArticleService(
     @Transactional(readOnly = true)
     fun showAllByNickname(nickname: String, page: Int, pageSize: Int, loginUser: User): List<ArticleFeedResponse> {
         val user = userRepository.findByNicknameOrNull(nickname)
-            ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
+            ?: EntityNotFoundException.notExistsField(User::class, "nickname", nickname)
         val articles = articleRepository.findAllByAuthor(user, PageRequest.of(page, pageSize))
 
         return articles.content

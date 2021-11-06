@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:mem:untitled;mode=MYSQL;IFEXISTS=FALSE;
+    url: jdbc:h2:mem:hongit;mode=MYSQL;IFEXISTS=FALSE;
     username: sa
     password:
     driver-class-name: org.h2.Driver

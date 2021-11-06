@@ -1,6 +1,9 @@
 spring:
   config:
-    import: classpath:mail.yml
+    import:
+      - classpath:application-mail.yml
+      - classpath:application-aws-s3.yml
+      - classpath:application-secret.yml
   profiles:
     include:
       - db
@@ -35,10 +38,17 @@ spring:
         use_sql_comments: true
 
 logging:
+  config: classpath:log4j2.yml
   level:
     org.hibernate:
-      SQL: DEBUG
+      SQL: debug
       type.descriptor.sql: trace
+
+security:
+  jwt:
+    token:
+      secret-key: secretsecretsecret
+      expire-time: 1000
 
 ---
 
@@ -68,6 +78,9 @@ spring:
   datasource:
     url: jdbc:mariadb://hongit_database:3306/hongit
 
+logging:
+  config: classpath:log4j2-dev.yml
+
 ---
 
 spring:
@@ -81,3 +94,10 @@ spring:
 
   datasource:
     url: jdbc:mariadb://hongit_database:3306/hongit
+
+logging:
+  config: classpath:log4j2-prod.yml
+  level:
+    org.hibernate:
+      SQL: info
+      type.descriptor.sql: info
