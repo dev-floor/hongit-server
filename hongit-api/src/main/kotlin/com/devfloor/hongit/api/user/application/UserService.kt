@@ -63,9 +63,17 @@ class UserService(
     }
 
     private fun validateNickname(nickname: String, requestNickname: String): Boolean {
-        if(!userRepository.existsByNickname(requestNickname) && nickname != (requestNickname)){
+        if(!isExistNickname(requestNickname) && isNotEqualNickname(nickname, requestNickname)){
             return true;
         }
         else throw IllegalArgumentException(ErrorMessages.User.EXISTING_NICKNAME)
+    }
+
+    private fun isExistNickname(nickname: String): Boolean{
+        return userRepository.existsByNickname(nickname)
+    }
+
+    private fun isNotEqualNickname(nickname: String, requestNickname: String): Boolean{
+        return nickname != requestNickname
     }
 }
