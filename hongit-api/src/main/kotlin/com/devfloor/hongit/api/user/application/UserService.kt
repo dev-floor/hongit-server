@@ -59,7 +59,6 @@ class UserService(
 
         return TokenResponse(jwtTokenProvider.createToken(request.username), AuthorizationType.BEARER)
     }
-        ?: EntityNotFoundException.notExistsNickname(User::class, nickname)
 
     @Transactional
     fun modifyUser(loginUser: User, request: UserModifyRequest) {
@@ -76,21 +75,20 @@ class UserService(
                     )
                 }
             }
-            ?: EntityNotFoundException.notExistsNickname(User::class, loginUser.nickname)
+            ?: IllegalArgumentException(ErrorMessages.User.NOT_EXISTING_USERNAME)
     }
 
     private fun validateNickname(nickname: String, requestNickname: String): Boolean {
-        if(!isExistNickname(requestNickname) && isNotEqualNickname(nickname, requestNickname)){
-            return true;
-        }
-        else throw IllegalArgumentException(ErrorMessages.User.EXISTING_NICKNAME)
+        if (!isExistNickname(requestNickname) && isNotEqualNickname(nickname, requestNickname)) {
+            return true
+        } else throw IllegalArgumentException(ErrorMessages.User.EXISTING_NICKNAME)
     }
 
-    private fun isExistNickname(nickname: String): Boolean{
+    private fun isExistNickname(nickname: String): Boolean {
         return userRepository.existsByNickname(nickname)
     }
 
-    private fun isNotEqualNickname(nickname: String, requestNickname: String): Boolean{
+    private fun isNotEqualNickname(nickname: String, requestNickname: String): Boolean {
         return nickname != requestNickname
     }
 }
