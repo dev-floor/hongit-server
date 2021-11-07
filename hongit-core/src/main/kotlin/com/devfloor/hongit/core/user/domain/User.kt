@@ -97,6 +97,22 @@ class User(
     fun withId(id: Long): User =
         User(username, password, nickname, email, type, classOf, image, github, blog, description, id)
 
+    fun modifyUser(
+        nickname: String,
+        userType: UserType,
+        image: String?,
+        github: String?,
+        blog: String?,
+        description: String?
+    ) {
+        this.nickname = nickname
+        this.type = userType
+        this.image = image
+        this.github = github
+        this.blog = blog
+        this.description = description
+    }
+
     fun encodePassword(passwordEncoder: PasswordEncoder) {
         val encodedPassword = passwordEncoder.encode(this.password)
         this.password = encodedPassword
