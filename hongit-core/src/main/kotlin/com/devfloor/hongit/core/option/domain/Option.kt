@@ -35,4 +35,6 @@ class Option(
     @Column(name = "option_type")
     @Enumerated(value = EnumType.STRING)
     val type: OptionType = type
+
+    fun withId(id: Long): Option = Option(text, type, id)
 }

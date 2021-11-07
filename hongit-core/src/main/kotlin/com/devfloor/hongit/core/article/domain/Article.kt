@@ -64,6 +64,8 @@ class Article(
     @JoinColumn(name = "board_id")
     val board: Board = board
 
+    fun withId(id: Long): Article = Article(title, anonymous, content, author, board, id)
+
     fun modify(title: String?, content: String) {
         this.title = title
         this.content = content

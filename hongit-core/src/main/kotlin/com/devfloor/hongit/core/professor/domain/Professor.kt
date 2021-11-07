@@ -33,4 +33,6 @@ class Professor(
     @Column(name = "email")
     var email: String? = email
         protected set
+
+    fun withId(id: Long): Professor = Professor(name, email, id)
 }

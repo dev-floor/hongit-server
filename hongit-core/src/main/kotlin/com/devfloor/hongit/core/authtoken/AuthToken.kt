@@ -37,6 +37,8 @@ class AuthToken(
     var expired: Boolean = expired
         protected set
 
+    fun withId(id: UUID): AuthToken = AuthToken(expirationTime, expired, id)
+
     fun revalidate(now: LocalDateTime) {
         expired = expired || now.isAfter(expirationTime)
     }

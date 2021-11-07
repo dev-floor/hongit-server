@@ -51,4 +51,6 @@ class BoardOption(
             "boardOption의 option은 optionType이 COURSE_GROUP이 아닌 옵션만 가능합니다."
         }
     }
+
+    fun withId(id: Long): BoardOption = BoardOption(board, option, id)
 }

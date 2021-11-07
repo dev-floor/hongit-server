@@ -44,4 +44,6 @@ class ArticleHashtag(
     @ManyToOne
     @JoinColumn(name = "hashtag_id")
     val hashtag: Hashtag = hashtag
+
+    fun withId(id: Long): ArticleHashtag = ArticleHashtag(article, hashtag, id)
 }
