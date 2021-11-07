@@ -34,7 +34,6 @@ Configuration:
       level: info
       AppenderRef:
         - ref: Console_Appender
-        - ref: RollingFile_Appender
     Logger:
       - name: com.devfloor.hongit
         additivity: false

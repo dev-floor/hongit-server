@@ -42,6 +42,7 @@ import com.devfloor.hongit.api.common.config.DataFixture.Users.TEST_USERS
 import com.devfloor.hongit.api.common.config.DataFixture.Users.TEST_USER_1
 import com.devfloor.hongit.api.common.config.DataFixture.Users.TEST_USER_2
 import com.devfloor.hongit.api.common.config.DataFixture.Users.TEST_USER_3
+import com.devfloor.hongit.api.common.config.DataInitializeController.Companion.INIT_API_URI
 import com.devfloor.hongit.api.common.utils.BASE_API_URI
 import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.article.domain.ArticleRepository
@@ -83,17 +84,22 @@ import com.devfloor.hongit.core.user.domain.UserRepository
 import com.devfloor.hongit.core.user.domain.UserType
 import org.springframework.context.annotation.Profile
 import org.springframework.http.HttpStatus
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import java.time.Year
+import javax.persistence.EntityManager
 
 @Slf4j
 @Profile(value = ["local", "dev"])
 @RestController
-@RequestMapping(value = [BASE_API_URI])
+@Transactional
+@RequestMapping(value = [INIT_API_URI])
 class DataInitializeController(
+    private val entityManager: EntityManager,
+
     private val userRepository: UserRepository,
     private val professorRepository: ProfessorRepository,
     private val subjectRepository: SubjectRepository,
@@ -108,16 +114,15 @@ class DataInitializeController(
     private val commentRepository: CommentRepository,
     private val articleFavoriteRepository: ArticleFavoriteRepository,
 ) {
-    @PostMapping(value = ["/data/init"])
+    @PostMapping
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun initializeData() {
-        deleteAll()
-        log.info("[DataInitializeController] 데이터 삭제 완료")
-        saveAll()
-        log.info("[DataInitializeController] 데이터 생성 완료")
+    fun removeAll() {
+        deleteAll().also { log.info("[DataInitializeController] 데이터 삭제 완료") }
+        resetAllAutoIncrement().also { log.info("[DataInitializeController] auto_increment 초기화 완료") }
+        saveAll().also { log.info("[DataInitializeController] 데이터 생성 완료") }
     }
 
-    private fun deleteAll() {
+    fun deleteAll() {
         articleFavoriteRepository.deleteAll()
         commentRepository.deleteAll()
         articleOptionRepository.deleteAll()
@@ -133,7 +138,17 @@ class DataInitializeController(
         userRepository.deleteAll()
     }
 
-    private fun saveAll() {
+    fun resetAllAutoIncrement() {
+        listOf("article_favorites", "comments", "article_options", "article_hashtags", "articles", "courses",
+            "board_options", "boards", "hashtags", "options", "subjects", "professors", "users")
+            .forEach { resetAutoIncrement(it) }
+    }
+
+    fun resetAutoIncrement(table: String) {
+        entityManager.createNativeQuery("ALTER TABLE $table AUTO_INCREMENT = 1").executeUpdate()
+    }
+
+    fun saveAll() {
         userRepository.saveAll(TEST_USERS)
         professorRepository.saveAll(TEST_PROFESSORS)
         subjectRepository.saveAll(TEST_SUBJECTS)
@@ -161,6 +176,10 @@ class DataInitializeController(
                 board = it
             )
         }
+    }
+
+    companion object {
+        const val INIT_API_URI = "$BASE_API_URI/data/init"
     }
 }
 
@@ -202,12 +221,17 @@ private object DataFixture {
     object Professors {
         val TEST_PROFESSOR_1 = Professor("정균락", "krchong@hongik.ac.kr")
         val TEST_PROFESSOR_2 = Professor("하란")
-        val TEST_PROFESSORS = listOf(TEST_PROFESSOR_1, TEST_PROFESSOR_2)
+        val TEST_PROFESSOR_3 = Professor("김선일", "ksi@hongik.ac.kr")
+        val TEST_PROFESSORS = listOf(TEST_PROFESSOR_1, TEST_PROFESSOR_2, TEST_PROFESSOR_3)
     }
 
     object Subjects {
         val TEST_SUBJECT_1 = Subject("알고리즘")
         val TEST_SUBJECT_2 = Subject("확률과통계")
+        val TEST_SUBJECT_3 = Subject("컴퓨터공학개론")
+        val TEST_SUBJECT_4 = Subject("인공지능")
+        val TEST_SUBJECT_5 = Subject("오토마타")
+        val TEST_SUBJECT_6 = Subject("컴퓨터구조")
         val TEST_SUBJECTS = listOf(TEST_SUBJECT_1, TEST_SUBJECT_2)
     }
 
