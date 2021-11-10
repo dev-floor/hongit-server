@@ -10,6 +10,8 @@ import com.devfloor.hongit.api.user.application.request.SignUpRequest
 import com.devfloor.hongit.api.user.application.request.UserModifyRequest
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.api.user.application.response.TokenResponse
+import com.devfloor.hongit.client.aws.s3.domain.S3DirectoryType
+import com.devfloor.hongit.client.aws.s3.domain.spec.AwsS3Client
 import com.devfloor.hongit.core.common.config.Slf4j.Companion.log
 import com.devfloor.hongit.core.user.domain.User
 import com.devfloor.hongit.core.user.domain.UserRepository
@@ -19,6 +21,7 @@ import com.devfloor.hongit.core.user.domain.findByUsernameOrNull
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.util.Assert
+import org.springframework.web.multipart.MultipartFile
 import javax.transaction.Transactional
 
 @Service
@@ -26,6 +29,7 @@ class UserService(
     private val userRepository: UserRepository,
     private val passwordEncoder: PasswordEncoder,
     private val jwtTokenProvider: JwtTokenProvider,
+    private val awsS3Client: AwsS3Client,
 ) {
     fun signUp(request: SignUpRequest): Long {
         validateJoinInfo(request)
@@ -68,7 +72,7 @@ class UserService(
                     modifyUser(
                         request.nickname,
                         UserType.valueOf(request.userType),
-                        request.image,
+                        uploadImage(request.image),
                         request.github,
                         request.blog,
                         request.description
@@ -76,6 +80,14 @@ class UserService(
                 }
             }
             ?: IllegalArgumentException(ErrorMessages.User.NOT_EXISTING_USERNAME)
+    }
+
+    private fun uploadImage(imagefile: MultipartFile?): String {
+        return if (imagefile == null) {
+            ""
+        } else {
+            awsS3Client.upload(imagefile, S3DirectoryType.PROFILE)
+        }
     }
 
     private fun validateNickname(nickname: String, requestNickname: String): Boolean {

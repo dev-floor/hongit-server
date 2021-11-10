@@ -6,6 +6,7 @@ import com.devfloor.hongit.api.security.web.AuthorizationType
 import com.devfloor.hongit.api.security.web.exception.AuthenticationException
 import com.devfloor.hongit.api.user.application.request.LoginRequest
 import com.devfloor.hongit.api.user.application.response.TokenResponse
+import com.devfloor.hongit.client.aws.s3.domain.spec.AwsS3Client
 import com.devfloor.hongit.core.user.domain.Email
 import com.devfloor.hongit.core.user.domain.User
 import com.devfloor.hongit.core.user.domain.UserRepository
@@ -36,6 +37,9 @@ internal class UserServiceTest {
 
     @Mock
     private lateinit var passwordEncoder: PasswordEncoder
+
+    @Mock
+    private lateinit var awsS3Client: AwsS3Client
 
     private lateinit var user: User
 
