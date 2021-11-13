@@ -52,6 +52,123 @@ include::{snippets}/article/getByArticleId/http-response.adoc[]
 
 include::{snippets}/article/getByArticleId/response-fields.adoc[]
 
+[[article-getAllByBoardId]]
+=== 게시글 목록 조회(게시판)
+
+==== Request
+
+===== [http-request]
+
+include::{snippets}/article/getAllByBoardId/http-request.adoc[]
+
+===== [path-parameters]
+
+include::{snippets}/article/getAllByBoardId/path-parameters.adoc[]
+
+==== Response
+
+===== [http-response]
+
+include::{snippets}/article/getAllByBoardId/http-response.adoc[]
+
+===== [response-body]
+
+include::{snippets}/article/getAllByBoardId/response-fields.adoc[]
+
+[[article-getAllByNickname]]
+=== 게시글 목록 조회사용자)
+
+==== Request
+
+===== [http-request]
+
+include::{snippets}/article/getAllByNickname/http-request.adoc[]
+
+===== [path-parameters]
+
+include::{snippets}/article/getAllByNickname/path-parameters.adoc[]
+
+==== Response
+
+===== [http-response]
+
+include::{snippets}/article/getAllByNickname/http-response.adoc[]
+
+===== [response-body]
+
+include::{snippets}/article/getAllByNickname/response-fields.adoc[]
+
+[[article-getAllByFavoritedUserId]]
+=== 게시글 목록 조회(유저가 좋아요한 게시글)
+
+==== Request
+
+===== [http-request]
+
+include::{snippets}/article/getAllByFavoritedUserId/http-request.adoc[]
+
+===== [path-parameters]
+
+include::{snippets}/article/getAllByFavoritedUserId/path-parameters.adoc[]
+
+==== Response
+
+===== [http-response]
+
+include::{snippets}/article/getAllByFavoritedUserId/http-response.adoc[]
+
+===== [response-body]
+
+include::{snippets}/article/getAllByFavoritedUserId/response-fields.adoc[]
+
+[[article-post]]
+=== 게시글 생성
+
+==== Request
+
+include::{snippets}/article/post/http-request.adoc[]
+
+include::{snippets}/article/post/request-headers.adoc[]
+
+include::{snippets}/article/post/request-fields.adoc[]
+
+==== Response
+
+include::{snippets}/article/post/http-response.adoc[]
+
+include::{snippets}/article/post/response-fields.adoc[]
+
+[[article-putByArticleId]]
+=== 게시글 수정
+
+==== Request
+
+===== [http-request]
+
+include::{snippets}/article/putByArticleId/http-request.adoc[]
+
+===== [path-parameters]
+
+include::{snippets}/article/putByArticleId/path-parameters.adoc[]
+
+===== [request-headers]
+
+include::{snippets}/article/putByArticleId/request-headers.adoc[]
+
+===== [request-body]
+
+include::{snippets}/article/putByArticleId/request-fields.adoc[]
+
+==== Response
+
+===== [http-response]
+
+include::{snippets}/article/putByArticleId/http-response.adoc[]
+
+===== [response-body]
+
+include::{snippets}/article/putByArticleId/response-fields.adoc[]
+
 [[articleFavorite-post]]
 === 게시글 좋아요 생성
 
