@@ -560,3 +560,20 @@ include::{snippets}/home/get/http-request.adoc[]
 include::{snippets}/home/get/http-response.adoc[]
 
 include::{snippets}/home/get/response-fields.adoc[]
+
+[[common-uploadImage]]
+=== 이미지 업로드
+
+==== Request
+
+include::{snippets}/common/uploadImage/http-request.adoc[]
+
+include::{snippets}/common/uploadImage/request-parameters.adoc[]
+
+include::{snippets}/common/uploadImage/request-parts.adoc[]
+
+==== Response
+
+include::{snippets}/common/uploadImage/http-response.adoc[]
+
+include::{snippets}/common/uploadImage/response-fields.adoc[]

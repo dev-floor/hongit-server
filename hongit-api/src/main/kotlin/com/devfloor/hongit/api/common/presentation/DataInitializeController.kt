@@ -1,48 +1,48 @@
-package com.devfloor.hongit.api.common.config
+package com.devfloor.hongit.api.common.presentation
 
-import com.devfloor.hongit.api.common.config.DataFixture.ArticleFavorites.TEST_ARTICLE_FAVORITES
-import com.devfloor.hongit.api.common.config.DataFixture.ArticleHashtags.TEST_ARTICLE_HASHTAGS
-import com.devfloor.hongit.api.common.config.DataFixture.ArticleOptions.TEST_ARTICLE_OPTIONS
-import com.devfloor.hongit.api.common.config.DataFixture.Articles.TEST_ARTICLES
-import com.devfloor.hongit.api.common.config.DataFixture.Articles.TEST_ARTICLE_1
-import com.devfloor.hongit.api.common.config.DataFixture.Articles.TEST_ARTICLE_2
-import com.devfloor.hongit.api.common.config.DataFixture.Articles.TEST_ARTICLE_3
-import com.devfloor.hongit.api.common.config.DataFixture.Articles.TEST_ARTICLE_4
-import com.devfloor.hongit.api.common.config.DataFixture.BoardOptions.TEST_BOARD_OPTIONS
-import com.devfloor.hongit.api.common.config.DataFixture.Boards.TEST_BOARDS
-import com.devfloor.hongit.api.common.config.DataFixture.Boards.TEST_BOARD_1
-import com.devfloor.hongit.api.common.config.DataFixture.Boards.TEST_BOARD_2
-import com.devfloor.hongit.api.common.config.DataFixture.Boards.TEST_BOARD_3
-import com.devfloor.hongit.api.common.config.DataFixture.Boards.TEST_BOARD_4
-import com.devfloor.hongit.api.common.config.DataFixture.Boards.TEST_BOARD_5
-import com.devfloor.hongit.api.common.config.DataFixture.Boards.TEST_BOARD_6
-import com.devfloor.hongit.api.common.config.DataFixture.Comments.TEST_COMMENTS
-import com.devfloor.hongit.api.common.config.DataFixture.Courses.TEST_COURSES
-import com.devfloor.hongit.api.common.config.DataFixture.Hashtags.TEST_HASHTAGS
-import com.devfloor.hongit.api.common.config.DataFixture.Hashtags.TEST_HASHTAG_1
-import com.devfloor.hongit.api.common.config.DataFixture.Hashtags.TEST_HASHTAG_2
-import com.devfloor.hongit.api.common.config.DataFixture.Hashtags.TEST_HASHTAG_3
-import com.devfloor.hongit.api.common.config.DataFixture.Hashtags.TEST_HASHTAG_4
-import com.devfloor.hongit.api.common.config.DataFixture.Hashtags.TEST_HASHTAG_5
-import com.devfloor.hongit.api.common.config.DataFixture.Hashtags.TEST_HASHTAG_6
-import com.devfloor.hongit.api.common.config.DataFixture.Options.TEST_OPTIONS
-import com.devfloor.hongit.api.common.config.DataFixture.Options.TEST_OPTION_1
-import com.devfloor.hongit.api.common.config.DataFixture.Options.TEST_OPTION_2
-import com.devfloor.hongit.api.common.config.DataFixture.Options.TEST_OPTION_3
-import com.devfloor.hongit.api.common.config.DataFixture.Options.TEST_OPTION_4
-import com.devfloor.hongit.api.common.config.DataFixture.Options.TEST_OPTION_5
-import com.devfloor.hongit.api.common.config.DataFixture.Options.TEST_OPTION_6
-import com.devfloor.hongit.api.common.config.DataFixture.Options.TEST_OPTION_7
-import com.devfloor.hongit.api.common.config.DataFixture.Professors.TEST_PROFESSORS
-import com.devfloor.hongit.api.common.config.DataFixture.Professors.TEST_PROFESSOR_1
-import com.devfloor.hongit.api.common.config.DataFixture.Professors.TEST_PROFESSOR_2
-import com.devfloor.hongit.api.common.config.DataFixture.Subjects.TEST_SUBJECTS
-import com.devfloor.hongit.api.common.config.DataFixture.Subjects.TEST_SUBJECT_1
-import com.devfloor.hongit.api.common.config.DataFixture.Users.TEST_USERS
-import com.devfloor.hongit.api.common.config.DataFixture.Users.TEST_USER_1
-import com.devfloor.hongit.api.common.config.DataFixture.Users.TEST_USER_2
-import com.devfloor.hongit.api.common.config.DataFixture.Users.TEST_USER_3
-import com.devfloor.hongit.api.common.config.DataInitializeController.Companion.INIT_API_URI
+import com.devfloor.hongit.api.common.presentation.DataFixture.ArticleFavorites.TEST_ARTICLE_FAVORITES
+import com.devfloor.hongit.api.common.presentation.DataFixture.ArticleHashtags.TEST_ARTICLE_HASHTAGS
+import com.devfloor.hongit.api.common.presentation.DataFixture.ArticleOptions.TEST_ARTICLE_OPTIONS
+import com.devfloor.hongit.api.common.presentation.DataFixture.Articles.TEST_ARTICLES
+import com.devfloor.hongit.api.common.presentation.DataFixture.Articles.TEST_ARTICLE_1
+import com.devfloor.hongit.api.common.presentation.DataFixture.Articles.TEST_ARTICLE_2
+import com.devfloor.hongit.api.common.presentation.DataFixture.Articles.TEST_ARTICLE_3
+import com.devfloor.hongit.api.common.presentation.DataFixture.Articles.TEST_ARTICLE_4
+import com.devfloor.hongit.api.common.presentation.DataFixture.BoardOptions.TEST_BOARD_OPTIONS
+import com.devfloor.hongit.api.common.presentation.DataFixture.Boards.TEST_BOARDS
+import com.devfloor.hongit.api.common.presentation.DataFixture.Boards.TEST_BOARD_1
+import com.devfloor.hongit.api.common.presentation.DataFixture.Boards.TEST_BOARD_2
+import com.devfloor.hongit.api.common.presentation.DataFixture.Boards.TEST_BOARD_3
+import com.devfloor.hongit.api.common.presentation.DataFixture.Boards.TEST_BOARD_4
+import com.devfloor.hongit.api.common.presentation.DataFixture.Boards.TEST_BOARD_5
+import com.devfloor.hongit.api.common.presentation.DataFixture.Boards.TEST_BOARD_6
+import com.devfloor.hongit.api.common.presentation.DataFixture.Comments.TEST_COMMENTS
+import com.devfloor.hongit.api.common.presentation.DataFixture.Courses.TEST_COURSES
+import com.devfloor.hongit.api.common.presentation.DataFixture.Hashtags.TEST_HASHTAGS
+import com.devfloor.hongit.api.common.presentation.DataFixture.Hashtags.TEST_HASHTAG_1
+import com.devfloor.hongit.api.common.presentation.DataFixture.Hashtags.TEST_HASHTAG_2
+import com.devfloor.hongit.api.common.presentation.DataFixture.Hashtags.TEST_HASHTAG_3
+import com.devfloor.hongit.api.common.presentation.DataFixture.Hashtags.TEST_HASHTAG_4
+import com.devfloor.hongit.api.common.presentation.DataFixture.Hashtags.TEST_HASHTAG_5
+import com.devfloor.hongit.api.common.presentation.DataFixture.Hashtags.TEST_HASHTAG_6
+import com.devfloor.hongit.api.common.presentation.DataFixture.Options.TEST_OPTIONS
+import com.devfloor.hongit.api.common.presentation.DataFixture.Options.TEST_OPTION_1
+import com.devfloor.hongit.api.common.presentation.DataFixture.Options.TEST_OPTION_2
+import com.devfloor.hongit.api.common.presentation.DataFixture.Options.TEST_OPTION_3
+import com.devfloor.hongit.api.common.presentation.DataFixture.Options.TEST_OPTION_4
+import com.devfloor.hongit.api.common.presentation.DataFixture.Options.TEST_OPTION_5
+import com.devfloor.hongit.api.common.presentation.DataFixture.Options.TEST_OPTION_6
+import com.devfloor.hongit.api.common.presentation.DataFixture.Options.TEST_OPTION_7
+import com.devfloor.hongit.api.common.presentation.DataFixture.Professors.TEST_PROFESSORS
+import com.devfloor.hongit.api.common.presentation.DataFixture.Professors.TEST_PROFESSOR_1
+import com.devfloor.hongit.api.common.presentation.DataFixture.Professors.TEST_PROFESSOR_2
+import com.devfloor.hongit.api.common.presentation.DataFixture.Subjects.TEST_SUBJECTS
+import com.devfloor.hongit.api.common.presentation.DataFixture.Subjects.TEST_SUBJECT_1
+import com.devfloor.hongit.api.common.presentation.DataFixture.Users.TEST_USERS
+import com.devfloor.hongit.api.common.presentation.DataFixture.Users.TEST_USER_1
+import com.devfloor.hongit.api.common.presentation.DataFixture.Users.TEST_USER_2
+import com.devfloor.hongit.api.common.presentation.DataFixture.Users.TEST_USER_3
+import com.devfloor.hongit.api.common.presentation.DataInitializeController.Companion.INIT_API_URI
 import com.devfloor.hongit.api.common.utils.BASE_API_URI
 import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.article.domain.ArticleRepository
@@ -234,7 +234,8 @@ private object DataFixture {
         val TEST_SUBJECT_4 = Subject("인공지능")
         val TEST_SUBJECT_5 = Subject("오토마타")
         val TEST_SUBJECT_6 = Subject("컴퓨터구조")
-        val TEST_SUBJECTS = listOf(TEST_SUBJECT_1, TEST_SUBJECT_2)
+        val TEST_SUBJECTS =
+            listOf(TEST_SUBJECT_1, TEST_SUBJECT_2, TEST_SUBJECT_3, TEST_SUBJECT_4, TEST_SUBJECT_5, TEST_SUBJECT_6)
     }
 
     object Options {
@@ -278,7 +279,7 @@ private object DataFixture {
             grade = Grade.JUNIOR,
             option = TEST_OPTION_1,
             timetable = Timetable(listOf(Schedule.from("월6"), Schedule.from("화6"), Schedule.from("수6")))
-        )
+        ).apply { updateBoard(TEST_BOARD_1) }
         val TEST_COURSE_2 = Course(
             code = "101503-2",
             openingSemester = TEST_OPENING_SEMESTER,
@@ -287,7 +288,7 @@ private object DataFixture {
             grade = Grade.JUNIOR,
             option = TEST_OPTION_2,
             timetable = Timetable(listOf(Schedule.from("월7"), Schedule.from("화7"), Schedule.from("수7")))
-        )
+        ).apply { updateBoard(TEST_BOARD_1) }
         val TEST_COURSE_3 = Course(
             code = "101503-3",
             openingSemester = TEST_OPENING_SEMESTER,
@@ -296,7 +297,7 @@ private object DataFixture {
             grade = Grade.JUNIOR,
             option = TEST_OPTION_3,
             timetable = Timetable(listOf(Schedule.from("월9"), Schedule.from("화9"), Schedule.from("수9")))
-        )
+        ).apply { updateBoard(TEST_BOARD_1) }
         val TEST_COURSE_4 = Course(
             code = "101503-4",
             openingSemester = TEST_OPENING_SEMESTER,
@@ -305,7 +306,7 @@ private object DataFixture {
             grade = Grade.JUNIOR,
             option = TEST_OPTION_4,
             timetable = Timetable(listOf(Schedule.from("월2"), Schedule.from("화2"), Schedule.from("수2")))
-        )
+        ).apply { updateBoard(TEST_BOARD_2) }
         val TEST_COURSE_5 = Course(
             code = "101503-5",
             openingSemester = TEST_OPENING_SEMESTER,
@@ -314,7 +315,7 @@ private object DataFixture {
             grade = Grade.JUNIOR,
             option = TEST_OPTION_5,
             timetable = Timetable(listOf(Schedule.from("월3"), Schedule.from("화3"), Schedule.from("수3")))
-        )
+        ).apply { updateBoard(TEST_BOARD_2) }
         val TEST_COURSES = listOf(TEST_COURSE_1, TEST_COURSE_2, TEST_COURSE_3, TEST_COURSE_4, TEST_COURSE_5)
     }
 

@@ -37,7 +37,7 @@ spring:
 
 aws:
   s3:
-    mode: stub
+    mode: prod
 
 ---
 
