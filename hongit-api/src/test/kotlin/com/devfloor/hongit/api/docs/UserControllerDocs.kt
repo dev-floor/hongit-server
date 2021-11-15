@@ -3,29 +3,39 @@ package com.devfloor.hongit.api.docs
 import com.devfloor.hongit.api.security.web.AuthorizationType
 import com.devfloor.hongit.api.support.ApiDocsTest
 import com.devfloor.hongit.api.support.ApiDocsTestUtils
+import com.devfloor.hongit.api.support.ApiDocumentFormatGenerator.authorizationFormat
 import com.devfloor.hongit.api.support.ApiDocumentFormatGenerator.enumFormat
 import com.devfloor.hongit.api.support.ApiDocumentFormatGenerator.format
-import com.devfloor.hongit.api.support.TestFixtures
+import com.devfloor.hongit.api.support.MockitoHelper.any
+import com.devfloor.hongit.api.support.TestFixtures.UserFixture.DESTROY_REQUEST
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.JOIN_REQUEST_1
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.LOGIN_REQUEST_1
+import com.devfloor.hongit.api.support.TestFixtures.UserFixture.PASSWORD_MODIFY_REQUEST
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.PROFILE_RESPONSE_1
+import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_1
 import com.devfloor.hongit.api.user.application.UserService
 import com.devfloor.hongit.api.user.application.response.TokenResponse
 import com.devfloor.hongit.api.user.presentation.UserController
 import com.devfloor.hongit.api.user.presentation.UserController.Companion.LOGIN_API_URI
+import com.devfloor.hongit.api.user.presentation.UserController.Companion.ME_API
 import com.devfloor.hongit.api.user.presentation.UserController.Companion.SIGNUP_API_URI
 import com.devfloor.hongit.api.user.presentation.UserController.Companion.USER_API_URI
 import com.devfloor.hongit.core.user.domain.Email
+import com.devfloor.hongit.core.user.domain.UserRepository
 import com.devfloor.hongit.core.user.domain.UserType
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.BDDMockito.anyString
 import org.mockito.BDDMockito.given
+import org.mockito.BDDMockito.willDoNothing
 import org.mockito.InjectMocks
 import org.mockito.Mock
+import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.restdocs.RestDocumentationContextProvider
 import org.springframework.restdocs.headers.HeaderDocumentation
+import org.springframework.restdocs.headers.HeaderDocumentation.headerWithName
+import org.springframework.restdocs.headers.HeaderDocumentation.requestHeaders
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders
 import org.springframework.restdocs.operation.preprocess.Preprocessors
@@ -35,6 +45,8 @@ import org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath
 import org.springframework.restdocs.request.RequestDocumentation
 import org.springframework.restdocs.request.RequestDocumentation.parameterWithName
 import org.springframework.test.web.servlet.MockMvc
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @ApiDocsTest
@@ -45,11 +57,18 @@ internal class UserControllerDocs {
     @Mock
     private lateinit var userService: UserService
 
+    @Mock
+    private lateinit var userRepository: UserRepository
+
     private lateinit var mockMvc: MockMvc
 
     @BeforeEach
     internal fun setUp(restDocumentation: RestDocumentationContextProvider) {
-        mockMvc = ApiDocsTestUtils.getRestDocsMockMvc(restDocumentation, userController)
+        mockMvc = ApiDocsTestUtils.getRestDocsMockMvcWithLoginUser(
+            restDocumentation,
+            userController,
+            userRepository,
+        )
     }
 
     @Test
@@ -62,7 +81,7 @@ internal class UserControllerDocs {
             .perform(
                 RestDocumentationRequestBuilders.post(SIGNUP_API_URI)
                     .contentType(MediaType.APPLICATION_JSON)
-                    .content(ApiDocsTestUtils.convertAsJson(TestFixtures.UserFixture.JOIN_REQUEST_1))
+                    .content(ApiDocsTestUtils.convertAsJson(JOIN_REQUEST_1))
                     .accept(MediaType.APPLICATION_JSON)
             )
             .andExpect(status().isCreated)
@@ -92,7 +111,7 @@ internal class UserControllerDocs {
                             .description("이메일 인증 여부")
                     ),
                     HeaderDocumentation.responseHeaders(
-                        HeaderDocumentation.headerWithName("Location").description("생성된 사용자 상세조회 API")
+                        headerWithName("Location").description("생성된 사용자 상세조회 API")
                     )
                 )
             )
@@ -175,6 +194,73 @@ internal class UserControllerDocs {
                         fieldWithPath("description").type(JsonFieldType.STRING)
                             .optional()
                             .description("프로필 소개")
+                    )
+                )
+            )
+    }
+
+    @Test
+    internal fun `modifyPassword - 회원 비밀번호 변경 API 문서화`() {
+        // given
+        willDoNothing().given(userService).modifyPassword(any(), any())
+        given(userRepository.findAll()).willReturn(listOf(USER_1))
+        val request: String = ApiDocsTestUtils.convertAsJson(PASSWORD_MODIFY_REQUEST)
+
+        // when - then
+        mockMvc
+            .perform(
+                patch(ME_API)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer secretsecretsecret")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(request)
+            )
+            .andExpect(status().isNoContent)
+            .andDo(
+                MockMvcRestDocumentation.document(
+                    "user/modifyPassword",
+                    Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                    Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                    requestHeaders(
+                        headerWithName(HttpHeaders.AUTHORIZATION).authorizationFormat()
+                            .description("(로그인시 발급되는) 인증 토큰")
+                    ),
+                    PayloadDocumentation.requestFields(
+                        fieldWithPath("oldPassword").type(JsonFieldType.STRING).description("기존 비밀번호"),
+                        fieldWithPath("newPassword").type(JsonFieldType.STRING).description("변경할 비밀번호"),
+                        fieldWithPath("checkedNewPassword").type(JsonFieldType.STRING)
+                            .description("변경할 비밀번호 확인"),
+                    )
+                )
+            )
+    }
+
+    @Test
+    internal fun `destroy - 회원탈퇴 API 문서화`() {
+        // given
+        willDoNothing().given(userService).destroy(any(), any())
+        given(userRepository.findAll()).willReturn(listOf(USER_1))
+        val request: String = ApiDocsTestUtils.convertAsJson(DESTROY_REQUEST)
+
+        // when - then
+        mockMvc
+            .perform(
+                delete(ME_API)
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer secretsecretsecret")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(request)
+            )
+            .andExpect(status().isNoContent)
+            .andDo(
+                MockMvcRestDocumentation.document(
+                    "user/destroy",
+                    Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                    Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                    requestHeaders(
+                        headerWithName(HttpHeaders.AUTHORIZATION).authorizationFormat()
+                            .description("(로그인시 발급되는) 인증 토큰")
+                    ),
+                    PayloadDocumentation.requestFields(
+                        fieldWithPath("password").type(JsonFieldType.STRING).description("비밀번호"),
                     )
                 )
             )

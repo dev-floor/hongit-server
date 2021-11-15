@@ -2,6 +2,7 @@ package com.devfloor.hongit.api.user.application
 
 import com.devfloor.hongit.api.common.exception.EntityNotFoundException
 import com.devfloor.hongit.api.common.exception.ErrorMessages
+import com.devfloor.hongit.api.common.exception.ErrorMessages.User.PASSWORD_VERIFICATION_MISMATCH
 import com.devfloor.hongit.api.security.auth.token.JwtTokenProvider
 import com.devfloor.hongit.api.security.web.AuthorizationType
 import com.devfloor.hongit.api.security.web.exception.AuthenticationException
@@ -41,7 +42,7 @@ class UserService(
 
     private fun validateJoinInfo(request: SignUpRequest) {
         Assert.isTrue(request.verifyInfo(), ErrorMessages.User.INVALID_REQUEST_INFO)
-        Assert.isTrue(request.verifyPassword(), ErrorMessages.User.PASSWORD_VERIFICATION_MISMATCH)
+        Assert.isTrue(request.verifyPassword(), ErrorMessages.User.PASSWORD_AND_CHECKED_PASSWORD_VERIFICATION_MISMATCH)
         Assert.isTrue(userRepository.existsByUsername(request.username).not(), ErrorMessages.User.EXISTING_USERNAME)
         Assert.isTrue(userRepository.existsByNickname(request.nickname).not(), ErrorMessages.User.EXISTING_NICKNAME)
         Assert.isTrue(userRepository.existsByClassOf(request.classOf).not(), ErrorMessages.User.EXISTING_CLASS_OF)
@@ -57,7 +58,9 @@ class UserService(
         val user = userRepository.findByUsernameOrNull(request.username)
             ?: EntityNotFoundException.notExistsField(User::class, "username", request.username)
 
-        if (!user.matchesPassword(passwordEncoder, request.password)) throw AuthenticationException("비밀번호가 일치하지 않습니다.")
+        if (!user.matchesPassword(passwordEncoder, request.password)) {
+            throw AuthenticationException(PASSWORD_VERIFICATION_MISMATCH)
+        }
 
         return TokenResponse(jwtTokenProvider.createToken(request.username), AuthorizationType.BEARER)
     }
@@ -77,7 +80,7 @@ class UserService(
                     )
                 }
             }
-            ?: IllegalArgumentException(ErrorMessages.User.NOT_EXISTING_USERNAME)
+            ?: throw IllegalArgumentException(ErrorMessages.User.NOT_EXISTING_USERNAME)
     }
 
     private fun validateNickname(nickname: String, requestNickname: String): Boolean {
@@ -97,22 +100,27 @@ class UserService(
     @Transactional
     fun modifyPassword(request: PasswordModifyRequest, id: Long) {
         if (!request.matchesPassword()) {
-            throw IllegalArgumentException(ErrorMessages.User.PASSWORD_VERIFICATION_MISMATCH)
+            throw AuthenticationException(ErrorMessages.User.PASSWORD_AND_CHECKED_PASSWORD_VERIFICATION_MISMATCH)
         }
 
         val user = userRepository.findByIdOrNull(id)
             ?: EntityNotFoundException.notExistsId(User::class, id)
 
-        // TODO : IllegalArgumentException -> AuthenticationException
-        if (!user.matchesPassword(passwordEncoder, request.oldPassword)) throw IllegalArgumentException("비밀번호가 일치하지 않습니다.")
+        if (!user.matchesPassword(passwordEncoder, request.oldPassword)) {
+            throw AuthenticationException(PASSWORD_VERIFICATION_MISMATCH)
+        }
+
         user.apply { modifyPassword(request.newPassword) }
             .apply { encodePassword(passwordEncoder) }
     }
 
-    // TODO : IllegalArgumentException -> AuthenticationException
     @Transactional
     fun destroy(id: Long, password: String) = userRepository.findByIdOrNull(id)
-        ?.apply { if (matchesPassword(passwordEncoder, password)) throw IllegalArgumentException("비밀번호가 일치하지 않습니다.") }
+        ?.apply {
+            if (!matchesPassword(passwordEncoder, password)) {
+                throw AuthenticationException(PASSWORD_VERIFICATION_MISMATCH)
+            }
+        }
         ?.let { userRepository.delete(it) }
         ?: EntityNotFoundException.notExistsId(User::class, id)
 }

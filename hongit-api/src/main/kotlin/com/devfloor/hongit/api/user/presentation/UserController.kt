@@ -3,6 +3,7 @@ package com.devfloor.hongit.api.user.presentation
 import com.devfloor.hongit.api.common.utils.BASE_API_URI
 import com.devfloor.hongit.api.security.core.LoginUser
 import com.devfloor.hongit.api.user.application.UserService
+import com.devfloor.hongit.api.user.application.request.DestroyRequest
 import com.devfloor.hongit.api.user.application.request.LoginRequest
 import com.devfloor.hongit.api.user.application.request.PasswordModifyRequest
 import com.devfloor.hongit.api.user.application.request.SignUpRequest
@@ -56,26 +57,27 @@ class UserController(
             .also { log.info("[UserController.showByNickname] 닉네임 회원 조회 완료 - response: $it") }
     }
 
-    @PutMapping(value = ["$BASE_API_URI/me"])
+    @PutMapping(value = [ME_API])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     fun modifyUser(
         @RequestBody request: UserModifyRequest,
         @LoginUser loginUser: User,
     ) = userService.modifyUser(loginUser, request)
 
-    @PatchMapping(value = [USER_API_URI])
+    @PatchMapping(value = [ME_API])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     fun modifyPassword(@RequestBody request: PasswordModifyRequest, @LoginUser loginUser: User) =
         userService.modifyPassword(request, loginUser.id)
 
-    @DeleteMapping(value = [USER_API_URI])
+    @DeleteMapping(value = [ME_API])
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun destroy(@LoginUser loginUser: User, @RequestBody password: String) =
-        userService.destroy(loginUser.id, password)
+    fun destroy(@RequestBody request: DestroyRequest, @LoginUser loginUser: User) =
+        userService.destroy(loginUser.id, request.password)
 
     companion object {
         const val SIGNUP_API_URI = "$BASE_API_URI/signup"
         const val USER_API_URI = "$BASE_API_URI/users"
         const val LOGIN_API_URI = "$BASE_API_URI/login"
+        const val ME_API = "$BASE_API_URI/me"
     }
 }

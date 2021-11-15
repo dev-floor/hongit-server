@@ -7,7 +7,6 @@ import com.devfloor.hongit.api.support.ApiDocsTest
 import com.devfloor.hongit.api.support.ApiDocsTestUtils
 import com.devfloor.hongit.api.support.ApiDocumentFormatGenerator.authorizationFormat
 import com.devfloor.hongit.api.support.MockitoHelper.any
-import com.devfloor.hongit.api.support.TestFixtures.ArticleFavoriteFixture.ARTICLE_FAVORITE_1
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFavoriteFixture.ARTICLE_FAVORITE_CREATE_REQUEST_1
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_1
 import com.devfloor.hongit.core.user.domain.UserRepository
@@ -61,7 +60,7 @@ internal class ArticleFavoriteControllerDocs {
 
     @Test
     internal fun `create - 게시글 좋아요 생성 문서화`() {
-        given(articleFavoriteService.create(any(), any())).willReturn(ARTICLE_FAVORITE_1.id)
+        given(articleFavoriteService.create(any(), any())).willReturn(1)
         given(userRepository.findAll()).willReturn(listOf(USER_1))
         val request: String = ApiDocsTestUtils.convertAsJson(ARTICLE_FAVORITE_CREATE_REQUEST_1)
 

@@ -15,8 +15,8 @@ import com.devfloor.hongit.api.comment.application.response.CommentInProfileResp
 import com.devfloor.hongit.api.comment.application.response.CommentResponse
 import com.devfloor.hongit.api.home.application.response.HomeResponse
 import com.devfloor.hongit.api.option.application.response.OptionResponse
-import com.devfloor.hongit.api.support.TestFixtures.ArticleFavoriteFixture.ARTICLE_FAVORITE_1
-import com.devfloor.hongit.api.support.TestFixtures.ArticleFavoriteFixture.ARTICLE_FAVORITE_2
+// import com.devfloor.hongit.api.support.TestFixtures.ArticleFavoriteFixture.ARTICLE_FAVORITE_1
+// import com.devfloor.hongit.api.support.TestFixtures.ArticleFavoriteFixture.ARTICLE_FAVORITE_2
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.ARTICLE_1
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.COMMUNITY_ARTICLE_HOME_RESPONSE_1
 import com.devfloor.hongit.api.support.TestFixtures.ArticleFixture.COMMUNITY_ARTICLE_HOME_RESPONSE_2
@@ -44,11 +44,12 @@ import com.devfloor.hongit.api.support.TestFixtures.SubjectFixture.SUBJECT_1
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_1
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_2
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_3
+import com.devfloor.hongit.api.user.application.request.DestroyRequest
 import com.devfloor.hongit.api.user.application.request.LoginRequest
+import com.devfloor.hongit.api.user.application.request.PasswordModifyRequest
 import com.devfloor.hongit.api.user.application.request.SignUpRequest
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.core.article.domain.Article
-import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavorite
 import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavoriteType
 import com.devfloor.hongit.core.articleoption.domain.ArticleOption
 import com.devfloor.hongit.core.authtoken.AuthToken
@@ -91,6 +92,16 @@ object TestFixtures {
 
         val LOGIN_REQUEST_1 = LoginRequest(
             username = "username",
+            password = "password",
+        )
+
+        val PASSWORD_MODIFY_REQUEST = PasswordModifyRequest(
+            oldPassword = "password",
+            newPassword = "newPassword",
+            checkedNewPassword = "newPassword",
+        )
+
+        val DESTROY_REQUEST = DestroyRequest(
             password = "password",
         )
 
@@ -264,10 +275,9 @@ object TestFixtures {
         val ARTICLE_FEED_RESPONSE_1 = ArticleFeedResponse(
             article = ARTICLE_1,
             articleOptions = listOf(ARTICLE_OPTION_1, ARTICLE_OPTION_2),
-            articleFavorites = listOf(ARTICLE_FAVORITE_1, ARTICLE_FAVORITE_2),
+            articleFavorites = listOf(),
             page = 3,
-            totalArticleCount = 150
-
+            totalArticleCount = 150,
         )
 
         val ARTICLE_MODIFY_REQUEST_1 = ArticleModifyRequest(
@@ -557,20 +567,21 @@ object TestFixtures {
     }
 
     object ArticleFavoriteFixture {
-        val ARTICLE_FAVORITE_1 = ArticleFavorite(
-            article = ARTICLE_1,
-            user = USER_1,
-            type = ArticleFavoriteType.FAVORITE
-        )
+//        val ARTICLE_FAVORITE_1 = ArticleFavorite(
+//            article = COURSE_ARTICLE_1,
+//            user = USER_1,
+//            type = ArticleFavoriteType.FAVORITE,
+//            id = 0,
+//        )
 
-        val ARTICLE_FAVORITE_2 = ArticleFavorite(
-            article = ARTICLE_1,
-            user = USER_1,
-            type = ArticleFavoriteType.WONDER
-        )
+//        val ARTICLE_FAVORITE_2 = ArticleFavorite(
+//            article = ARTICLE_1,
+//            user = USER_2,
+//            type = ArticleFavoriteType.WONDER
+//        )
 
         val ARTICLE_FAVORITE_CREATE_REQUEST_1 = ArticleFavoriteCreateRequest(
-            articleId = 1,
+            articleId = ARTICLE_1.id,
             type = ArticleFavoriteType.FAVORITE
         )
     }
