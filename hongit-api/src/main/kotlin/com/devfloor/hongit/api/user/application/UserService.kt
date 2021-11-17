@@ -58,9 +58,7 @@ class UserService(
         val user = userRepository.findByUsernameOrNull(request.username)
             ?: EntityNotFoundException.notExistsField(User::class, "username", request.username)
 
-        if (!user.matchesPassword(passwordEncoder, request.password)) {
-            throw AuthenticationException(PASSWORD_VERIFICATION_MISMATCH)
-        }
+        validatePassword(user, request.password)
 
         return TokenResponse(jwtTokenProvider.createToken(request.username), AuthorizationType.BEARER)
     }
@@ -103,12 +101,8 @@ class UserService(
             throw AuthenticationException(ErrorMessages.User.PASSWORD_AND_CHECKED_PASSWORD_VERIFICATION_MISMATCH)
         }
 
-        val user = userRepository.findByIdOrNull(id)
-            ?: EntityNotFoundException.notExistsId(User::class, id)
-
-        if (!user.matchesPassword(passwordEncoder, request.oldPassword)) {
-            throw AuthenticationException(PASSWORD_VERIFICATION_MISMATCH)
-        }
+        val user = userRepository.findByIdOrNull(id) ?: EntityNotFoundException.notExistsId(User::class, id)
+        validatePassword(user, request.oldPassword)
 
         user.apply { modifyPassword(request.newPassword) }
             .apply { encodePassword(passwordEncoder) }
@@ -116,11 +110,13 @@ class UserService(
 
     @Transactional
     fun destroy(id: Long, password: String) = userRepository.findByIdOrNull(id)
-        ?.apply {
-            if (!matchesPassword(passwordEncoder, password)) {
-                throw AuthenticationException(PASSWORD_VERIFICATION_MISMATCH)
-            }
-        }
+        ?.apply { validatePassword(this, password) }
         ?.let { userRepository.delete(it) }
         ?: EntityNotFoundException.notExistsId(User::class, id)
+
+    private fun validatePassword(user: User, password: String) {
+        if (!user.matchesPassword(passwordEncoder, password)) {
+            throw AuthenticationException(PASSWORD_VERIFICATION_MISMATCH)
+        }
+    }
 }
