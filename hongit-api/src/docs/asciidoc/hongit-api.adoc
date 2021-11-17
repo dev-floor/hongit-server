@@ -285,6 +285,34 @@ include::{snippets}/board/getAllByBoardType/http-response.adoc[]
 
 include::{snippets}/board/getAllByBoardType/response-fields.adoc[]
 
+[[boardBookmark]]
+== 즐겨찾기 게시판 (BoardBookmark)
+
+즐겨찾기 게시판과 관련된 API 정리
+
+[[boardBookmark-modify]]
+=== 즐겨찾기 게시판 수정
+
+==== Request
+
+===== [http-request]
+
+include::{snippets}/boardBookmark/modify/http-request.adoc[]
+
+===== [request-headers]
+
+include::{snippets}/boardBookmark/modify/request-headers.adoc[]
+
+===== [response-body]
+
+include::{snippets}/boardBookmark/modify/request-fields.adoc[]
+
+==== Response
+
+===== [http-response]
+
+include::{snippets}/boardBookmark/modify/http-response.adoc[]
+
 [[comment]]
 == 댓글 (Comment)
 

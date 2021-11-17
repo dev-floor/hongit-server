@@ -56,6 +56,7 @@ import com.devfloor.hongit.core.articleoption.domain.ArticleOption
 import com.devfloor.hongit.core.authtoken.AuthToken
 import com.devfloor.hongit.core.board.domain.Board
 import com.devfloor.hongit.core.board.domain.BoardType
+import com.devfloor.hongit.core.boardoption.domain.BoardOption
 import com.devfloor.hongit.core.comment.domain.Comment
 import com.devfloor.hongit.core.commentfavorite.domain.CommentFavorite
 import com.devfloor.hongit.core.course.domain.Course
@@ -465,6 +466,7 @@ object TestFixtures {
         )
 
         val COURSE_BOARD_1 = Board(id = 0, title = "course", type = BoardType.COURSE_BOARD)
+        val COURSE_BOARD_2 = Board(id = 5, title = "course2", type = BoardType.COURSE_BOARD)
         val QNA_BOARD_1 = Board(id = 1, title = "qna", type = BoardType.QNA_BOARD)
         val COMMUNITY_BOARD_1 = Board(id = 2, title = "community", type = BoardType.COMMUNITY_BOARD)
         val GATHERING_BOARD_1 = Board(id = 3, title = "gathering", type = BoardType.GATHERING_BOARD)
@@ -481,6 +483,18 @@ object TestFixtures {
             grade = Grade.FRESHMAN,
             option = OPTION_2,
             timetable = Timetable(listOf(Schedule.from("월2"), Schedule.from("월3"), Schedule.from("수3"))),
+            board = BOARD_1,
+        )
+
+        val COURSE_2 = Course(
+            id = 2,
+            code = "0000",
+            openingSemester = OpeningSemester(Year.parse("2021"), Semester.FIRST_SEMESTER),
+            professor = PROFESSOR_1,
+            subject = SUBJECT_1,
+            grade = Grade.FRESHMAN,
+            option = OPTION_2,
+            timetable = Timetable(listOf(Schedule.from("화2"), Schedule.from("화3"), Schedule.from("수3"))),
             board = BOARD_1,
         )
     }
@@ -572,6 +586,20 @@ object TestFixtures {
         val ARTICLE_OPTION_2 = ArticleOption(
             article = ARTICLE_1,
             option = OPTION_2,
+            id = 2
+        )
+    }
+
+    object BoardOptionFixture {
+        val BOARD_OPTION_1 = BoardOption(
+            board = COURSE_BOARD_1,
+            option = OPTION_1,
+            id = 1
+        )
+
+        val BOARD_OPTION_2 = BoardOption(
+            board = COURSE_BOARD_1,
+            option = OPTION_1,
             id = 2
         )
     }

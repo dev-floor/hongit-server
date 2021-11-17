@@ -1,5 +1,6 @@
 package com.devfloor.hongit.api.boardbookmark.presentation
 
+import com.devfloor.hongit.api.boardbookmark.application.BoardBookmarkModifyRequest
 import com.devfloor.hongit.api.boardbookmark.application.BoardBookmarkService
 import com.devfloor.hongit.api.boardbookmark.presentation.BoardBookmarkController.Companion.BOARD_BOOKMARK_URI
 import com.devfloor.hongit.api.common.utils.BASE_API_URI
@@ -20,9 +21,9 @@ class BoardBookmarkController(
     @PutMapping
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     fun modifyAllByBoardIds(
-        @RequestBody boardIds: List<Long>,
+        @RequestBody request: BoardBookmarkModifyRequest,
         @LoginUser loginUser: User,
-    ) = boardBookmarkService.modifyAllByBoardIds(boardIds, loginUser)
+    ) = boardBookmarkService.modifyAllByBoardIds(request.boardIds, loginUser)
 
     companion object {
         const val BOARD_BOOKMARK_URI = "$BASE_API_URI/board-bookmarks"
