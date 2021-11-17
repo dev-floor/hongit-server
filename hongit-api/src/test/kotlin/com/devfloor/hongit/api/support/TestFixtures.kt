@@ -46,6 +46,7 @@ import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_2
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_3
 import com.devfloor.hongit.api.user.application.request.LoginRequest
 import com.devfloor.hongit.api.user.application.request.SignUpRequest
+import com.devfloor.hongit.api.user.application.request.UserModifyRequest
 import com.devfloor.hongit.api.user.application.response.ProfileResponse
 import com.devfloor.hongit.core.article.domain.Article
 import com.devfloor.hongit.core.articlefavorite.domain.ArticleFavorite
@@ -136,6 +137,15 @@ object TestFixtures {
             github = "github",
             blog = "blog",
             description = "test user description",
+        )
+
+        val USER_MODIFY_REQUEST_1 = UserModifyRequest(
+            nickname = "nickname",
+            userType = UserType.STUDENT.toString(),
+            image = "https://image.com",
+            github = "github",
+            blog = "blog",
+            description = "test user modify request description"
         )
     }
 

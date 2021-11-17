@@ -505,6 +505,29 @@ include::{snippets}/user/getByNickname/http-response.adoc[]
 
 include::{snippets}/user/getByNickname/response-fields.adoc[]
 
+[[user-putUser]]
+=== 프로필 수정
+
+==== Request
+
+===== [http-request]
+
+include::{snippets}/user/putUser/http-request.adoc[]
+
+===== [request-headers]
+
+include::{snippets}/user/putUser/request-headers.adoc[]
+
+===== [request-body]
+
+include::{snippets}/user/putUser/request-fields.adoc[]
+
+==== Response
+
+===== [http-response]
+
+include::{snippets}/user/putUser/http-response.adoc[]
+
 [[auth]]
 == 인증 (Auth)
 
