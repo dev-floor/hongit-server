@@ -105,7 +105,7 @@ internal class ArticleFavoriteControllerDocs {
             .andExpect(status().isNoContent)
             .andDo(
                 document(
-                    "articleFavorite/destroy",
+                    "articleFavorite/delete",
                     preprocessRequest(prettyPrint()),
                     preprocessResponse(prettyPrint()),
                     requestHeaders(

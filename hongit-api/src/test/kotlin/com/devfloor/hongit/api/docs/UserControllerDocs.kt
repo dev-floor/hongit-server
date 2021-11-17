@@ -252,7 +252,7 @@ internal class UserControllerDocs {
             .andExpect(status().isNoContent)
             .andDo(
                 MockMvcRestDocumentation.document(
-                    "user/destroy",
+                    "user/delete",
                     Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
                     Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
                     requestHeaders(
