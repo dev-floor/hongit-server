@@ -7,7 +7,8 @@ object ErrorMessages {
 
     object User {
         const val INVALID_REQUEST_INFO = "유효하지 않은 회원가입 요청 정보"
-        const val PASSWORD_VERIFICATION_MISMATCH = "비밀번호 검증 불일치" // 비밀번호와 비밀번호확인이 일치하지 않음
+        const val PASSWORD_AND_CHECKED_PASSWORD_VERIFICATION_MISMATCH = "비밀번호 검증 불일치" // 비밀번호와 비밀번호확인이 일치하지 않음
+        const val PASSWORD_VERIFICATION_MISMATCH = "비밀번호가 일치하지 않습니다."
         const val NOT_EXISTING_USERNAME = "존재하지 않는 아이디"
         const val EXISTING_USERNAME = "이미 존재하는 아이디"
         const val EXISTING_NICKNAME = "이미 존재하는 닉네임"
