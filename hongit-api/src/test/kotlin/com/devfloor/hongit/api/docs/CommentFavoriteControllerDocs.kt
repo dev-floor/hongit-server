@@ -96,7 +96,7 @@ internal class CommentFavoriteControllerDocs {
             .andExpect(status().isNoContent)
             .andDo(
                 document(
-                    "commentFavorite/destroy",
+                    "commentFavorite/delete",
                     preprocessRequest(prettyPrint()),
                     preprocessResponse(prettyPrint()),
                     requestHeaders(
