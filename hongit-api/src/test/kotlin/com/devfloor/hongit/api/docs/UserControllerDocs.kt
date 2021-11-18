@@ -1,5 +1,6 @@
 package com.devfloor.hongit.api.docs
 
+import com.devfloor.hongit.api.common.utils.BASE_API_URI
 import com.devfloor.hongit.api.security.web.AuthorizationType
 import com.devfloor.hongit.api.support.ApiDocsTest
 import com.devfloor.hongit.api.support.ApiDocsTestUtils
@@ -13,6 +14,7 @@ import com.devfloor.hongit.api.support.TestFixtures.UserFixture.LOGIN_REQUEST_1
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.PASSWORD_MODIFY_REQUEST
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.PROFILE_RESPONSE_1
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_1
+import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_MODIFY_REQUEST_1
 import com.devfloor.hongit.api.user.application.UserService
 import com.devfloor.hongit.api.user.application.response.TokenResponse
 import com.devfloor.hongit.api.user.presentation.UserController
@@ -64,11 +66,7 @@ internal class UserControllerDocs {
 
     @BeforeEach
     internal fun setUp(restDocumentation: RestDocumentationContextProvider) {
-        mockMvc = ApiDocsTestUtils.getRestDocsMockMvcWithLoginUser(
-            restDocumentation,
-            userController,
-            userRepository,
-        )
+        mockMvc = ApiDocsTestUtils.getRestDocsMockMvcWithLoginUser(restDocumentation, userController, userRepository)
     }
 
     @Test
@@ -195,6 +193,49 @@ internal class UserControllerDocs {
                             .optional()
                             .description("프로필 소개")
                     )
+                )
+            )
+    }
+
+    @Test
+    internal fun `modifyUser - 프로필 수정 API 문서화`() {
+        // given
+        willDoNothing().given(userService).modifyUser(any(), any())
+        given(userRepository.findAll()).willReturn(listOf(USER_1))
+
+        // when - then
+        mockMvc
+            .perform(
+                RestDocumentationRequestBuilders.put("$BASE_API_URI/me")
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer secretsecretsecret")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(ApiDocsTestUtils.convertAsJson(USER_MODIFY_REQUEST_1))
+                    .accept(MediaType.APPLICATION_JSON)
+            )
+            .andExpect(status().isNoContent)
+            .andDo(
+                MockMvcRestDocumentation.document(
+                    "user/putUser",
+                    Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+                    Preprocessors.preprocessResponse(Preprocessors.prettyPrint()),
+                    HeaderDocumentation.requestHeaders(
+                        HeaderDocumentation.headerWithName(HttpHeaders.AUTHORIZATION).authorizationFormat()
+                            .description("(로그인시 발급되는) 인증 토큰")
+                    ),
+                    PayloadDocumentation.requestFields(
+                        fieldWithPath("nickname").type(JsonFieldType.STRING)
+                            .description("닉네임"),
+                        fieldWithPath("userType").type(JsonFieldType.STRING)
+                            .description("유저 타입"),
+                        fieldWithPath("image").type(JsonFieldType.STRING)
+                            .description("이미지 URL"),
+                        fieldWithPath("github").type(JsonFieldType.STRING)
+                            .description("github 주소"),
+                        fieldWithPath("blog").type(JsonFieldType.STRING)
+                            .description("blog 주소"),
+                        fieldWithPath("description").type(JsonFieldType.STRING)
+                            .description("설명"),
+                    ),
                 )
             )
     }
