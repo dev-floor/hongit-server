@@ -606,6 +606,63 @@ include::{snippets}/user/delete/request-fields.adoc[]
 
 include::{snippets}/user/delete/http-response.adoc[]
 
+[[user-validateUsername]]
+=== ID 중복 확인
+
+==== Request
+
+===== [http-request]
+
+include::{snippets}/authUser/validateUsername/http-request.adoc[]
+
+===== [request-param]
+
+include::{snippets}/authUser/validateUsername/request-parameters.adoc[]
+
+==== Response
+
+===== [http-response]
+
+include::{snippets}/authUser/validateUsername/http-response.adoc[]
+
+[[user-validateNickname]]
+=== 닉네임 중복 확인
+
+==== Request
+
+===== [http-request]
+
+include::{snippets}/authUser/validateNickname/http-request.adoc[]
+
+===== [request-param]
+
+include::{snippets}/authUser/validateNickname/request-parameters.adoc[]
+
+==== Response
+
+===== [http-response]
+
+include::{snippets}/authUser/validateNickname/http-response.adoc[]
+
+[[user-validateClassOf]]
+=== 학번 중복 확인
+
+==== Request
+
+===== [http-request]
+
+include::{snippets}/authUser/validateClassOf/http-request.adoc[]
+
+===== [request-param]
+
+include::{snippets}/authUser/validateClassOf/request-parameters.adoc[]
+
+==== Response
+
+===== [http-response]
+
+include::{snippets}/authUser/validateClassOf/http-response.adoc[]
+
 [[auth]]
 == 인증 (Auth)
 
