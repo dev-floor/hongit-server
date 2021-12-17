@@ -73,8 +73,8 @@ class ArticleService(
         boardId: Long,
         page: Int,
         pageSize: Int,
-        sort: ArticleSortType?,
-        options: List<Long>?,
+        sort: ArticleSortType? = ArticleSortType.CREATED,
+        options: List<Long>? = emptyList(),
     ): List<ArticleFeedResponse> {
         val board = boardRepository.findByIdOrNull(boardId)
             ?: EntityNotFoundException.notExistsId(Board::class, boardId)
@@ -98,12 +98,13 @@ class ArticleService(
                         )
                             .content
                     }
-            else ->
+            ArticleSortType.CREATED ->
                 articleRepository.findAllByBoard(
                     board,
                     PageRequest.of(page, pageSize, Sort.by("createdAt").descending())
                 )
                     .content
+            else -> throw IllegalArgumentException("유효하지 않은 ArticleSortType 입니다.")
         }.map {
             ArticleFeedResponse(
                 article = it,
