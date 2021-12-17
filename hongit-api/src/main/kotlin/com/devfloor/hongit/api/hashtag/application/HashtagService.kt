@@ -11,9 +11,8 @@ class HashtagService(
     private val hashtagRepository: HashtagRepository,
 ) {
     @Transactional
-    fun createByName(name: String): Hashtag = hashtagRepository.findByNameOrNull(name)
-        ?: hashtagRepository.save(Hashtag(name))
-
-    @Transactional
     fun createAllByNames(names: List<String>): List<Hashtag> = names.map(this::createByName)
+
+    private fun createByName(name: String): Hashtag = hashtagRepository.findByNameOrNull(name)
+        ?: hashtagRepository.save(Hashtag(name))
 }

@@ -40,6 +40,7 @@ import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_1
 import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_2
 import com.devfloor.hongit.api.support.TestFixtures.OptionFixture.OPTION_RESPONSE_1
 import com.devfloor.hongit.api.support.TestFixtures.ProfessorFixture.PROFESSOR_1
+import com.devfloor.hongit.api.support.TestFixtures.ProfessorFixture.PROFESSOR_2
 import com.devfloor.hongit.api.support.TestFixtures.SubjectFixture.SUBJECT_1
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_1
 import com.devfloor.hongit.api.support.TestFixtures.UserFixture.USER_2
@@ -462,7 +463,7 @@ object TestFixtures {
 
         val BOARD_SIMPLE_RESPONSE_1 = BoardSimpleResponse(
             board = BOARD_1,
-            grade = COURSE_1.grade,
+            grade = Grade.FRESHMAN
         )
 
         val COURSE_BOARD_1 = Board(id = 0, title = "course", type = BoardType.COURSE_BOARD)
@@ -497,6 +498,18 @@ object TestFixtures {
             timetable = Timetable(listOf(Schedule.from("화2"), Schedule.from("화3"), Schedule.from("수3"))),
             board = BOARD_1,
         )
+
+        val COURSE_3 = Course(
+            id = 2,
+            code = "0000",
+            openingSemester = OpeningSemester(Year.parse("2021"), Semester.FIRST_SEMESTER),
+            professor = PROFESSOR_2,
+            subject = SUBJECT_1,
+            grade = Grade.FRESHMAN,
+            option = OPTION_2,
+            timetable = Timetable(listOf(Schedule.from("화2"), Schedule.from("화3"), Schedule.from("수3"))),
+            board = BOARD_1,
+        )
     }
 
     object CommentFixture {
@@ -506,6 +519,14 @@ object TestFixtures {
             author = USER_1,
             anonymous = false,
             content = "comment 1",
+        )
+
+        val COMMENT_2 = Comment(
+            id = 2,
+            article = ARTICLE_1,
+            author = USER_2,
+            anonymous = false,
+            content = "comment 2",
         )
 
         val COMMENT_CREATE_REQUEST_1 = CommentCreateRequest(
@@ -673,6 +694,12 @@ object TestFixtures {
             id = 1,
             name = "professor 1",
             email = "professor@gmail.com",
+        )
+
+        val PROFESSOR_2 = Professor(
+            id = 2,
+            name = "professor 2",
+            email = "professor_2@gmail.com",
         )
     }
 
