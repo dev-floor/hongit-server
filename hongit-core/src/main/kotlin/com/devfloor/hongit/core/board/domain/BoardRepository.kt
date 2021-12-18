@@ -6,5 +6,5 @@ import org.springframework.transaction.annotation.Transactional
 @Transactional(readOnly = true)
 interface BoardRepository : JpaRepository<Board, Long> {
     fun findAllByType(type: BoardType): List<Board>
-    fun findAllByTypeNot(boardType: BoardType): List<Board>
+    fun findAllByTypeNotOrderByIdAsc(boardType: BoardType): List<Board>
 }

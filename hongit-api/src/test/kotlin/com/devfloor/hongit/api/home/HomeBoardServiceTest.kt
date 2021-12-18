@@ -47,7 +47,7 @@ class HomeBoardServiceTest {
     @Test
     internal fun `showAll - 모든 HomeBoardResponses 객체 조회에 성공한다`() {
         val boards = listOf(QNA_BOARD_1, COMMUNITY_BOARD_1, GATHERING_BOARD_1, RECRUIT_BOARD_1)
-        `when`(boardRepository.findAllByTypeNot(BoardType.COURSE_BOARD)).thenReturn(boards)
+        `when`(boardRepository.findAllByTypeNotOrderByIdAsc(BoardType.COURSE_BOARD)).thenReturn(boards)
         `when`(articleService.showTopFiveByBoard(QNA_BOARD_1))
             .thenReturn(listOf(QNA_ARTICLE_HOME_RESPONSE_1, QNA_ARTICLE_HOME_RESPONSE_2))
         `when`(articleService.showTopFiveByBoard(COMMUNITY_BOARD_1))
@@ -63,7 +63,7 @@ class HomeBoardServiceTest {
 
         val result = homeBoardService.showAll()
 
-        verify(boardRepository).findAllByTypeNot(BoardType.COURSE_BOARD)
+        verify(boardRepository).findAllByTypeNotOrderByIdAsc(BoardType.COURSE_BOARD)
         boards.forEach { verify(articleService).showTopFiveByBoard(it) }
         verify(articleService).showTopFiveByFavorite()
         verify(articleService).showTopFiveByViewCount()

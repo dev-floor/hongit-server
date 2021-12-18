@@ -14,14 +14,16 @@ class HomeBoardService(
 ) {
     @Transactional(readOnly = true)
     fun showAll(): List<HomeResponse> {
-        return boardRepository.findAllByTypeNot(BoardType.COURSE_BOARD)
-            .map {
-                HomeResponse(
-                    it.id,
-                    it.title,
-                    articleService.showTopFiveByBoard(it),
-                )
-            }.plus(showTotalTopFive())
+        return showTotalTopFive().plus(
+            boardRepository.findAllByTypeNotOrderByIdAsc(BoardType.COURSE_BOARD)
+                .map {
+                    HomeResponse(
+                        it.id,
+                        it.title,
+                        articleService.showTopFiveByBoard(it),
+                    )
+                }
+        )
     }
 
     private fun showTotalTopFive(): List<HomeResponse> {
